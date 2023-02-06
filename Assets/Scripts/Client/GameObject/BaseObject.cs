@@ -150,7 +150,7 @@ public class BaseObject : MonoBehaviour
 
     public virtual void Init()
     {
-        
+        transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.PositionX, _GameObjectInfo.ObjectPositionInfo.PositionY, 0);
     }    
 
     protected virtual void UpdateController()
