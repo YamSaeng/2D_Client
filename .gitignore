@@ -351,6 +351,7 @@ MigrationBackup/
 
 # forlder
 Assets/Resources
+Assets/TextMesh Pro
 Builds/
 Library/
 ProjectSettings
