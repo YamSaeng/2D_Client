@@ -71,16 +71,10 @@ public class Managers : MonoBehaviour
     #endregion
 
     #region CoreManagers    
-    PoolingManager _PoolManager = new PoolingManager();
     ResourceManager _ResourceManager = new ResourceManager();
     SceneManagerEx _SceneManager = new SceneManagerEx();
     SoundManager _SoundManager = new SoundManager();
-    UIManager _UIManager = new UIManager();    
-
-    public static PoolingManager Pooling
-    {
-        get { return GetInstance._PoolManager; }
-    }
+    UIManager _UIManager = new UIManager();        
 
     public static ResourceManager Resource
     {
@@ -139,7 +133,7 @@ public class Managers : MonoBehaviour
             _Instance = GOManagers.GetComponent<Managers>();
 
             _Instance._ResourceManager.Init();
-            _Instance._PoolManager.Init();
+            _Instance._ObjectManager.Init();
             _Instance._SoundManager.Init();
             _Instance._KeyManager.BindingKey();            
 
@@ -158,7 +152,6 @@ public class Managers : MonoBehaviour
     public static void Clear()
     {        
         Scene.Clear();
-        UI.Clear();
-        Pooling.Clear();
+        UI.Clear();        
     }
 }
