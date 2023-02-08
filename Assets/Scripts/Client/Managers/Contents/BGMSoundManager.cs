@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager
+public class BGMSoundManager
 {
     private AudioSource _BGMAudioSource = new AudioSource();
     private Dictionary<en_SoundClip, AudioClip> _AudioClips = new Dictionary<en_SoundClip,AudioClip>();
