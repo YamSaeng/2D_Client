@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Define;
@@ -12,7 +13,13 @@ public class PlayerObject : CreatureObject
         
     private UI_GameScene _GameSceneUI;
     
-    private bool _IsChattingFocus;    
+    private bool _IsChattingFocus;
+        
+    [field: SerializeField]
+    public UnityEvent OnHit { get; set; }
+
+    [field: SerializeField]
+    public UnityEvent OnDie { get; set; }
 
     public override void Init()
     {
@@ -41,7 +48,7 @@ public class PlayerObject : CreatureObject
 
                 if (ObjectHit)
                 {
-                    BaseObject BC = ObjectHit.transform.GetComponent<BaseObject>();
+                    PlayerObject BC = ObjectHit.transform.GetComponent<PlayerObject>();
                     if (BC != null)
                     {
                         if (BC._GameObjectInfo.ObjectType != en_GameObjectType.OBJECT_TREE
@@ -163,57 +170,7 @@ public class PlayerObject : CreatureObject
     {
         if (_IsChattingFocus == false)
         {
-            _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                // GridInventoryUI를 가져온다.
-                UI_Inventory Inventory = _GameSceneUI._InventoryUI;
-
-                if (Inventory.gameObject.active == false)
-                {                    
-                    _GameSceneUI.AddGameSceneUIStack(Inventory);                    
-                }
-                else
-                {                    
-                    _GameSceneUI.DeleteGameSceneUIStack(Inventory);
-
-                    _GameSceneUI.EmptyItemExplanation();
-                }
-            }
-
-            // 장비 창 UI 열고 닫기
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                UI_EquipmentBox EquipmentBoxUI = _GameSceneUI._EquipmentBoxUI;
-
-                if (EquipmentBoxUI.gameObject.active == false)
-                {
-                    _GameSceneUI.AddGameSceneUIStack(EquipmentBoxUI);
-                    
-                    EquipmentBoxUI.EquipmentBoxRefreshUI();
-                }
-                else
-                {
-                    _GameSceneUI.DeleteGameSceneUIStack(EquipmentBoxUI);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                UI_SkillBox SkilliBoxUI = _GameSceneUI._SkillBoxUI;
-
-                if (SkilliBoxUI.gameObject.active == false)
-                {
-                    _GameSceneUI.AddGameSceneUIStack(SkilliBoxUI);
-                    SkilliBoxUI.RefreshSkillBoxUI();
-                }
-                else
-                {
-                    _GameSceneUI.DeleteGameSceneUIStack(SkilliBoxUI);                    
-
-                    _GameSceneUI.EmptySkillExplanation();
-                }
-            }            
+            _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;                      
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -252,7 +209,8 @@ public class PlayerObject : CreatureObject
 
             CMessage ReqMoveStop = Packet.MakePacket.ReqMakeMoveStopPacket(
                gameObject.transform.position.x,
-               gameObject.transform.position.y);
+               gameObject.transform.position.y,
+               _GameObjectInfo.ObjectPositionInfo.State);
             Managers.NetworkManager.GameServerSend(ReqMoveStop);
 
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
