@@ -7,8 +7,7 @@ public class GameObjectUI : MonoBehaviour
     private PlayerObject _OwnerPlayer;
 
     UI_GameScene _GameSceneUI;
-
-    // Start is called before the first frame update
+        
     void Start()
     {
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
@@ -42,7 +41,7 @@ public class GameObjectUI : MonoBehaviour
             if (_OwnerPlayer._EquipmentBoxUI != null && _OwnerPlayer._EquipmentBoxUI.gameObject.activeSelf == false)
             {
                 _GameSceneUI.AddGameSceneUIStack(_OwnerPlayer._EquipmentBoxUI);
-                _GameSceneUI._EquipmentBoxUI.EquipmentBoxRefreshUI();
+                _OwnerPlayer._EquipmentBoxUI.EquipmentBoxRefreshUI();
             }
             else
             {
@@ -58,7 +57,7 @@ public class GameObjectUI : MonoBehaviour
             if (_OwnerPlayer._SkillBoxUI != null && _OwnerPlayer._SkillBoxUI.gameObject.activeSelf == false)
             {
                 _GameSceneUI.AddGameSceneUIStack(_OwnerPlayer._SkillBoxUI);
-                _GameSceneUI._SkillBoxUI.RefreshSkillBoxUI();
+                _OwnerPlayer._SkillBoxUI.RefreshSkillBoxUI();
             }
             else
             {
