@@ -22,6 +22,7 @@ public class Managers : MonoBehaviour
     KeyManager _KeyManager = new KeyManager();  
     SpriteManager _SpriteManager = new SpriteManager();
     StringManager _StringManager = new StringManager();
+    CameraManager _CameraManager = new CameraManager();
 
     public static MapManager Map
     {
@@ -66,6 +67,11 @@ public class Managers : MonoBehaviour
     public static StringManager String
     {
         get { return GetInstance._StringManager; }
+    }
+
+    public static CameraManager Camera
+    {
+        get { return GetInstance._CameraManager; }
     }
 
     #endregion
@@ -135,6 +141,7 @@ public class Managers : MonoBehaviour
             _Instance._ResourceManager.Init();
             _Instance._ObjectManager.Init();
             _Instance._SoundManager.Init();
+            _Instance._CameraManager.Init();
             _Instance._KeyManager.BindingKey();            
 
             _Instance._InventoryController = GOManagers.GetComponent<InventoryController>();
