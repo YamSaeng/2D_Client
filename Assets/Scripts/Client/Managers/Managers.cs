@@ -79,7 +79,7 @@ public class Managers : MonoBehaviour
     #region CoreManagers    
     ResourceManager _ResourceManager = new ResourceManager();
     SceneManagerEx _SceneManager = new SceneManagerEx();
-    SoundManager _SoundManager = new SoundManager();
+    BGMSoundManager _SoundManager = new BGMSoundManager();
     UIManager _UIManager = new UIManager();        
 
     public static ResourceManager Resource
@@ -92,7 +92,7 @@ public class Managers : MonoBehaviour
         get { return GetInstance._SceneManager; }
     }
 
-    public static SoundManager Sound
+    public static BGMSoundManager Sound
     {
         get { return GetInstance._SoundManager; }
     }
