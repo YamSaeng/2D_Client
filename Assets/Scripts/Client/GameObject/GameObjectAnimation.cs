@@ -13,8 +13,8 @@ public class GameObjectAnimation : MonoBehaviour
     }
 
     public void SetWalkAnimation(bool val)
-    {
-        _AgentAnimator.SetBool("Walk", val);
+    {        
+        _AgentAnimator.SetBool("IsWalk", val);
     }
 
     public void AnimatePlayer(float velocity)
@@ -24,7 +24,7 @@ public class GameObjectAnimation : MonoBehaviour
 
     public void PlayDeathAnimation()
     {
-        _AgentAnimator.SetTrigger("Death");
+        _AgentAnimator.SetTrigger("IsDeath");
     }
 
     public void SetWalkSpeed(int WalkSpeed)
