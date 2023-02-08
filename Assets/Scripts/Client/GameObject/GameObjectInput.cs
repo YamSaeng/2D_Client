@@ -21,6 +21,15 @@ public class GameObjectInput : MonoBehaviour
     [field: SerializeField]
     public UnityEvent OnDefaultAttackReleased { get; set; }
 
+    [field: SerializeField]
+    public UnityEvent OnInventroyUIOpen { get; set; }
+
+    [field: SerializeField]
+    public UnityEvent OnEquipmentUIOpen { get; set; }
+
+    [field: SerializeField]
+    public UnityEvent OnSkillUIOpen { get; set; }
+
     private void Awake()
     {
         _MainCamera = Camera.main;
@@ -36,7 +45,20 @@ public class GameObjectInput : MonoBehaviour
 
     private void GetUIKeyInput()
     {
-        
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventroyUIOpen?.Invoke();
+        }
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            OnEquipmentUIOpen?.Invoke();
+        }
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            OnSkillUIOpen?.Invoke();
+        }
     }
 
     private void GetDefaultAttackInput()
