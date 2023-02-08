@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class GameObjectMovement : MonoBehaviour
 {
     [field: SerializeField]
-    public BaseObject _OwnerController { get; set; }
+    public PlayerObject _OwnerController { get; set; }
 
     protected Rigidbody2D _Rigidbody2D;
 
@@ -24,7 +24,7 @@ public class GameObjectMovement : MonoBehaviour
         _Rigidbody2D = GetComponent<Rigidbody2D>();    
     }
 
-    public void SetOwner(BaseObject baseController)
+    public void SetOwner(PlayerObject baseController)
     {
         _OwnerController = baseController; 
     }
@@ -48,6 +48,8 @@ public class GameObjectMovement : MonoBehaviour
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
                     _MovementDirection.x,
                     _MovementDirection.y,                    
+                    _OwnerController.transform.position.x,
+                    _OwnerController.transform.position.y,
                     _OwnerController._GameObjectInfo.ObjectPositionInfo.State);
                 Managers.NetworkManager.GameServerSend(ReqMovePacket);
             }  
@@ -58,7 +60,9 @@ public class GameObjectMovement : MonoBehaviour
 
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
                     _MovementDirection.x,
-                    _MovementDirection.y,                    
+                    _MovementDirection.y,
+                    _OwnerController.transform.position.x,
+                    _OwnerController.transform.position.y,
                     _OwnerController._GameObjectInfo.ObjectPositionInfo.State);
                 Managers.NetworkManager.GameServerSend(ReqMovePacket);
             }
@@ -69,7 +73,7 @@ public class GameObjectMovement : MonoBehaviour
 
                 _OwnerController._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.IDLE;
 
-                CMessage ReqMoveStopPacket = Packet.MakePacket.ReqMakeMoveStopPacket( _OwnerController.transform.position.x, _OwnerController.transform.position.y );
+                CMessage ReqMoveStopPacket = Packet.MakePacket.ReqMakeMoveStopPacket( _OwnerController.transform.position.x, _OwnerController.transform.position.y, _OwnerController._GameObjectInfo.ObjectPositionInfo.State );
                 Managers.NetworkManager.GameServerSend(ReqMoveStopPacket);
             }            
         }
