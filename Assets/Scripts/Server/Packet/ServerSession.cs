@@ -55,13 +55,7 @@ public class CServerSession : CSession
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_MOVE_STOP:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MoveStopHandler);
-                break;
-            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_MONSTER_MOVE:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MonsterMoveHandler);
-                break;
-            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_MONSTER_PATROL:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MonsterPatrolHandler);
-                break;
+                break;            
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_ITEM_MOVE_START:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_ItemMoveStartHandler);
                 break;
@@ -217,8 +211,8 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_COMBO_SKILL_OFF:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_ComboSkillOffMessageHandler);
                 break;
-            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_PERSONAL_MESSAGE:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PersonalMessage);
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_GLOBAL_MESSAGE:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_GlobalMessage);
                 break;            
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_PARTY_INVITE:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PartyInviteHandler);
