@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommonProtocol
+public class Protocol
 {
     public enum en_GAME_SERVER_PACKET_TYPE
     {
@@ -110,16 +110,20 @@ public class CommonProtocol
 		// 게임서버 캐릭터 움직이기 요청
 		// int64 AccountId
 		// int32 PlayerDBId
-		// st_PositionInfo PositionInfo
-		// int8 Dir
+		// float DirectionX
+		// float DirectionY
+		// float MoveStartPositionX
+		// float MoveStartPositionY
+		// int8 MoveStartState
 		//------------------------------------------------------------
 		en_PACKET_C2S_MOVE,
 
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 움직이기 요청 응답	
 		// int32 PlayerDBId
-		// bool CanGo
-		// st_PositionInfo PositionInfo
+		// float MoveStopPosition
+		// float MoveStopPosition
+		// int8 MoveStopState	
 		//------------------------------------------------------------
 		en_PACKET_S2C_MOVE,
 
@@ -138,21 +142,6 @@ public class CommonProtocol
 		// st_PositionInfo PositionInfo
 		//------------------------------------------------------------
 		en_PACKET_S2C_MOVE_STOP,
-
-		//------------------------------------------------------------
-		// 게임서버 몬스터 움직임 
-		// int64 ObjectId
-		// en_GameObjectType ObjectType
-		// st_PositionInfo PositionInfo
-		//------------------------------------------------------------
-		en_PACKET_S2C_MONSTER_MOVE,
-
-		//------------------------------------------------------------
-		// 게임서버 오브젝트 순찰 
-		// int64 ObjectId
-		// st_PositionInfo PositionInfo
-		//------------------------------------------------------------
-		en_PACKET_S2C_MONSTER_PATROL,
 
 		//------------------------------------------------------------
 		// 게임서버 아이템 움직임 응답 
@@ -197,8 +186,7 @@ public class CommonProtocol
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 마법 요청
 		// int64 AccountId
-		// int64 PlayerDBId
-		// en_MoveDir Dir
+		// int64 PlayerDBId	
 		// en_SkillType SpellSkillType
 		//------------------------------------------------------------
 		en_PACKET_C2S_SPELL,
@@ -257,8 +245,7 @@ public class CommonProtocol
 
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 애니메이션 출력
-		// int64 PlayerID
-		// en_MoveDir Dir
+		// int64 PlayerID	
 		// string AnimationName
 		//------------------------------------------------------------
 		en_PACKET_S2C_ANIMATION_PLAY,
@@ -359,8 +346,7 @@ public class CommonProtocol
 
 		//------------------------------------------------------------
 		// 게임서버 오브젝트 상태 변경 요청 응답
-		// int64 ObjectId
-		// en_MoveDir Direction
+		// int64 ObjectId	
 		// en_GameObjectType ObjectType
 		// en_CreatureState ObjectState	
 		//------------------------------------------------------------
@@ -368,8 +354,7 @@ public class CommonProtocol
 
 		//------------------------------------------------------------
 		// 게임서버 몬스터 오브젝트 상태 변경 요청 응답
-		// int64 ObjectId
-		// en_MoveDir Direction
+		// int64 ObjectId	
 		// en_GameObjectType ObjectType
 		// en_CreatureState ObjectState
 		// en_MonsterState MonsterState
@@ -815,7 +800,7 @@ public class CommonProtocol
 		// int8 MessageCount
 		// wstring Messages	
 		//-----------------------------------------------------------
-		en_PACKET_S2C_PERSONAL_MESSAGE,
+		en_PACKET_S2C_GLOBAL_MESSAGE,
 
 		//-----------------------------------------------------------
 		// 게임서버 씨앗 심기 요청
