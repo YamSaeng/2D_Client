@@ -374,164 +374,55 @@ namespace Packet
 
         public static void S2C_MoveHandler(CMessage S2CMovePacket)
         {
-            st_PositionInfo NewPositionInfo;
-
             long ObjectId;
-            bool CanMove;
+            float DirectionX;
+            float DirectionY;
 
             S2CMovePacket.GetData(out ObjectId, sizeof(long));
-            S2CMovePacket.GetData(out CanMove, sizeof(bool));
-            S2CMovePacket.GetData(out NewPositionInfo);
+            S2CMovePacket.GetData(out DirectionX, sizeof(float));
+            S2CMovePacket.GetData(out DirectionY, sizeof(float));
 
-            GameObject FindGameObject = Managers.Object.FindById(ObjectId);
+            BaseObject FindGameObject = Managers.Object.FindById(ObjectId).GetComponent<BaseObject>();
             if (FindGameObject != null)
             {
-                CreatureObject CC = FindGameObject.GetComponent<CreatureObject>();
-                if (CC != null)
-                {
-                    CC.Dir = NewPositionInfo.MoveDir;
+                Vector2 NewDirection = new Vector2(DirectionX, DirectionY);
 
-                    if (CanMove == true)
-                    {
-                        if (CC.State == en_CreatureState.IDLE
-                            || CC.State == en_CreatureState.SPAWN_IDLE
-                            || CC.State == en_CreatureState.SPELL
-                            || CC.State == en_CreatureState.GATHERING
-                            || CC.State == en_CreatureState.ATTACK)
-                        {
-                            CC.State = en_CreatureState.MOVING;
-                        }
-                    }
-                    else
-                    {
-                        CC.State = en_CreatureState.IDLE;
-                        CC.transform.position = new Vector3(NewPositionInfo.PositionX, NewPositionInfo.PositionY);
-                    }
-                }
+                Vector2 NewFaceDirection = new Vector2(NewDirection.x + FindGameObject.transform.position.x, NewDirection.y + FindGameObject.transform.position.y);
 
-                CC = null;
+                FindGameObject.GetComponent<GameObjectMovement>().MoveMonsterGameObject(NewDirection);
+                FindGameObject.GetComponentInChildren<GameObjectRenderer>().FaceDirection(NewFaceDirection);
             }
-
-            FindGameObject = null;
-            NewPositionInfo = null;
+            
             S2CMovePacket.Dispose();
         }
 
         public static void S2C_MoveStopHandler(CMessage S2CMoveStopPacket)
         {
             long ObjectId;
-            st_PositionInfo StopPositionInfo;
+            float StopPositionX;
+            float StopPositionY;
 
             S2CMoveStopPacket.GetData(out ObjectId, sizeof(long));
-            S2CMoveStopPacket.GetData(out StopPositionInfo);
-
-            GameObject FindGameObject = Managers.Object.FindById(ObjectId);
-            if (FindGameObject != null)
+            S2CMoveStopPacket.GetData(out StopPositionX, sizeof(float));
+            S2CMoveStopPacket.GetData(out StopPositionY, sizeof(float));
+            
+            BaseObject FindGameObject = Managers.Object.FindById(ObjectId).GetComponent<BaseObject>();
+            if (FindGameObject != null) 
             {
-                CreatureObject CC = FindGameObject.GetComponent<CreatureObject>();
-                CC.PositionInfo = StopPositionInfo;
-                CC.State = en_CreatureState.IDLE;
-
-                CC.transform.position = new Vector3(StopPositionInfo.PositionX, StopPositionInfo.PositionY);
-            }
-
-            S2CMoveStopPacket.Dispose();
-
-            StopPositionInfo = null;
-        }
-
-        public static void S2C_MonsterMoveHandler(CMessage S2C_MonsterMovePacket)
-        {
-            long ObjectId;
-            short ObjectType;
-            bool CanMove;
-            st_PositionInfo PositionInfo;
-            byte MonsterState;
-
-            S2C_MonsterMovePacket.GetData(out ObjectId, sizeof(long));
-            S2C_MonsterMovePacket.GetData(out ObjectType, sizeof(short));
-            S2C_MonsterMovePacket.GetData(out CanMove, sizeof(bool));
-            S2C_MonsterMovePacket.GetData(out PositionInfo);
-            S2C_MonsterMovePacket.GetData(out MonsterState, sizeof(byte));
-
-            GameObject FindGameObject = Managers.Object.FindById(ObjectId);
-            if (FindGameObject != null)
-            {
-                switch ((en_GameObjectType)ObjectType)
+                switch (FindGameObject._GameObjectInfo.ObjectType)
                 {
-                    case en_GameObjectType.OBJECT_SLIME:
-                        SlimeController Slime = FindGameObject.GetComponent<SlimeController>();
-                        if (Slime != null)
-                        {
-                            Slime.State = PositionInfo.State;
-                            Vector3 Check = new Vector3(Mathf.Abs(Slime.transform.position.x - PositionInfo.PositionX),
-                                Mathf.Abs(Slime.transform.position.y - PositionInfo.PositionY), 0);
-
-                            Slime.Dir = PositionInfo.MoveDir;
-                            Slime.MonsterState = (en_MonsterState)MonsterState;
-
-                            if (Check.x >= 0.1f || Check.y >= 0.1f)
-                            {
-                                Slime.transform.position = new Vector3(PositionInfo.PositionX, PositionInfo.PositionY);
-                            }
-                        }
+                    case en_GameObjectType.OBJECT_PLAYER:
                         break;
-                    case en_GameObjectType.OBJECT_BEAR:                        
+                    case en_GameObjectType.OBJECT_SLIME:                        
+                        FindGameObject.GetComponent<GameObjectMovement>().MoveMonsterGameObject(new Vector2(0, 0));
                         break;
                 }
+
+                FindGameObject.transform.position = new Vector3(StopPositionX, StopPositionY, 0);
             }
 
-            S2C_MonsterMovePacket.Dispose();
-
-            PositionInfo = null;
-        }
-
-        public static void S2C_MonsterPatrolHandler(CMessage S2CPatrolPacket)
-        {
-            long ObjectId;
-            short ObjectType;
-            bool CanMove;
-            st_PositionInfo PositionInfo;
-            byte MonsterState;
-
-            S2CPatrolPacket.GetData(out ObjectId, sizeof(long));
-            S2CPatrolPacket.GetData(out ObjectType, sizeof(short));
-            S2CPatrolPacket.GetData(out CanMove, sizeof(bool));
-            S2CPatrolPacket.GetData(out PositionInfo);
-            S2CPatrolPacket.GetData(out MonsterState, sizeof(byte));
-
-            GameObject FindGameObject = Managers.Object.FindById(ObjectId);
-            if (FindGameObject != null)
-            {
-                switch ((en_GameObjectType)ObjectType)
-                {
-                    case en_GameObjectType.OBJECT_SLIME:
-                        SlimeController Slime = FindGameObject.GetComponent<SlimeController>();
-                        if (Slime != null)
-                        {
-                            // 움직 일 수 있는 경우
-                            if (CanMove == true)
-                            {
-                                Slime.Dir = PositionInfo.MoveDir;
-                                Slime.State = en_CreatureState.PATROL;
-                            }
-                            else
-                            {
-                                Slime.transform.position = new Vector3(PositionInfo.PositionX, PositionInfo.PositionY);
-                            }
-
-                            Slime.MonsterState = (en_MonsterState)MonsterState;
-                        }
-                        break;
-                    case en_GameObjectType.OBJECT_BEAR:                        
-                        break;
-                }
-            }
-
-            S2CPatrolPacket.Dispose();
-
-            PositionInfo = null;
-        }
+            S2CMoveStopPacket.Dispose();            
+        }      
 
         public static void S2C_ItemMoveStartHandler(CMessage S2C_ItemMoveStartPacket)
         {
@@ -783,12 +674,10 @@ namespace Packet
 
         public static void S2C_AnimationPlayHandler(CMessage S2C_AnimationPlayPacket)
         {
-            long ObjectId;
-            byte Dir;
+            long ObjectId;            
             string PlayAnimationName;
 
-            S2C_AnimationPlayPacket.GetData(out ObjectId, sizeof(long));
-            S2C_AnimationPlayPacket.GetData(out Dir, sizeof(byte));
+            S2C_AnimationPlayPacket.GetData(out ObjectId, sizeof(long));            
             S2C_AnimationPlayPacket.GetData(out PlayAnimationName);
 
             CreatureObject FindPlayerObject = Managers.Object.FindById(ObjectId).GetComponent<CreatureObject>();
@@ -1157,13 +1046,11 @@ namespace Packet
 
         public static void S2C_ObjectStateChangeHandler(CMessage S2CMousePositionObjectInfoPacket)
         {
-            long ObjectId;
-            byte ObjectDirection;
+            long ObjectId;            
             short ObjectType;
             byte ObjectState;
 
-            S2CMousePositionObjectInfoPacket.GetData(out ObjectId, sizeof(long));
-            S2CMousePositionObjectInfoPacket.GetData(out ObjectDirection, sizeof(byte));
+            S2CMousePositionObjectInfoPacket.GetData(out ObjectId, sizeof(long));            
             S2CMousePositionObjectInfoPacket.GetData(out ObjectType, sizeof(short));
             S2CMousePositionObjectInfoPacket.GetData(out ObjectState, sizeof(byte));
 
@@ -1180,18 +1067,16 @@ namespace Packet
                     {
                         PlayerObject Player = FindGameObject.GetComponent<PlayerObject>();
                         if (Player != null)
-                        {
-                            Player.Dir = (en_MoveDir)ObjectDirection;
+                        {                            
                             Player.State = (en_CreatureState)ObjectState;
                         }
                     }
                     break;
                 case en_GameObjectType.OBJECT_SLIME:
                     {
-                        SlimeController Slime = FindGameObject.GetComponent<SlimeController>();
+                        SlimeObject Slime = FindGameObject.GetComponent<SlimeObject>();
                         if (Slime != null)
-                        {
-                            Slime.Dir = (en_MoveDir)ObjectDirection;
+                        {                            
                             Slime.State = (en_CreatureState)ObjectState;
                         }
                     }
@@ -1202,8 +1087,7 @@ namespace Packet
                     {
                         EnvironmentController Tree = FindGameObject.GetComponent<EnvironmentController>();
                         if (Tree != null)
-                        {
-                            Tree.Dir = (en_MoveDir)ObjectDirection;
+                        {                            
                             Tree.State = (en_CreatureState)ObjectState;
                         }
                     }
@@ -1215,14 +1099,12 @@ namespace Packet
 
         public static void S2C_MonsterStateChangeHandler(CMessage S2C_MonsterStateChangePacket)
         {
-            long ObjectId;
-            byte ObjectDirection;
+            long ObjectId;            
             short ObjectType;
             byte ObjectState;
             byte MonsterState;
 
-            S2C_MonsterStateChangePacket.GetData(out ObjectId, sizeof(long));
-            S2C_MonsterStateChangePacket.GetData(out ObjectDirection, sizeof(byte));
+            S2C_MonsterStateChangePacket.GetData(out ObjectId, sizeof(long));            
             S2C_MonsterStateChangePacket.GetData(out ObjectType, sizeof(short));
             S2C_MonsterStateChangePacket.GetData(out ObjectState, sizeof(byte));
             S2C_MonsterStateChangePacket.GetData(out MonsterState, sizeof(byte));
@@ -1238,10 +1120,9 @@ namespace Packet
             {
                 case en_GameObjectType.OBJECT_SLIME:
                     {
-                        SlimeController Slime = FindGameObject.GetComponent<SlimeController>();
+                        SlimeObject Slime = FindGameObject.GetComponent<SlimeObject>();
                         if (Slime != null)
-                        {
-                            Slime.Dir = (en_MoveDir)ObjectDirection;
+                        {                            
                             Slime.State = (en_CreatureState)ObjectState;
                             Slime.MonsterState = (en_MonsterState)MonsterState;
                         }
@@ -1257,15 +1138,13 @@ namespace Packet
         public static void S2C_StatusAbnormalHandler(CMessage S2C_StatusAbnormalPacket)
         {
             long TargetId;
-            short ObjectType;
-            byte Dir;
+            short ObjectType;            
             short SkillType;
             bool SetStatusAbnormal;
             byte StatusAbnormal;
 
             S2C_StatusAbnormalPacket.GetData(out TargetId, sizeof(long));
-            S2C_StatusAbnormalPacket.GetData(out ObjectType, sizeof(short));
-            S2C_StatusAbnormalPacket.GetData(out Dir, sizeof(byte));
+            S2C_StatusAbnormalPacket.GetData(out ObjectType, sizeof(short));            
             S2C_StatusAbnormalPacket.GetData(out SkillType, sizeof(short));
             S2C_StatusAbnormalPacket.GetData(out SetStatusAbnormal, sizeof(bool));
             S2C_StatusAbnormalPacket.GetData(out StatusAbnormal, sizeof(byte));
@@ -1285,22 +1164,8 @@ namespace Packet
                 else
                 {
                     StatusApplyObject.ReleaseStatusAbnormal(StatusAbnormal);
-
-                    switch ((en_MoveDir)Dir)
-                    {
-                        case en_MoveDir.UP:
-                            StatusApplyObject.AnimationPlay("IDLE_BACK");
-                            break;
-                        case en_MoveDir.DOWN:
-                            StatusApplyObject.AnimationPlay("IDLE_FRONT");
-                            break;
-                        case en_MoveDir.LEFT:
-                            StatusApplyObject.AnimationPlay("IDLE_LEFT");
-                            break;
-                        case en_MoveDir.RIGHT:
-                            StatusApplyObject.AnimationPlay("IDLE_LEFT");
-                            break;
-                    }
+                    
+                    // 상태이상이 끝낫으므로 기본 상태로 되돌아가야함
                 }
             }
         }
@@ -2664,7 +2529,7 @@ namespace Packet
             }
         }
 
-        public static void S2C_PersonalMessage(CMessage S2C_PersonalMessage)
+        public static void S2C_GlobalMessage(CMessage S2C_PersonalMessage)
         {
             byte PersonalMessageCount;
 
@@ -2909,7 +2774,7 @@ namespace Packet
             return GameServerLoginPacket;
         }
 
-        public static CMessage ReqMakeAttackPacket(long AccountId, long PlayerId, en_MoveDir MoveDir,
+        public static CMessage ReqMakeAttackPacket(long AccountId, long PlayerId,
             byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex,
             en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
         {
@@ -2917,8 +2782,7 @@ namespace Packet
 
             ReqAttackPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ATTACK, sizeof(short));
             ReqAttackPacket.InsertData(AccountId, sizeof(long));
-            ReqAttackPacket.InsertData(PlayerId, sizeof(long));
-            ReqAttackPacket.InsertData((byte)MoveDir, sizeof(byte));
+            ReqAttackPacket.InsertData(PlayerId, sizeof(long));            
             ReqAttackPacket.InsertData(QuickSlotBarIndex, sizeof(byte));
             ReqAttackPacket.InsertData(QuickSlotBarSlotIndex, sizeof(byte));
             ReqAttackPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
@@ -2927,14 +2791,13 @@ namespace Packet
             return ReqAttackPacket;
         }
 
-        public static CMessage ReqMakeMagicPacket(long AccountId, long PlayerId, en_MoveDir MoveDir, en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
+        public static CMessage ReqMakeMagicPacket(long AccountId, long PlayerId, en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
         {
             CMessage ReqMagicPacket = new CMessage();
 
             ReqMagicPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SPELL, sizeof(short));
             ReqMagicPacket.InsertData(AccountId, sizeof(long));
-            ReqMagicPacket.InsertData(PlayerId, sizeof(long));
-            ReqMagicPacket.InsertData((byte)MoveDir, sizeof(byte));
+            ReqMagicPacket.InsertData(PlayerId, sizeof(long));            
             ReqMagicPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
             ReqMagicPacket.InsertData((short)ReqSkillType, sizeof(short));
 
@@ -3149,8 +3012,7 @@ namespace Packet
             ReqItemLootingPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
             ReqItemLootingPacket.InsertData((byte)ItemPositionInfo.State, sizeof(byte));
             ReqItemLootingPacket.InsertData(ItemPositionInfo.CollsitionPositionX, sizeof(int));
-            ReqItemLootingPacket.InsertData(ItemPositionInfo.CollsitionPositionY, sizeof(int));
-            ReqItemLootingPacket.InsertData((byte)ItemPositionInfo.MoveDir, sizeof(byte));
+            ReqItemLootingPacket.InsertData(ItemPositionInfo.CollsitionPositionY, sizeof(int));            
 
             return ReqItemLootingPacket;
         }
