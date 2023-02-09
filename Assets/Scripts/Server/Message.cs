@@ -303,10 +303,11 @@ namespace ServerCore
             GameObjectInfo.ObjectSkillPoint = _MessageBufReader.ReadByte();
             GameObjectInfo.ObjectPositionInfo.State = (en_CreatureState)_MessageBufReader.ReadByte();
             GameObjectInfo.ObjectPositionInfo.CollsitionPositionX = _MessageBufReader.ReadInt32();
-            GameObjectInfo.ObjectPositionInfo.CollsitionPositionY = _MessageBufReader.ReadInt32();
-            GameObjectInfo.ObjectPositionInfo.MoveDir = (en_MoveDir)_MessageBufReader.ReadByte();
+            GameObjectInfo.ObjectPositionInfo.CollsitionPositionY = _MessageBufReader.ReadInt32();            
             GameObjectInfo.ObjectPositionInfo.PositionX = _MessageBufReader.ReadSingle();
             GameObjectInfo.ObjectPositionInfo.PositionY = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.DirectionX = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.DirectionY = _MessageBufReader.ReadSingle();
 
             GameObjectInfo.ObjectStatInfo.Level = _MessageBufReader.ReadInt32();
             GameObjectInfo.ObjectStatInfo.HP = _MessageBufReader.ReadInt32();
@@ -424,10 +425,11 @@ namespace ServerCore
 
             DataParsing.State = (en_CreatureState)_MessageBufReader.ReadByte();
             DataParsing.CollsitionPositionX = _MessageBufReader.ReadInt32();
-            DataParsing.CollsitionPositionY = _MessageBufReader.ReadInt32();
-            DataParsing.MoveDir = (en_MoveDir)_MessageBufReader.ReadByte();
+            DataParsing.CollsitionPositionY = _MessageBufReader.ReadInt32();            
             DataParsing.PositionX = _MessageBufReader.ReadSingle();
-            DataParsing.PositionY = _MessageBufReader.ReadSingle();
+            DataParsing.PositionY = _MessageBufReader.ReadSingle();                        
+            DataParsing.DirectionX = _MessageBufReader.ReadSingle();
+            DataParsing.DirectionY = _MessageBufReader.ReadSingle();
 
             _Front = (int)_MessageReadStream.Position;
 
@@ -707,7 +709,7 @@ namespace ServerCore
             short PersonalMessageLen = _MessageBufReader.ReadInt16();
             byte[] PersonalMessageBytes = _MessageBufReader.ReadBytes(PersonalMessageLen);
 
-            PersonalMessage.PersonalMessageType = (en_PersonalMessageType)PersonalMessageType;
+            PersonalMessage.PersonalMessageType = (en_GlobalMessageType)PersonalMessageType;
             PersonalMessage.PersonalMessage = Encoding.Unicode.GetString(PersonalMessageBytes);
 
             Data = PersonalMessage;
@@ -725,7 +727,7 @@ namespace ServerCore
                 short PersonalMessageLen = _MessageBufReader.ReadInt16();
                 byte[] PersonalMessageBytes = _MessageBufReader.ReadBytes(PersonalMessageLen);
 
-                PersonalMessage.PersonalMessageType = (en_PersonalMessageType)PersonalMessageType;
+                PersonalMessage.PersonalMessageType = (en_GlobalMessageType)PersonalMessageType;
                 PersonalMessage.PersonalMessage = Encoding.Unicode.GetString(PersonalMessageBytes);
 
                 Data[i] = PersonalMessage;
