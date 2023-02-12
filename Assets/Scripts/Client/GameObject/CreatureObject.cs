@@ -10,7 +10,7 @@ public class CreatureObject : BaseObject
     public GameObject SpeechBubblePosition;
     [HideInInspector]
     public UI_SpeechBubble _SpeechBubbleUI;
-    
+
     [HideInInspector]
     public UI_HPBar _HpBar;
     [HideInInspector]
@@ -23,6 +23,12 @@ public class CreatureObject : BaseObject
 
     [HideInInspector]
     public UI_Inventory _InventoryUI { get; set; } // 가방 UI
+
+    [HideInInspector]
+    public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비 UI
+
+    [HideInInspector]
+    public UI_SkillBox _SkillBoxUI { get; set; } // 기술 UI
 
     [HideInInspector]
     public LineRendererController _LineRendererController;
@@ -38,19 +44,19 @@ public class CreatureObject : BaseObject
         if (_LineRendererController != null)
         {
             _LineRendererController.SetUpOwnPlayer(this);
-        }
-
-        if (gameObject.transform.Find("SpeechBubblePosition") != null)
-        {
-            SpeechBubblePosition = gameObject.transform.Find("SpeechBubblePosition").gameObject;
-        }
+        }        
 
         switch (_GameObjectInfo.ObjectType)
         {
             case en_GameObjectType.OBJECT_PLAYER:
+                if (gameObject.transform.Find("SpeechBubblePosition") != null)
+                {
+                    SpeechBubblePosition = gameObject.transform.Find("SpeechBubblePosition").gameObject;
+                }
+
                 _SpeechBubbleUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SPEECH_BUBBLE, SpeechBubblePosition.transform).GetComponent<UI_SpeechBubble>();
                 _SpeechBubbleUI.SetOwner(this);
-                _SpeechBubbleUI.ShowCloseUI(false);
+                _SpeechBubbleUI.ShowCloseUI(false);             
                 break;
         }
     }
@@ -66,7 +72,7 @@ public class CreatureObject : BaseObject
 
         //체력 업데이트 하기 위해서 스크립트 추출해서 넣어둠
         _HpBar = HPBarGo.GetComponent<UI_HPBar>();
-        _HpBar.Init(HPBarPositionX, HPBarPositionY);        
+        _HpBar.Init(HPBarPositionX, HPBarPositionY);
 
         //체력바 업데이트
         UpdateHPBar();
@@ -120,7 +126,7 @@ public class CreatureObject : BaseObject
         }
 
         //변경된 HP적용
-        _HpBar.SetHPBar(HPRatio);        
+        _HpBar.SetHPBar(HPRatio);
     }
 
     public void InventoryCreate(int InventoryWidth,
@@ -128,10 +134,9 @@ public class CreatureObject : BaseObject
         CItem[] InventoryItems,
         long GoldCoinCount, short SliverCoinCount, short BronzeCoinCount)
     {
-        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-        if(GameSceneUI != null)
+        if (_GameSceneUI != null)
         {
-            GameObject InventoryBodyGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INVENTORY_BOX, GameSceneUI.transform);
+            GameObject InventoryBodyGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INVENTORY_BOX, _GameSceneUI.transform);
             InventoryBodyGO.GetComponent<RectTransform>().localPosition = new Vector3(600.0f, 100.0f, 0.0f);
 
             GameObject InentoryEdgeGO = InventoryBodyGO.transform.Find("InventoryEdge").gameObject;
@@ -145,15 +150,15 @@ public class CreatureObject : BaseObject
 
             for (byte i = 0; i < InventoryItems.Length; i++)
             {
-                GameObject InventoryItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INVENTORY_ITEM, GameSceneUI.transform);
-                
+                GameObject InventoryItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INVENTORY_ITEM, _GameSceneUI.transform);
+
                 UI_InventoryItem InventoryItem = InventoryItemGO.GetComponent<UI_InventoryItem>();
                 InventoryItem.GetComponent<RectTransform>().SetAsLastSibling();
                 InventoryItem.Set(InventoryItems[i]._ItemInfo);
                 InventoryItem.Binding();
                 InventoryItem.SetParentGridInventory(_InventoryUI);
 
-                _InventoryUI.PlaceItem(InventoryItem, InventoryItem._ItemInfo.ItemTileGridPositionX, InventoryItem._ItemInfo.ItemTileGridPositionY);                
+                _InventoryUI.PlaceItem(InventoryItem, InventoryItem._ItemInfo.ItemTileGridPositionX, InventoryItem._ItemInfo.ItemTileGridPositionY);
             }
 
             _InventoryUI.MoneyUIUpdate(GoldCoinCount, SliverCoinCount, BronzeCoinCount);
@@ -162,6 +167,34 @@ public class CreatureObject : BaseObject
 
             Managers.MyInventory.SelectedInventory = InventorUI;
         }
+    }
+
+    public void EquipmentBoxUICreate(CItem[] EquipmentItems)
+    {
+        GameObject EquipmentBoxGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, _GameSceneUI.transform);
+        _EquipmentBoxUI = EquipmentBoxGO.GetComponent<UI_EquipmentBox>();
+        _EquipmentBoxUI.GetComponent<RectTransform>().localPosition = new Vector3(-600.0f, 100.0f, 0.0f);
+        _EquipmentBoxUI.Binding();        
+
+        _EquipmentBoxUI.EquipmentBoxUICreate(6);
+
+        foreach(CItem EquipmentItem in EquipmentItems)
+        {
+            _EquipmentBoxUI.OnEquipmentItem(EquipmentItem._ItemInfo);
+        }
+
+        _GameSceneUI._EquipmentBoxUI = _EquipmentBoxUI;
+
+        _GameSceneUI._EquipmentBoxUI.ShowCloseUI(false);
+    }
+
+    public void SkillBoxUICreate()
+    {
+        GameObject SkillBoxGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_BOX, _GameSceneUI.transform);
+        _SkillBoxUI = SkillBoxGO.GetComponent<UI_SkillBox>();
+        _SkillBoxUI.Binding();
+
+        _GameSceneUI._SkillBoxUI = _SkillBoxUI;        
     }   
 
     public virtual void OnDamaged()
@@ -181,7 +214,7 @@ public class CreatureObject : BaseObject
 
         GameObject.Destroy(gameObject, 1.5f);
     }
-  
+
     public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
     {
         if (_SpellBar != null)
@@ -192,5 +225,5 @@ public class CreatureObject : BaseObject
         {
             Debug.Log("Spell Bar를 찾을 수 없습니다.");
         }
-    } 
+    }
 }
