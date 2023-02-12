@@ -81,18 +81,6 @@ public enum en_GameObjectType
     OBJECT_PLAYER_DUMMY = 32000
 }
 
-public enum en_MoveDir
-{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    LEFT_UP,
-    LEFT_DOWN,
-    RIGHT_UP,
-    RIGHT_DOWN
-}
-
 public enum en_CreatureState
 {
     SPAWN_READY,
@@ -522,6 +510,7 @@ public enum en_ResourceName
 
     CLIENT_UI_EQUIPMENT_BOX,
 
+    CLIENT_UI_SKILL_BOX,
     CLIENT_UI_SKILL_EXPLANATION,
     CLIENT_UI_SKILL_ITEM,
     CLIENT_UI_SKILL_ITEM_DRAG,
@@ -563,6 +552,19 @@ public enum en_SoundClip
     SOUND_CLIP_LOGIN,
     SOUND_CLIP_FOREST
 }
+
+public enum en_WeaponType
+{
+    WEAPON_TYPE_NON,
+    WEAPON_TYPE_MELEE,
+    WEAPON_TYPE_RANGE
+}
+
+public enum en_AnimationType
+{
+    ANIMATION_TYPE_NONE,
+	ANIMATION_TYPE_SLIME_MELEE_ATTACK
+};
 
 public class st_ItemInfo
 {
@@ -646,10 +648,11 @@ public class st_PositionInfo : IEquatable<st_PositionInfo>
 {
     public en_CreatureState State;
     public int CollsitionPositionX;
-    public int CollsitionPositionY;
-    public en_MoveDir MoveDir;
+    public int CollsitionPositionY;    
     public float PositionX;
     public float PositionY;
+    public float DirectionX;
+    public float DirectionY;
 
     public bool Equals(st_PositionInfo other)
     {
@@ -666,12 +669,7 @@ public class st_PositionInfo : IEquatable<st_PositionInfo>
         if (CollsitionPositionY != other.CollsitionPositionY)
         {
             return false;
-        }
-
-        if (MoveDir != other.MoveDir)
-        {
-            return false;
-        }
+        }        
 
         return true;
     }
