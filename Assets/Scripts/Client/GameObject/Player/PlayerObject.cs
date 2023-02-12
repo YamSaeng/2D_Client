@@ -9,9 +9,8 @@ using static Define;
 
 public class PlayerObject : CreatureObject
 {
-    Camera MainCamera;
-        
-    private UI_GameScene _GameSceneUI;
+    Camera MainCamera;       
+    
     
     private bool _IsChattingFocus;
         
@@ -23,9 +22,7 @@ public class PlayerObject : CreatureObject
 
     public override void Init()
     {
-        base.Init();
-
-        _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+        base.Init();        
 
         MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
@@ -203,7 +200,7 @@ public class PlayerObject : CreatureObject
 
         if (!_IsChattingFocus
             && !_GameSceneUI._InventoryItemDivideUI.gameObject.active
-            && Input.GetKeyDown(KeyCode.Return))
+            && Input.GetKeyDown(KeyCode.Return)) 
         {
             State = en_CreatureState.STOP;
 
