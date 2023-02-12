@@ -5,14 +5,13 @@ using UnityEngine.Events;
 
 public class UI_GameScene : UI_Scene
 {    
-    public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비창 UI
-    public UI_Inventory _InventoryUI { get; set; } // 가방 UI
+    public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비창 UI    
     public UI_InventoryItemDivide _InventoryItemDivideUI {  get; set; } // 아이템 분배 UI
     public UI_TargetHUD _TargetHUDUI { get; set; } // Target HUD UI
     public UI_ChattingBoxGroup _ChattingBoxGroup { get; private set; } // 채팅창 UI
     public UI_Minimap _Minimap { get; private set; } // 미니맵 UI
     public UI_ItemGainBox _ItemGainBox { get; private set; } // 아이템 얻기 Box UI
-    public UI_SkillBox _SkillBoxUI { get; private set; } // 스킬창 UI        
+    public UI_SkillBox _SkillBoxUI { get; set; } // 스킬창 UI        
     public UI_QuickSlotBarBox _QuickSlotBarBoxUI { get; private set; } // 퀵슬롯 Bar UI
     public UI_MyCharacterHUD _MyCharacterHUDUI { get; set; } // 내 캐릭터 HUD UI
     public UI_GlobalMessageBox _GlobalMessageBoxUI { get; private set; } // 개인 메세지 UI    
@@ -47,22 +46,13 @@ public class UI_GameScene : UI_Scene
 
     public override void Binding()
     {
-        GameObject EquipmentBoxGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, this.transform);
-        _EquipmentBoxUI = EquipmentBoxGO.GetComponent<UI_EquipmentBox>();
-        _EquipmentBoxUI.GetComponent<RectTransform>().localPosition = new Vector3(-600.0f, 100.0f, 0.0f);
-        _EquipmentBoxUI.Binding();
-        _EquipmentBoxUI.ShowCloseUI(false);
-
         _ChattingBoxGroup = GetComponentInChildren<UI_ChattingBoxGroup>();
 
         _Minimap = GetComponentInChildren<UI_Minimap>();
         _Minimap.Binding();
 
         _ItemGainBox = GetComponentInChildren<UI_ItemGainBox>();
-        _ItemGainBox.Binding();
-
-        _SkillBoxUI = GetComponentInChildren<UI_SkillBox>();
-        _SkillBoxUI.Binding();
+        _ItemGainBox.Binding();        
 
         _QuickSlotBarBoxUI = GetComponentInChildren<UI_QuickSlotBarBox>();
 
