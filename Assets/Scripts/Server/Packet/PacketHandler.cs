@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Packet
 {
@@ -377,10 +378,14 @@ namespace Packet
             long ObjectId;
             float DirectionX;
             float DirectionY;
+            float PositionX;
+            float PositionY;
 
             S2CMovePacket.GetData(out ObjectId, sizeof(long));
             S2CMovePacket.GetData(out DirectionX, sizeof(float));
             S2CMovePacket.GetData(out DirectionY, sizeof(float));
+            S2CMovePacket.GetData(out PositionX, sizeof(float));
+            S2CMovePacket.GetData(out PositionY, sizeof(float));
 
             BaseObject FindGameObject = Managers.Object.FindById(ObjectId).GetComponent<BaseObject>();
             if (FindGameObject != null)
@@ -389,7 +394,8 @@ namespace Packet
 
                 Vector2 NewFaceDirection = new Vector2(NewDirection.x + FindGameObject.transform.position.x, NewDirection.y + FindGameObject.transform.position.y);
 
-                FindGameObject.GetComponent<GameObjectMovement>().MoveMonsterGameObject(NewDirection);
+                FindGameObject.transform.position = new Vector3(PositionX, PositionY, 0);
+                FindGameObject.GetComponent<GameObjectMovement>().MoveOtherGameObject(NewDirection);
                 FindGameObject.GetComponentInChildren<GameObjectRenderer>().FaceDirection(NewFaceDirection);
             }
             
@@ -409,14 +415,7 @@ namespace Packet
             BaseObject FindGameObject = Managers.Object.FindById(ObjectId).GetComponent<BaseObject>();
             if (FindGameObject != null) 
             {
-                switch (FindGameObject._GameObjectInfo.ObjectType)
-                {
-                    case en_GameObjectType.OBJECT_PLAYER:
-                        break;
-                    case en_GameObjectType.OBJECT_SLIME:                        
-                        FindGameObject.GetComponent<GameObjectMovement>().MoveMonsterGameObject(new Vector2(0, 0));
-                        break;
-                }
+                FindGameObject.GetComponent<GameObjectMovement>().MoveOtherGameObject(new Vector2(0, 0));
 
                 FindGameObject.transform.position = new Vector3(StopPositionX, StopPositionY, 0);
             }
@@ -452,23 +451,36 @@ namespace Packet
 
         public static void S2C_CommonDamageHandler(CMessage S2C_CommonDamagePacket)
         {
-            long ObjectId;
-            long TargetId;
-            byte Dir;
+            long AttackID;
+            long TargetId;            
             short SkillType;
+            short ResourceType;
             int DamagePoint;
+            int HP;
             bool IsCritical;
 
-            S2C_CommonDamagePacket.GetData(out ObjectId, sizeof(long));
+            S2C_CommonDamagePacket.GetData(out AttackID, sizeof(long));
             S2C_CommonDamagePacket.GetData(out TargetId, sizeof(long));
-            S2C_CommonDamagePacket.GetData(out SkillType, sizeof(short));
+            S2C_CommonDamagePacket.GetData(out SkillType, sizeof(short)); 
+            S2C_CommonDamagePacket.GetData(out ResourceType, sizeof(short));
             S2C_CommonDamagePacket.GetData(out DamagePoint, sizeof(int));
+            S2C_CommonDamagePacket.GetData(out HP, sizeof(int));            
             S2C_CommonDamagePacket.GetData(out IsCritical, sizeof(bool));
 
             // 크리티컬 공격 성공시 카메라 흔들기
-            if (IsCritical && ObjectId == Managers.NetworkManager._PlayerDBId)
+            if (IsCritical && AttackID == Managers.NetworkManager._PlayerDBId)
             {
                 CameraManager.CameraShake(0.3f);
+            }
+
+            BaseObject FindAttackerObject = Managers.Object.FindById(AttackID).GetComponent<BaseObject>();
+            if(FindAttackerObject != null)
+            {
+                GameObjectAnimation Animator = FindAttackerObject.GetComponentInChildren<GameObjectAnimation>();
+                if(Animator != null)
+                {
+                    Animator.PlayMeleeAnimation();
+                }
             }
 
             GameObject FindTargetGameObject = Managers.Object.FindById(TargetId);
@@ -478,13 +490,22 @@ namespace Packet
 
                 if (FindTargetCreature != null)
                 {
-                    UI_Damage.Create((en_SkillType)SkillType,
-                        DamagePoint,
+                    UI_Damage DamageUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_DAMAGE).GetComponent<UI_Damage>();
+                    DamageUI.Setup((en_SkillType)SkillType, DamagePoint,
                         IsCritical,
                         FindTargetCreature.transform.position.x,
                         FindTargetCreature.transform.position.y);
 
-                    FindTargetCreature._HpBar.ActiveChoiceUI(true);
+                    Vector2 RandomDirection = Random.insideUnitCircle;
+                    RandomDirection = RandomDirection.y < 0 ? new Vector2(RandomDirection.x, -RandomDirection.y) : RandomDirection;
+
+                    DamageUI.GetComponent<RectTransform>().localPosition = new Vector3(
+                        FindTargetCreature.transform.position.x + RandomDirection.x,
+                        FindTargetCreature.transform.position.y + RandomDirection.y);
+
+                    DamageUI.GetComponent<GameObjectAnimation>().PlayCommonDamage();
+
+                    //FindTargetCreature._HpBar.ActiveChoiceUI(true);
                 }
                 else
                 {
@@ -552,11 +573,7 @@ namespace Packet
 
                 if (FindTargetCreature != null)
                 {
-                    UI_Damage.Create((en_SkillType)SkillType,
-                        DamagePoint,
-                        IsCritical,
-                        FindTargetCreature.transform.position.x,
-                        FindTargetCreature.transform.position.y);
+                    
 
                     FindTargetCreature._HpBar.ActiveChoiceUI(true);
                 }
@@ -1095,45 +1112,7 @@ namespace Packet
             }
 
             S2CMousePositionObjectInfoPacket.Dispose();
-        }
-
-        public static void S2C_MonsterStateChangeHandler(CMessage S2C_MonsterStateChangePacket)
-        {
-            long ObjectId;            
-            short ObjectType;
-            byte ObjectState;
-            byte MonsterState;
-
-            S2C_MonsterStateChangePacket.GetData(out ObjectId, sizeof(long));            
-            S2C_MonsterStateChangePacket.GetData(out ObjectType, sizeof(short));
-            S2C_MonsterStateChangePacket.GetData(out ObjectState, sizeof(byte));
-            S2C_MonsterStateChangePacket.GetData(out MonsterState, sizeof(byte));
-
-            GameObject FindGameObject = Managers.Object.FindById(ObjectId);
-            if (FindGameObject == null)
-            {
-                Debug.Log("S2CStateChange 게임오브젝트를 찾을 수 없습니다");
-                return;
-            }
-
-            switch ((en_GameObjectType)ObjectType)
-            {
-                case en_GameObjectType.OBJECT_SLIME:
-                    {
-                        SlimeObject Slime = FindGameObject.GetComponent<SlimeObject>();
-                        if (Slime != null)
-                        {                            
-                            Slime.State = (en_CreatureState)ObjectState;
-                            Slime.MonsterState = (en_MonsterState)MonsterState;
-                        }
-                    }
-                    break;
-                case en_GameObjectType.OBJECT_BEAR:                    
-                    break;
-            }
-
-            S2C_MonsterStateChangePacket.Dispose();
-        }
+        }        
 
         public static void S2C_StatusAbnormalHandler(CMessage S2C_StatusAbnormalPacket)
         {
