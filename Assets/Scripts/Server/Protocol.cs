@@ -350,16 +350,7 @@ public class Protocol
 		// en_GameObjectType ObjectType
 		// en_CreatureState ObjectState	
 		//------------------------------------------------------------
-		en_PACKET_S2C_OBJECT_STATE_CHANGE,
-
-		//------------------------------------------------------------
-		// 게임서버 몬스터 오브젝트 상태 변경 요청 응답
-		// int64 ObjectId	
-		// en_GameObjectType ObjectType
-		// en_CreatureState ObjectState
-		// en_MonsterState MonsterState
-		//------------------------------------------------------------
-		en_PACKET_S2C_MONSTER_OBJECT_STATE_CHANGE,
+		en_PACKET_S2C_OBJECT_STATE_CHANGE,		
 
 		//------------------------------------------------------------
 		// 게임서버 상태이상 적용 
