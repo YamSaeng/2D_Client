@@ -7,6 +7,7 @@ using static Define;
 
 public class BaseObject : MonoBehaviour
 {
+    protected UI_GameScene _GameSceneUI;
     // 상태이상 정보
     protected byte _StatusAbnormal;
 
@@ -68,10 +69,7 @@ public class BaseObject : MonoBehaviour
             _GameObjectInfo.ObjectPositionInfo.PositionY = value.PositionY;
 
             // 상태값 변경
-            State = value.State;
-
-            // 방향값 변경
-            Dir = value.MoveDir;
+            State = value.State;            
         }
     }
         
@@ -121,22 +119,7 @@ public class BaseObject : MonoBehaviour
         {            
             PositionInfo.State = value;                   
         }
-    }
-
-    public en_MoveDir Dir
-    {
-        get { return PositionInfo.MoveDir; }
-        set
-        {
-            //if (PositionInfo.MoveDir == value)
-            //{
-            //    return;
-            //}
-
-            PositionInfo.MoveDir = value;            
-        }
-    }       
-  
+    }  
 
     public void AnimationPlay(string AnimationName)
     {
@@ -150,6 +133,8 @@ public class BaseObject : MonoBehaviour
 
     public virtual void Init()
     {
+        _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+
         transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.PositionX, _GameObjectInfo.ObjectPositionInfo.PositionY, 0);
     }    
 
