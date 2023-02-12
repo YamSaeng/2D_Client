@@ -16,6 +16,8 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SPEECH_BUBBLE, "UI/SpeechBubble/UI_SpeechBubble");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_SLIME, "Creature/Monster/Slime");
+
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "Creature/Player/Player");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SWAMILL, "Creature/Player/Player");
 
@@ -28,6 +30,8 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_MY_CHARACTER_HUD, "UI/MyHUD/UI_MyCharacterHUD");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_TARGET_HUD, "UI/TargetHUD/UI_TargetHUD");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_DAMAGE, "UI/Damage/UI_Damage");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_BOX, "UI/Skill/UI_SkillBox");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_ITEM, "UI/Skill/UI_SkillItem");
@@ -99,7 +103,7 @@ public class ResourceManager
         }      
 
         // Object를 붙인이유는 안 붙이면 재귀적으로 Instantiate 함수가 한번더 호출 되기 때문
-        GameObject Go = Object.Instantiate(Prefab, Parent);
+        GameObject Go = Object.Instantiate(Prefab, Parent);        
         Go.name = Prefab.name;
         
         return Go;
