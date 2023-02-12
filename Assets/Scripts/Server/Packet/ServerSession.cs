@@ -106,10 +106,7 @@ public class CServerSession : CSession
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_OBJECT_STATE_CHANGE:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_ObjectStateChangeHandler);
-                break;
-            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_MONSTER_OBJECT_STATE_CHANGE:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MonsterStateChangeHandler);
-                break;
+                break;            
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_STATUS_ABNORMAL:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_StatusAbnormalHandler);
                 break;
