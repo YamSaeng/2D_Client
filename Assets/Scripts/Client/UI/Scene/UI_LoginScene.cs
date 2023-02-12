@@ -103,10 +103,7 @@ public class UI_LoginScene : UI_Scene
 
         // 회원가입할 ID Password 전송
         CMessage ReqAccountNew = Packet.MakePacket.ReqAccountNewPacket(Account, Password);
-        Managers.NetworkManager.LoginServerSend(ReqAccountNew);
-
-        //CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(Managers.NetworkManager._AccountId, Managers.NetworkManager._PlayerDBId, PositionInfo, PositionInfo.MoveDir);
-        //Managers.NetworkManager.Send(ReqMovePacket);
+        Managers.NetworkManager.LoginServerSend(ReqAccountNew);        
 
         //// 웹에 전송
         //Managers.WebManager.SendPostRequest<ResCreateAccountPacket>("account/create", CreateAccountPacket, (ResPacket) =>
