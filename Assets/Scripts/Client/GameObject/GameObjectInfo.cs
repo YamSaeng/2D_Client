@@ -11,7 +11,8 @@ public enum en_GameObjectType
     OBJECT_NON_PLAYER,
 
     OBJECT_MONSTER,
-    OBJECT_SLIME,
+    OBJECT_GOBLIN,
+    OBJECT_SLIME,    
     OBJECT_BEAR,
 
     OBJECT_ENVIRONMENT,
@@ -196,15 +197,15 @@ public enum en_SkillMediumCategory
 public enum en_SkillType
 {
     SKILL_TYPE_NONE = 0,
+    SKILL_GLOBAL_SKILL = 1,
 
-    SKILL_DEFAULT_ATTACK = 1,
+    SKILL_DEFAULT_ATTACK,
     SKILL_PUBLIC_ACTIVE_BUF_SHOCK_RELEASE,
 
     SKILL_FIGHT_TWO_HAND_SWORD_MASTER,
 
     SKILL_FIGHT_ACTIVE_ATTACK_FIERCE_ATTACK,
     SKILL_FIGHT_ACTIVE_ATTACK_CONVERSION_ATTACK,
-    SKILL_FIGHT_ACTIVE_ATTACK_SMASH_WAVE,
     SKILL_FIGHT_ACTIVE_ATTACK_SHAHONE,
     SKILL_FIGHT_ACTIVE_ATTACK_CHOHONE,
     SKILL_FIGHT_ACTIVE_BUF_CHARGE_POSE,
@@ -233,6 +234,7 @@ public enum en_SkillType
     SKILL_SHOOTING_ACTIVE_ATTACK_SNIFING,
 
     SKILL_SLIME_NORMAL,
+    SKILL_GOBLIN_ACTIVE_MELEE_DEFAULT_ATTACK,
     SKILL_SLIME_ACTIVE_POISION_ATTACK,
     SKILL_BEAR_NORMAL
 };
@@ -445,6 +447,7 @@ public enum en_ResourceName
     CLIENT_GAMEOBJECT_PLAYER,
 
     CLIENT_GAMEOBJECT_MONSTER_SLIME,
+    CLIENT_GAMEOBJECT_MONSTER_GOBLIN,
 
     CLIENT_GAMEOBJECT_ENVIRONMENT_STONE,
     CLIENT_GAMEOBJECT_ENVIRONMENT_TREE,
@@ -563,8 +566,14 @@ public enum en_WeaponType
 public enum en_AnimationType
 {
     ANIMATION_TYPE_NONE,
-	ANIMATION_TYPE_SLIME_MELEE_ATTACK
+    ANIMATION_TYPE_SWORD_MELEE_ATTACK
 };
+
+public class st_RayCastingPosition
+{
+    public Vector2 StartPosition;
+    public Vector2 EndPosition;    
+}
 
 public class st_ItemInfo
 {
@@ -772,8 +781,7 @@ public class st_SkillInfo
     public int SkillCastingTime;
     public long SkillDurationTime;
     public long SkillDotTime;
-    public long SkillRemainTime;
-    public string SkillExplanation;
+    public long SkillRemainTime;    
 
     public st_SkillInfo()
     {
@@ -788,8 +796,7 @@ public class st_SkillInfo
         SkillCastingTime = 0;
         SkillDurationTime = 0;
         SkillDotTime = 0;
-        SkillRemainTime = 0;
-        SkillExplanation = "";
+        SkillRemainTime = 0;        
     }
 }
 
