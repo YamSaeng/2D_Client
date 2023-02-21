@@ -520,11 +520,7 @@ namespace ServerCore
             SkillInfo.SkillCastingTime = _MessageBufReader.ReadInt32();
             SkillInfo.SkillDurationTime = _MessageBufReader.ReadInt64();
             SkillInfo.SkillDotTime = _MessageBufReader.ReadInt64();
-            SkillInfo.SkillRemainTime = _MessageBufReader.ReadInt64();
-
-            short SkillExplanationLen = _MessageBufReader.ReadInt16();
-            byte[] SkillExplanationBytes = _MessageBufReader.ReadBytes(SkillExplanationLen);
-            SkillInfo.SkillExplanation = Encoding.Unicode.GetString(SkillExplanationBytes);
+            SkillInfo.SkillRemainTime = _MessageBufReader.ReadInt64();            
 
             Data = SkillInfo;
 
@@ -746,6 +742,33 @@ namespace ServerCore
             DayInfo.DayType = (en_DayType)_MessageBufReader.ReadByte();
 
             Data = DayInfo;
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
+        public void GetData(out st_RayCastingPosition Data)
+        {
+            st_RayCastingPosition RayCastingPosition = new st_RayCastingPosition();
+            RayCastingPosition.StartPosition.x = _MessageBufReader.ReadSingle();
+            RayCastingPosition.StartPosition.y = _MessageBufReader.ReadSingle();
+            RayCastingPosition.EndPosition.x = _MessageBufReader.ReadSingle();
+            RayCastingPosition.EndPosition.y = _MessageBufReader.ReadSingle();
+
+            Data = RayCastingPosition;
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
+        public void GetData(st_RayCastingPosition[] Datas, byte Count)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                st_RayCastingPosition RayCastingInfo;
+
+                GetData(out RayCastingInfo);
+
+                Datas[i] = RayCastingInfo;
+            }
 
             _Front = (int)_MessageReadStream.Position;
         }
