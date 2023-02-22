@@ -213,12 +213,12 @@ public class UI_GameScene : UI_Scene
 
     private void Update()
     {
-        if (_SkillExplanationUI != null && _SkillExplanationUI.gameObject.active == true)
+        if (_SkillExplanationUI != null && _SkillExplanationUI.gameObject.activeSelf == true)
         {
             _SkillExplanationUI.GetComponent<RectTransform>().position = Input.mousePosition;
         }
 
-        if (_ItemExplanationUI != null && _ItemExplanationUI.gameObject.active == true)
+        if (_ItemExplanationUI != null && _ItemExplanationUI.gameObject.activeSelf == true)
         {
             _ItemExplanationUI.GetComponent<RectTransform>().position = Input.mousePosition;
         }        
