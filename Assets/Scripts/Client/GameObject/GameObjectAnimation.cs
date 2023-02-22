@@ -31,4 +31,14 @@ public class GameObjectAnimation : MonoBehaviour
     {
         _AgentAnimator.SetFloat("WalkMultiplier", WalkSpeed);
     }
+
+    public void PlayWeaponMeleeAttack()
+    {
+        _AgentAnimator.SetTrigger("IsWeaponMeleeAttack");
+    }    
+
+    public void PlayCommonDamage()
+    {
+        _AgentAnimator.SetTrigger("IsCommonDamage");
+    }
 }
