@@ -50,6 +50,9 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_CHARACTER_INFO:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_CharacterInfoHandler);
                 break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_FACE_DIRECTION:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_FaceDirectionHandler);
+                break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_MOVE:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MoveHandler);
                 break;
@@ -224,7 +227,10 @@ public class CServerSession : CSession
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PartyBanishHandler);
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_PARTY_LEADER_MANDATE:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PartyBanishHandler);
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PartyLeaderManDate);
+                break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_RAY_CASTING:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_RayCastingHandler);
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_PING:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_Ping);
