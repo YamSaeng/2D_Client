@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static Define;
 
 public class CreatureObject : BaseObject
@@ -36,6 +37,9 @@ public class CreatureObject : BaseObject
     // 내가 선택한 오브젝트 정보
     public st_GameObjectInfo _SelectTargetObjectInfo;
 
+    [field: SerializeField]
+    public UnityEvent OnDieEvent { get; set; }
+
     public override void Init()
     {
         base.Init();
@@ -56,9 +60,14 @@ public class CreatureObject : BaseObject
 
                 _SpeechBubbleUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SPEECH_BUBBLE, SpeechBubblePosition.transform).GetComponent<UI_SpeechBubble>();
                 _SpeechBubbleUI.SetOwner(this);
-                _SpeechBubbleUI.ShowCloseUI(false);             
+                _SpeechBubbleUI.ShowCloseUI(false);
+
+                AddHPBar(0, 0.85f);
                 break;
-        }
+            case en_GameObjectType.OBJECT_GOBLIN:
+                AddHPBar(0, 0.85f);
+                break;
+        }        
     }
 
     //체력바 추가 ( 오브젝트 따위는 추가 안하기 위해 함수로 뺌 )
@@ -202,18 +211,10 @@ public class CreatureObject : BaseObject
 
     }
 
-    public virtual void OnDead()
+    public void Die()
     {
-        //죽음 상태로 바꿔주고
-        State = en_CreatureState.DEAD;
-
-        //자리에 이펙트를 출력해준다.
-        //GameObject Effect = Managers.Resource.Instantiate("Effect/DieEffect");
-        //Effect.transform.position = transform.position;
-        //Effect.GetComponent<Animator>().Play("START");        
-
-        GameObject.Destroy(gameObject, 1.5f);
-    }
+        Destroy(gameObject);
+    }  
 
     public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
     {
