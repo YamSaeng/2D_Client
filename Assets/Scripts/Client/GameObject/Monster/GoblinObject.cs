@@ -12,11 +12,5 @@ public class GoblinObject : CreatureObject
     protected override void UpdateController()
     {
 
-    }
-
-    public override void OnDamaged()
-    {
-        //Managers.Object.Remove(_Id);
-        //Managers.Resource.Destroy(gameObject);
-    }
+    }    
 }

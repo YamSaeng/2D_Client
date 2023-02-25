@@ -15,10 +15,4 @@ public class SlimeObject : CreatureObject
     {
      
     }         
- 
-    public override void OnDamaged()
-    {
-        //Managers.Object.Remove(_Id);
-        //Managers.Resource.Destroy(gameObject);
-    }
 }
