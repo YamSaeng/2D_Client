@@ -17,16 +17,19 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_SLIME, "Creature/Monster/Slime");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, "Creature/Monster/Goblin");
 
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "Creature/Player/Player");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SWAMILL, "Creature/Player/Player");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SWAMILL, "CraftingTable/Sawmill");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PLAYER_OPTION, "UI/Option/UI_PlayerOption");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_PLAYER_OPTION, "UI/Option/UI_PartyPlayerOption");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY, "UI/PartyHUD/UI_PartyFrame");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_PLAYER_INFO_FRAME, "UI/PartyHUD/UI_PartyPlayerInfoFrame");
-        _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_REACTION, "UI/PartyHUD/UI_PartyReaction");        
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_REACTION, "UI/PartyHUD/UI_PartyReaction");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_HP_BAR, "UI/WorldHUD/UI_HPBar");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_MY_CHARACTER_HUD, "UI/MyHUD/UI_MyCharacterHUD");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_TARGET_HUD, "UI/TargetHUD/UI_TargetHUD");
@@ -46,8 +49,11 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_BAR_BOX, "UI/QuickSlot/UI_QuickSlotBarBox.prefab");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_BAR, "UI/QuickSlot/UI_QuickSlotBar");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_BAR_BUTTON, "UI/QuickSlot/UI_QuickSlotBarButton");
-        _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_ITEM_DRAG, "UI/QuickSlot/UI_QuickSlotItemDrag");        
-        
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_ITEM_DRAG, "UI/QuickSlot/UI_QuickSlotItemDrag");
+                
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_LEATHER, "Item/Leather");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN, "Item/BronzeCoin");        
+
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_EXPLANATION, "UI/Inventory/UI_ItemExplanation");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_DIVIDE, "UI/Inventory/UI_InventoryItemDivide");
 
