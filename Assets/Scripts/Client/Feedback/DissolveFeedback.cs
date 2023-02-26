@@ -34,4 +34,12 @@ public class DissolveFeedback : Feedback
             Sequence.AppendCallback(() => DeathEvent.Invoke());
         }
     }    
+
+    public void DissolveInit()
+    {
+        if(_SpriteRenderer != null)
+        {
+            _SpriteRenderer.material.SetFloat("_Dissolve", 1.0f);
+        }
+    }
 }
