@@ -304,10 +304,12 @@ namespace ServerCore
             GameObjectInfo.ObjectPositionInfo.State = (en_CreatureState)_MessageBufReader.ReadByte();
             GameObjectInfo.ObjectPositionInfo.CollsitionPositionX = _MessageBufReader.ReadInt32();
             GameObjectInfo.ObjectPositionInfo.CollsitionPositionY = _MessageBufReader.ReadInt32();            
-            GameObjectInfo.ObjectPositionInfo.PositionX = _MessageBufReader.ReadSingle();
-            GameObjectInfo.ObjectPositionInfo.PositionY = _MessageBufReader.ReadSingle();
-            GameObjectInfo.ObjectPositionInfo.DirectionX = _MessageBufReader.ReadSingle();
-            GameObjectInfo.ObjectPositionInfo.DirectionY = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.Position.x = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.Position.y = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.MoveDireciton.x = _MessageBufReader.ReadSingle();
+            GameObjectInfo.ObjectPositionInfo.MoveDireciton.y = _MessageBufReader.ReadSingle();
 
             GameObjectInfo.ObjectStatInfo.Level = _MessageBufReader.ReadInt32();
             GameObjectInfo.ObjectStatInfo.HP = _MessageBufReader.ReadInt32();
@@ -426,10 +428,12 @@ namespace ServerCore
             DataParsing.State = (en_CreatureState)_MessageBufReader.ReadByte();
             DataParsing.CollsitionPositionX = _MessageBufReader.ReadInt32();
             DataParsing.CollsitionPositionY = _MessageBufReader.ReadInt32();            
-            DataParsing.PositionX = _MessageBufReader.ReadSingle();
-            DataParsing.PositionY = _MessageBufReader.ReadSingle();                        
-            DataParsing.DirectionX = _MessageBufReader.ReadSingle();
-            DataParsing.DirectionY = _MessageBufReader.ReadSingle();
+            DataParsing.Position.x = _MessageBufReader.ReadSingle();
+            DataParsing.Position.y = _MessageBufReader.ReadSingle();                        
+            DataParsing.LookAtDireciton.x = _MessageBufReader.ReadSingle();
+            DataParsing.LookAtDireciton.y = _MessageBufReader.ReadSingle();
+            DataParsing.MoveDireciton.x = _MessageBufReader.ReadSingle();
+            DataParsing.MoveDireciton.y = _MessageBufReader.ReadSingle();
 
             _Front = (int)_MessageReadStream.Position;
 
