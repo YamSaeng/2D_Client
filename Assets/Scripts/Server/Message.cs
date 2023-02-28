@@ -302,8 +302,8 @@ namespace ServerCore
             GameObjectInfo.ObjectCropMaxStep = _MessageBufReader.ReadByte();
             GameObjectInfo.ObjectSkillPoint = _MessageBufReader.ReadByte();
             GameObjectInfo.ObjectPositionInfo.State = (en_CreatureState)_MessageBufReader.ReadByte();
-            GameObjectInfo.ObjectPositionInfo.CollsitionPositionX = _MessageBufReader.ReadInt32();
-            GameObjectInfo.ObjectPositionInfo.CollsitionPositionY = _MessageBufReader.ReadInt32();            
+            GameObjectInfo.ObjectPositionInfo.CollisitionPosition.x = _MessageBufReader.ReadInt32();
+            GameObjectInfo.ObjectPositionInfo.CollisitionPosition.y = _MessageBufReader.ReadInt32();            
             GameObjectInfo.ObjectPositionInfo.Position.x = _MessageBufReader.ReadSingle();
             GameObjectInfo.ObjectPositionInfo.Position.y = _MessageBufReader.ReadSingle();
             GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x = _MessageBufReader.ReadSingle();
@@ -426,8 +426,8 @@ namespace ServerCore
             st_PositionInfo DataParsing = new st_PositionInfo();
 
             DataParsing.State = (en_CreatureState)_MessageBufReader.ReadByte();
-            DataParsing.CollsitionPositionX = _MessageBufReader.ReadInt32();
-            DataParsing.CollsitionPositionY = _MessageBufReader.ReadInt32();            
+            DataParsing.CollisitionPosition.x = _MessageBufReader.ReadInt32();
+            DataParsing.CollisitionPosition.y = _MessageBufReader.ReadInt32();            
             DataParsing.Position.x = _MessageBufReader.ReadSingle();
             DataParsing.Position.y = _MessageBufReader.ReadSingle();                        
             DataParsing.LookAtDireciton.x = _MessageBufReader.ReadSingle();
