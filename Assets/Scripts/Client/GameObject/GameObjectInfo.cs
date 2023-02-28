@@ -11,9 +11,7 @@ public enum en_GameObjectType
     OBJECT_NON_PLAYER,
 
     OBJECT_MONSTER,
-    OBJECT_GOBLIN,
-    OBJECT_SLIME,    
-    OBJECT_BEAR,
+    OBJECT_GOBLIN,    
 
     OBJECT_ENVIRONMENT,
     OBJECT_STONE,
@@ -93,8 +91,7 @@ public enum en_CreatureState
     RETURN_SPAWN_POSITION,
     ATTACK,
     SPELL,
-    GATHERING,
-    READY_DEAD,
+    GATHERING,    
     DEAD
 };
 
@@ -445,8 +442,7 @@ public enum en_ResourceName
     CLIENT_UI_NAME_NONE = 0,
 
     CLIENT_GAMEOBJECT_PLAYER,
-
-    CLIENT_GAMEOBJECT_MONSTER_SLIME,
+    
     CLIENT_GAMEOBJECT_MONSTER_GOBLIN,
 
     CLIENT_GAMEOBJECT_ENVIRONMENT_STONE,
@@ -459,8 +455,7 @@ public enum en_ResourceName
     CLIENT_GAMEOBJECT_CRAFTING_TABLE_SWAMILL,
 
     CLIENT_GAMEOBJECT_DAY,
-
-    CLIENT_GAMEOBJECT_ITEM_SLIME_GEL,
+    
     CLIENT_GAMEOBJECT_ITEM_LEATHER,
     CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN,
     CLIENT_GAMEOBJECT_ITEM_WOOD_LOG,
@@ -656,12 +651,10 @@ public class st_CraftingTableRecipe
 public class st_PositionInfo : IEquatable<st_PositionInfo>
 {
     public en_CreatureState State;
-    public int CollsitionPositionX;
-    public int CollsitionPositionY;    
-    public float PositionX;
-    public float PositionY;
-    public float DirectionX;
-    public float DirectionY;
+    public Vector2Int CollisitionPosition;    
+    public Vector2 Position = new Vector2();
+    public Vector2 LookAtDireciton = new Vector2();
+    public Vector2 MoveDireciton = new Vector2();        
 
     public bool Equals(st_PositionInfo other)
     {
@@ -670,12 +663,12 @@ public class st_PositionInfo : IEquatable<st_PositionInfo>
             return false;
         }
 
-        if (CollsitionPositionX != other.CollsitionPositionX)
+        if (CollisitionPosition.x != other.CollisitionPosition.x)
         {
             return false;
         }
 
-        if (CollsitionPositionY != other.CollsitionPositionY)
+        if (CollisitionPosition.y != other.CollisitionPosition.y)
         {
             return false;
         }        
