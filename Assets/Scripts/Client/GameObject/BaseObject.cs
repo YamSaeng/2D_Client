@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using static Define;
 
-public class BaseObject : MonoBehaviour
+public class CBaseObject : MonoBehaviour
 {
     protected UI_GameScene _GameSceneUI;
     // 상태이상 정보
@@ -46,32 +46,7 @@ public class BaseObject : MonoBehaviour
             StatInfo.HP = value;
             //체력바 업데이트
         }
-    }
-    
-    public st_PositionInfo PositionInfo
-    {
-        get
-        {
-            return _GameObjectInfo.ObjectPositionInfo;
-        }
-
-        set
-        {
-            //if(_GameObjectInfo.ObjectPositionInfo.Equals(value))
-            //{
-            //    return;
-            //}
-
-            // 셀 좌표 셋팅
-            _CellPosition = new Vector3Int(value.CollsitionPositionX, value.CollsitionPositionY, 0);
-            
-            _GameObjectInfo.ObjectPositionInfo.PositionX = value.PositionX;
-            _GameObjectInfo.ObjectPositionInfo.PositionY = value.PositionY;
-
-            // 상태값 변경
-            State = value.State;            
-        }
-    }
+    }  
         
     public void SetStatusAbnormal(byte StatusAbnormal)
     {
@@ -83,43 +58,7 @@ public class BaseObject : MonoBehaviour
     {
         // 상태이상 해제
         _StatusAbnormal &= StatusAbnormal;
-    }
-
-    //위치 강제로 이동시켜주는 함수 주로 스폰 시킬때 사용
-    public virtual void SyncPostion()
-    {
-        Vector3 DestPosition = Managers.Map.CurrentGrid.CellToWorld(_CellPosition) + new Vector3(0.5f, 0.5f);
-        transform.position = DestPosition;
-    }
-
-    public Vector3Int _CellPosition
-    {
-        get
-        {
-            return new Vector3Int(PositionInfo.CollsitionPositionX, PositionInfo.CollsitionPositionY, 0);
-        }
-
-        set
-        {
-            //동일한 셀 좌표면 나감
-            if (PositionInfo.CollsitionPositionX == value.x && PositionInfo.CollsitionPositionY == value.y)
-            {                
-                return;
-            }
-
-            PositionInfo.CollsitionPositionX = value.x;
-            PositionInfo.CollsitionPositionY = value.y;            
-        }
-    }    
-
-    public virtual en_CreatureState State
-    {
-        get { return PositionInfo.State; }
-        set
-        {            
-            PositionInfo.State = value;                   
-        }
-    }  
+    }          
 
     public void AnimationPlay(string AnimationName)
     {
@@ -135,7 +74,7 @@ public class BaseObject : MonoBehaviour
     {
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
 
-        transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.PositionX, _GameObjectInfo.ObjectPositionInfo.PositionY, 0);
+        transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.Position.x, _GameObjectInfo.ObjectPositionInfo.Position.y, 0);
     }    
 
     protected virtual void UpdateController()
@@ -153,7 +92,7 @@ public class BaseObject : MonoBehaviour
             }
         }        
 
-        switch (State)
+        switch (_GameObjectInfo.ObjectPositionInfo.State)
         {
             case en_CreatureState.SPAWN_IDLE:
             case en_CreatureState.IDLE:                
