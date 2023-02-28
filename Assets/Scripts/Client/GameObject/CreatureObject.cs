@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using static Define;
 
-public class CreatureObject : BaseObject
+public class CreatureObject : CBaseObject
 {
     [HideInInspector]
     public GameObject SpeechBubblePosition;
@@ -38,6 +38,12 @@ public class CreatureObject : BaseObject
     public st_GameObjectInfo _SelectTargetObjectInfo;
 
     [field: SerializeField]
+    public UnityEvent OnSpawnEvent { get; set; }
+
+    [field: SerializeField]
+    public UnityEvent OnHit { get; set; }
+
+    [field: SerializeField]
     public UnityEvent OnDieEvent { get; set; }
 
     public override void Init()
@@ -61,27 +67,25 @@ public class CreatureObject : BaseObject
                 _SpeechBubbleUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SPEECH_BUBBLE, SpeechBubblePosition.transform).GetComponent<UI_SpeechBubble>();
                 _SpeechBubbleUI.SetOwner(this);
                 _SpeechBubbleUI.ShowCloseUI(false);
-
-                AddHPBar(0, 0.85f);
+                               
                 break;
             case en_GameObjectType.OBJECT_GOBLIN:
-                AddHPBar(0, 0.85f);
+                StartCoroutine(SpawnEventCoroutine());
                 break;
-        }        
+        }       
     }
 
     //체력바 추가 ( 오브젝트 따위는 추가 안하기 위해 함수로 뺌 )
-    public void AddHPBar(float HPBarPositionX, float HPBarPositionY)
+    protected void AddHPBar(float HPBarPositionX, float HPBarPositionY)
     {
         //유니티에서 생성한 프리팹 HPBar 가져와서 복제
         //기본 위치는 소환한 크리처 좌표보다 약간 위쪽으로        
         GameObject HPBarGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_HP_BAR, transform);
-        HPBarGo.transform.localPosition = new Vector3(0, 0.6f, 0);
+        HPBarGo.transform.localPosition = new Vector3(HPBarPositionX, HPBarPositionY, 0);
         HPBarGo.name = "UI_HPBar";
 
         //체력 업데이트 하기 위해서 스크립트 추출해서 넣어둠
-        _HpBar = HPBarGo.GetComponent<UI_HPBar>();
-        _HpBar.Init(HPBarPositionX, HPBarPositionY);
+        _HpBar = HPBarGo.GetComponent<UI_HPBar>();        
 
         //체력바 업데이트
         UpdateHPBar();
@@ -89,17 +93,17 @@ public class CreatureObject : BaseObject
         _HpBar.gameObject.SetActive(false);
     }
 
-    public void AddSpellBar(float SpellBarPositionX, float SpellBarPositionY)
+    protected void AddSpellBar(float SpellBarPositionX, float SpellBarPositionY)
     {
         GameObject SpellBarGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SPELL_BAR, transform);
-        SpellBarGo.transform.localPosition = new Vector3(0, -0.9f, 0);
+        SpellBarGo.transform.localPosition = new Vector3(0.5f, 0.15f, 0);
         SpellBarGo.name = "UI_SpellBar";
 
         _SpellBar = SpellBarGo.GetComponent<UI_SpellBar>();
         _SpellBar.Init(SpellBarPositionX, SpellBarPositionY);
     }
 
-    public void AddNameBar(float NameBarPositionX, float NameBarPositionY)
+    protected void AddNameBar(float NameBarPositionX, float NameBarPositionY)
     {
         GameObject NameUIGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_NAME, transform);
         NameUIGo.transform.localPosition = new Vector3(0, 0.7f, 0);
@@ -109,7 +113,7 @@ public class CreatureObject : BaseObject
         _NameUI.Init(_GameObjectInfo.ObjectName, NameBarPositionX, NameBarPositionY);
     }
 
-    public void AddGatheringBar(float GatheringBarPositionX, float GatheringBarPositionY)
+    protected void AddGatheringBar(float GatheringBarPositionX, float GatheringBarPositionY)
     {
         GameObject GatheringUIGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_GATHERING_BAR, transform);
         GatheringUIGo.transform.localPosition = new Vector3(0, 0.7f, 0);
@@ -117,6 +121,11 @@ public class CreatureObject : BaseObject
 
         _GatheringBar = GatheringUIGo.GetComponent<UI_GatheringBar>();
         _GatheringBar.Init(GatheringBarPositionX, GatheringBarPositionY);
+    }
+
+    public void OnDamaged()
+    {
+        OnHit?.Invoke();
     }
 
     public void UpdateHPBar()
@@ -204,18 +213,13 @@ public class CreatureObject : BaseObject
         _SkillBoxUI.Binding();
 
         _GameSceneUI._SkillBoxUI = _SkillBoxUI;        
-    }   
+    }    
 
-    public virtual void OnDamaged()
+    public void WorldUIOff()
     {
-
+        _HpBar.gameObject.SetActive(false);
     }
-
-    public void Die()
-    {
-        Destroy(gameObject);
-    }  
-
+   
     public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
     {
         if (_SpellBar != null)
@@ -226,5 +230,11 @@ public class CreatureObject : BaseObject
         {
             Debug.Log("Spell Bar를 찾을 수 없습니다.");
         }
+    }
+
+    IEnumerator SpawnEventCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        OnSpawnEvent?.Invoke();
     }
 }
