@@ -15,9 +15,15 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_CHATTING_BOX, "UI/ChattingBox/UI_ChattingBox");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SPEECH_BUBBLE, "UI/SpeechBubble/UI_SpeechBubble");
 
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_SLIME, "Creature/Monster/Slime");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");        
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, "Creature/Monster/Goblin");
+                
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL, "Wall/LeftRightWall");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL, "Wall/UpDownWall");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_LEFT_WALL, "Wall/UpToLeftWall");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_RIGHT_WALL, "Wall/UpToRightWall");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL, "Wall/DownToLeftWall");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, "Wall/DownToRightWall");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SWAMILL, "CraftingTable/Sawmill");
@@ -52,7 +58,9 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_ITEM_DRAG, "UI/QuickSlot/UI_QuickSlotItemDrag");
                 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_LEATHER, "Item/Leather");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN, "Item/BronzeCoin");        
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN, "Item/BronzeCoin");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_NAME, "UI/WorldHUD/UI_Name");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_EXPLANATION, "UI/Inventory/UI_ItemExplanation");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_DIVIDE, "UI/Inventory/UI_InventoryItemDivide");
