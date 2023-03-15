@@ -236,6 +236,17 @@ namespace ServerCore
             return Size;
         }
 
+        public void GetData(short[] Data, int Count)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                Data[i] = _MessageBufReader.ReadInt16();
+                _UseBufferSize -= sizeof(short);
+            }
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
         public int GetData(out int Data, int Size)
         {
             Data = _MessageBufReader.ReadInt32();
