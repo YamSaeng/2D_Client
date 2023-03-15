@@ -17,6 +17,9 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");        
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, "Creature/Monster/Goblin");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE, "Environment/Stone");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_TREE, "Environment/Tree");
                 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL, "Wall/LeftRightWall");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL, "Wall/UpDownWall");
@@ -26,7 +29,7 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, "Wall/DownToRightWall");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SWAMILL, "CraftingTable/Sawmill");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PLAYER_OPTION, "UI/Option/UI_PlayerOption");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_PLAYER_OPTION, "UI/Option/UI_PartyPlayerOption");
