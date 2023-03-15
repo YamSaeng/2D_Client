@@ -71,6 +71,9 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_ATTACK:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_AttackHandler);
                 break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_TO_ATTACK:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_ToAttackHandler);
+                break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_SPELL:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MagicHandler);
                 break;
