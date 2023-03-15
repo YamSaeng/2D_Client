@@ -52,11 +52,5 @@ public class ItemController : PlayerObject
                 }
                 break;
         }        
-    }
-
-    public override void SyncPostion()
-    {
-        Vector3 DestPosition = Managers.Map.CurrentGrid.CellToWorld(_CellPosition) + new Vector3(0.5f, 0.5f);
-        transform.position = DestPosition;
-    }
+    }  
 }
