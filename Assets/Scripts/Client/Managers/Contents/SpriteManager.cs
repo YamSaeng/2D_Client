@@ -143,61 +143,63 @@ public class SpriteManager
 
         // 격투 기술 Sprite
         _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_FIERCE_ATTACK,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/맹렬한일격"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/맹렬한 일격"));
         _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CONVERSION_ATTACK,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/회심의일격"));
-        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_SMASH_WAVE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/분쇄파동"));
-        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_SHAHONE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/쇄혼비무"));
-        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CHOHONE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/초혼비무"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/회심의 일격"));        
+        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_JUMPING_ATTACK,
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/도약 공격"));
+        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_PIERCING_WAVE,
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/살기 파동"));
+        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_FLY_KNIFE,
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/칼날 날리기"));
+        _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_COMBO_FLY_KNIFE,
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/칼날 연속 날리기"));        
         _SkillSprite.Add(en_SkillType.SKILL_FIGHT_ACTIVE_BUF_CHARGE_POSE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/돌격자세"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/격투/돌격 자세"));
 
         // 방어 기술 Sprite
         _SkillSprite.Add(en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SHIELD_SMASH,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/전사/방패강타"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/방어/방패 강타"));
+        _SkillSprite.Add(en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_CAPTURE,
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/방어/포획"));
 
         // 마법 기술 Sprite
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_FLAME_HARPOON,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/불꽃작살"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/불꽃 작살"));
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ROOT,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/주술사 속박"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/속박"));
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ICE_CHAIN,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/얼음사슬"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/얼음 사슬"));
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ICE_WAVE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/냉기파동"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/냉기 파동"));
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_LIGHTNING_STRIKE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/낙뢰"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/낙뢰"));
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_HEL_FIRE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/지옥의화염"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/유성"));
         _SkillSprite.Add(en_SkillType.SKILL_SPELL_ACTIVE_BUF_TELEPORT,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/주술사/시공의뒤틀림"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/마법/시공의 뒤틀림"));
 
         // 수양 기술 Sprite
         _SkillSprite.Add(en_SkillType.SKILL_DISCIPLINE_ACTIVE_ATTACK_DIVINE_STRIKE,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도사/신성한일격"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/수양/신성한 일격"));
         _SkillSprite.Add(en_SkillType.SKILL_DISCIPLINE_ACTIVE_HEAL_HEALING_LIGHT,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도사/치유의빛"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/수양/치유의 빛"));
         _SkillSprite.Add(en_SkillType.SKILL_DISCIPLINE_ACTIVE_HEAL_HEALING_WIND,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도사/치유의바람"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/수양/치유의 바람"));
         _SkillSprite.Add(en_SkillType.SKILL_DISCIPLINE_ACTIVE_ATTACK_ROOT,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도사 속박"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/수양/속박"));
         
         //// 암살 기술 Sprite
         _SkillSprite.Add(en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_QUICK_CUT,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도적/빠른베기"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/암살/빠른 베기"));
         _SkillSprite.Add(en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_FAST_CUT,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도적/신속베기"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/암살/신속 베기"));
         _SkillSprite.Add(en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_BACK_ATTACK,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도적/기습"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/암살/기습"));
         _SkillSprite.Add(en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_BACK_STEP,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도적/암습"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/암살/암습"));
         _SkillSprite.Add(en_SkillType.SKILL_ASSASSINATION_ACTIVE_BUF_WEAPON_POISON,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도적/독 바르기"));
-        _SkillSprite.Add(en_SkillType.SKILL_SLIME_ACTIVE_POISION_ATTACK,
-            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/도적/독 바르기"));
+            Managers.Resource.Load<Sprite>("Sprites/Spell/Icon/암살/독 바르기"));        
 
         //// 궁사 기술 Sprite
         //_SkillSprite.Add(en_SkillType.SKILL_ARCHER_SNIFING,
