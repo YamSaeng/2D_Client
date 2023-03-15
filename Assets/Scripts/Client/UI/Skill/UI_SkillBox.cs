@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class UI_SkillBox : UI_Base
 {
     public UI_SkillCharacteristic _PublicCharacteristic;
-    public UI_SkillCharacteristic[] _SkillCharacteristic = new UI_SkillCharacteristic[3];
+    public UI_SkillCharacteristic _SkillCharacteristic;
     public UI_SelectSkilCharacteristic _SelectSkilCharacteristic;
 
     enum en_SkillBoxGameObject
@@ -19,23 +19,18 @@ public class UI_SkillBox : UI_Base
         PublicActiveSkillPannel,
         PublicPassiveSkillPannel,
 
-        SkillOneActiveSkillPannel,
-        SkillOnePassiveSkillPannel,
+        SkillActiveSkillPannel,
+        SkillPassiveSkillPannel,        
 
-        SkillTwoActiveSkillPannel,
-        SkillTwoPassiveSkillPannel,
-
-        SkillThreeActiveSkillPannel,
-        SkillThreePassiveSkillPannel,
-
-        SkillCharacteristicsBackGround,
+        SkillCharacteristicBackGround,
         UI_SkillBoxButtons,
         UI_SkillBox
     }
 
     enum en_SkillBoxText
     {
-        SkillPointText
+        SkillPointText,        
+        SkillCharacteristicNameText
     }
 
     enum en_SkillBoxButton
@@ -62,9 +57,7 @@ public class UI_SkillBox : UI_Base
         _PublicCharacteristic = gameObject.transform.Find("UI_SkillPublicCharacteristicBox").GetComponent<UI_SkillCharacteristic>();
         _PublicCharacteristic.Binding();
 
-        _SkillCharacteristic[0] = gameObject.transform.Find("UI_SkillCharacteristics").gameObject.transform.Find("UI_SkillOneCharacteristicBox").GetComponent<UI_SkillCharacteristic>();
-        _SkillCharacteristic[1] = gameObject.transform.Find("UI_SkillCharacteristics").gameObject.transform.Find("UI_SkillTwoCharacteristicBox").GetComponent<UI_SkillCharacteristic>();
-        _SkillCharacteristic[2] = gameObject.transform.Find("UI_SkillCharacteristics").gameObject.transform.Find("UI_SkillThreeCharacteristicBox").GetComponent<UI_SkillCharacteristic>();
+        _SkillCharacteristic = gameObject.transform.Find("UI_SkillCharacteristic").gameObject.transform.Find("UI_SkillCharacteristicBox").GetComponent<UI_SkillCharacteristic>();        
 
         GameObject SelectSkillCharacteristicGO = gameObject.transform.Find("UI_SelectSkilCharacteristic").gameObject;
         _SelectSkilCharacteristic = SelectSkillCharacteristicGO.GetComponent<UI_SelectSkilCharacteristic>();
@@ -72,17 +65,13 @@ public class UI_SkillBox : UI_Base
 
         SkillItemRemove();
 
-        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicsBackGround).SetActive(false);
+        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicBackGround).SetActive(false);
 
-        _SelectSkilCharacteristic.ShowCloseUI(false);        
-
-        for (byte i = 0; i < 3; i++)
-        {
-            _SkillCharacteristic[i]._SkillCharacteristicIndex = i;
-            _SkillCharacteristic[i]._SkillBox = this;
-            _SkillCharacteristic[i].Binding();
-            _SkillCharacteristic[i].ShowCloseUI(false);
-        }        
+        _SelectSkilCharacteristic.ShowCloseUI(false);
+        
+        _SkillCharacteristic._SkillBox = this;
+        _SkillCharacteristic.Binding();
+        _SkillCharacteristic.ShowCloseUI(false);
 
         ShowCloseUI(false);
     }
@@ -99,10 +88,7 @@ public class UI_SkillBox : UI_Base
 
     private void SkillCharacteristicShowClose(bool IsShowClose)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            _SkillCharacteristic[i].ShowCloseUI(IsShowClose);
-        }
+        _SkillCharacteristic.ShowCloseUI(IsShowClose);        
     }
 
     public void SkillItemRemove()
@@ -117,35 +103,15 @@ public class UI_SkillBox : UI_Base
             Destroy(PublicPassiveSkillItem.gameObject);
         }
 
-        foreach (Transform SkillOneActiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillOneActiveSkillPannel).transform)
+        foreach (Transform SkillActiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillActiveSkillPannel).transform)
         {
-            Destroy(SkillOneActiveSkillItem.gameObject);
+            Destroy(SkillActiveSkillItem.gameObject);
         }
 
-        foreach (Transform SkillOnePassiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillOnePassiveSkillPannel).transform)
+        foreach (Transform SkillPassiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillPassiveSkillPannel).transform)
         {
-            Destroy(SkillOnePassiveSkillItem.gameObject);
-        }
-
-        foreach (Transform SkillTwoActiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillTwoActiveSkillPannel).transform)
-        {
-            Destroy(SkillTwoActiveSkillItem.gameObject);
-        }
-
-        foreach (Transform SkillTwoPassiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillTwoPassiveSkillPannel).transform)
-        {
-            Destroy(SkillTwoPassiveSkillItem.gameObject);
-        }
-
-        foreach (Transform SkillThreeActiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillThreeActiveSkillPannel).transform)
-        {
-            Destroy(SkillThreeActiveSkillItem.gameObject);
-        }
-
-        foreach (Transform SkillThreePassiveSkillItem in GetGameObject((int)en_SkillBoxGameObject.SkillThreePassiveSkillPannel).transform)
-        {
-            Destroy(SkillThreePassiveSkillItem.gameObject);
-        }
+            Destroy(SkillPassiveSkillItem.gameObject);
+        }        
     }
 
     public void RefreshSkillBoxUI()
@@ -153,9 +119,9 @@ public class UI_SkillBox : UI_Base
         SkillItemRemove();
 
         GameObject PlayerGO = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId);
-        BaseObject Player = PlayerGO.GetComponent<BaseObject>();
-        
-        GetTextMeshPro((int)en_SkillBoxText.SkillPointText).text = Player._GameObjectInfo.ObjectSkillPoint.ToString();        
+        CBaseObject Player = PlayerGO.GetComponent<CBaseObject>();
+
+        GetTextMeshPro((int)en_SkillBoxText.SkillPointText).text = Player._GameObjectInfo.ObjectSkillPoint.ToString();
 
         foreach (st_SkillInfo PublicPassiveSkillInfo in Managers.SkillBox._PublicCharacteristic.PassiveSkills)
         {
@@ -181,89 +147,34 @@ public class UI_SkillBox : UI_Base
 
         _PublicCharacteristic.CharcteristicSelectButtonShowClose(false);
 
-        if (Managers.SkillBox._Characteristics[0] != null
-            && Managers.SkillBox._Characteristics[0]._SkillCharacteristicType != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
+        if (Managers.SkillBox._Characteristic != null
+            && Managers.SkillBox._Characteristic._SkillCharacteristicType != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
         {
-            foreach (st_SkillInfo PassiveSkillInfo in Managers.SkillBox._Characteristics[0].PassiveSkills)
+            foreach (st_SkillInfo PassiveSkillInfo in Managers.SkillBox._Characteristic.PassiveSkills)
             {
                 GameObject PassiveSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM,
-                    GetGameObject((int)en_SkillBoxGameObject.SkillOnePassiveSkillPannel).transform);
+                    GetGameObject((int)en_SkillBoxGameObject.SkillPassiveSkillPannel).transform);
                 UI_SkillItem PassiveSkillItemUI = Util.GetOrAddComponent<UI_SkillItem>(PassiveSkillItemGO);
                 PassiveSkillItemUI.Binding();
                 PassiveSkillItemUI.SetSkillInfo(PassiveSkillInfo);
 
-                _SkillCharacteristic[0].GetPassiveSkills().Add(PassiveSkillItemUI);
+                _SkillCharacteristic.GetPassiveSkills().Add(PassiveSkillItemUI);
             }
 
-            foreach (st_SkillInfo ActiveSkillInfo in Managers.SkillBox._Characteristics[0].ActiveSkills)
+            foreach (st_SkillInfo ActiveSkillInfo in Managers.SkillBox._Characteristic.ActiveSkills)
             {
                 GameObject ActiveSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM,
-                    GetGameObject((int)en_SkillBoxGameObject.SkillOneActiveSkillPannel).transform);
+                    GetGameObject((int)en_SkillBoxGameObject.SkillActiveSkillPannel).transform);
                 UI_SkillItem ActiveSkillItemUI = Util.GetOrAddComponent<UI_SkillItem>(ActiveSkillItemGO);
                 ActiveSkillItemUI.Binding();
                 ActiveSkillItemUI.SetSkillInfo(ActiveSkillInfo);
 
-                _SkillCharacteristic[0].GetActiveSkills().Add(ActiveSkillItemUI);
+                _SkillCharacteristic.GetActiveSkills().Add(ActiveSkillItemUI);
             }
 
-            CharacteristicSelectButtonShowClose(0, false);
-        }        
-
-        if(Managers.SkillBox._Characteristics[1] != null
-            && Managers.SkillBox._Characteristics[1]._SkillCharacteristicType != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
-        {
-            foreach (st_SkillInfo PassiveSkillInfo in Managers.SkillBox._Characteristics[1].PassiveSkills)
-            {
-                GameObject PassiveSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM,
-                    GetGameObject((int)en_SkillBoxGameObject.SkillTwoPassiveSkillPannel).transform);
-                UI_SkillItem PassiveSkillItemUI = Util.GetOrAddComponent<UI_SkillItem>(PassiveSkillItemGO);
-                PassiveSkillItemUI.Binding();
-                PassiveSkillItemUI.SetSkillInfo(PassiveSkillInfo);
-
-                _SkillCharacteristic[1].GetPassiveSkills().Add(PassiveSkillItemUI);
-            }
-
-            foreach (st_SkillInfo ActiveSkillInfo in Managers.SkillBox._Characteristics[1].ActiveSkills)
-            {
-                GameObject ActiveSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM,
-                    GetGameObject((int)en_SkillBoxGameObject.SkillTwoActiveSkillPannel).transform);
-                UI_SkillItem ActiveSkillItemUI = Util.GetOrAddComponent<UI_SkillItem>(ActiveSkillItemGO);
-                ActiveSkillItemUI.Binding();
-                ActiveSkillItemUI.SetSkillInfo(ActiveSkillInfo);
-
-                _SkillCharacteristic[1].GetActiveSkills().Add(ActiveSkillItemUI);
-            }
-
-            CharacteristicSelectButtonShowClose(1, false);
+            GetTextMeshPro((int)en_SkillBoxText.SkillCharacteristicNameText).text = Managers.String._SkillCharacteristicString[Managers.SkillBox._Characteristic._SkillCharacteristicType];
+            CharacteristicSelectButtonShowClose(false);
         }
-
-        if (Managers.SkillBox._Characteristics[2] != null
-            && Managers.SkillBox._Characteristics[2]._SkillCharacteristicType != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
-        {
-            foreach (st_SkillInfo PassiveSkillInfo in Managers.SkillBox._Characteristics[2].PassiveSkills)
-            {
-                GameObject PassiveSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM,
-                    GetGameObject((int)en_SkillBoxGameObject.SkillThreePassiveSkillPannel).transform);
-                UI_SkillItem PassiveSkillItemUI = Util.GetOrAddComponent<UI_SkillItem>(PassiveSkillItemGO);
-                PassiveSkillItemUI.Binding();
-                PassiveSkillItemUI.SetSkillInfo(PassiveSkillInfo);
-
-                _SkillCharacteristic[2].GetPassiveSkills().Add(PassiveSkillItemUI);
-            }
-
-            foreach (st_SkillInfo ActiveSkillInfo in Managers.SkillBox._Characteristics[2].ActiveSkills)
-            {
-                GameObject ActiveSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM,
-                    GetGameObject((int)en_SkillBoxGameObject.SkillThreeActiveSkillPannel).transform);
-                UI_SkillItem ActiveSkillItemUI = Util.GetOrAddComponent<UI_SkillItem>(ActiveSkillItemGO);
-                ActiveSkillItemUI.Binding();
-                ActiveSkillItemUI.SetSkillInfo(ActiveSkillInfo);
-
-                _SkillCharacteristic[2].GetActiveSkills().Add(ActiveSkillItemUI);
-            }
-
-            CharacteristicSelectButtonShowClose(2, false);
-        }        
     }
 
     private void OnSkillBoxDrag(PointerEventData Event)
@@ -277,7 +188,7 @@ public class UI_SkillBox : UI_Base
         PublicChracteristicShowClose(true);
         SkillCharacteristicShowClose(false);
 
-        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicsBackGround).SetActive(false);
+        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicBackGround).SetActive(false);
         GetGameObject((int)en_SkillBoxGameObject.UI_SkillBoxButtons).GetComponent<RectTransform>().localPosition = new Vector3(0, 130.0f, 0);        
     }
 
@@ -286,36 +197,28 @@ public class UI_SkillBox : UI_Base
         PublicChracteristicShowClose(false);
         SkillCharacteristicShowClose(true);
 
-        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicsBackGround).SetActive(true);
-        GetGameObject((int)en_SkillBoxGameObject.UI_SkillBoxButtons).GetComponent<RectTransform>().localPosition = new Vector3(-414.0f, 83.0f, 0);
+        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicBackGround).SetActive(true);
+        GetGameObject((int)en_SkillBoxGameObject.UI_SkillBoxButtons).GetComponent<RectTransform>().localPosition = new Vector3(0, 130.0f, 0);
     }
 
     public void SkillBoxCharacteristicShowClose(bool IsShowClose)
     {
         _PublicCharacteristic.ShowCloseUI(IsShowClose);
+        _SkillCharacteristic.ShowCloseUI(IsShowClose);        
 
-        for (int i = 0; i < 3; i++)
-        {
-            _SkillCharacteristic[i].ShowCloseUI(IsShowClose);
-        }
-
-        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicsBackGround).SetActive(IsShowClose);
+        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicBackGround).SetActive(IsShowClose);
     }
 
     public void SkillBoxSkillCharacteristicShowClose(bool IsShowClose)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            _SkillCharacteristic[i].ShowCloseUI(IsShowClose);
-        }
+        _SkillCharacteristic.ShowCloseUI(IsShowClose);        
 
-        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicsBackGround).SetActive(IsShowClose);
+        GetGameObject((int)en_SkillBoxGameObject.SkillCharacteristicBackGround).SetActive(IsShowClose);
     }
 
-    public void SkillBoxSelectCharacteristicShowClose(bool IsShowClose, byte SkillCharacteristicIndex = 0)
+    public void SkillBoxSelectCharacteristicShowClose(bool IsShowClose)
     {
-        _SelectSkilCharacteristic.ShowCloseUI(IsShowClose);
-        _SelectSkilCharacteristic._SkillChracteristicIndex = SkillCharacteristicIndex;
+        _SelectSkilCharacteristic.ShowCloseUI(IsShowClose);        
     }
 
     public void SkillBoxButtonShowClose(bool IsShowClose)
@@ -324,8 +227,8 @@ public class UI_SkillBox : UI_Base
         GetButton((int)en_SkillBoxButton.SkillCharacteristicButton).gameObject.SetActive(IsShowClose);
     }
 
-    public void CharacteristicSelectButtonShowClose(byte SkillCharacteristicIndex, bool IsShowClose)
+    public void CharacteristicSelectButtonShowClose(bool IsShowClose)
     {
-        _SkillCharacteristic[SkillCharacteristicIndex].CharcteristicSelectButtonShowClose(IsShowClose);
+        _SkillCharacteristic.CharcteristicSelectButtonShowClose(IsShowClose);
     }
 }
