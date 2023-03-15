@@ -51,17 +51,17 @@ public class KeyManager
         {            
             case en_SkillType.SKILL_DEFAULT_ATTACK:         
             case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_FIERCE_ATTACK:
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CONVERSION_ATTACK:
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_SMASH_WAVE:
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_SHAHONE:
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CHOHONE:
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CONVERSION_ATTACK:                        
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_JUMPING_ATTACK:                        
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_PIERCING_WAVE:                        
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_FLY_KNIFE:                        
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_COMBO_FLY_KNIFE:                        
             case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_QUICK_CUT:
             case en_SkillType.SKILL_SHOOTING_ACTIVE_ATTACK_SNIFING:            
             case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SHIELD_SMASH:
-                ReqQuickSlotPacket = Packet.MakePacket.ReqMakeAttackPacket(Managers.NetworkManager._AccountId,
-                           Managers.NetworkManager._PlayerDBId,
-                           Player.PositionInfo.MoveDir,
-                           QuickSlotBarSlotInfo.QuickSlotBarIndex,
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_CAPTURE:
+                ReqQuickSlotPacket = Packet.MakePacket.ReqMakeAttackPacket(
+                               QuickSlotBarSlotInfo.QuickSlotBarIndex,
                            QuickSlotBarSlotInfo.QuickSlotBarSlotIndex,
                            QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillCharacteristic,
                            QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillType);
@@ -80,8 +80,7 @@ public class KeyManager
             case en_SkillType.SKILL_SPELL_ACTIVE_BUF_TELEPORT:
             case en_SkillType.SKILL_PUBLIC_ACTIVE_BUF_SHOCK_RELEASE:
                 ReqQuickSlotPacket = Packet.MakePacket.ReqMakeMagicPacket(Managers.NetworkManager._AccountId,
-                           Managers.NetworkManager._PlayerDBId,
-                           Player.PositionInfo.MoveDir,
+                           Managers.NetworkManager._PlayerDBId,                           
                            QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillCharacteristic,
                            QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillType);
                 break;
@@ -89,7 +88,7 @@ public class KeyManager
                 break;
         }
 
-        if (QuickSlotBarSlotInfo.QuickBarItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
+        if (QuickSlotBarSlotInfo.QuickBarItemInfo != null && QuickSlotBarSlotInfo.QuickBarItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
         {
             CMessage ReqMakeItemUsePacket = Packet.MakePacket.ReqMakeItemUsePacket(Managers.NetworkManager._AccountId, Managers.NetworkManager._PlayerDBId,
                     QuickSlotBarSlotInfo.QuickBarItemInfo.ItemSmallCategory,
