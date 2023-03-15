@@ -7,6 +7,9 @@ using static Define;
 
 public class CBaseObject : MonoBehaviour
 {
+    [HideInInspector]
+    public CBaseObject _TargetObject;
+
     protected UI_GameScene _GameSceneUI;
     // 상태이상 정보
     protected byte _StatusAbnormal;
@@ -90,26 +93,12 @@ public class CBaseObject : MonoBehaviour
                     MiniMap.MiniMapMyPositionUpdate((int)gameObject.transform.position.x, (int)gameObject.transform.position.y);
                 }
             }
-        }        
-
-        switch (_GameObjectInfo.ObjectPositionInfo.State)
-        {
-            case en_CreatureState.SPAWN_IDLE:
-            case en_CreatureState.IDLE:                
-                break;
-            case en_CreatureState.PATROL:                
-                break;
-            case en_CreatureState.MOVING:
-            case en_CreatureState.RETURN_SPAWN_POSITION:                
-                break;             
-            case en_CreatureState.ATTACK:                
-                break;
-            case en_CreatureState.SPELL:                
-                break;
-            case en_CreatureState.GATHERING:
-                break;
-            case en_CreatureState.DEAD:                
-                break;            
-        }       
+        }         
     }  
+
+    // DissolveFeedback 완료시 반납
+    public void ObjectReturn()
+    {
+        Managers.Object.Remove(_GameObjectInfo.ObjectId);
+    }
 }
