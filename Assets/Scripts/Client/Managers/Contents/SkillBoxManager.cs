@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillBoxManager
 {    
     public SkillCharacteristic _PublicCharacteristic = new SkillCharacteristic();
-    public SkillCharacteristic[] _Characteristics = new SkillCharacteristic[3];
+    public SkillCharacteristic _Characteristic = new SkillCharacteristic();
 
     public SkillBoxManager()
     {
@@ -14,10 +14,7 @@ public class SkillBoxManager
 
     public void Init()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            _Characteristics[i] = new SkillCharacteristic();
-        }
+        
     }    
 
     public void CreatePublicChracteristicPassive(en_SkillCharacteristic PublicCharacteristicType,
@@ -32,28 +29,24 @@ public class SkillBoxManager
         _PublicCharacteristic.ActiveSkillCharacteristicInit(PublicCharacteristicType, PublicActiveSkillCount, PassiveSkillInfos);
     }
 
-    public void CreateChracteristicPassive(byte ChracteristicIndex, en_SkillCharacteristic CharacteristicType,
+    public void CreateChracteristicPassive(en_SkillCharacteristic CharacteristicType,
         byte PassiveSkillCount, st_SkillInfo[] PassiveSkillInfos)
     {
-        _Characteristics[ChracteristicIndex].PassiveSkillCharacteristicInit(CharacteristicType, PassiveSkillCount, PassiveSkillInfos);
+        _Characteristic.PassiveSkillCharacteristicInit(CharacteristicType, PassiveSkillCount, PassiveSkillInfos);
     }
 
-    public void CreateChracteristicActive(byte ChracteristicIndex, en_SkillCharacteristic ChracteristicType,
+    public void CreateChracteristicActive(en_SkillCharacteristic ChracteristicType,
         byte ActiveSkillCount, st_SkillInfo[] ActiveSkillInfos)
     {
-        _Characteristics[ChracteristicIndex].ActiveSkillCharacteristicInit(ChracteristicType, ActiveSkillCount, ActiveSkillInfos);
+        _Characteristic.ActiveSkillCharacteristicInit(ChracteristicType, ActiveSkillCount, ActiveSkillInfos);
     }
 
     public void SetSkillLearn(short SkillType, bool IsSkillLearn)
     {
-        for (int i = 0; i < 3; i++)
+        st_SkillInfo Skill = _Characteristic.FindSkill(SkillType);
+        if(Skill != null)
         {
-            st_SkillInfo Skill = _Characteristics[i].FindSkill(SkillType);
-            if(Skill != null)
-            {
-                Skill.IsSkillLearn = IsSkillLearn;
-                break;
-            }
-        }
+            Skill.IsSkillLearn = IsSkillLearn;
+        }        
     }
 }
