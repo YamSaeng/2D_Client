@@ -32,9 +32,7 @@ public class SpriteManager
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_POTION_MANA_RESTORATION_POTION_SMALL,
             Managers.Resource.Load<Sprite>("Sprites/Potion/Blue Potion"));
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_LEATHER,
-            Managers.Resource.Load<Sprite>("Sprites/Material/Leather"));
-        _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_SLIMEGEL,
-            Managers.Resource.Load<Sprite>("Sprites/MonsterPart/SlimeGel"));
+            Managers.Resource.Load<Sprite>("Sprites/Material/Leather"));        
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_BRONZE_COIN,
             Managers.Resource.Load<Sprite>("Sprites/Misc/CopperCoin"));
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_SLIVER_COIN,
