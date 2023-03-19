@@ -16,16 +16,7 @@ public class UI_Name : MonoBehaviour
         _ObjectName.text = ObjectName;
         LeftChoiceSprite.SetActive(false);
         RightChoiceSprite.SetActive(false);
-    }
-
-    public void Init(string ObjectName, float PositionX, float PositionY)
-    {
-        _ObjectName.text = ObjectName;
-        LeftChoiceSprite.SetActive(false);
-        RightChoiceSprite.SetActive(false);
-                
-        gameObject.transform.position = new Vector3(PositionX, PositionY, 0);
-    }
+    }   
 
     public void ActiveChoiceUI(bool Active)
     {        

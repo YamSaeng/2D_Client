@@ -22,7 +22,7 @@ public class UI_HPBar : MonoBehaviour
     {
         //Ratio의 값을 0 ~ 1 사이의 값으로 유지해준다.
         float HP = Mathf.Clamp(Ratio, 0, 1);
-        _HpBar.localScale = new Vector3(HP, 1, 1);        
+        _HpBar.localScale = new Vector3(HP, 1, 1);          
     }
    
     // HPBar 선택 ( HPBar를 선택하면 HPBar 숨기기 코루틴 중지 )
