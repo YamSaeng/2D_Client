@@ -151,7 +151,7 @@ public class UI_InventoryItem : UI_Base
                     _ItemInfo.ItemTileGridPositionY);
             Managers.NetworkManager.GameServerSend(ReqMakeItemUsePacket);
 
-            if (_GameSceneUI._FurnaceUI.gameObject.active == true)
+            if (_GameSceneUI._FurnaceUI.gameObject.activeSelf == true)
             {
                 if(_GameSceneUI._FurnaceUI._FurnaceController._SelectCompleteItemCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
                 {
@@ -164,7 +164,7 @@ public class UI_InventoryItem : UI_Base
                 }                                
             }
 
-            if (_GameSceneUI._SawmillUI.gameObject.active == true)
+            if (_GameSceneUI._SawmillUI.gameObject.activeSelf == true)
             {
                 if (_GameSceneUI._SawmillUI._SawmillController._SelectCompleteItemCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
                 {
