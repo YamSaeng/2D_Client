@@ -61,22 +61,8 @@ public class UI_ItemExplanation : UI_Base
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_POTION_HEALTH_RESTORATION_POTION_SMALL:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_POTION_MANA_RESTORATION_POTION_SMALL:
                 GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "물약";
-                break;
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_FIERCE_ATTACK:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_CONVERSION_ATTACK:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_SHAEHONE_ATTACK:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_CHOHONE_ATTACK:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_SMASH_WAVE_ATTACK:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_CHARGE_POSE:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_SHAMAN_FLAME_HARPOON:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_SHAMAN_HELL_FIRE:
-            case en_SmallItemCategory.ITEM_SMALL_CATEOGRY_SKILLBOOK_TAIOIST_HEALING_LIGHT:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_TAIOIST_HEALING_WIND:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_SHOCK_RELEASE:
-                GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "기술 책";
-                break;
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_LEATHER:
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_SLIMEGEL:
+                break;            
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_LEATHER:            
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_BRONZE_COIN:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_SLIVER_COIN:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_GOLD_COIN:
