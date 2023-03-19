@@ -55,8 +55,7 @@ public class CItem
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_WEAR_LEATHER:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_BOOT_LEATHER:
                 Item = new CArmor(ItemInfo);
-                break;
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_SLIMEGEL:
+                break;            
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_BRONZE_COIN:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_LEATHER:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_WOOD_LOG:
@@ -64,10 +63,7 @@ public class CItem
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_WOOD_FLANK:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_YARN:
                 Item = new CMaterial(ItemInfo);
-                break;
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_SKILLBOOK_KNIGHT_CHOHONE_ATTACK:
-                Item = new CConsumable(ItemInfo);
-                break;
+                break;            
         }
 
         return Item;
