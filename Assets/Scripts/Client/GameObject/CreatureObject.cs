@@ -38,7 +38,7 @@ public class CreatureObject : CBaseObject
     public st_GameObjectInfo _SelectTargetObjectInfo;
 
     [field: SerializeField]
-    public UnityEvent OnSpawnEvent { get; set; }
+    public UnityEvent OnSpawnEvent { get; set; }    
 
     [field: SerializeField]
     public UnityEvent OnHit { get; set; }
@@ -72,7 +72,32 @@ public class CreatureObject : CBaseObject
             case en_GameObjectType.OBJECT_GOBLIN:
                 StartCoroutine(SpawnEventCoroutine());
                 break;
-        }       
+        }
+
+        Vector2 NewDirection = _GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
+
+        Vector2 NewFaceDirection = new Vector2(NewDirection.x + transform.position.x, NewDirection.y + transform.position.y);
+
+        GetComponentInChildren<GameObjectRenderer>()?.FaceDirection(NewFaceDirection);
+
+        Transform FindTransform = transform.Find("RightWeaponParent");
+        if (FindTransform != null)
+        {
+            GameObject RightWeaponParent = FindTransform.gameObject;
+            if (RightWeaponParent != null)
+            {
+                PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                if (Weapon != null)
+                {
+                    Weapon.AimWeapon(NewFaceDirection);
+                }
+            }
+        }
+
+        if(_HpBar != null)
+        {
+            UpdateHPBar();
+        }
     }
 
     //체력바 추가 ( 오브젝트 따위는 추가 안하기 위해 함수로 뺌 )
@@ -106,11 +131,11 @@ public class CreatureObject : CBaseObject
     protected void AddNameBar(float NameBarPositionX, float NameBarPositionY)
     {
         GameObject NameUIGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_NAME, transform);
-        NameUIGo.transform.localPosition = new Vector3(0, 0.7f, 0);
+        NameUIGo.transform.localPosition = new Vector3(NameBarPositionX, NameBarPositionY, 0);
         NameUIGo.name = "UI_NameBar";
 
         _NameUI = NameUIGo.GetComponent<UI_Name>();
-        _NameUI.Init(_GameObjectInfo.ObjectName, NameBarPositionX, NameBarPositionY);
+        _NameUI.Init(_GameObjectInfo.ObjectName);
     }
 
     protected void AddGatheringBar(float GatheringBarPositionX, float GatheringBarPositionY)
@@ -218,8 +243,9 @@ public class CreatureObject : CBaseObject
     public void WorldUIOff()
     {
         _HpBar.gameObject.SetActive(false);
+        _NameUI.gameObject.SetActive(false);
     }
-   
+    
     public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
     {
         if (_SpellBar != null)
@@ -235,6 +261,6 @@ public class CreatureObject : CBaseObject
     IEnumerator SpawnEventCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
-        OnSpawnEvent?.Invoke();
+        OnSpawnEvent?.Invoke();      
     }
 }
