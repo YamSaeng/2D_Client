@@ -45,6 +45,8 @@ public class GameObjectMovement : MonoBehaviour
 
                 _MovementDirection = MovementDirection;
 
+                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = _MovementDirection;
+
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
                     _MovementDirection.x,
                     _MovementDirection.y,                    
@@ -57,6 +59,8 @@ public class GameObjectMovement : MonoBehaviour
                 && _MovementDirection != MovementDirection && MovementDirection.magnitude > 0)
             {
                 _MovementDirection = MovementDirection;
+
+                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = _MovementDirection;
 
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
                     _MovementDirection.x,
@@ -71,6 +75,8 @@ public class GameObjectMovement : MonoBehaviour
             {
                 _MovementDirection = MovementDirection;
 
+                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = Vector2.zero;
+
                 _OwnerObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.IDLE;
 
                 CMessage ReqMoveStopPacket = Packet.MakePacket.ReqMakeMoveStopPacket( _OwnerObject.transform.position.x, _OwnerObject.transform.position.y, _OwnerObject._GameObjectInfo.ObjectPositionInfo.State );
@@ -80,13 +86,13 @@ public class GameObjectMovement : MonoBehaviour
     }    
 
     public void MoveOtherGameObject(Vector2 MovementDirection)
-    {
+    {        
         _MovementDirection = MovementDirection;
     }
 
     private void FixedUpdate()
-    {        
-        OnVelocityChange?.Invoke(_MovementDirection.normalized.magnitude);
+    {                 
+        OnVelocityChange?.Invoke(_OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.normalized.magnitude);
 
         if (_Rigidbody2D != null)
         {    
@@ -95,7 +101,10 @@ public class GameObjectMovement : MonoBehaviour
     }
 
     private void Update()
-    {
-        _OwnerObject.transform.position += (Vector3)(_MovementDirection.normalized * _OwnerObject._GameObjectInfo.ObjectStatInfo.Speed * Time.deltaTime);
+    {        
+        if(_OwnerObject != null)
+        {            
+            _OwnerObject.transform.position += (Vector3)(_OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.normalized * _OwnerObject._GameObjectInfo.ObjectStatInfo.Speed * Time.deltaTime);
+        }        
     }
 }
