@@ -117,7 +117,7 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, GoblinGO);
 
-                GoblinObject Goblin = GoblinGO.GetComponent<GoblinObject>();
+                CGoblinObject Goblin = GoblinGO.GetComponent<CGoblinObject>();
                 Goblin._GameObjectInfo = Info;
                 Goblin.Init();
 
@@ -224,7 +224,7 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, LeatherGo);
 
-                ItemController LeatherController = LeatherGo.GetComponent<ItemController>();
+                CItemObject LeatherController = LeatherGo.GetComponent<CItemObject>();
                 LeatherController._GameObjectInfo = Info;
                 LeatherController.Init();                
 
@@ -235,7 +235,7 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, CopperCoinGo);
 
-                ItemController CopperCoinController = CopperCoinGo.GetComponent<ItemController>();
+                CItemObject CopperCoinController = CopperCoinGo.GetComponent<CItemObject>();
                 CopperCoinController._GameObjectInfo = Info;
                 CopperCoinController.Init();
 
@@ -246,7 +246,7 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, WoodLogGo);
 
-                ItemController WoodLogController = WoodLogGo.GetComponent<ItemController>();
+                CItemObject WoodLogController = WoodLogGo.GetComponent<CItemObject>();
                 WoodLogController._GameObjectInfo = Info;
                 WoodLogController.Init();
 
@@ -257,7 +257,7 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, ItemStonGo);
 
-                ItemController ItemStoneController = ItemStonGo.GetComponent<ItemController>();
+                CItemObject ItemStoneController = ItemStonGo.GetComponent<CItemObject>();
                 ItemStoneController._GameObjectInfo = Info;
                 ItemStoneController.Init();               
 
@@ -268,18 +268,18 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, WoodFlankGo);
 
-                ItemController WoodFlankController = WoodFlankGo.GetComponent<ItemController>();
+                CItemObject WoodFlankController = WoodFlankGo.GetComponent<CItemObject>();
                 WoodFlankController._GameObjectInfo = Info;
                 WoodFlankController.Init();                
 
                 return WoodFlankGo;
-            case en_GameObjectType.OBJECT_ITEM_MATERIAL_CHARCOAL:
+            case en_GameObjectType.OBJECT_ITEM_MATERIAL_CHAR_COAL:
                 GameObject CharCoalGo = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL].Pop().Object;
                 CharCoalGo.name = Info.ObjectName;
 
                 _Objects.Add(Info.ObjectId, CharCoalGo);
 
-                ItemController CharCoalController = CharCoalGo.GetComponent<ItemController>();
+                CItemObject CharCoalController = CharCoalGo.GetComponent<CItemObject>();
                 CharCoalController._GameObjectInfo = Info;
                 CharCoalController.Init();
                 
@@ -290,7 +290,7 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, PotatoItemGo);
 
-                ItemController PotatoItemController = PotatoItemGo.GetComponent<ItemController>();
+                CItemObject PotatoItemController = PotatoItemGo.GetComponent<CItemObject>();
                 PotatoItemController._GameObjectInfo = Info;
                 PotatoItemController.Init();                
 
@@ -379,7 +379,7 @@ public class ObjectManager
                 case en_GameObjectType.OBJECT_ITEM_MATERIAL_WOOD_FLANK:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_FLANK].Push(PoolObject);
                     break;
-                case en_GameObjectType.OBJECT_ITEM_MATERIAL_CHARCOAL:
+                case en_GameObjectType.OBJECT_ITEM_MATERIAL_CHAR_COAL:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL].Push(PoolObject);
                     break;                    
                 case en_GameObjectType.OBJECT_ITEM_CROP_FRUIT_POTATO:
