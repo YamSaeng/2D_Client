@@ -71,10 +71,7 @@ public class UI_SkillItem : UI_Base
     {
         if(ClickEvent.button == PointerEventData.InputButton.Left)
         {
-            CMessage ReqSkillLearnPacket = Packet.MakePacket.ReqSkillLearnPacket(Managers.NetworkManager._AccountId,
-                Managers.NetworkManager._PlayerDBId,
-                true,
-                _SkillBox._SelectSkilCharacteristic._SkillChracteristicIndex,
+            CMessage ReqSkillLearnPacket = Packet.MakePacket.ReqSkillLearnPacket(true,                
                 _SkillInfo.SkillCharacteristic,
                 _SkillInfo.SkillType);
             Managers.NetworkManager.GameServerSend(ReqSkillLearnPacket);
@@ -82,10 +79,7 @@ public class UI_SkillItem : UI_Base
 
         if(ClickEvent.button == PointerEventData.InputButton.Right)
         {
-            CMessage ReqSkillLearnPacket = Packet.MakePacket.ReqSkillLearnPacket(Managers.NetworkManager._AccountId,
-                Managers.NetworkManager._PlayerDBId,
-                false,
-                _SkillBox._SelectSkilCharacteristic._SkillChracteristicIndex,
+            CMessage ReqSkillLearnPacket = Packet.MakePacket.ReqSkillLearnPacket(false,                
                 _SkillInfo.SkillCharacteristic,
                 _SkillInfo.SkillType);
             Managers.NetworkManager.GameServerSend(ReqSkillLearnPacket);
@@ -95,7 +89,7 @@ public class UI_SkillItem : UI_Base
     private void OnSkillItemPointerEnter(PointerEventData PointerEnterEvent)
     {
         // 스킬 창에서 스킬을 드래그 중이라면 스킬 설명을 표시하지 않는다.
-        if(_GameSceneUI._DragSkillItemUI.gameObject.active == false)
+        if(_GameSceneUI._DragSkillItemUI.gameObject.activeSelf == false)
         {
             _GameSceneUI.SetSkillExplanation(_SkillInfo);
         }                
