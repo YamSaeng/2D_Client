@@ -62,7 +62,7 @@ public class UI_CharacterChoiceItem : UI_Base
     // 캐릭터 선택창 누르면 GameScene으로 이동
     void OnCharacterSelectButtonClick(PointerEventData Event)
     {
-        if(_GameObjectInfo.ObjectId > 0)
+        if(_GameObjectInfo != null && _GameObjectInfo.ObjectId > 0)
         {
             // 게임씬 로딩
             Managers.Scene.LoadScene(Define.en_Scene.GameScene);
