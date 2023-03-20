@@ -27,7 +27,7 @@ public class CItemObject : CreatureObject
     {
         _MovePower = TargetSpeed * 2.0f;
 
-        StartCoroutine("CoTargetFly", 2.0f);    
+        StartCoroutine("CoTargetFly", 1.0f);    
     }
 
     void Update()
