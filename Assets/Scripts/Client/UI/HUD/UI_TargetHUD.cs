@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UI_TargetHUD : UI_Base
 {
-    public BaseObject _TargetObject;
+    public CBaseObject _TargetObject;
 
     public Dictionary<en_SkillType, UI_BufDebufItem> _BufItems = new Dictionary<en_SkillType, UI_BufDebufItem>();
     public Dictionary<en_SkillType, UI_BufDebufItem> _DeBufItems = new Dictionary<en_SkillType, UI_BufDebufItem>();    
@@ -56,7 +56,7 @@ public class UI_TargetHUD : UI_Base
         Bind<Slider>(typeof(en_TargetHUDSlider));
         Bind<TextMeshProUGUI>(typeof(en_TextHUDText));
 
-        GetComponent<RectTransform>().localPosition = new Vector3(340.0f, -250.0f, 0);
+        GetComponent<RectTransform>().localPosition = new Vector3(380.0f, -200.0f, 0);
     }
 
     public void TargetHUDUpdate()
@@ -88,7 +88,7 @@ public class UI_TargetHUD : UI_Base
         }        
     }
 
-    public void TargetHUDOn(BaseObject Target)
+    public void TargetHUDOn(CBaseObject Target)
     {
         _TargetObject = Target;
         
@@ -233,7 +233,7 @@ public class UI_TargetHUD : UI_Base
             {
                 UI_GameScene gameScene = Managers.UI._SceneUI as UI_GameScene;
 
-                BaseObject MyPlayer = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<BaseObject>();
+                PlayerObject MyPlayer = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<PlayerObject>();
 
                 Vector3 CenterTopObjectPosition = _TargetObject.transform.position;
                 Vector3 MyPlayerPosition = MyPlayer.transform.position;

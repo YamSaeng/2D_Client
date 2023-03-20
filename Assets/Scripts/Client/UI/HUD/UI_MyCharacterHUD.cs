@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_MyCharacterHUD : UI_Base
 {
-    public BaseObject _MyCharacterObject;
+    public CBaseObject _MyCharacterObject;
 
     public Dictionary<en_SkillType, UI_BufDebufItem> _BufItems = new Dictionary<en_SkillType, UI_BufDebufItem>();
     public Dictionary<en_SkillType, UI_BufDebufItem> _DeBufItems = new Dictionary<en_SkillType, UI_BufDebufItem>();
@@ -46,7 +46,7 @@ public class UI_MyCharacterHUD : UI_Base
         Bind<TextMeshProUGUI>(typeof(en_MyCharacterHUDText));
         Bind<GameObject>(typeof(en_MyCharacterHUDGameObject));
 
-        GetComponent<RectTransform>().localPosition = new Vector3(-340.0f, -250.0f, 0);
+        GetComponent<RectTransform>().localPosition = new Vector3(-380.0f, -200.0f, 0);
     }
 
     public override void ShowCloseUI(bool IsShowClose)
