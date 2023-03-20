@@ -132,7 +132,7 @@ namespace Packet
                     {
                         GameSceneUI.Binding();
 
-                        GameSceneUI._MyCharacterHUDUI._MyCharacterObject = EnterGamePlayerObject.GetComponent<BaseObject>();
+                        GameSceneUI._MyCharacterHUDUI._MyCharacterObject = EnterGamePlayerObject.GetComponent<CBaseObject>();
                         GameSceneUI._MyCharacterHUDUI.MyCharacterHUDUpdate();
 
                         EnterGamePlayerObject.GetComponent<GameObjectMovement>().SetOwner(EnterGamePlayerObject);
@@ -140,16 +140,16 @@ namespace Packet
 
                         Managers.Camera.CameraSetTarget(EnterGamePlayerObject.gameObject);
 
-                        if(GameSceneUI._Minimap != null)
+                        if (GameSceneUI._Minimap != null)
                         {
                             GameSceneUI._Minimap.MiniMapMyPositionUpdate(SpawnPositionX, SpawnPositionY);
-                        }                
+                        }
                     }
                     else
                     {
                         Debug.Log("S2C_EnterGameHandler GameSceneUI를 찾을 수 없음");
                     }
-                }       
+                }
             }
             else
             {
@@ -220,38 +220,35 @@ namespace Packet
                         Managers.SkillBox.CreatePublicChracteristicActive(en_SkillCharacteristic.SKILL_CATEGORY_PUBLIC, PublicActiveSkillCount, PublicActiveSkills);
                     }
 
-                    for (byte i = 0; i < 3; i++)
+                    byte Characteristic;
+                    S2CCharacterInfoPacket.GetData(out Characteristic, sizeof(byte));
+
+                    if ((en_SkillCharacteristic)Characteristic != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
                     {
-                        byte Characteristic;
-                        S2CCharacterInfoPacket.GetData(out Characteristic, sizeof(byte));
+                        byte CharacteristicPassiveSkillCount;
+                        S2CCharacterInfoPacket.GetData(out CharacteristicPassiveSkillCount, sizeof(byte));
 
-                        if ((en_SkillCharacteristic)Characteristic != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
+                        if (CharacteristicPassiveSkillCount > 0)
                         {
-                            byte CharacteristicPassiveSkillCount;
-                            S2CCharacterInfoPacket.GetData(out CharacteristicPassiveSkillCount, sizeof(byte));
+                            st_SkillInfo[] CharacteristicPassiveSkills = new st_SkillInfo[CharacteristicPassiveSkillCount];
+                            S2CCharacterInfoPacket.GetData(CharacteristicPassiveSkills, CharacteristicPassiveSkillCount);
 
-                            if (CharacteristicPassiveSkillCount > 0)
-                            {
-                                st_SkillInfo[] CharacteristicPassiveSkills = new st_SkillInfo[CharacteristicPassiveSkillCount];
-                                S2CCharacterInfoPacket.GetData(CharacteristicPassiveSkills, CharacteristicPassiveSkillCount);
-
-                                Managers.SkillBox.CreateChracteristicPassive(i, (en_SkillCharacteristic)Characteristic,
-                                    CharacteristicPassiveSkillCount, CharacteristicPassiveSkills);
-                            }
-
-                            byte CharacteristicActiveSkillCount;
-                            S2CCharacterInfoPacket.GetData(out CharacteristicActiveSkillCount, sizeof(byte));
-
-                            if (CharacteristicActiveSkillCount > 0)
-                            {
-                                st_SkillInfo[] CharacteristicActiveSkills = new st_SkillInfo[CharacteristicActiveSkillCount];
-                                S2CCharacterInfoPacket.GetData(CharacteristicActiveSkills, CharacteristicActiveSkillCount);
-
-                                Managers.SkillBox.CreateChracteristicActive(i, (en_SkillCharacteristic)Characteristic,
-                                   CharacteristicActiveSkillCount, CharacteristicActiveSkills);
-                            }
+                            Managers.SkillBox.CreateChracteristicPassive((en_SkillCharacteristic)Characteristic,
+                                CharacteristicPassiveSkillCount, CharacteristicPassiveSkills);
                         }
-                    }                    
+
+                        byte CharacteristicActiveSkillCount;
+                        S2CCharacterInfoPacket.GetData(out CharacteristicActiveSkillCount, sizeof(byte));
+
+                        if (CharacteristicActiveSkillCount > 0)
+                        {
+                            st_SkillInfo[] CharacteristicActiveSkills = new st_SkillInfo[CharacteristicActiveSkillCount];
+                            S2CCharacterInfoPacket.GetData(CharacteristicActiveSkills, CharacteristicActiveSkillCount);
+
+                            Managers.SkillBox.CreateChracteristicActive((en_SkillCharacteristic)Characteristic,
+                               CharacteristicActiveSkillCount, CharacteristicActiveSkills);
+                        }
+                    }
 
                     // 가방 셋팅
                     byte InventoryWidth;  // 가방 너비
@@ -303,20 +300,20 @@ namespace Packet
                     QuickSlotBarBoxUI.UIQuickSlotBarBoxCreate(QuickSlotBarSize, QuickSlotBarSlotSize);
 
                     // 퀵슬롯 정보 업데이트
-                    QuickSlotBarBoxUI.RefreshQuickSlotBarBoxUI();                    
+                    QuickSlotBarBoxUI.RefreshQuickSlotBarBoxUI();
 
                     // 착용 장비 개수
                     byte EquipmentCount;
                     S2CCharacterInfoPacket.GetData(out EquipmentCount, sizeof(byte));
 
                     if (EquipmentCount > 0)
-                    {     
+                    {
                         // 착용 장비 아이템 정보
                         CItem[] EquipmentItems = new CItem[EquipmentCount];
                         S2CCharacterInfoPacket.GetData(EquipmentItems, EquipmentCount);
 
-                        FindGameObject.EquipmentBoxUICreate(EquipmentItems);                        
-                    }                                        
+                        FindGameObject.EquipmentBoxUICreate(EquipmentItems);
+                    }
 
                     ////조합템 정보 셋팅
                     //byte CraftItemCount;
@@ -373,55 +370,114 @@ namespace Packet
             S2CCharacterInfoPacket.Dispose();
         }
 
-        public static void S2C_MoveHandler(CMessage S2CMovePacket)
+        public static void S2C_FaceDirectionHandler(CMessage S2C_FaceDirectionPacket)
         {
-            long ObjectId;
-            float DirectionX;
-            float DirectionY;
+            long ObjectID;
+            float FaceDirectionX;
+            float FaceDirectionY;
+
+            S2C_FaceDirectionPacket.GetData(out ObjectID, sizeof(long));
+            S2C_FaceDirectionPacket.GetData(out FaceDirectionX, sizeof(float));
+            S2C_FaceDirectionPacket.GetData(out FaceDirectionY, sizeof(float));
+
+            GameObject FindGO = Managers.Object.FindById(ObjectID);
+            if(FindGO != null)
+            {
+                CBaseObject FindGameObject = FindGO.GetComponent<CBaseObject>();
+                if(FindGameObject != null)
+                {
+                    GameObject RightWeaponParent = FindGameObject.transform.Find("RightWeaponParent").gameObject;
+                    if (RightWeaponParent != null)
+                    {
+                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                        if (Weapon != null)
+                        {
+                            Vector2 FaceDirection = new Vector2(FaceDirectionX, FaceDirectionY);
+                            Weapon.AimWeapon(FaceDirection);                            
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void S2C_MoveHandler(CMessage S2C_MovePacket)
+        {
+            long ObjectID;
+            long TargetID;
+            float LookAtDiretionX;
+            float LookAtDirectionY;
+            float MoveDirectionX;
+            float MoveDirectionY;
             float PositionX;
             float PositionY;
 
-            S2CMovePacket.GetData(out ObjectId, sizeof(long));
-            S2CMovePacket.GetData(out DirectionX, sizeof(float));
-            S2CMovePacket.GetData(out DirectionY, sizeof(float));
-            S2CMovePacket.GetData(out PositionX, sizeof(float));
-            S2CMovePacket.GetData(out PositionY, sizeof(float));
+            S2C_MovePacket.GetData(out ObjectID, sizeof(long));            
+            S2C_MovePacket.GetData(out LookAtDiretionX, sizeof(float));                        
+            S2C_MovePacket.GetData(out LookAtDirectionY, sizeof(float));
+            S2C_MovePacket.GetData(out MoveDirectionX, sizeof(float));
+            S2C_MovePacket.GetData(out MoveDirectionY, sizeof(float));
+            S2C_MovePacket.GetData(out PositionX, sizeof(float));
+            S2C_MovePacket.GetData(out PositionY, sizeof(float));
+            S2C_MovePacket.GetData(out TargetID, sizeof(long));
 
-            BaseObject FindGameObject = Managers.Object.FindById(ObjectId).GetComponent<BaseObject>();
-            if (FindGameObject != null)
+            GameObject FindGO = Managers.Object.FindById(ObjectID);
+            if (FindGO != null)
             {
-                Vector2 NewDirection = new Vector2(DirectionX, DirectionY);
+                CBaseObject FindGameObject = FindGO.GetComponent<CBaseObject>();
+                if (FindGameObject != null)
+                {
+                    Vector2 NewMoveDirection = new Vector2(MoveDirectionX, MoveDirectionY);
 
-                Vector2 NewFaceDirection = new Vector2(NewDirection.x + FindGameObject.transform.position.x, NewDirection.y + FindGameObject.transform.position.y);
+                    Vector2 NewFaceDirection = new Vector2(LookAtDiretionX + FindGameObject.transform.position.x, LookAtDirectionY + FindGameObject.transform.position.y);
 
-                FindGameObject.transform.position = new Vector3(PositionX, PositionY, 0);
-                FindGameObject.GetComponent<GameObjectMovement>().MoveOtherGameObject(NewDirection);
-                FindGameObject.GetComponentInChildren<GameObjectRenderer>().FaceDirection(NewFaceDirection);
+                    GameObject TargetGO = Managers.Object.FindById(TargetID);
+                    if(TargetGO != null)
+                    {
+                        CBaseObject TargetGameObject = TargetGO.GetComponent<CBaseObject>();
+                        if(TargetGameObject != null)
+                        {
+                            FindGameObject._TargetObject = TargetGameObject;
+
+                            FindGameObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;                            
+                        }
+                    }                    
+                    else
+                    {
+                        
+                    }
+
+                    FindGameObject.GetComponentInChildren<GameObjectRenderer>().FaceDirection(NewFaceDirection);
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = NewMoveDirection;
+                    FindGameObject.transform.position = new Vector3(PositionX, PositionY, 0);
+                }
             }
-            
-            S2CMovePacket.Dispose();
+
+            S2C_MovePacket.Dispose();
         }
 
         public static void S2C_MoveStopHandler(CMessage S2CMoveStopPacket)
         {
-            long ObjectId;
+            long ObjectID;
             float StopPositionX;
             float StopPositionY;
 
-            S2CMoveStopPacket.GetData(out ObjectId, sizeof(long));
+            S2CMoveStopPacket.GetData(out ObjectID, sizeof(long));
             S2CMoveStopPacket.GetData(out StopPositionX, sizeof(float));
             S2CMoveStopPacket.GetData(out StopPositionY, sizeof(float));
-            
-            BaseObject FindGameObject = Managers.Object.FindById(ObjectId).GetComponent<BaseObject>();
-            if (FindGameObject != null) 
-            {
-                FindGameObject.GetComponent<GameObjectMovement>().MoveOtherGameObject(new Vector2(0, 0));
 
-                FindGameObject.transform.position = new Vector3(StopPositionX, StopPositionY, 0);
+            GameObject FindGO = Managers.Object.FindById(ObjectID);
+            if (FindGO != null)
+            {
+                CBaseObject FindGameObject = Managers.Object.FindById(ObjectID).GetComponent<CBaseObject>();
+                if (FindGameObject != null)
+                {
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = Vector2.zero;                    
+                    FindGameObject.transform.position = new Vector3(StopPositionX, StopPositionY, 0);
+                }
             }
 
-            S2CMoveStopPacket.Dispose();            
-        }      
+            S2CMoveStopPacket.Dispose();
+        }
 
         public static void S2C_ItemMoveStartHandler(CMessage S2C_ItemMoveStartPacket)
         {
@@ -438,7 +494,7 @@ namespace Packet
                 if (ItemOwnerGO != null)
                 {
                     // 아이템 스크립트 가져오기
-                    ItemController Item = ItemGO.GetComponent<ItemController>();
+                    CItemObject Item = ItemGO.GetComponent<CItemObject>();
                     // 플레이어 스크립트 가져오기
                     PlayerObject ItemTarget = ItemOwnerGO.GetComponent<PlayerObject>();
                     // 아이템이 추적할 대상 설정
@@ -452,7 +508,7 @@ namespace Packet
         public static void S2C_CommonDamageHandler(CMessage S2C_CommonDamagePacket)
         {
             long AttackID;
-            long TargetId;            
+            long TargetId;
             short SkillType;
             short ResourceType;
             int DamagePoint;
@@ -461,59 +517,79 @@ namespace Packet
 
             S2C_CommonDamagePacket.GetData(out AttackID, sizeof(long));
             S2C_CommonDamagePacket.GetData(out TargetId, sizeof(long));
-            S2C_CommonDamagePacket.GetData(out SkillType, sizeof(short)); 
+            S2C_CommonDamagePacket.GetData(out SkillType, sizeof(short));
             S2C_CommonDamagePacket.GetData(out ResourceType, sizeof(short));
             S2C_CommonDamagePacket.GetData(out DamagePoint, sizeof(int));
-            S2C_CommonDamagePacket.GetData(out HP, sizeof(int));            
+            S2C_CommonDamagePacket.GetData(out HP, sizeof(int));
             S2C_CommonDamagePacket.GetData(out IsCritical, sizeof(bool));
 
-            // 크리티컬 공격 성공시 카메라 흔들기
-            if (IsCritical && AttackID == Managers.NetworkManager._PlayerDBId)
+            //// 크리티컬 공격 성공시 카메라 흔들기
+            //if (IsCritical && AttackID == Managers.NetworkManager._PlayerDBId)
+            //{
+            //    CameraManager.CameraShake(0.3f);
+            //}          
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            if(GameSceneUI != null)
             {
-                CameraManager.CameraShake(0.3f);
-            }
-
-            BaseObject FindAttackerObject = Managers.Object.FindById(AttackID).GetComponent<BaseObject>();
-            if(FindAttackerObject != null)
-            {
-                GameObjectAnimation Animator = FindAttackerObject.GetComponentInChildren<GameObjectAnimation>();
-                if(Animator != null)
+                GameObject FindTargetGameObject = Managers.Object.FindById(TargetId);
+                if (FindTargetGameObject != null)
                 {
-                    Animator.PlayMeleeAnimation();
+
+
+                    CreatureObject FindTargetCreature = FindTargetGameObject.GetComponent<CreatureObject>();
+                    if (FindTargetCreature != null)
+                    {
+                        FindTargetCreature.OnDamaged();
+
+                        UI_Damage DamageUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_DAMAGE).GetComponent<UI_Damage>();
+                        DamageUI.Setup((en_SkillType)SkillType, DamagePoint,
+                            IsCritical,
+                            FindTargetCreature.transform.position.x,
+                            FindTargetCreature.transform.position.y);
+
+                        Vector2 RandomDirection = Random.insideUnitCircle;
+                        RandomDirection = RandomDirection.y < 0 ? new Vector2(RandomDirection.x, -RandomDirection.y) : RandomDirection;
+
+                        DamageUI.GetComponent<RectTransform>().localPosition = new Vector3(
+                            FindTargetCreature.transform.position.x + RandomDirection.x,
+                            FindTargetCreature.transform.position.y + RandomDirection.y);
+
+                        DamageUI.GetComponent<GameObjectAnimation>().PlayCommonDamage();
+
+                        if (FindTargetCreature._HpBar != null)
+                        {
+                            FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP = HP;
+                            FindTargetCreature.UpdateHPBar();
+                            FindTargetCreature._HpBar.ActiveChoiceUI(true);
+                        }                        
+
+                        // 데미지 적용 대상이 나일 경우
+                        if (TargetId == Managers.NetworkManager._PlayerDBId)
+                        {
+                            UI_MyCharacterHUD MyCharacterHUDUI = GameSceneUI._MyCharacterHUDUI;
+                            if(MyCharacterHUDUI != null)
+                            {
+                                MyCharacterHUDUI.MyCharacterHUDUpdate();
+                            }                            
+                        }
+
+                        if(GameSceneUI._TargetHUDUI != null)
+                        {
+                            if (GameSceneUI._TargetHUDUI._TargetObject != null)
+                            {
+                                if(TargetId == GameSceneUI._TargetHUDUI._TargetObject._GameObjectInfo.ObjectId)
+                                {
+                                    GameSceneUI._TargetHUDUI.TargetHUDUpdate();
+                                }                                
+                            }
+                        }                        
+                    }
+                    else
+                    {
+                        Debug.Log("S2C_Attack Player를 찾을 수 없습니다.");
+                    }
                 }
-            }
-
-            GameObject FindTargetGameObject = Managers.Object.FindById(TargetId);
-            if (FindTargetGameObject != null)
-            {
-                CreatureObject FindTargetCreature = FindTargetGameObject.GetComponent<CreatureObject>();
-
-                if (FindTargetCreature != null)
-                {
-                    UI_Damage DamageUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_DAMAGE).GetComponent<UI_Damage>();
-                    DamageUI.Setup((en_SkillType)SkillType, DamagePoint,
-                        IsCritical,
-                        FindTargetCreature.transform.position.x,
-                        FindTargetCreature.transform.position.y);
-
-                    Vector2 RandomDirection = Random.insideUnitCircle;
-                    RandomDirection = RandomDirection.y < 0 ? new Vector2(RandomDirection.x, -RandomDirection.y) : RandomDirection;
-
-                    DamageUI.GetComponent<RectTransform>().localPosition = new Vector3(
-                        FindTargetCreature.transform.position.x + RandomDirection.x,
-                        FindTargetCreature.transform.position.y + RandomDirection.y);
-
-                    DamageUI.GetComponent<GameObjectAnimation>().PlayCommonDamage();
-
-                    //FindTargetCreature._HpBar.ActiveChoiceUI(true);
-                }
-                else
-                {
-                    Debug.Log("S2C_Attack Player를 찾을 수 없습니다.");
-                }
-
-
-            }
+            }            
 
             S2C_CommonDamagePacket.Dispose();
         }
@@ -549,43 +625,68 @@ namespace Packet
         public static void S2C_AttackHandler(CMessage S2CAttackPacket)
         {
             long ObjectId;
-            long TargetId;
-            short SkillType;
-            int DamagePoint;
-            bool IsCritical;
 
             S2CAttackPacket.GetData(out ObjectId, sizeof(long));
-            S2CAttackPacket.GetData(out TargetId, sizeof(long));
-            S2CAttackPacket.GetData(out SkillType, sizeof(short));
-            S2CAttackPacket.GetData(out DamagePoint, sizeof(int));
-            S2CAttackPacket.GetData(out IsCritical, sizeof(bool));
 
-            // 크리티컬 공격 성공시 카메라 흔들기
-            if (IsCritical && ObjectId == Managers.NetworkManager._PlayerDBId)
+            GameObject FindGO = Managers.Object.FindById(ObjectId);
+            if(FindGO != null)
             {
-                CameraManager.CameraShake(0.3f);
-            }
-
-            GameObject FindTargetGameObject = Managers.Object.FindById(TargetId);
-            if (FindTargetGameObject != null)
-            {
-                CreatureObject FindTargetCreature = FindTargetGameObject.GetComponent<CreatureObject>();
-
-                if (FindTargetCreature != null)
+                CBaseObject FindPlayerObject = FindGO.GetComponent<CBaseObject>();
+                if (FindPlayerObject != null)
                 {
-                    
-
-                    FindTargetCreature._HpBar.ActiveChoiceUI(true);
+                    GameObject RightWeaponParent = FindPlayerObject.transform.Find("RightWeaponParent").gameObject;
+                    if (RightWeaponParent != null)
+                    {
+                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                        if (Weapon != null)
+                        {
+                            Weapon.StopAttack();
+                        }
+                    }
                 }
-                else
-                {
-                    Debug.Log("S2C_Attack Player를 찾을 수 없습니다.");
-                }
-
-
-            }
+            }            
 
             S2CAttackPacket.Dispose();
+        }
+
+        public static void S2C_ToAttackHandler(CMessage S2C_ToAttackPacket)
+        {
+            long ObjectID;
+            long TargetObjectID;
+            float StopPositionX;
+            float StopPositionY;
+            byte State;
+
+            S2C_ToAttackPacket.GetData(out ObjectID, sizeof(long));
+            S2C_ToAttackPacket.GetData(out TargetObjectID, sizeof(long));
+            S2C_ToAttackPacket.GetData(out StopPositionX, sizeof(float));
+            S2C_ToAttackPacket.GetData(out StopPositionY, sizeof(float));
+            S2C_ToAttackPacket.GetData(out State, sizeof(byte));            
+
+            GameObject FindGO = Managers.Object.FindById(ObjectID);
+            if(FindGO != null)
+            {
+                CBaseObject BaseObject = FindGO.GetComponent<CBaseObject>();
+                if(BaseObject != null)
+                {
+                    GameObject FindTargetGO = Managers.Object.FindById(TargetObjectID);
+                    if(FindTargetGO != null)
+                    {
+                        CBaseObject TargetBaseObject = FindTargetGO.GetComponent<CBaseObject>();
+                        if(TargetBaseObject != null)
+                        {
+                            BaseObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = Vector2.zero;
+                            BaseObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.ATTACK;
+                            BaseObject.transform.position = new Vector3(StopPositionX, StopPositionY, 0);
+
+                            BaseObject._TargetObject = TargetBaseObject;
+                        }
+
+                    }                    
+                }
+            }
+
+            S2C_ToAttackPacket.Dispose();
         }
 
         public static void S2C_MagicHandler(CMessage S2CMagicPacket)
@@ -636,10 +737,7 @@ namespace Packet
                             break;
                         case en_SkillType.SKILL_DISCIPLINE_ACTIVE_HEAL_HEALING_WIND:
                             CC.SpellStart("치유의바람", SpellTime, 1.0f);
-                            break;
-                        case en_SkillType.SKILL_SLIME_ACTIVE_POISION_ATTACK:
-                            CC.SpellStart("슬라임 독", SpellTime, 1.0f);
-                            break;
+                            break;                        
                     }
                 }
                 else
@@ -691,17 +789,31 @@ namespace Packet
 
         public static void S2C_AnimationPlayHandler(CMessage S2C_AnimationPlayPacket)
         {
-            long ObjectId;            
-            string PlayAnimationName;
+            long ObjectId;
+            short ObjectType;
+            byte AnimationType;
 
-            S2C_AnimationPlayPacket.GetData(out ObjectId, sizeof(long));            
-            S2C_AnimationPlayPacket.GetData(out PlayAnimationName);
+            S2C_AnimationPlayPacket.GetData(out ObjectId, sizeof(long));
+            S2C_AnimationPlayPacket.GetData(out ObjectType, sizeof(short));
+            S2C_AnimationPlayPacket.GetData(out AnimationType, sizeof(byte));
 
-            CreatureObject FindPlayerObject = Managers.Object.FindById(ObjectId).GetComponent<CreatureObject>();
-            if (FindPlayerObject != null)
+            GameObject FindGO = Managers.Object.FindById(ObjectId);
+            if(FindGO != null)
             {
-                FindPlayerObject.AnimationPlay(PlayAnimationName);                
-            }
+                CBaseObject FindPlayerObject = FindGO.GetComponent<CBaseObject>();
+                if (FindPlayerObject != null)
+                {
+                    GameObject RightWeaponParent = FindPlayerObject.transform.Find("RightWeaponParent").gameObject;
+                    if (RightWeaponParent != null)
+                    {
+                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                        if (Weapon != null)
+                        {
+                            Weapon.Attack();
+                        }
+                    }
+                }
+            }            
         }
 
         public static void S2C_SpawnHandler(CMessage S2CSpawnPacket)
@@ -717,7 +829,7 @@ namespace Packet
 
             for (int i = 0; i < SpawnCount; i++)
             {
-                Managers.Object.Add(ObjectInfos[i]);
+                GameObject FindGameObject = Managers.Object.Add(ObjectInfos[i]);
             }
 
             S2CSpawnPacket.Dispose();
@@ -908,7 +1020,6 @@ namespace Packet
                     if (PreviousChoiceObject != null)
                     {
                         PreviousChoiceObject._NameUI.ActiveChoiceUI(false);
-
                         PreviousChoiceObject._HpBar.SelectTargetHPBar(false);
                     }
                     else
@@ -984,7 +1095,7 @@ namespace Packet
                 if (GameSceneUI != null)
                 {
                     UI_Furnace FurnaceUI = GameSceneUI._FurnaceUI;
-                    if (FurnaceUI.gameObject.active == true)
+                    if (FurnaceUI.gameObject.activeSelf == true)
                     {
                         //UI_CraftingCompleteItem CraftingCompleteItemUI = FurnaceUI._UICraftingCompleteItems.Values.FirstOrDefault(
                         //    CraftingCompleteItem => CraftingCompleteItem._CraftingCompleteItem.ItemSmallCategory == (en_SmallItemCategory)CraftingItemInfo.ItemSmallCategory);
@@ -1064,66 +1175,34 @@ namespace Packet
         public static void S2C_ObjectStateChangeHandler(CMessage S2CMousePositionObjectInfoPacket)
         {
             long ObjectId;            
-            short ObjectType;
             byte ObjectState;
 
             S2CMousePositionObjectInfoPacket.GetData(out ObjectId, sizeof(long));            
-            S2CMousePositionObjectInfoPacket.GetData(out ObjectType, sizeof(short));
             S2CMousePositionObjectInfoPacket.GetData(out ObjectState, sizeof(byte));
 
             GameObject FindGameObject = Managers.Object.FindById(ObjectId);
-            if (FindGameObject == null)
+            if (FindGameObject != null)
             {
-                Debug.Log("S2CStateChange 게임오브젝트를 찾을 수 없습니다");
-                return;
-            }
-
-            switch ((en_GameObjectType)ObjectType)
-            {
-                case en_GameObjectType.OBJECT_PLAYER:                
-                    {
-                        PlayerObject Player = FindGameObject.GetComponent<PlayerObject>();
-                        if (Player != null)
-                        {                            
-                            Player.State = (en_CreatureState)ObjectState;
-                        }
-                    }
-                    break;
-                case en_GameObjectType.OBJECT_SLIME:
-                    {
-                        SlimeObject Slime = FindGameObject.GetComponent<SlimeObject>();
-                        if (Slime != null)
-                        {                            
-                            Slime.State = (en_CreatureState)ObjectState;
-                        }
-                    }
-                    break;
-                case en_GameObjectType.OBJECT_BEAR:                    
-                    break;
-                case en_GameObjectType.OBJECT_TREE:
-                    {
-                        EnvironmentController Tree = FindGameObject.GetComponent<EnvironmentController>();
-                        if (Tree != null)
-                        {                            
-                            Tree.State = (en_CreatureState)ObjectState;
-                        }
-                    }
-                    break;
-            }
+                CBaseObject FindBaseObject = FindGameObject.GetComponent<CBaseObject>();
+                if(FindBaseObject != null)
+                {
+                    FindBaseObject._GameObjectInfo.ObjectPositionInfo.State = (en_CreatureState)ObjectState;
+                }
+            }            
 
             S2CMousePositionObjectInfoPacket.Dispose();
-        }        
+        }
 
         public static void S2C_StatusAbnormalHandler(CMessage S2C_StatusAbnormalPacket)
         {
             long TargetId;
-            short ObjectType;            
+            short ObjectType;
             short SkillType;
             bool SetStatusAbnormal;
             byte StatusAbnormal;
 
             S2C_StatusAbnormalPacket.GetData(out TargetId, sizeof(long));
-            S2C_StatusAbnormalPacket.GetData(out ObjectType, sizeof(short));            
+            S2C_StatusAbnormalPacket.GetData(out ObjectType, sizeof(short));
             S2C_StatusAbnormalPacket.GetData(out SkillType, sizeof(short));
             S2C_StatusAbnormalPacket.GetData(out SetStatusAbnormal, sizeof(bool));
             S2C_StatusAbnormalPacket.GetData(out StatusAbnormal, sizeof(byte));
@@ -1137,13 +1216,13 @@ namespace Packet
                 if (SetStatusAbnormal == true)
                 {
                     StatusApplyObject.SetStatusAbnormal(StatusAbnormal);
-                    
+
                     StatusApplyObject.AnimationPlay("STATUS_ABNORMAL");
                 }
                 else
                 {
                     StatusApplyObject.ReleaseStatusAbnormal(StatusAbnormal);
-                    
+
                     // 상태이상이 끝낫으므로 기본 상태로 되돌아가야함
                 }
             }
@@ -1156,32 +1235,30 @@ namespace Packet
             S2CDiePacket.GetData(out DieObjectId, sizeof(long));
 
             GameObject FindGameObject = Managers.Object.FindById(DieObjectId);
-            if (FindGameObject == null)
+            if (FindGameObject != null)
             {
-                return;
-            }
-
-            CreatureObject DieCreature = FindGameObject.GetComponent<CreatureObject>();
-            if (DieCreature != null)
-            {
-                DieCreature._HP = 0;
-                DieCreature.OnDead();
-            }
-
-            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-
-            UI_TargetHUD TargetHUDUI = GameSceneUI._TargetHUDUI;
-            if (TargetHUDUI._TargetObject != null
-                && TargetHUDUI._TargetObject._GameObjectInfo.ObjectId == DieObjectId)
-            {
-                CreatureObject UserCreature = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<CreatureObject>();
-                if (UserCreature != null)
+                CreatureObject DieCreature = FindGameObject.GetComponent<CreatureObject>();
+                if (DieCreature != null)
                 {
-                    UserCreature._SelectTargetObjectInfo = null;
-                }
+                    DieCreature._HP = 0;
+                    DieCreature.OnDieEvent?.Invoke();
+                    
+                    UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
 
-                TargetHUDUI.TargetHUDOff();
-            }
+                    UI_TargetHUD TargetHUDUI = GameSceneUI._TargetHUDUI;
+                    if (TargetHUDUI._TargetObject != null
+                        && TargetHUDUI._TargetObject._GameObjectInfo.ObjectId == DieObjectId)
+                    {
+                        CreatureObject UserCreature = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<CreatureObject>();
+                        if (UserCreature != null)
+                        {
+                            UserCreature._SelectTargetObjectInfo = null;
+                        }
+
+                        TargetHUDUI.TargetHUDOff();
+                    }
+                }                
+            }                       
 
             S2CDiePacket.Dispose();
         }
@@ -1300,7 +1377,15 @@ namespace Packet
                     else
                     {
                         UI_InventoryItem FindItem = Managers.MyInventory.FindItem(AddItemInfo.ItemSmallCategory);
-                        FindItem._ItemInfo = AddItemInfo;
+                        if(FindItem != null)
+                        {
+                            FindItem._ItemInfo = AddItemInfo;
+                        }
+                        else
+                        {
+                            Debug.Log("가방에서 아이템 못 찾음");
+                        }
+                        
 
                         FindItem.RefreshInventoryItemUI();
                     }
@@ -1361,7 +1446,7 @@ namespace Packet
                                 {
                                     Furnace._FurnaceMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
 
-                                    if (GameSceneUI._FurnaceUI.gameObject.active == true)
+                                    if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true)
                                     {
                                         GameSceneUI._FurnaceUI.FurnaceMaterialItemRefreshUI(Furnace._SelectCompleteItemCategory);
                                     }
@@ -1378,7 +1463,7 @@ namespace Packet
                                 {
                                     Sawmill._SawmillMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
 
-                                    if (GameSceneUI._SawmillUI.gameObject.active == true)
+                                    if (GameSceneUI._SawmillUI.gameObject.activeSelf == true)
                                     {
                                         GameSceneUI._SawmillUI.SawmillMaterialItemRefreshUI(Sawmill._SelectCompleteItemCategory);
                                     }
@@ -1430,7 +1515,7 @@ namespace Packet
                                 {
                                     Furnace._FurnaceMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
 
-                                    if (GameSceneUI._FurnaceUI.gameObject.active == true)
+                                    if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true)
                                     {
                                         GameSceneUI._FurnaceUI.FurnaceMaterialItemRefreshUI(Furnace._SelectCompleteItemCategory);
                                     }
@@ -1449,7 +1534,7 @@ namespace Packet
                                 {
                                     Sawmill._SawmillMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
 
-                                    if (GameSceneUI._SawmillUI.gameObject.active == true)
+                                    if (GameSceneUI._SawmillUI.gameObject.activeSelf == true)
                                     {
                                         GameSceneUI._SawmillUI.SawmillMaterialItemRefreshUI(Sawmill._SelectCompleteItemCategory);
                                     }
@@ -1629,7 +1714,7 @@ namespace Packet
                                     Furnace._FurnaceMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
 
                                     // 용광로 UI가 활성화 되어 있고, 선택한 완성 아이템이 동일할 경우 재료 아이템을 업데이트 한것을 보여준다.
-                                    if (GameSceneUI._FurnaceUI.gameObject.active == true
+                                    if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true
                                         && Furnace._SelectCompleteItemCategory == (en_SmallItemCategory)SelectCompleteItemType)
                                     {
                                         GameSceneUI._FurnaceUI.FurnaceMaterialItemRefreshUI(Furnace._SelectCompleteItemCategory);
@@ -1648,7 +1733,7 @@ namespace Packet
                                     Sawmill._SawmillMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
 
                                     // 용광로 UI가 활성화 되어 있고, 선택한 완성 아이템이 동일할 경우 재료 아이템을 업데이트 한것을 보여준다.
-                                    if (GameSceneUI._SawmillUI.gameObject.active == true
+                                    if (GameSceneUI._SawmillUI.gameObject.activeSelf == true
                                         && Sawmill._SelectCompleteItemCategory == (en_SmallItemCategory)SelectCompleteItemType)
                                     {
                                         GameSceneUI._SawmillUI.SawmillMaterialItemRefreshUI(Sawmill._SelectCompleteItemCategory);
@@ -1697,7 +1782,7 @@ namespace Packet
                                     }
 
                                     // 용광로 UI가 활성화 되어 있을 경우
-                                    if (GameSceneUI._FurnaceUI.gameObject.active == true)
+                                    if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true)
                                     {
                                         GameSceneUI._FurnaceUI.FurnaceCompleteItemRefreshUI();
                                     }
@@ -1717,7 +1802,7 @@ namespace Packet
                                         Sawmill._SawmillCompleteItems.Add(CompleteItem._ItemInfo.ItemSmallCategory, CompleteItem);
                                     }
 
-                                    if (GameSceneUI._SawmillUI.gameObject.active == true)
+                                    if (GameSceneUI._SawmillUI.gameObject.activeSelf == true)
                                     {
                                         GameSceneUI._SawmillUI.SawmillCompleteItemRefreshUI();
                                     }
@@ -1852,14 +1937,15 @@ namespace Packet
             {
                 // 위치를 조정하고
                 CreatureObject CC = FindGameObject.GetComponent<CreatureObject>();
-                CC.State = en_CreatureState.IDLE;
+                CC._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.IDLE;
                 CC._GameObjectInfo.ObjectPositionInfo = SyncPosition;
-                CC.transform.position = new Vector3(SyncPosition.PositionX, SyncPosition.PositionY);
+
+                CC.transform.position = SyncPosition.Position;
 
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
                 UI_Minimap MiniMap = GameSceneUI._Minimap;
 
-                MiniMap.MiniMapMyPositionUpdate(CC.PositionInfo.CollsitionPositionX, CC.PositionInfo.CollsitionPositionY);                
+                MiniMap.MiniMapMyPositionUpdate(CC._GameObjectInfo.ObjectPositionInfo.CollisitionPosition.x, CC._GameObjectInfo.ObjectPositionInfo.CollisitionPosition.y);
             }
             else
             {
@@ -1871,16 +1957,14 @@ namespace Packet
 
         public static void S2C_SelectSkillCharacteristic(CMessage S2C_SelectSkillChracteristicMessage)
         {
-            bool IsSuccess;
-            byte SkillCharacteristicIndex;
+            bool IsSuccess;            
             byte SkillCharacteristicType;
 
             S2C_SelectSkillChracteristicMessage.GetData(out IsSuccess, sizeof(bool));
 
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
             if (IsSuccess == true)
-            {
-                S2C_SelectSkillChracteristicMessage.GetData(out SkillCharacteristicIndex, sizeof(byte));
+            {                
                 S2C_SelectSkillChracteristicMessage.GetData(out SkillCharacteristicType, sizeof(byte));
 
                 byte PassiveSkillCount;
@@ -1891,7 +1975,7 @@ namespace Packet
                     st_SkillInfo[] PassiveSkills = new st_SkillInfo[PassiveSkillCount];
                     S2C_SelectSkillChracteristicMessage.GetData(PassiveSkills, PassiveSkillCount);
 
-                    Managers.SkillBox.CreateChracteristicPassive(SkillCharacteristicIndex, (en_SkillCharacteristic)SkillCharacteristicType, PassiveSkillCount, PassiveSkills);
+                    Managers.SkillBox.CreateChracteristicPassive((en_SkillCharacteristic)SkillCharacteristicType, PassiveSkillCount, PassiveSkills);
                 }
 
                 byte ActiveSkillCount;
@@ -1902,7 +1986,7 @@ namespace Packet
                     st_SkillInfo[] ActiveSkills = new st_SkillInfo[ActiveSkillCount];
                     S2C_SelectSkillChracteristicMessage.GetData(ActiveSkills, ActiveSkillCount);
 
-                    Managers.SkillBox.CreateChracteristicActive(SkillCharacteristicIndex, (en_SkillCharacteristic)SkillCharacteristicType, ActiveSkillCount, ActiveSkills);
+                    Managers.SkillBox.CreateChracteristicActive((en_SkillCharacteristic)SkillCharacteristicType, ActiveSkillCount, ActiveSkills);
                 }
 
                 GameSceneUI._SkillBoxUI.RefreshSkillBoxUI();
@@ -1910,7 +1994,7 @@ namespace Packet
                 GameSceneUI._SkillBoxUI.SkillBoxSelectCharacteristicShowClose(false);
                 GameSceneUI._SkillBoxUI.SkillBoxButtonShowClose(true);
                 GameSceneUI._SkillBoxUI.SkillBoxSkillCharacteristicShowClose(true);
-                GameSceneUI._SkillBoxUI.CharacteristicSelectButtonShowClose(SkillCharacteristicIndex, false);
+                GameSceneUI._SkillBoxUI.CharacteristicSelectButtonShowClose(false);
             }
             else
             {
@@ -1922,21 +2006,29 @@ namespace Packet
         public static void S2C_SkillLearn(CMessage S2C_SkillLearnMessage)
         {
             bool IsSkillLearn;
+            byte LearnSkillSize;
             short LearnSkillType;
             byte SkillMaxPoint;
             byte SkillPoint;
 
             S2C_SkillLearnMessage.GetData(out IsSkillLearn, sizeof(bool));
-            S2C_SkillLearnMessage.GetData(out LearnSkillType, sizeof(short));
+            S2C_SkillLearnMessage.GetData(out LearnSkillSize, sizeof(byte));
+            
+            short[] LearnSkillTypes = new short[LearnSkillSize];
+            S2C_SkillLearnMessage.GetData(LearnSkillTypes, LearnSkillSize);            
+            
             S2C_SkillLearnMessage.GetData(out SkillMaxPoint, sizeof(byte));
             S2C_SkillLearnMessage.GetData(out SkillPoint, sizeof(byte));
 
             GameObject PlayerGO = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId);
             PlayerObject Player = PlayerGO.GetComponent<PlayerObject>();
 
-            Player._GameObjectInfo.ObjectSkillPoint = SkillPoint;
+            for (byte i = 0; i < LearnSkillSize; i++)
+            {
+                Managers.SkillBox.SetSkillLearn(LearnSkillTypes[i], IsSkillLearn);
+            }            
 
-            Managers.SkillBox.SetSkillLearn(LearnSkillType, IsSkillLearn);
+            Player._GameObjectInfo.ObjectSkillPoint = SkillPoint;       
 
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
             GameSceneUI._SkillBoxUI.RefreshSkillBoxUI();
@@ -2263,34 +2355,26 @@ namespace Packet
         }
 
         public static void S2C_ExperienceHandler(CMessage S2C_ExperienceMessage)
-        {
-            long AccountId;
-            long PlayerId;
+        {            
             long GainExp;
             long CurrentExp;
             long RequireExp;
             long TotalExp;
-
-            S2C_ExperienceMessage.GetData(out AccountId, sizeof(long));
-            S2C_ExperienceMessage.GetData(out PlayerId, sizeof(long));
+            
             S2C_ExperienceMessage.GetData(out GainExp, sizeof(long));
             S2C_ExperienceMessage.GetData(out CurrentExp, sizeof(long));
             S2C_ExperienceMessage.GetData(out RequireExp, sizeof(long));
             S2C_ExperienceMessage.GetData(out TotalExp, sizeof(long));
 
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-            if (GameSceneUI == null)
+            if (GameSceneUI != null)
             {
-                Debug.Log("ExperienceHandler GameSceneUI를 찾을 수 없음");
-            }
-
-            UI_PlayerExperience PlayerExperienceUI = GameSceneUI._PlayerExperienceUI;
-            if (PlayerExperienceUI == null)
-            {
-                Debug.Log("ExperienceHandler PlayerExperienceUI를 찾을 수 없음");
-            }
-
-            PlayerExperienceUI.PlayerGainExp(GainExp, CurrentExp, RequireExp, TotalExp);
+                UI_PlayerExperience PlayerExperienceUI = GameSceneUI._PlayerExperienceUI;
+                if (PlayerExperienceUI != null)
+                {
+                    PlayerExperienceUI.PlayerGainExp(GainExp, CurrentExp, RequireExp, TotalExp);
+                }                
+            }            
 
             S2C_ExperienceMessage.Dispose();
         }
@@ -2530,7 +2614,7 @@ namespace Packet
             }
 
             S2C_PersonalMessage.Dispose();
-        }                
+        }
 
         public static void S2C_PartyInviteHandler(CMessage S2C_PartyInviteMessage)
         {
@@ -2618,6 +2702,31 @@ namespace Packet
             {
 
             }
+        }
+
+        public static void S2C_RayCastingHandler(CMessage S2C_RayCastingMessage)
+        {
+            long ObjectID;
+            byte RayCastingPositionSize;
+
+            S2C_RayCastingMessage.GetData(out ObjectID, sizeof(long));
+            S2C_RayCastingMessage.GetData(out RayCastingPositionSize, sizeof(byte));
+
+            st_RayCastingPosition[] RayCastingPositions = new st_RayCastingPosition[RayCastingPositionSize];
+            S2C_RayCastingMessage.GetData(RayCastingPositions, RayCastingPositionSize);
+
+            GameObject FindGO = Managers.Object.FindById(ObjectID);
+            CBaseObject FindGameObject = FindGO.GetComponent<CBaseObject>();
+            if(FindGameObject != null)
+            {
+                LineRendererController LR = FindGameObject.GetComponent<LineRendererController>();
+                if(LR != null)
+                {
+                    LR.SetRayCastingPositions(RayCastingPositions);
+                }
+            }
+
+            S2C_RayCastingMessage.Dispose();
         }
 
         public static void S2C_Ping(CMessage S2C_PingMessage)
@@ -2753,15 +2862,14 @@ namespace Packet
             return GameServerLoginPacket;
         }
 
-        public static CMessage ReqMakeAttackPacket(long AccountId, long PlayerId,
-            byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex,
+        public static CMessage ReqMakeAttackPacket(byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex,
             en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
         {
             CMessage ReqAttackPacket = new CMessage();
 
             ReqAttackPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ATTACK, sizeof(short));
-            ReqAttackPacket.InsertData(AccountId, sizeof(long));
-            ReqAttackPacket.InsertData(PlayerId, sizeof(long));            
+            ReqAttackPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqAttackPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqAttackPacket.InsertData(QuickSlotBarIndex, sizeof(byte));
             ReqAttackPacket.InsertData(QuickSlotBarSlotIndex, sizeof(byte));
             ReqAttackPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
@@ -2776,7 +2884,7 @@ namespace Packet
 
             ReqMagicPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SPELL, sizeof(short));
             ReqMagicPacket.InsertData(AccountId, sizeof(long));
-            ReqMagicPacket.InsertData(PlayerId, sizeof(long));            
+            ReqMagicPacket.InsertData(PlayerId, sizeof(long));
             ReqMagicPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
             ReqMagicPacket.InsertData((short)ReqSkillType, sizeof(short));
 
@@ -2805,25 +2913,25 @@ namespace Packet
             return ReqGatheringCancelPacket;
         }
 
-        public static CMessage ReqMakeChattingPacket(long AccountId, long PlayerId, string ChattingText)
+        public static CMessage ReqMakeChattingPacket(string ChattingText)
         {
             CMessage ReqChattingPacket = new CMessage();
 
             ReqChattingPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_MESSAGE, sizeof(short));
-            ReqChattingPacket.InsertData(AccountId, sizeof(long));
-            ReqChattingPacket.InsertData(PlayerId, sizeof(long));
+            ReqChattingPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqChattingPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqChattingPacket.InsertData(ChattingText);
 
             return ReqChattingPacket;
         }
 
-        public static CMessage ReqMakeLeftMouseWorldObjectInfoPacket(long AccountId, long PlayerId, long ObjectId, en_GameObjectType ObjectType)
+        public static CMessage ReqMakeLeftMouseWorldObjectInfoPacket(long ObjectId, en_GameObjectType ObjectType)
         {
             CMessage ReqLeftMousePositionObjectInfoPacket = new CMessage();
 
             ReqLeftMousePositionObjectInfoPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_LEFT_MOUSE_OBJECT_INFO, sizeof(short));
-            ReqLeftMousePositionObjectInfoPacket.InsertData(AccountId, sizeof(long));
-            ReqLeftMousePositionObjectInfoPacket.InsertData(PlayerId, sizeof(long));
+            ReqLeftMousePositionObjectInfoPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqLeftMousePositionObjectInfoPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqLeftMousePositionObjectInfoPacket.InsertData(ObjectId, sizeof(long));
             ReqLeftMousePositionObjectInfoPacket.InsertData((short)ObjectType, sizeof(short));
 
@@ -2919,7 +3027,20 @@ namespace Packet
             return ReqRightMousePositionPacket;
         }
 
-        public static CMessage ReqMakeMovePacket(float DirectionX, float DirectionY, float StartPositionX, float StartPositionY,  en_CreatureState MoveState)
+        public static CMessage ReqMakeFaceDirectionPacket(float FaceDirectionX, float FaceDirectionY)
+        {
+            CMessage ReqFaceDirectionPacket = new CMessage();
+
+            ReqFaceDirectionPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_FACE_DIRECTION, sizeof(short));
+            ReqFaceDirectionPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqFaceDirectionPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
+            ReqFaceDirectionPacket.InsertData(FaceDirectionX, sizeof(float));
+            ReqFaceDirectionPacket.InsertData(FaceDirectionY, sizeof(float));
+
+            return ReqFaceDirectionPacket;
+        }
+
+        public static CMessage ReqMakeMovePacket(float DirectionX, float DirectionY, float StartPositionX, float StartPositionY, en_CreatureState MoveState)
         {
             CMessage ReqMovePacket = new CMessage();
             ReqMovePacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_MOVE, sizeof(short));
@@ -2990,8 +3111,8 @@ namespace Packet
             ReqItemLootingPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_LOOTING, sizeof(short));
             ReqItemLootingPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
             ReqItemLootingPacket.InsertData((byte)ItemPositionInfo.State, sizeof(byte));
-            ReqItemLootingPacket.InsertData(ItemPositionInfo.CollsitionPositionX, sizeof(int));
-            ReqItemLootingPacket.InsertData(ItemPositionInfo.CollsitionPositionY, sizeof(int));            
+            ReqItemLootingPacket.InsertData(ItemPositionInfo.CollisitionPosition.x, sizeof(int));
+            ReqItemLootingPacket.InsertData(ItemPositionInfo.CollisitionPosition.y, sizeof(int));
 
             return ReqItemLootingPacket;
         }
@@ -3079,26 +3200,25 @@ namespace Packet
             ReqItemUsePacket.InsertData(TilePositionY, sizeof(short));
 
             return ReqItemUsePacket;
-        }        
+        }
 
         public static CMessage ReqMakeCreateCharacterPacket(string CreateCharacterName, byte CreateCharacterSlotIndex)
         {
             CMessage ReqCreateCharacterPacket = new CMessage();
-            ReqCreateCharacterPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_GAME_CREATE_CHARACTER, sizeof(short));            
+            ReqCreateCharacterPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_GAME_CREATE_CHARACTER, sizeof(short));
             ReqCreateCharacterPacket.InsertData(CreateCharacterName);
             ReqCreateCharacterPacket.InsertData(CreateCharacterSlotIndex, sizeof(byte));
 
             return ReqCreateCharacterPacket;
         }
 
-        public static CMessage ReqSelectSkillChracteristicPacket(long AccountID, long PlayerID, byte SkillCharacteristicIndex, en_SkillCharacteristic SelectSkillCharacteristicType)
+        public static CMessage ReqSelectSkillChracteristicPacket(en_SkillCharacteristic SelectSkillCharacteristicType)
         {
             CMessage ReqSelectSkillCharacteristicPacket = new CMessage();
 
             ReqSelectSkillCharacteristicPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SELECT_SKILL_CHARACTERISTIC, sizeof(short));
-            ReqSelectSkillCharacteristicPacket.InsertData(AccountID, sizeof(long));
-            ReqSelectSkillCharacteristicPacket.InsertData(PlayerID, sizeof(long));
-            ReqSelectSkillCharacteristicPacket.InsertData(SkillCharacteristicIndex, sizeof(byte));
+            ReqSelectSkillCharacteristicPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqSelectSkillCharacteristicPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqSelectSkillCharacteristicPacket.InsertData((byte)SelectSkillCharacteristicType, sizeof(byte));
 
             return ReqSelectSkillCharacteristicPacket;
@@ -3114,14 +3234,13 @@ namespace Packet
             return ReqEnterGamePacket;
         }
 
-        public static CMessage ReqSkillLearnPacket(long AccountID, long PlayerID, bool SkillLearan, byte SkillCharacteristicIndex, en_SkillCharacteristic SkillCharacteristicType, en_SkillType SkillType)
+        public static CMessage ReqSkillLearnPacket(bool SkillLearan, en_SkillCharacteristic SkillCharacteristicType, en_SkillType SkillType)
         {
             CMessage ReqSkillLearnPacket = new CMessage();
             ReqSkillLearnPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_LEARN_SKILL, sizeof(short));
-            ReqSkillLearnPacket.InsertData(AccountID, sizeof(long));
-            ReqSkillLearnPacket.InsertData(PlayerID, sizeof(long));
-            ReqSkillLearnPacket.InsertData(SkillLearan, sizeof(bool));
-            ReqSkillLearnPacket.InsertData(SkillCharacteristicIndex, sizeof(byte));
+            ReqSkillLearnPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqSkillLearnPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
+            ReqSkillLearnPacket.InsertData(SkillLearan, sizeof(bool));            
             ReqSkillLearnPacket.InsertData((byte)SkillCharacteristicType, sizeof(byte));
             ReqSkillLearnPacket.InsertData((short)SkillType, sizeof(short));
 
