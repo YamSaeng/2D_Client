@@ -107,6 +107,23 @@ public class Protocol
 		en_PACKET_S2C_CHARACTER_INFO,
 
 		//------------------------------------------------------------
+		// 게임서버 캐릭터가 바라보는 방향 저장
+		// int64 AccountID
+		// int64 PlayerID
+		// float DirectionX
+		// float DirectionY
+		//------------------------------------------------------------
+		en_PACKET_C2S_FACE_DIRECTION,
+
+		//------------------------------------------------------------
+		// 게임서버 캐릭터가 바라보는 방향 전송	
+		// int64 PlayerID
+		// float DirectionX
+		// float DirectionY
+		//------------------------------------------------------------
+		en_PACKET_S2C_FACE_DIRECTION,
+
+		//------------------------------------------------------------
 		// 게임서버 캐릭터 움직이기 요청
 		// int64 AccountId
 		// int32 PlayerDBId
@@ -182,6 +199,15 @@ public class Protocol
 		// int8 Dir
 		//------------------------------------------------------------	
 		en_PACKET_S2C_ATTACK,
+
+		//------------------------------------------------------------
+		// 게임서버 캐릭터 공격 상태로 전환
+		// int64 ObjectID
+		// float StopPositionX
+		// float StopPositionY
+		// byte State
+		//------------------------------------------------------------
+		en_PACKET_S2C_TO_ATTACK,
 
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 마법 요청
@@ -903,6 +929,14 @@ public class Protocol
 		// int64 PartyLeaderMandatePlayerID
 		//-----------------------------------------------------------
 		en_PACKET_S2C_PARTY_LEADER_MANDATE,
+
+		//-----------------------------------------------------------
+		// 게임서버 레이캐스팅 응답
+		// int64 ObjectID
+		// int64 RayCastingStartPosition
+		// int64 RayCastingEndPosition
+		//-----------------------------------------------------------
+		en_PACKET_S2C_RAY_CASTING,
 
 		//-----------------------------------------------------------
 		// 게임서버 시간 요청 
