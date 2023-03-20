@@ -24,7 +24,7 @@ public class GameObjectWeapon : MonoBehaviour
         // Pinter로 향하는 벡터 구함        
         Vector2 Direction = (Pointer - (Vector2)transform.position).normalized;
         // 오른쪽 로컬 기준 좌표 값을 Pointer를 바라보게 해줌
-        transform.right = Direction;
+        transform.right = Direction;        
 
         _DesiredAngle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg;
                 
@@ -40,7 +40,7 @@ public class GameObjectWeapon : MonoBehaviour
         //Vector3 AimDirection = (Vector3)Pointer - transform.position;
         //_DesiredAngle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AdjustWeaponRendering();
-        transform.rotation = Quaternion.AngleAxis(_DesiredAngle, Vector3.forward);
+        transform.rotation = Quaternion.AngleAxis(_DesiredAngle, Vector3.forward);        
     }
 
     protected void AdjustWeaponRendering()
@@ -54,6 +54,7 @@ public class GameObjectWeapon : MonoBehaviour
         }
     }
 
+    // GameObjectInput OnDefaultAttackPressed 이벤트와 연결
     // 가지고 있는 무기로 공격 시도
     public void Attack()
     {
@@ -69,6 +70,23 @@ public class GameObjectWeapon : MonoBehaviour
         if(_Weapon != null)
         {
             _Weapon.StopAttacking();
+        }
+    }
+
+    public void Reload()
+    {
+        if(_Weapon != null)
+        {
+            _Weapon.Reload();
+        }
+    }
+
+    public void Init()
+    {
+        if(_Weapon != null)
+        {
+            _Weapon.StopAttacking();
+            _Weapon.Reload();
         }
     }
 }
