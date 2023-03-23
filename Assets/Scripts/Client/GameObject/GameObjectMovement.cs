@@ -10,14 +10,17 @@ public class GameObjectMovement : MonoBehaviour
     [field: SerializeField]
     public CreatureObject _OwnerObject { get; set; }
 
-    protected Rigidbody2D _Rigidbody2D;
-
-    protected Vector2 _MovementDirection;
+    protected Rigidbody2D _Rigidbody2D;    
 
     protected float _Speed;
 
     [field: SerializeField]
     public UnityEvent<float> OnVelocityChange { get; set; }
+
+    // GameObject의 움직임을 멈춰주는 이벤트
+    // GameObjectMovement - MovementStop()과 연결
+    [field: SerializeField]
+    public UnityEvent OnMovementStop { get; set; }
 
     private void Awake()
     {
@@ -33,7 +36,7 @@ public class GameObjectMovement : MonoBehaviour
     // 캐릭터가 진행하고자 하는 방향 값을 받는다.
     public void MoveGameObject(Vector2 MovementDirection)
     {
-        if(_OwnerObject != null)
+        if(_OwnerObject != null && _OwnerObject._IsChattingFocus == false)
         {
             _Speed = _OwnerObject._GameObjectInfo.ObjectStatInfo.Speed;
 
@@ -41,30 +44,26 @@ public class GameObjectMovement : MonoBehaviour
             if (_OwnerObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.MOVING 
                 && MovementDirection.magnitude > 0)
             {                
-                _OwnerObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;
+                _OwnerObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;                
 
-                _MovementDirection = MovementDirection;
-
-                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = _MovementDirection;
+                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
 
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
-                    _MovementDirection.x,
-                    _MovementDirection.y,                    
+                    _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.x,
+                    _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.y,                    
                     _OwnerObject.transform.position.x,
                     _OwnerObject.transform.position.y,
                     _OwnerObject._GameObjectInfo.ObjectPositionInfo.State);
                 Managers.NetworkManager.GameServerSend(ReqMovePacket);
             }  
             else if(_OwnerObject._GameObjectInfo.ObjectPositionInfo.State == en_CreatureState.MOVING
-                && _MovementDirection != MovementDirection && MovementDirection.magnitude > 0)
+                && _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton != MovementDirection && MovementDirection.magnitude > 0)
             {
-                _MovementDirection = MovementDirection;
-
-                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = _MovementDirection;
+                _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
 
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
-                    _MovementDirection.x,
-                    _MovementDirection.y,
+                    _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.x,
+                    _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.y,
                     _OwnerObject.transform.position.x,
                     _OwnerObject.transform.position.y,
                     _OwnerObject._GameObjectInfo.ObjectPositionInfo.State);
@@ -73,8 +72,6 @@ public class GameObjectMovement : MonoBehaviour
             else if(_OwnerObject._GameObjectInfo.ObjectPositionInfo.State == en_CreatureState.MOVING
                 && MovementDirection.magnitude == 0)
             {
-                _MovementDirection = MovementDirection;
-
                 _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = Vector2.zero;
 
                 _OwnerObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.IDLE;
@@ -86,8 +83,8 @@ public class GameObjectMovement : MonoBehaviour
     }    
 
     public void MoveOtherGameObject(Vector2 MovementDirection)
-    {        
-        _MovementDirection = MovementDirection;
+    {
+        _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
     }
 
     private void FixedUpdate()
@@ -105,6 +102,11 @@ public class GameObjectMovement : MonoBehaviour
         if(_OwnerObject != null)
         {            
             _OwnerObject.transform.position += (Vector3)(_OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.normalized * _OwnerObject._GameObjectInfo.ObjectStatInfo.Speed * Time.deltaTime);
-        }        
+        }                
+    }
+
+    public void MovementStop()
+    {
+        _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = Vector2.zero;
     }
 }
