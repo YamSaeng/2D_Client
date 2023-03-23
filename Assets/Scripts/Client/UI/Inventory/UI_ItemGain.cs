@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Define;
 
-public class UI_ItemGain : UI_Scene
+public class UI_ItemGain : UI_Base
 {
+    public long _ItemGainID = 0;
     private st_ItemInfo _GainItemInfo;
 
     enum en_ItemGainImage
@@ -21,12 +22,19 @@ public class UI_ItemGain : UI_Scene
     }    
 
     public override void Init()
-    {
-        base.Init();
-
-        
+    {   
         Bind<Text>(typeof(en_ItemGainText));
         Bind<Image>(typeof(en_ItemGainImage));
+    }
+
+    public override void Binding()
+    {
+
+    }
+
+    public override void ShowCloseUI(bool IsShowClose)
+    {
+        gameObject.SetActive(IsShowClose);
     }
 
     public void SetItemGain(st_ItemInfo GainItemInfo, int Count)
@@ -46,5 +54,22 @@ public class UI_ItemGain : UI_Scene
 
         // 개수 셋팅
         Get<Text>((int)en_ItemGainText.ItemCountText).text = Count.ToString() + " 개 획득!";
+
+        StartCoroutine(ItemGainUIDestory());
+    }
+
+    IEnumerator ItemGainUIDestory()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+        if(GameSceneUI != null)
+        {
+            UI_ItemGainBox ItemGainBoxUI = GameSceneUI._ItemGainBox;
+            if(ItemGainBoxUI != null)
+            {
+                ItemGainBoxUI.ItemGainDestory(this);
+            }
+        }
     }
 }
