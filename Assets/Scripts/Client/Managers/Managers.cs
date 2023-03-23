@@ -77,10 +77,16 @@ public class Managers : MonoBehaviour
     #endregion
 
     #region CoreManagers    
+    DataManager _DataManager = new DataManager();
     ResourceManager _ResourceManager = new ResourceManager();
     SceneManagerEx _SceneManager = new SceneManagerEx();
     BGMSoundManager _SoundManager = new BGMSoundManager();
     UIManager _UIManager = new UIManager();        
+
+    public static DataManager Data
+    {
+        get { return GetInstance._DataManager; }
+    }
 
     public static ResourceManager Resource
     {
@@ -137,7 +143,7 @@ public class Managers : MonoBehaviour
             //사라지지 Managers 오브젝트가 사라지지 않도록 해줌
             DontDestroyOnLoad(GOManagers);
             _Instance = GOManagers.GetComponent<Managers>();
-
+                        
             _Instance._ResourceManager.Init();
             _Instance._ObjectManager.Init();
             _Instance._SoundManager.Init();
