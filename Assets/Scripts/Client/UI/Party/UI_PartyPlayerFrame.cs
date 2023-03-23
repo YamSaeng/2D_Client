@@ -90,9 +90,7 @@ public class UI_PartyPlayerFrame : UI_Base
     {
         if(Event.button == PointerEventData.InputButton.Left)
         {            
-            CMessage ReqLeftMousePositionObjectInfoPacket = Packet.MakePacket.ReqMakeLeftMouseWorldObjectInfoPacket(
-                               Managers.NetworkManager._AccountId,
-                               Managers.NetworkManager._PlayerDBId,
+            CMessage ReqLeftMousePositionObjectInfoPacket = Packet.MakePacket.ReqMakeLeftMouseWorldObjectInfoPacket(                               
                                _PartyPlayerGameObjectInfo.ObjectId,
                                _PartyPlayerGameObjectInfo.ObjectType);
             Managers.NetworkManager.GameServerSend(ReqLeftMousePositionObjectInfoPacket);
