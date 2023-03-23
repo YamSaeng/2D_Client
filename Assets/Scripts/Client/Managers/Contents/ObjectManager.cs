@@ -63,6 +63,7 @@ public class ObjectManager
             UnityEngine.Object.DontDestroyOnLoad(_Root);
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER));                        
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT));                        
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN));            
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE));            
@@ -101,16 +102,27 @@ public class ObjectManager
         switch (Info.ObjectType)
         {
             case en_GameObjectType.OBJECT_PLAYER:
-                GameObject WarriorPlayerGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_PLAYER].Pop().Object;
-                WarriorPlayerGO.name = Info.ObjectName;
+                GameObject PlayerGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_PLAYER].Pop().Object;
+                PlayerGO.name = Info.ObjectName;
 
-                _Objects.Add(Info.ObjectId, WarriorPlayerGO);
+                _Objects.Add(Info.ObjectId, PlayerGO);
                 
-                PlayerObject WarriorPlayerController = WarriorPlayerGO.GetComponent<PlayerObject>();
-                WarriorPlayerController._GameObjectInfo = Info;
-                WarriorPlayerController.Init();                
+                PlayerObject Player = PlayerGO.GetComponent<PlayerObject>();
+                Player._GameObjectInfo = Info;
+                Player.Init();                
 
-                return WarriorPlayerGO;
+                return PlayerGO;
+            case en_GameObjectType.OBJECT_NON_PLAYER_GENERAL_MERCHANT:
+                GameObject GeneralMerchantGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT].Pop().Object;
+                GeneralMerchantGO.name = Info.ObjectName;
+
+                _Objects.Add(Info.ObjectId, GeneralMerchantGO);
+
+                GeneralMerchantNPC GeneralMerchant = GeneralMerchantGO.GetComponent<GeneralMerchantNPC>();
+                GeneralMerchant._GameObjectInfo = Info;
+                GeneralMerchant.Init();
+
+                return GeneralMerchantGO;
             case en_GameObjectType.OBJECT_GOBLIN:
                 GameObject GoblinGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN].Pop().Object;
                 GoblinGO.name = Info.ObjectName;
@@ -342,6 +354,9 @@ public class ObjectManager
             {
                 case en_GameObjectType.OBJECT_PLAYER:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_PLAYER].Push(PoolObject);
+                    break;
+                case en_GameObjectType.OBJECT_NON_PLAYER_GENERAL_MERCHANT:
+                    _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT].Push(PoolObject);
                     break;
                 case en_GameObjectType.OBJECT_GOBLIN:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN].Push(PoolObject);
