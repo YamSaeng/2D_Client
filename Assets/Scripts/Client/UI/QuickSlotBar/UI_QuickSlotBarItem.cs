@@ -164,7 +164,7 @@ public class UI_QuickSlotBarItem : UI_Base
 
     private void OnQuickSlotBarItemPointerEnter(PointerEventData PointerEnterEvent)
     {
-        if (_QuickSlotBarSlotInfo.QuickBarSkillInfo != null && _GameSceneUI._DragQuickSlotItemUI.gameObject.active == false)
+        if (_QuickSlotBarSlotInfo.QuickBarSkillInfo != null && _GameSceneUI._DragQuickSlotItemUI.gameObject.activeSelf == false)
         {
             _GameSceneUI.SetSkillExplanation(_QuickSlotBarSlotInfo.QuickBarSkillInfo);
         }
