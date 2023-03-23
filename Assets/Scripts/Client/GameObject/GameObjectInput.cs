@@ -1,8 +1,11 @@
+using ServerCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameObjectInput : MonoBehaviour
 {
@@ -37,49 +40,267 @@ public class GameObjectInput : MonoBehaviour
 
     void Update()
     {
-        GetUIKeyInput();
+        GetKeyboardInput();
         GetPointerInput();
-        GetMovementInput();
-        GetDefaultAttackInput();
+        GetMouseButtonInput();
+        GetMovementInput();        
+
+        Managers.Key.QuickSlotBarKeyUpdate();
     }
 
-    private void GetUIKeyInput()
+    private void GetMouseButtonInput()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        // 왼쪽 클릭
+        if(Input.GetMouseButtonDown(0))
         {
-            OnInventroyUIOpen?.Invoke();
+            LeftMouseButtonClick();            
         }
 
-        if(Input.GetKeyDown(KeyCode.C))
+        // 오른쪽 클릭
+        if(Input.GetMouseButtonDown(1))
         {
-            OnEquipmentUIOpen?.Invoke();
-        }
-
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            OnSkillUIOpen?.Invoke();
+            RightMouseButtonClick();
         }
     }
 
-    private void GetDefaultAttackInput()
+    private void LeftMouseButtonClick()
     {
-        if (Input.GetAxisRaw("DefaultAttack") > 0)
-        {            
-            if (_IsDefaultAttack == false)
+        Vector3 MousePosition = Input.mousePosition;
+        Vector3 ScreenToMousePosition = _MainCamera.ScreenToWorldPoint(MousePosition);
+
+        // IsPointerOverGameObject == 마우스가 UI에 있으면 true 반환
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            RaycastHit2D Hit = Physics2D.Raycast(ScreenToMousePosition, Vector2.zero);
+
+            if(Hit)
+            {                
+                CBaseObject HitObject = Hit.transform.GetComponent<CBaseObject>();
+                if(HitObject != null)
+                {
+                    switch(HitObject._GameObjectInfo.ObjectType)
+                    {
+                        case en_GameObjectType.OBJECT_PLAYER:
+                        case en_GameObjectType.OBJECT_GOBLIN:
+                            CMessage ReqLeftMousePositionObjectInfoPacket = Packet.MakePacket.ReqMakeLeftMouseWorldObjectInfoPacket(                                
+                                HitObject._GameObjectInfo.ObjectId,
+                                HitObject._GameObjectInfo.ObjectType);
+                            Managers.NetworkManager.GameServerSend(ReqLeftMousePositionObjectInfoPacket);
+                            break;
+                    }
+                }                
+            }
+            else
             {
-                _IsDefaultAttack = true;
-                OnDefaultAttackPressed?.Invoke();
+               // gameSceneUI._PlayerOptionUI.ShowCloseUI(false);
+               // gameSceneUI._PartyPlayerOptionUI.ShowCloseUI(false);
             }
         }
-        else
+    }
+
+    private void RightMouseButtonClick()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (_IsDefaultAttack == true)
+            Vector3 MousePosition = Input.mousePosition;
+            Vector3 ScreenToMousePosition = _MainCamera.ScreenToWorldPoint(MousePosition);
+
+            RaycastHit2D ObjectHit = Physics2D.Raycast(ScreenToMousePosition, Vector2.zero);
+
+            if (ObjectHit)
             {
-                _IsDefaultAttack = false;
-                OnDefaultAttackReleased?.Invoke();
+                CreatureObject CC = ObjectHit.transform.GetComponent<CreatureObject>();
+                if (CC != null)
+                {
+                    Vector3 FurnaceTargetVector = CC.gameObject.transform.position;
+                    Vector3 MyVector = gameObject.transform.position;
+
+                    UI_GameScene gameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+
+                    float Distance = Vector3.Distance(FurnaceTargetVector, MyVector);
+
+                    switch (CC._GameObjectInfo.ObjectType)
+                    {
+                        case en_GameObjectType.OBJECT_PLAYER:
+                            Vector2 localPos = Vector2.zero;
+                            RectTransformUtility.ScreenPointToLocalPointInRectangle(gameSceneUI.GetComponent<RectTransform>(),
+                                Camera.main.WorldToScreenPoint(Input.mousePosition),
+                                Camera.main, out localPos);
+
+                            gameSceneUI._PlayerOptionUI.UIPlayerOptionSetPlayerGameObjectInfo(CC._GameObjectInfo);
+                            gameSceneUI._PlayerOptionUI.ShowCloseUI(true);
+                            gameSceneUI._PlayerOptionUI.PlayerOptionSetPosition(localPos);
+                            break;
+                        case en_GameObjectType.OBJECT_NON_PLAYER_GENERAL_MERCHANT:
+                            break;
+                        case en_GameObjectType.OBJECT_STONE:
+                        case en_GameObjectType.OBJECT_TREE:
+                            EnvironmentController EnvironmentObject = CC.GetComponent<EnvironmentController>();
+                            if (EnvironmentObject != null && EnvironmentObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.DEAD)
+                            {
+                                CMessage ReqGathering = Packet.MakePacket.ReqMakeGatheringPacket(Managers.NetworkManager._AccountId,
+                                Managers.NetworkManager._PlayerDBId,
+                                CC._GameObjectInfo.ObjectId,
+                                CC._GameObjectInfo.ObjectType);
+                                Managers.NetworkManager.GameServerSend(ReqGathering);
+                            }
+                            break;
+                        case en_GameObjectType.OBJECT_CROP_POTATO:
+                            CropController CropObject = CC.GetComponent<CropController>();
+                            if (CropObject != null && CropObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.DEAD)
+                            {
+                                CMessage ReqGathering = Packet.MakePacket.ReqMakeGatheringPacket(Managers.NetworkManager._AccountId,
+                                Managers.NetworkManager._PlayerDBId,
+                                CC._GameObjectInfo.ObjectId,
+                                CC._GameObjectInfo.ObjectType);
+                                Managers.NetworkManager.GameServerSend(ReqGathering);
+                            }
+                            break;
+                        case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
+                            if (Distance < 2.0f)
+                            {
+                                FurnaceController FurnaceObject = CC.GetComponent<FurnaceController>();
+                                if (FurnaceObject != null)
+                                {
+                                    CMessage ReqMousePositionObjectInfo = Packet.MakePacket.ReqMakeRightMouseObjectInfoPacket(Managers.NetworkManager._AccountId,
+                                    Managers.NetworkManager._PlayerDBId,
+                                    FurnaceObject._GameObjectInfo.ObjectId,
+                                    FurnaceObject._GameObjectInfo.ObjectType);
+                                    Managers.NetworkManager.GameServerSend(ReqMousePositionObjectInfo);
+                                }
+                            }
+                            break;
+                        case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_SAWMILL:
+                            if (Distance < 2.0f)
+                            {
+                                SawmillController SawmillObject = CC.GetComponent<SawmillController>();
+                                if (SawmillObject != null)
+                                {
+                                    CMessage ReqMousePositionObjectInfo = Packet.MakePacket.ReqMakeRightMouseObjectInfoPacket(Managers.NetworkManager._AccountId,
+                                    Managers.NetworkManager._PlayerDBId,
+                                    SawmillObject._GameObjectInfo.ObjectId,
+                                    SawmillObject._GameObjectInfo.ObjectType);
+                                    Managers.NetworkManager.GameServerSend(ReqMousePositionObjectInfo);
+                                }
+                            }
+                            break;
+                    }
+                }
             }
         }
     }
+
+    private void GetKeyboardInput()
+    {
+        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+        if(GameSceneUI != null)
+        {
+            PlayerObject Player = GetComponent<PlayerObject>();
+            if(Player != null)
+            {
+                if (Player._IsChattingFocus == false)
+                {
+                    if (Input.GetKeyDown(KeyCode.I))
+                    {
+                        OnInventroyUIOpen?.Invoke();
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.C))
+                    {
+                        OnEquipmentUIOpen?.Invoke();
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.K))
+                    {
+                        OnSkillUIOpen?.Invoke();
+                    }
+                }
+
+                if(Player._IsChattingFocus == false)
+                {
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        if (GameSceneUI.IsGameSceneUIStackEmpty() == true)
+                        {
+                            GameSceneUI.AddGameSceneUIStack(GameSceneUI._OptionUI);
+                        }
+                        else
+                        {
+                            // GameSceneUIStack이 비어 있지 않을 경우
+                            // 하나씩 뽑아서 UI를 닫아줌
+                            UI_Base GameSceneUIStackUI = GameSceneUI.FindGameSceneUIStack();
+                            if (GameSceneUIStackUI != null)
+                            {
+                                UI_Furnace FurnaceUI = GameSceneUIStackUI as UI_Furnace;
+                                if (FurnaceUI != null)
+                                {
+                                    CMessage ReqCraftingTableNonSelectPacket = Packet.MakePacket.ReqMakeCraftingTableNonSelectPacket(Managers.NetworkManager._AccountId,
+                                        Managers.NetworkManager._PlayerDBId,
+                                        FurnaceUI._FurnaceController._GameObjectInfo.ObjectId,
+                                        FurnaceUI._FurnaceController._GameObjectInfo.ObjectType);
+                                    Managers.NetworkManager.GameServerSend(ReqCraftingTableNonSelectPacket);
+                                }
+
+                                GameSceneUI.DeleteGameSceneUIStack(GameSceneUIStackUI);
+                            }
+                        }
+                    }
+                }
+
+                if (Player._IsChattingFocus == false
+                    && Input.GetKeyDown(KeyCode.Return))
+                {
+                    if (Player != null)
+                    {
+                        Player._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.STOP;
+
+                        CMessage ReqMoveStop = Packet.MakePacket.ReqMakeMoveStopPacket(
+                            gameObject.transform.position.x,
+                            gameObject.transform.position.y,
+                            Player._GameObjectInfo.ObjectPositionInfo.State);
+                        Managers.NetworkManager.GameServerSend(ReqMoveStop);
+
+                        GameObjectMovement gameObjectMovement = GetComponent<GameObjectMovement>();
+                        if (gameObjectMovement != null)
+                        {
+                            Player._IsChattingFocus = true;
+
+                            gameObjectMovement.OnMovementStop?.Invoke();                           
+
+                            InputField ChattingInputField = GameSceneUI._ChattingBoxGroup.GetChattingInputField();
+                            if(ChattingInputField != null)
+                            {
+                                ChattingInputField.text = "";
+                                ChattingInputField.gameObject.SetActive(true);
+                                ChattingInputField.ActivateInputField();
+                            }                            
+                        }
+                    }
+                }
+                else if(Player._IsChattingFocus == true
+                    && Input.GetKeyDown(KeyCode.Return))
+                {
+                    UI_ChattingBoxGroup ChattingBoxGroupUI = GameSceneUI._ChattingBoxGroup;
+
+                    InputField ChattingInputField = GameSceneUI._ChattingBoxGroup.GetChattingInputField();
+                    if(ChattingInputField != null)
+                    {
+                        Player._IsChattingFocus = false;
+
+                        if (ChattingInputField.text.Length > 0)
+                        {
+                            CMessage ReqChattingMessage = Packet.MakePacket.ReqMakeChattingPacket(ChattingInputField.text);
+                            Managers.NetworkManager.GameServerSend(ReqChattingMessage);
+                        }
+
+                        ChattingInputField.text = "";
+                        ChattingInputField.gameObject.SetActive(false);
+                        ChattingInputField.DeactivateInputField();
+                    }
+                }
+            }
+        }        
+    }   
 
     private void GetPointerInput()
     {
@@ -87,6 +308,11 @@ public class GameObjectInput : MonoBehaviour
         {
             Vector3 ScreenMousePosition = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
             OnPointerPositionChange?.Invoke(ScreenMousePosition);
+            
+            Vector2 Direction = ((Vector2)ScreenMousePosition - (Vector2)transform.position).normalized;            
+
+            CMessage ReqFaceDirectionPacket = Packet.MakePacket.ReqMakeFaceDirectionPacket(Direction.x, Direction.y);
+            Managers.NetworkManager.GameServerSend(ReqFaceDirectionPacket);
         }        
     }
 
