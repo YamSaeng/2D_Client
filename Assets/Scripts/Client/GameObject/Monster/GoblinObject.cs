@@ -23,14 +23,32 @@ public class CGoblinObject : CreatureObject
 
     protected override void UpdateController()
     {
-        switch(_GameObjectInfo.ObjectPositionInfo.State)
+        Transform RendererTransform = transform.Find("GameObjectRenderer");
+        Transform RightWeaponParentTransform = transform.Find("RightWeaponParent");
+
+        switch (_GameObjectInfo.ObjectPositionInfo.State)
         {
             case en_CreatureState.IDLE:
                 break;
+            case en_CreatureState.PATROL:                
+                Vector2 LookAtPosition = gameObject.transform.position + (Vector3)_GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
+
+                if (RightWeaponParentTransform != null)
+                {
+                    GameObject RightWeaponParent = RightWeaponParentTransform.gameObject;
+                    if (RightWeaponParent != null)
+                    {
+                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                        if (Weapon != null)
+                        {
+                            Weapon.AimWeapon(LookAtPosition);
+                        }
+                    }
+                }
+                break;
             case en_CreatureState.MOVING:
                 if(_TargetObject != null)
-                {
-                    Transform RendererTransform = transform.Find("GameObjectRenderer");
+                {                    
                     if(RendererTransform != null)
                     {
                         GameObjectRenderer Renderer = RendererTransform.GetComponent<GameObjectRenderer>();
@@ -40,8 +58,7 @@ public class CGoblinObject : CreatureObject
                                 _TargetObject.gameObject.transform.position.y));
                         }
                     }
-
-                    Transform RightWeaponParentTransform = transform.Find("RightWeaponParent");
+                    
                     if (RightWeaponParentTransform != null)
                     {
                         GameObject RightWeaponParent = RightWeaponParentTransform.gameObject;
@@ -58,8 +75,7 @@ public class CGoblinObject : CreatureObject
                 break;
             case en_CreatureState.ATTACK:
                 if(_TargetObject != null)
-                {
-                    Transform RightWeaponParentTransform = transform.Find("RightWeaponParent");
+                {                    
                     if (RightWeaponParentTransform != null)
                     {
                         GameObject RightWeaponParent = RightWeaponParentTransform.gameObject;
@@ -72,8 +88,7 @@ public class CGoblinObject : CreatureObject
                             }
                         }
                     }
-
-                    Transform RendererTransform = transform.Find("GameObjectRenderer");
+                    
                     if (RendererTransform != null)
                     {
                         GameObjectRenderer Renderer = RendererTransform.GetComponent<GameObjectRenderer>();
