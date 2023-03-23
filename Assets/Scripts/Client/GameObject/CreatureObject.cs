@@ -8,6 +8,8 @@ using static Define;
 public class CreatureObject : CBaseObject
 {
     [HideInInspector]
+    public bool _IsChattingFocus;
+    [HideInInspector]
     public GameObject SpeechBubblePosition;
     [HideInInspector]
     public UI_SpeechBubble _SpeechBubbleUI;
