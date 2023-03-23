@@ -404,7 +404,7 @@ namespace Packet
         {
             long ObjectID;
             long TargetID;
-            float LookAtDiretionX;
+            float LookAtDirectionX;
             float LookAtDirectionY;
             float MoveDirectionX;
             float MoveDirectionY;
@@ -412,7 +412,7 @@ namespace Packet
             float PositionY;
 
             S2C_MovePacket.GetData(out ObjectID, sizeof(long));            
-            S2C_MovePacket.GetData(out LookAtDiretionX, sizeof(float));                        
+            S2C_MovePacket.GetData(out LookAtDirectionX, sizeof(float));                        
             S2C_MovePacket.GetData(out LookAtDirectionY, sizeof(float));
             S2C_MovePacket.GetData(out MoveDirectionX, sizeof(float));
             S2C_MovePacket.GetData(out MoveDirectionY, sizeof(float));
@@ -428,7 +428,7 @@ namespace Packet
                 {
                     Vector2 NewMoveDirection = new Vector2(MoveDirectionX, MoveDirectionY);
 
-                    Vector2 NewFaceDirection = new Vector2(LookAtDiretionX + FindGameObject.transform.position.x, LookAtDirectionY + FindGameObject.transform.position.y);
+                    Vector2 NewFaceDirection = new Vector2(LookAtDirectionX + FindGameObject.transform.position.x, LookAtDirectionY + FindGameObject.transform.position.y);
 
                     GameObject TargetGO = Managers.Object.FindById(TargetID);
                     if(TargetGO != null)
@@ -436,7 +436,7 @@ namespace Packet
                         CBaseObject TargetGameObject = TargetGO.GetComponent<CBaseObject>();
                         if(TargetGameObject != null)
                         {
-                            FindGameObject._TargetObject = TargetGameObject;
+                            FindGameObject._TargetObject = TargetGameObject;                           
 
                             FindGameObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;                            
                         }
@@ -445,6 +445,9 @@ namespace Packet
                     {
                         
                     }
+
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x = LookAtDirectionX;
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y = LookAtDirectionY;
 
                     FindGameObject.GetComponentInChildren<GameObjectRenderer>().FaceDirection(NewFaceDirection);
                     FindGameObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = NewMoveDirection;
@@ -2746,7 +2749,7 @@ namespace Packet
 
             UI_LoginScene LoginScene = Managers.UI._SceneUI as UI_LoginScene;
 
-            UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._PersonalMessageBoxUI;
+            UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._GlobalMessageBoxUI;
             if (AccountNewSuccess == true)
             {
                 LoginScene.AccountPasswordFieldInit();
@@ -2780,7 +2783,7 @@ namespace Packet
 
             UI_LoginScene LoginScene = Managers.UI._SceneUI as UI_LoginScene;
 
-            UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._PersonalMessageBoxUI;
+            UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._GlobalMessageBoxUI;
 
             string PersonalMessage;
             switch ((en_LoginInfo)LoginInfo)
