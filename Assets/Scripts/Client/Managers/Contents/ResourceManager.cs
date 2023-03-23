@@ -15,7 +15,8 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_CHATTING_BOX, "UI/ChattingBox/UI_ChattingBox");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SPEECH_BUBBLE, "UI/SpeechBubble/UI_SpeechBubble");
 
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");        
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, "Creature/Player/Player");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT, "Creature/NPC/GeneralMerchantNPC");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, "Creature/Monster/Goblin");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE, "Environment/Stone");
@@ -30,6 +31,8 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_CHATTING_TEXT, "UI/ChattingBox/UI_ChattingText");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PLAYER_OPTION, "UI/Option/UI_PlayerOption");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_PLAYER_OPTION, "UI/Option/UI_PartyPlayerOption");
