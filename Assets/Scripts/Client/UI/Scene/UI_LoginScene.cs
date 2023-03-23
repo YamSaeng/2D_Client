@@ -43,7 +43,7 @@ public class UI_LoginScene : UI_Scene
     public UI_CharacterCreate _CharacterCreateUI;
     public UI_SelectServer _SelectServerUI;
 
-    public UI_GlobalMessageBox _PersonalMessageBoxUI { get; private set; }    
+    public UI_GlobalMessageBox _GlobalMessageBoxUI { get; private set; } // 개인 메세지 UI    
 
     public override void Init()
     {
@@ -56,7 +56,7 @@ public class UI_LoginScene : UI_Scene
         _LoginServerInfo.Port = 7778;
         _LoginServerInfo.EndPoint = new IPEndPoint(_LoginServerInfo.IPAddress, _LoginServerInfo.Port);
 
-        _PersonalMessageBoxUI = GetComponentInChildren<UI_GlobalMessageBox>();
+        _GlobalMessageBoxUI = GetComponentInChildren<UI_GlobalMessageBox>();
 
         // 캐릭터 선택 UI 저장
         _CharacterChoiceUI = GetComponentInChildren<UI_CharacterChoice>();
