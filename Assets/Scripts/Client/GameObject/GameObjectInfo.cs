@@ -765,6 +765,8 @@ public class st_SkillInfo
     public en_SkillMediumCategory SkillMediumCategory;
     public en_SkillType SkillType;
     public byte SkillLevel;
+    public int SkillMinDamage;
+    public int SkillMaxDamage;
     public byte SkillOverlapStep;
     public string SkillName;
     public int SkillCoolTime;
@@ -780,6 +782,8 @@ public class st_SkillInfo
         SkillMediumCategory = en_SkillMediumCategory.SKILL_MEDIUM_CATEGORY_NONE;
         SkillType = en_SkillType.SKILL_TYPE_NONE;
         SkillLevel = 0;
+        SkillMinDamage = 0;
+        SkillMaxDamage = 0;
         SkillOverlapStep = 0;
         SkillName = "";
         SkillCoolTime = 0;
