@@ -17,8 +17,6 @@ public class CGoblinObject : CreatureObject
         {
             AddNameBar(0.5f, -0.2f);
         }
-
-        _NameUI.gameObject.SetActive(true);
     }
 
     protected override void UpdateController()
