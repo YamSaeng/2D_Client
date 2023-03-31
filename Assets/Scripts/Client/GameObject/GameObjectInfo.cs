@@ -90,7 +90,8 @@ public enum en_CreatureState
     RETURN_SPAWN_POSITION,
     ATTACK,
     SPELL,
-    GATHERING,    
+    GATHERING,
+    ROOTING,
     DEAD
 };
 
