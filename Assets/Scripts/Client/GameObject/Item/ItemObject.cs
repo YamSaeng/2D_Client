@@ -14,6 +14,11 @@ public class CItemObject : CreatureObject
         base.Init();
 
         _ItemState = en_ItemState.ITEM_IDLE;
+                
+        if(_NameUI == null)
+        {
+            _NameUI = transform.Find("ItemName").GetComponent<UI_Name>();            
+        }
     }
 
     IEnumerator CoTargetFly(float Time)
@@ -63,6 +68,8 @@ public class CItemObject : CreatureObject
                         }
                         else
                         {
+                            gameObject.SetActive(false);
+
                             Managers.Object.Remove(_GameObjectInfo.ObjectId);
                         }
                     }                    
