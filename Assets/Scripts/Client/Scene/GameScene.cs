@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameScene : BaseScene
 {
@@ -19,8 +20,10 @@ public class GameScene : BaseScene
 
         _SceneType = Define.en_Scene.GameScene;
 
-        Managers.Map.LoadMap(en_ResourceName.CLIENT_MAP_MAIN_FIELD);
-        
+        GameObject MainFieldGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_MAP_MAIN_FIELD);
+        Tilemap TileMapCollision = MainFieldGo.transform.Find("Tilemap_Collision").gameObject.GetComponent<Tilemap>();
+        TileMapCollision.gameObject.SetActive(false);
+
         Screen.SetResolution(1366 , 960, false);
 
         _GameSceneUI = Managers.UI.ShowSceneUI<UI_GameScene>(en_ResourceName.CLIENT_UI_SCENE_GAME);
