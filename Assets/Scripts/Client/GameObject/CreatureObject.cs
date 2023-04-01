@@ -15,7 +15,7 @@ public class CreatureObject : CBaseObject
     public UI_SpeechBubble _SpeechBubbleUI;
 
     [HideInInspector]
-    public UI_HPBar _HpBar;
+    public UI_HPBar _HPBarUI;
     [HideInInspector]
     public UI_Name _NameUI;
 
@@ -47,6 +47,9 @@ public class CreatureObject : CBaseObject
 
     [field: SerializeField]
     public UnityEvent OnDieEvent { get; set; }
+
+    [field: SerializeField]
+    public UnityEvent<bool> OnDieAnimationEvent { get; set; }    
 
     public override void Init()
     {
@@ -96,7 +99,7 @@ public class CreatureObject : CBaseObject
             }
         }
 
-        if(_HpBar != null)
+        if(_HPBarUI != null)
         {
             UpdateHPBar();
         }
@@ -112,12 +115,12 @@ public class CreatureObject : CBaseObject
         HPBarGo.name = "UI_HPBar";
 
         //체력 업데이트 하기 위해서 스크립트 추출해서 넣어둠
-        _HpBar = HPBarGo.GetComponent<UI_HPBar>();        
+        _HPBarUI = HPBarGo.GetComponent<UI_HPBar>();        
 
         //체력바 업데이트
         UpdateHPBar();
 
-        _HpBar.gameObject.SetActive(false);
+        _HPBarUI.gameObject.SetActive(false);
     }
 
     protected void AddSpellBar(float SpellBarPositionX, float SpellBarPositionY)
@@ -158,7 +161,7 @@ public class CreatureObject : CBaseObject
     public void UpdateHPBar()
     {
         //_HPBar가 null이면 리턴
-        if (_HpBar == null)
+        if (_HPBarUI == null)
         {
             return;
         }
@@ -171,7 +174,7 @@ public class CreatureObject : CBaseObject
         }
 
         //변경된 HP적용
-        _HpBar.SetHPBar(HPRatio);
+        _HPBarUI.SetHPBar(HPRatio);
     }
 
     public void InventoryCreate(int InventoryWidth,
@@ -240,13 +243,62 @@ public class CreatureObject : CBaseObject
         _SkillBoxUI.Binding();
 
         _GameSceneUI._SkillBoxUI = _SkillBoxUI;        
+    }
+
+    public void CreatureShowClose(bool IsShowClose)
+    {
+        CreatureSpriteShowClose(IsShowClose);
+        CreatureObjectWeaponShowClose(IsShowClose);
+        CreatureObjectNameShowClose(IsShowClose);
+        CreatureObjectHPBarShowClose(IsShowClose);
+    }
+
+    public void CreatureSpriteShowClose(bool IsShowClose)
+    {
+        GameObjectRenderer CreatureRenderer = transform.Find("GameObjectRenderer")?.GetComponent<GameObjectRenderer>();
+        if(CreatureRenderer != null)
+        {
+            SpriteRenderer CreatureSprite = CreatureRenderer.GetComponent<SpriteRenderer>();
+            if (CreatureSprite != null)
+            {   
+                CreatureSprite.enabled = IsShowClose;                
+            }
+        }       
     }    
 
-    public void WorldUIOff()
+    public void CreatureObjectWeaponShowClose(bool IsShowClose)
     {
-        _HpBar.gameObject.SetActive(false);
-        _NameUI.gameObject.SetActive(false);
+        GameObject RightWeaponParent = transform.Find("RightWeaponParent")?.gameObject;
+        if (RightWeaponParent != null)
+        {
+            switch (_GameObjectInfo.ObjectPositionInfo.State)
+            {
+                case en_CreatureState.ROOTING:
+                case en_CreatureState.DEAD:
+                    RightWeaponParent.gameObject.SetActive(false);
+                    break;
+                default:
+                    RightWeaponParent.gameObject.SetActive(IsShowClose);
+                    break;
+            }
+        }
+    }    
+
+    public void CreatureObjectNameShowClose(bool IsShowClose)
+    {
+        if(_NameUI != null)
+        {
+            _NameUI.gameObject.SetActive(IsShowClose);
+        }        
     }
+
+    public void CreatureObjectHPBarShowClose(bool IsShowClose)
+    {
+        if(_HPBarUI != null)
+        {
+            _HPBarUI.gameObject.SetActive(IsShowClose);
+        }        
+    }    
     
     public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
     {
