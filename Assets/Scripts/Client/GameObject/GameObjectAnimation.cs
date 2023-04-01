@@ -12,14 +12,14 @@ public class GameObjectAnimation : MonoBehaviour
         _AgentAnimator = GetComponent<Animator>();
     }
 
-    public void SetWalkAnimation(bool val)
+    public void SetWalkAnimation(bool Val)
     {        
-        _AgentAnimator.SetBool("IsWalk", val);
+        _AgentAnimator.SetBool("IsWalk", Val);
     }
 
-    public void AnimatePlayer(float velocity)
+    public void AnimatePlayer(float Velocity)
     {
-        SetWalkAnimation(velocity > 0);
+        SetWalkAnimation(Velocity > 0);
     }
 
     public void PlayDeathAnimation()
@@ -41,4 +41,16 @@ public class GameObjectAnimation : MonoBehaviour
     {
         _AgentAnimator.SetTrigger("IsCommonDamage");
     }
+
+    public void PlayDeadAnimation(bool IsLeftRight)
+    {
+        if(IsLeftRight == true)
+        {
+            _AgentAnimator.SetTrigger("IsRightDead");
+        }
+        else
+        {
+            _AgentAnimator.SetTrigger("IsLeftDead");
+        }        
+    }    
 }
