@@ -43,7 +43,7 @@ public class UI_HPBar : MonoBehaviour
 
 
     public void ActiveChoiceUI(bool Active)
-    {
+    {        
         gameObject.SetActive(Active);
 
         if (_IsSelectTargetHPBar == true)
@@ -77,7 +77,7 @@ public class UI_HPBar : MonoBehaviour
 
     IEnumerator HPBarHide()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.0f);
         gameObject.SetActive(false);
 
         _HPBarHide = null;
