@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class UI_SelectSkilCharacteristic : UI_Base
 {
-    public byte _SkillChracteristicIndex;
-
     enum en_SelectSkillCharacteristicButton
     {
         FightCharacteristicButton,
@@ -52,43 +50,37 @@ public class UI_SelectSkilCharacteristic : UI_Base
 
     public void OnFightCharacteristicButtonClick(PointerEventData Event)
     {
-        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(Managers.NetworkManager._AccountId,
-            Managers.NetworkManager._PlayerDBId, _SkillChracteristicIndex, en_SkillCharacteristic.SKILL_CATEGORY_FIGHT);
+        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(en_SkillCharacteristic.SKILL_CATEGORY_FIGHT);
         Managers.NetworkManager.GameServerSend(ReqSelectCharacteristicPacket);
     }
 
     public void OnProtectionCharacteristicButtonClick(PointerEventData Event)
     {
-        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(Managers.NetworkManager._AccountId,
-           Managers.NetworkManager._PlayerDBId, _SkillChracteristicIndex, en_SkillCharacteristic.SKILL_CATEGORY_PROTECTION);
+        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(en_SkillCharacteristic.SKILL_CATEGORY_PROTECTION);
         Managers.NetworkManager.GameServerSend(ReqSelectCharacteristicPacket);
     }
 
     public void OnSpellCharacteristicButtonClick(PointerEventData Event)
     {
-        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(Managers.NetworkManager._AccountId,
-           Managers.NetworkManager._PlayerDBId, _SkillChracteristicIndex, en_SkillCharacteristic.SKILL_CATEGORY_SPELL);
+        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(en_SkillCharacteristic.SKILL_CATEGORY_SPELL);
         Managers.NetworkManager.GameServerSend(ReqSelectCharacteristicPacket);
     }
 
     public void OnShootingCharacteristicButtonClick(PointerEventData Event)
     {
-        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(Managers.NetworkManager._AccountId,
-           Managers.NetworkManager._PlayerDBId, _SkillChracteristicIndex, en_SkillCharacteristic.SKILL_CATEGORY_SHOOTING);
+        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(en_SkillCharacteristic.SKILL_CATEGORY_SHOOTING);
         Managers.NetworkManager.GameServerSend(ReqSelectCharacteristicPacket);
     }
 
     public void OnDisciplineCharacteristicButtonClick(PointerEventData Event)
     {
-        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(Managers.NetworkManager._AccountId,
-           Managers.NetworkManager._PlayerDBId, _SkillChracteristicIndex, en_SkillCharacteristic.SKILL_CATEGORY_DISCIPLINE);
+        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(en_SkillCharacteristic.SKILL_CATEGORY_DISCIPLINE);
         Managers.NetworkManager.GameServerSend(ReqSelectCharacteristicPacket);
     }
 
     public void OnAssassinationCharacteristicButtonClick(PointerEventData Event)
     {
-        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(Managers.NetworkManager._AccountId,
-           Managers.NetworkManager._PlayerDBId, _SkillChracteristicIndex, en_SkillCharacteristic.SKILL_CATEGORY_ASSASSINATION);
+        CMessage ReqSelectCharacteristicPacket = Packet.MakePacket.ReqSelectSkillChracteristicPacket(en_SkillCharacteristic.SKILL_CATEGORY_ASSASSINATION);
         Managers.NetworkManager.GameServerSend(ReqSelectCharacteristicPacket);
     }
 
