@@ -31,10 +31,7 @@ public class CreatureObject : CBaseObject
     public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비 UI
 
     [HideInInspector]
-    public UI_SkillBox _SkillBoxUI { get; set; } // 기술 UI
-
-    [HideInInspector]
-    public LineRendererController _LineRendererController;
+    public UI_SkillBox _SkillBoxUI { get; set; } // 기술 UI    
 
     // 내가 선택한 오브젝트 정보
     public st_GameObjectInfo _SelectTargetObjectInfo;
@@ -53,13 +50,7 @@ public class CreatureObject : CBaseObject
 
     public override void Init()
     {
-        base.Init();
-
-        _LineRendererController = GetComponent<LineRendererController>();
-        if (_LineRendererController != null)
-        {
-            _LineRendererController.SetUpOwnPlayer(this);
-        }        
+        base.Init();            
 
         switch (_GameObjectInfo.ObjectType)
         {
