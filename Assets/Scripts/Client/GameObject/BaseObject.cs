@@ -10,6 +10,9 @@ public class CBaseObject : MonoBehaviour
     [HideInInspector]
     public CBaseObject _TargetObject;
 
+    [HideInInspector]
+    public LineRendererController _LineRendererController;
+
     protected UI_GameScene _GameSceneUI;
     // 상태이상 정보
     protected byte _StatusAbnormal;
@@ -76,6 +79,12 @@ public class CBaseObject : MonoBehaviour
     public virtual void Init()
     {
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+
+        _LineRendererController = GetComponent<LineRendererController>();
+        if (_LineRendererController != null)
+        {
+            _LineRendererController.SetUpOwnPlayer(this);
+        }
 
         transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.Position.x, _GameObjectInfo.ObjectPositionInfo.Position.y, 0);
     }    
