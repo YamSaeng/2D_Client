@@ -84,16 +84,22 @@ public class GameObjectMovement : MonoBehaviour
 
     public void MoveOtherGameObject(Vector2 MovementDirection)
     {
-        _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
+        if(_OwnerObject != null)
+        {
+            _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
+        }        
     }
 
     private void FixedUpdate()
     {                 
-        OnVelocityChange?.Invoke(_OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.normalized.magnitude);
+        if(_OwnerObject != null)
+        {
+            OnVelocityChange?.Invoke(_OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton.normalized.magnitude);
 
-        if (_Rigidbody2D != null)
-        {    
-            //_Rigidbody2D.velocity = _Speed * _MovementDirection.normalized * Time.deltaTime;
+            if (_Rigidbody2D != null)
+            {
+                //_Rigidbody2D.velocity = _Speed * _MovementDirection.normalized * Time.deltaTime;
+            }
         }        
     }
 
