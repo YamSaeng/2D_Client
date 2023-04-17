@@ -8,7 +8,7 @@ public class CGoblinObject : CreatureObject
     {
         base.Init();
 
-        if (_HpBar == null)
+        if (_HPBarUI == null)
         {
             AddHPBar(0.5f, 0.35f);
         }

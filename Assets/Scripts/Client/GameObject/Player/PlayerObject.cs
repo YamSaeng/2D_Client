@@ -15,7 +15,7 @@ public class PlayerObject : CreatureObject
 
         _IsChattingFocus = false;
 
-        if (_HpBar == null)
+        if (_HPBarUI == null)
         {
             AddHPBar(0.5f, 0.35f);
         }
@@ -28,6 +28,6 @@ public class PlayerObject : CreatureObject
 
     protected override void UpdateController()
     {
-        base.UpdateController();
+        base.UpdateController();        
     }         
 }
