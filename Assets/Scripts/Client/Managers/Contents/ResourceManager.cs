@@ -29,6 +29,8 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL, "Wall/DownToLeftWall");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, "Wall/DownToRightWall");
 
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE, "Skill/SwordBlade");
+
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
 
