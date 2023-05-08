@@ -14,7 +14,7 @@ public class CropController : CreatureObject
     {
         base.Init();
 
-        _HpBar = transform.Find("UI_HPBar").gameObject.GetComponent<UI_HPBar>();
+        _HPBarUI = transform.Find("UI_HPBar").gameObject.GetComponent<UI_HPBar>();
         _NameUI = transform.Find("UI_Name").gameObject.GetComponent<UI_Name>();
         _CropImage = transform.Find("CropImage").GetComponent<SpriteRenderer>();
 
@@ -29,7 +29,7 @@ public class CropController : CreatureObject
 
         UpdateHPBar();
 
-        _HpBar.gameObject.SetActive(false);
+        _HPBarUI.gameObject.SetActive(false);
 
         CropImageChange(_GameObjectInfo.ObjectCropStep);
 

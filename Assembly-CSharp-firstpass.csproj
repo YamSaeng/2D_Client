@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9F287E3D-F395-CA45-C960-7EBEE3744AEF}</ProjectGuid>
+    <ProjectGuid>{DEFF778C-066E-7349-BB0A-CDF2C6B3D19C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -48,7 +48,7 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
     <UnityProjectGeneratorVersion>2.0.17</UnityProjectGeneratorVersion>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2022.2.4f1</UnityVersion>
   </PropertyGroup>
@@ -58,169 +58,19 @@
     <Analyzer Include="E:\Unity\2022.2.4f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Server\Packet\PacketQueue.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\UI_EventHandler.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\GameObjectAnimation.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Option\UI_Option.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Crop\PotatoController.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\WorldHUD\UI_CropBar.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Party\UI_PartyReaction.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\BGMSoundManager.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Crop\CornController.cs" />
-    <Compile Include="Assets\Scripts\Client\Feedback\Feedback.cs" />
-    <Compile Include="Assets\Scripts\Client\Feedback\DissolveFeedback.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\QuickSlotBar\QuickSlotBar.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Weapon\Weapon.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_SkillBox.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\GameObjectUI.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Item\Item.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_InventoryItem.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Environment\WallObject.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\QuickSlotBar\UI_QuickSlotBarItem.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\UI_Base.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Weapon\PlayerWeapon.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Minimap\UI_Minimap.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Monster\GoblinObject.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Environment\TreeController.cs" />
-    <Compile Include="Assets\Scripts\Client\Scene\LoginScene.cs" />
-    <Compile Include="Assets\Scripts\Client\Scene\GameScene.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\NonPlayer\NonPlayerObject.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\ResourceManager.cs" />
-    <Compile Include="Assets\Scripts\Client\Scene\BaseScene.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\NetworkGameObjectInput.cs" />
-    <Compile Include="Assets\Scripts\Client\Utils\PriorityQueue.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\WorldHUD\UI_HPBar.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\CraftingBoxManager.cs" />
-    <Compile Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Script\SpriteColorAnimation.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\WorldHUD\UI_GatheringBar.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\SceneManagerEx.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_InventoryItemDivide.cs" />
-    <Compile Include="Assets\Scripts\Client\DestroyMe.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\QuickSlotBarManager.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_ItemExplanation.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\NonPlayer\GeneralMerchantNPC.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_Inventory.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Party\UI_PartyFrame.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\ChattingBox\UI_ChattingBox.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\StringManager.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\GameObjectInput.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\CraftingTable\UI_Furnace.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Item\ItemObject.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_SelectSkilCharacteristic.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Scene\UI_GameScene.cs" />
-    <Compile Include="Assets\Scripts\Client\Feedback\FeedbackManager.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\InventoryController.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Player\PlayerSound.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Crop\CropController.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\SkillBoxManager.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Option\UI_PlayerOption.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\CharacterCreateChoice\UI_CharacterChoice.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\SpriteManager.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Collision\RectCollision.cs" />
-    <Compile Include="Assets\Scripts\Server\Session.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\WorldHUD\UI_SpellBar.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\MapManager.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Environment\StoneController.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_SkillExplanation.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\ObjectManager.cs" />
-    <Compile Include="Assets\Scripts\Client\Utils\Util.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\SkillCharacteristic.cs" />
-    <Compile Include="Assets\Scripts\Client\Utils\Define.cs" />
-    <Compile Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Script\PropsAltar.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\GameObjectMovement.cs" />
-    <Compile Include="Assets\Scripts\Server\RingBuffer.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Renderer\GameObjectRenderer.cs" />
-    <Compile Include="Assets\Scripts\Server\Connector.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\QuickSlotBar\UI_QuickSlotBarBox.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\QuickSlotBar\UI_QuickSlotBar.cs" />
-    <Compile Include="Assets\Scripts\Client\Utils\Matrix2x2.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\SpeechBubble\UI_SpeechBubble.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\EquipmentBox\UI_EquipmentItem.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\GameObjectSoundPlayer.cs" />
-    <Compile Include="Assets\Scripts\Server\Protocol.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Weapon\GameObjectWeapon.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\HUD\UI_MyCharacterHUD.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\CraftingTable\SawmillController.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Managers.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_ItemGain.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_SkillItemDrag.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\CharacterCreateChoice\UI_CharacterChoiceItem.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Party\UI_PartyPlayerFrame.cs" />
-    <Compile Include="Assets\Scripts\Server\Packet\ServerSession.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Environment\EnvironmentController.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\SelectServer\UI_SelectServer.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Option\UI_OptionItem.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\SelectServer\UI_SelectServerItem.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Weapon\WeaponSound.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\GlobalMessage\UI_GlobalMessage.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Day\CDay.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Scene\UI_Scene.cs" />
-    <Compile Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Script\LayerTrigger.cs" />
-    <Compile Include="Assets\Scripts\Server\Packet\PacketHandler.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\BaseObject.cs" />
-    <Compile Include="Assets\Scripts\Server\Message.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\CreatureObject.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\QuickSlotBar\UI_QuickSlotItemDrag.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\EquipmentBox\UI_EquipmentBox.cs" />
-    <Compile Include="Assets\Scripts\Server\Managers\NetworkManager.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Damage\UI_Damage.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_HighlightInventorySlot.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_ItemGainBox.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Scene\UI_LoginScene.cs" />
-    <Compile Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Script\CameraFollow.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\CraftingTable\FurnaceController.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\GlobalMessage\UI_GlobalMessageBox.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\CharacterCreateChoice\UI_CharacterCreate.cs" />
-    <Compile Include="Assets\Scripts\Client\Feedback\FlashSpriteFeedback.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\UIManager.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\CameraManager.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Weapon\WeaponRenderer.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_BufDebufItem.cs" />
-    <Compile Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Script\TopDownCharacterController.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\KeyManager.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\CraftingTable\UI_Sawmill.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\GameObjectInfo.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Option\UI_PartyPlayerOption.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_SkillItem.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\ChattingBox\UI_ChattingBoxGroup.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Skill\SkillSwordBladeObject.cs" />
-    <Compile Include="Assets\Scripts\Client\Managers\Contents\DataManager.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Skill\UI_SkillCharacteristic.cs" />
-    <Compile Include="Assets\Scripts\Client\GameObject\Player\PlayerObject.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\WorldHUD\UI_Name.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Inventory\UI_InventoryItemDrag.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\HUD\UI_TargetHUD.cs" />
-    <Compile Include="Assets\Scripts\Client\UI\Experience\UI_PlayerExperience.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Resources\Sprites\Cainos\Pixel Art Icon Pack - RPG\Shader\SH UI Icon Outline Color.shader" />
-    <None Include="Assets\Resources\Map\MainField.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Changelog.txt" />
-    <None Include="Assets\Resources\Sprites\Cainos\Pixel Art Icon Pack - RPG\Shader\SH Sprite Icon Outline Color.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Shader\SH Sprite Shadow.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\Resources\Sprites\hud\FONT\LICENSE.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\Resources\Sprites\Cainos\Pixel Art Top Down - Basic\Shader\SH Sprite Shadow Mask.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Plugins\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Plugins\Demigiant\DOTween\DOTween.dll" />
+    <None Include="Assets\Plugins\Demigiant\DOTween\readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1026,10 +876,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{DEFF778C-066E-7349-BB0A-CDF2C6B3D19C}</Project>
-      <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

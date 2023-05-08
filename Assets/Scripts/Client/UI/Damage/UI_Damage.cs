@@ -31,14 +31,31 @@ public class UI_Damage : MonoBehaviour
         {
             case en_SkillType.SKILL_DEFAULT_ATTACK:
             case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_FIERCE_ATTACK:
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CONVERSION_ATTACK:            
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_JUMPING_ATTACK:
-            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_PIERCING_WAVE:
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_CONVERSION_ATTACK:
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_WRATH_ATTACK:
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_SMASH_WAVE:
             case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_FLY_KNIFE:
             case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_COMBO_FLY_KNIFE:
-            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SHIELD_SMASH:            
-            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_CAPTURE:            
-            case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_FLAME_HARPOON:
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_JUMPING_ATTACK:
+            case en_SkillType.SKILL_FIGHT_ACTIVE_ATTACK_PIERCING_WAVE:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_POWERFUL_ATTACK:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SHARP_ATTACK:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_LAST_ATTACK:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SHIELD_SMASH:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SHIELD_COUNTER:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_SWORD_STORM:
+            case en_SkillType.SKILL_PROTECTION_ACTIVE_ATTACK_CAPTURE:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_QUICK_CUT:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_FAST_CUT:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_BACK_ATTACK:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_BACK_CUT:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_ADVANCE_CUT:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_POISON_INJECTION:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_POISON_STUN:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_ASSASSINATION:
+            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_ATTACK_BACK_STEP:
+            case en_SkillType.SKILL_SHOOTING_ACTIVE_ATTACK_SNIFING:            
+            case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_FLAME_BOLT:
             case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ICE_CHAIN:
             case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ICE_WAVE:
             case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_LIGHTNING_STRIKE:
@@ -78,13 +95,7 @@ public class UI_Damage : MonoBehaviour
                     _TextMesh.fontSize = 8;
                     _TextMesh.color = HealColor;
                 }
-                break;
-            case en_SkillType.SKILL_ASSASSINATION_ACTIVE_BUF_WEAPON_POISON:            
-                _TextMesh.SetText(PointAmount.ToString());
-
-                _TextMesh.fontSize = 5;
-                _TextMesh.color = HealColor;
-                break;
+                break;            
         }
 
         // 뒤에 나타난 데미지 팝업 ui가 앞쪽에 출력 될 수 있도록하기 위해 _SortingOrder 증가

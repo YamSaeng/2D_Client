@@ -65,14 +65,19 @@ public class Weapon : MonoBehaviour
         _IsAttacking = false;
     }
 
+    public void Reload()
+    {
+        _IsReload = false;
+    }
+
     private void UseWeapon()
     {
         if(_IsAttacking == true && _IsReload == false)
         {
             switch(_WeaponType)
-            {
+            {   
                 case en_WeaponType.WEAPON_TYPE_MELEE:
-                    OnAttack?.Invoke();                    
+                    OnAttack?.Invoke();
                     break;
                 case en_WeaponType.WEAPON_TYPE_RANGE:
                     if(_Ammo > 0)
@@ -88,9 +93,10 @@ public class Weapon : MonoBehaviour
                     break;
             }
 
-            DefaultAttackCooltimeStart();
+            _IsAttacking = false;
+            DefaultAttackCooltimeStart();            
         }
-    }
+    }    
 
     private void DefaultAttackCooltimeStart()
     {
@@ -100,7 +106,7 @@ public class Weapon : MonoBehaviour
     protected IEnumerator DelayNextDefaultAttackCoroutine()
     {
         _IsReload = true;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.1f);
         _IsReload = false;
     }
 }

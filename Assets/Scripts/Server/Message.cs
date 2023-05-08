@@ -525,6 +525,8 @@ namespace ServerCore
             SkillInfo.SkillMediumCategory = (en_SkillMediumCategory)_MessageBufReader.ReadByte();
             SkillInfo.SkillType = (en_SkillType)_MessageBufReader.ReadInt16();
             SkillInfo.SkillLevel = _MessageBufReader.ReadByte();
+            SkillInfo.SkillMinDamage = _MessageBufReader.ReadInt32();
+            SkillInfo.SkillMaxDamage = _MessageBufReader.ReadInt32();
             SkillInfo.SkillOverlapStep = _MessageBufReader.ReadByte();
 
             short SkillNameLen = _MessageBufReader.ReadInt16();
