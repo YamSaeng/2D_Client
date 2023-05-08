@@ -24,6 +24,9 @@ public class PlayerObject : CreatureObject
         {
             AddNameBar(0.5f, -0.2f);
         }
+
+        GetComponent<GameObjectMovement>().SetOwner(this);
+        GetComponent<GameObjectInput>().SetOwner(this);
     }   
 
     protected override void UpdateController()
