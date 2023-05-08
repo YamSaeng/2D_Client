@@ -8,10 +8,10 @@ public class SkillSwordBladeObject : CreatureObject
     {
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
 
-        _LineRendererController = GetComponent<LineRendererController>();
-        if (_LineRendererController != null)
+        _RectCollision = transform.Find("Collision").GetComponent<RectCollision>();
+        if (_RectCollision != null)
         {
-            _LineRendererController.SetUpOwnPlayer(this);
+            _RectCollision.SetUpOwnPlayer(this);
         }
 
         transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.Position.x, _GameObjectInfo.ObjectPositionInfo.Position.y, 0);
