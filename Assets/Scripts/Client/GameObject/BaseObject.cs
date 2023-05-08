@@ -11,11 +11,11 @@ public class CBaseObject : MonoBehaviour
     public CBaseObject _TargetObject;
 
     [HideInInspector]
-    public LineRendererController _LineRendererController;
+    public RectCollision _RectCollision;
 
     protected UI_GameScene _GameSceneUI;
     // 상태이상 정보
-    protected byte _StatusAbnormal;
+    protected long _StatusAbnormal;
 
     // 강화효과, 약화효과 정보
     public Dictionary<en_SkillType, st_SkillInfo> _Bufs = new Dictionary<en_SkillType, st_SkillInfo>();
@@ -54,13 +54,13 @@ public class CBaseObject : MonoBehaviour
         }
     }  
         
-    public void SetStatusAbnormal(byte StatusAbnormal)
+    public void SetStatusAbnormal(long StatusAbnormal)
     {
         // 상태이상 적용
         _StatusAbnormal |= StatusAbnormal;       
     }
 
-    public void ReleaseStatusAbnormal(byte StatusAbnormal)
+    public void ReleaseStatusAbnormal(long StatusAbnormal)
     {
         // 상태이상 해제
         _StatusAbnormal &= StatusAbnormal;
@@ -80,10 +80,10 @@ public class CBaseObject : MonoBehaviour
     {
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
 
-        _LineRendererController = GetComponent<LineRendererController>();
-        if (_LineRendererController != null)
+        _RectCollision = transform.Find("Collision").GetComponent<RectCollision>();
+        if (_RectCollision != null)
         {
-            _LineRendererController.SetUpOwnPlayer(this);
+            _RectCollision.SetUpOwnPlayer(this);
         }
 
         transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.Position.x, _GameObjectInfo.ObjectPositionInfo.Position.y, 0);

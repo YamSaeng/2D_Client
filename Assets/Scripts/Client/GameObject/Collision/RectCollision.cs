@@ -10,11 +10,13 @@ public class RectCollision : MonoBehaviour
     private List<Vector3> _MainRectCollision = new List<Vector3>();
     private List<st_RayCastingPosition> _RayCastingPositions = new List<st_RayCastingPosition>();
 
-    private Vector2 _Direction;
+    private en_CollisionPosition _CollisionPositionType;
 
-    private Vector2 _Position;
+    public Vector2 _Direction;
 
-    private Vector2 _MiddlePosition;
+    public Vector2 _Position;
+
+    public Vector2 _MiddlePosition;
 
     private Vector2 _LeftTop;
     private Vector2 _LeftDown;
@@ -22,7 +24,10 @@ public class RectCollision : MonoBehaviour
     private Vector2 _RightDown;
     private Vector2 _LeftDownToTop;
 
-    private Vector2 _Size;
+    public Vector2 _CreatePositionSize;
+    public Vector2 _Size;
+
+    private float _Angle;    
 
     private void Awake()
     {
@@ -32,12 +37,55 @@ public class RectCollision : MonoBehaviour
     public void SetUpOwnPlayer(CBaseObject OwnPlayer)
     {
         _OwnCreature = OwnPlayer;
-        _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
+        _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;        
+
+        switch (OwnPlayer._GameObjectInfo.ObjectType)
+        {
+            case en_GameObjectType.OBJECT_PLAYER:
+            case en_GameObjectType.OBJECT_PLAYER_DUMMY:
+            case en_GameObjectType.OBJECT_NON_PLAYER_GENERAL_MERCHANT:
+                _Size.x = 1.0f;
+                _Size.y = 1.0f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+                break;
+            case en_GameObjectType.OBJECT_WALL:
+                _Size.x = 1.0f;
+                _Size.y = 1.0f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+                break;
+            case en_GameObjectType.OBJECT_GOBLIN:
+                _Size.x = 1.0f;
+                _Size.y = 1.0f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+                break;
+            case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
+                _Size.x = 2.0f;
+                _Size.y = 2.0f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+                break;
+            case en_GameObjectType.OBJECT_SKILL_SWORD_BLADE:
+                _Size.x = 1.0f;
+                _Size.y = 0.5f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE;
+                break;
+        }
     }
 
-    public void SetDirection(Vector2 Direction)
+    public void SetPositionDirection(en_CollisionPosition CollisionPositionType, Vector2 Position, Vector2 Direction, Vector2 CreatePositionSize, Vector2 Size)
     {
+        _CollisionPositionType = CollisionPositionType;
+        _Position = Position;
+        _LeftTop = _Position;
         _Direction = Direction;
+        _CreatePositionSize = CreatePositionSize;
+        _Size = Size;
+        
+        StartCoroutine(RectCollisionDestoryCoroutine());        
     }
 
     public void SetRayCastingPositions(st_RayCastingPosition[] RayCastingPositions)
@@ -82,30 +130,12 @@ public class RectCollision : MonoBehaviour
 
     public void UpdateMainRectCollision()
     {
-        if (_OwnCreature != null && _LineRenderer != null)
+        if (_LineRenderer != null)
         {
-            Vector3 OwnPlayerPosition = _OwnCreature.transform.position;
-
-            switch (_OwnCreature._GameObjectInfo.ObjectType)
-            {
-                case en_GameObjectType.OBJECT_PLAYER:
-                case en_GameObjectType.OBJECT_GOBLIN:
-                case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_SAWMILL:
-                    _Size.x = 1.0f;
-                    _Size.y = 1.0f;
-                    break;
-                case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
-                    _Size.x = 2.0f;
-                    _Size.y = 2.0f;
-                    break;
-                case en_GameObjectType.OBJECT_SKILL_SWORD_BLADE:
-                    _Size.x = 1.0f;
-                    _Size.y = 0.5f;
-                    break;
-            }
-
             PositionUpdate();
             RotateUpdate();
+
+            _Angle = Mathf.Rad2Deg * Mathf.Atan2(_Direction.x, _Direction.x);                        
 
             _MainRectCollision.Add(_LeftTop);
             _MainRectCollision.Add(_RightTop);
@@ -121,27 +151,60 @@ public class RectCollision : MonoBehaviour
 
     private void PositionUpdate()
     {
-        _Position = _OwnCreature.transform.position;
+        if(_OwnCreature != null)
+        {
+            _Position = _OwnCreature.transform.position;
+            _LeftTop = _Position;
+        }
 
-        _MiddlePosition.x = _Position.x + _Size.x / 2.0f;
-        _MiddlePosition.y = _Position.y - _Size.y / 2.0f;
+        switch (_CollisionPositionType)
+        {
+            case en_CollisionPosition.COLLISION_POSITION_OBJECT:
+            case en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE:
+                _MiddlePosition.x = _Position.x + _Size.x / 2.0f;
+                _MiddlePosition.y = _Position.y - _Size.y / 2.0f;
+                break;
+            case en_CollisionPosition.COLLISION_POSITION_SKILL_FRONT:
+                _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
+                _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
+                break;
+        }
 
-        _LeftTop = _Position;
+        //if (IsServerMiddlePosition == false)
+        //{
+        //    // 움직이는 대상 
+        //    _MiddlePosition.x = _Position.x + _Size.x / 2.0f;
+        //    _MiddlePosition.y = _Position.y - _Size.y / 2.0f;
+        //}
+        //else
+        //{
+        //    // 스킬 판단 충돌체
+        //    _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
+        //    _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
+        //}
 
-        _LeftDown.x = _Position.x;
-        _LeftDown.y = _Position.y - _Size.y;
+        _LeftTop = _Position;      
 
-        _RightTop.x = _Position.x + _Size.x;
-        _RightTop.y = _Position.y;
+        _LeftDown.x = _LeftTop.x;
+        _LeftDown.y = _LeftTop.y - _Size.y;
 
-        _RightDown.x = _Position.x + _Size.x;
-        _RightDown.y = _Position.y - _Size.y;
+        _RightTop.x = _LeftTop.x + _Size.x;
+        _RightTop.y = _LeftTop.y;
 
-        _LeftDownToTop = _Position;
+        _RightDown.x = _LeftTop.x + _Size.x;
+        _RightDown.y = _LeftTop.y - _Size.y;
+
+        _LeftDownToTop = _LeftTop;
     }
 
     private void RotateUpdate()
     {
+        _Angle = Mathf.Rad2Deg * Mathf.Atan2(_Direction.x, _Direction.x);
+        if(_Angle == 0)
+        {
+            return;
+        }
+
         float Sin = Mathf.Sin(Mathf.Atan2(_Direction.y, _Direction.x));
         float Cos = Mathf.Cos(Mathf.Atan2(_Direction.y, _Direction.x));
 
@@ -168,5 +231,12 @@ public class RectCollision : MonoBehaviour
         {
 
         }
+    }
+
+    IEnumerator RectCollisionDestoryCoroutine()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        Destroy(gameObject);
     }
 }

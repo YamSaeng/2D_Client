@@ -12,44 +12,51 @@ public class ObjectManager
     
     public class CPoolObject
     {
-        public GameObject Object;
-        public bool IsUsing;
+        public GameObject Object;        
     }
 
     class CObjectPool
     {
         en_ResourceName _ObjectPoolType;
 
-        Stack<CPoolObject> _PoolStacks = new Stack<CPoolObject>();               
+        Stack<CPoolObject> _PoolStacks = new Stack<CPoolObject>();
+        int _AllocCount;
+        int _UseCount;
 
         public CObjectPool(en_ResourceName ObjectPoolType)
         {
             _ObjectPoolType = ObjectPoolType;
+            _AllocCount = 0;
+            _UseCount = 0;
         }
 
         public void Push(CPoolObject PoolObject)
         {
-            PoolObject.Object.gameObject.SetActive(false);
-            PoolObject.IsUsing = false;
-
-            _PoolStacks.Push(PoolObject);
+            if(PoolObject.Object != null)
+            {
+                _PoolStacks.Push(PoolObject);
+                _UseCount--;
+            }
         }
 
         public CPoolObject Pop()
         {   
             CPoolObject PopObject = new CPoolObject();
 
-            if(_PoolStacks.Count > 0)
+            _UseCount++;
+
+            if(_AllocCount > _UseCount)
             {
                 PopObject = _PoolStacks.Pop();
             }
             else
-            {                
-                PopObject.Object = Managers.Resource.Instantiate(_ObjectPoolType);                
-            }
+            {
+                PopObject.Object = Managers.Resource.Instantiate(_ObjectPoolType);
 
-            PopObject.Object.gameObject.SetActive(true);
-            PopObject.IsUsing = true;
+                _AllocCount++;
+            }           
+
+            PopObject.Object.gameObject.SetActive(true);            
 
             return PopObject;
         }
@@ -72,6 +79,8 @@ public class ObjectManager
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CROP_POTATO, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CROP_POTATO));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CROP_CORN, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CROP_CORN));
 
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE));
+
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL));
 
@@ -80,7 +89,9 @@ public class ObjectManager
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_LOG, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_LOG));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_STONE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_STONE));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_FLANK, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_FLANK));
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL));            
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL));
+
+            _ObjectPools.Add(en_ResourceName.CLIENT_COLLISION_RECT, new CObjectPool(en_ResourceName.CLIENT_COLLISION_RECT));
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL));
@@ -89,6 +100,26 @@ public class ObjectManager
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL));                                
         }
+    }
+
+    public GameObject RectCollisionWorldSpawn(byte CollisionPositionType, float PositionX, float PositionY, float DirectionX, float DirectionY, float CreatePositionSizeX, float CreatePositionSizeY, float SizeX, float SizeY)
+    {
+        GameObject RectCollisionGO = _ObjectPools[en_ResourceName.CLIENT_COLLISION_RECT].Pop().Object;
+        
+        RectCollision rectCollision = RectCollisionGO.GetComponent<RectCollision>();
+        if(rectCollision != null)
+        {
+            Vector2 Position = new Vector2(PositionX, PositionY);
+            Vector2 Direction = new Vector2(DirectionX, DirectionY);
+            Vector2 CreatePositionSize = new Vector2(CreatePositionSizeX, CreatePositionSizeY);
+            Vector2 Size = new Vector2(SizeX, SizeY);
+
+            RectCollisionGO.transform.position = new Vector3(PositionX, PositionY, 0);            
+
+            rectCollision.SetPositionDirection((en_CollisionPosition)CollisionPositionType, Position, Direction, CreatePositionSize, Size);
+        }
+
+        return RectCollisionGO;
     }
 
     public GameObject Add(st_GameObjectInfo Info)
@@ -109,7 +140,7 @@ public class ObjectManager
                 
                 PlayerObject Player = PlayerGO.GetComponent<PlayerObject>();
                 Player._GameObjectInfo = Info;
-                Player.Init();                
+                Player.Init();                                
 
                 return PlayerGO;
             case en_GameObjectType.OBJECT_NON_PLAYER_GENERAL_MERCHANT:
@@ -133,15 +164,28 @@ public class ObjectManager
                 Goblin._GameObjectInfo = Info;
                 Goblin.Init();
 
-                GameObject RightWeaponParent = Goblin.transform.Find("RightWeaponParent").gameObject;
-                if(RightWeaponParent != null)
+                Goblin.CreatureSpriteShowClose(true);
+
+                if (Goblin._GameObjectInfo.ObjectStatInfo.HP > 0)
                 {
-                    PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                    if(Weapon != null)
+                    Goblin.CreatureObjectWeaponShowClose(true);
+                    Goblin.CreatureObjectNameShowClose(true);
+
+                    GameObject RightWeaponParent = Goblin.transform.Find("RightWeaponParent").gameObject;
+                    if (RightWeaponParent != null)
                     {
-                        Weapon.Init();
+                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                        if (Weapon != null)
+                        {
+                            Weapon.Init();
+                        }
                     }
                 }
+                else
+                {
+                    Goblin.CreatureObjectWeaponShowClose(false);
+                    Goblin.CreatureObjectNameShowClose(false);
+                }                
 
                 Goblin.GetComponent<GameObjectMovement>().SetOwner(Goblin);                
                 return GoblinGO;            
@@ -189,6 +233,19 @@ public class ObjectManager
                 Corn.Init();                
 
                 return CornGO;
+            case en_GameObjectType.OBJECT_SKILL_SWORD_BLADE:
+                GameObject SwordBladeGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE].Pop().Object;
+                SwordBladeGO.name = Info.ObjectName;
+
+                _Objects.Add(Info.ObjectId, SwordBladeGO);
+
+                SkillSwordBladeObject SwordBlade = SwordBladeGO.GetComponent<SkillSwordBladeObject>();
+                SwordBlade._GameObjectInfo = Info;
+                SwordBlade.Init();
+
+                SwordBlade.CreatureSpriteShowClose(true);
+
+                return SwordBladeGO;
             case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
                 GameObject FurnaceGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE].Pop().Object;                
                 FurnaceGO.name = Info.ObjectName;
@@ -243,13 +300,15 @@ public class ObjectManager
                 return LeatherGo;
             case en_GameObjectType.OBJECT_ITEM_MATERIAL_BRONZE_COIN:
                 GameObject CopperCoinGo = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN].Pop().Object;
-                CopperCoinGo.name = Info.ObjectName;
+                CopperCoinGo.name = Info.ObjectName;                
 
-                _Objects.Add(Info.ObjectId, CopperCoinGo);
+                _Objects.Add(Info.ObjectId, CopperCoinGo);                
 
                 CItemObject CopperCoinController = CopperCoinGo.GetComponent<CItemObject>();
                 CopperCoinController._GameObjectInfo = Info;
                 CopperCoinController.Init();
+
+                CopperCoinController.CreatureSpriteShowClose(true);
 
                 return CopperCoinGo;            
             case en_GameObjectType.OBJECT_ITEM_MATERIAL_WOOD_LOG:
@@ -341,14 +400,17 @@ public class ObjectManager
         CBaseObject BaseObject = RemoveGo.GetComponent<CBaseObject>();
         if(BaseObject != null)
         {
+            CreatureObject Creature = BaseObject.GetComponent<CreatureObject>();
+            if (Creature != null)
+            {
+                Creature.CreatureShowClose(false);
+            }
+
             CPoolObject PoolObject = new CPoolObject();
-            PoolObject.Object = RemoveGo;
-            PoolObject.IsUsing = false;
+            PoolObject.Object = RemoveGo;            
 
             //딕셔너리에서 제거후
-            _Objects.Remove(RemoveId);
-
-            PoolObject.Object.gameObject.SetActive(false);
+            _Objects.Remove(RemoveId);            
 
             switch (BaseObject._GameObjectInfo.ObjectType)
             {
@@ -372,6 +434,9 @@ public class ObjectManager
                     break;
                 case en_GameObjectType.OBJECT_CROP_CORN:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_CROP_CORN].Push(PoolObject);
+                    break;
+                case en_GameObjectType.OBJECT_SKILL_SWORD_BLADE:
+                    _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE].Push(PoolObject);
                     break;
                 case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE].Push(PoolObject);

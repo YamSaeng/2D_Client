@@ -45,7 +45,10 @@ public class UI_SkillExplanation : UI_Base
 
         GetImage((int)en_SkillExplanationImage.SkillExplanationImage).sprite = SkillImage;
         GetTextMeshPro((int)en_SkillExplanationText.SkillExplanationName).text = _SkillInfo.SkillName;
-        GetTextMeshPro((int)en_SkillExplanationText.SkillExplanationText).text = Managers.String._SkillExplanationString[_SkillInfo.SkillType];
+        if(Managers.String._SkillExplanationString[_SkillInfo.SkillType] != null)
+        {
+            GetTextMeshPro((int)en_SkillExplanationText.SkillExplanationText).text = Managers.String._SkillExplanationString[_SkillInfo.SkillType];
+        }        
 
         switch(SkillInfo.SkillType)
         {

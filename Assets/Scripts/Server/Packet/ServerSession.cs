@@ -233,7 +233,10 @@ public class CServerSession : CSession
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PartyLeaderManDate);
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_RAY_CASTING:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_RayCastingHandler);
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_RayCastingHandler);                
+                break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_COLLISION:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_CollisionSpawnHandler);
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_PING:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_Ping);

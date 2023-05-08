@@ -8,6 +8,9 @@ using static Define;
 public class CreatureObject : CBaseObject
 {
     [HideInInspector]
+    public Vector2 _WeaponPosition;
+
+    [HideInInspector]
     public bool _IsChattingFocus;
     [HideInInspector]
     public GameObject SpeechBubblePosition;
@@ -46,8 +49,8 @@ public class CreatureObject : CBaseObject
     public UnityEvent OnDieEvent { get; set; }
 
     [field: SerializeField]
-    public UnityEvent<bool> OnDieAnimationEvent { get; set; }    
 
+    public UnityEvent<bool> OnDieAnimationEvent { get; set; }    
     public override void Init()
     {
         base.Init();            

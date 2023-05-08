@@ -34,6 +34,8 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
 
+        _ResourcePath.Add(en_ResourceName.CLIENT_COLLISION_RECT, "Collision/RectCollision");
+
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_CHATTING_TEXT, "UI/ChattingBox/UI_ChattingText");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PLAYER_OPTION, "UI/Option/UI_PlayerOption");

@@ -13,6 +13,9 @@ public class GameObjectInput : MonoBehaviour
     private bool _IsDefaultAttack = false;
 
     [field: SerializeField]
+    public CreatureObject _OwnerObject { get; set; }
+
+    [field: SerializeField]
     public UnityEvent<Vector2> OnMovementKeyPressed { get; set; }
 
     [field: SerializeField]
@@ -46,6 +49,11 @@ public class GameObjectInput : MonoBehaviour
         GetMovementInput();        
 
         Managers.Key.QuickSlotBarKeyUpdate();
+    }
+
+    public void SetOwner(CreatureObject OwnerObject)
+    {
+        _OwnerObject = OwnerObject;
     }
 
     private void GetMouseButtonInput()
@@ -110,7 +118,7 @@ public class GameObjectInput : MonoBehaviour
             if (ObjectHit)
             {
                 CreatureObject CC = ObjectHit.transform.GetComponent<CreatureObject>();
-                if (CC != null)
+                if (CC != null ) 
                 {
                     Vector3 FurnaceTargetVector = CC.gameObject.transform.position;
                     Vector3 MyVector = gameObject.transform.position;
@@ -122,14 +130,18 @@ public class GameObjectInput : MonoBehaviour
                     switch (CC._GameObjectInfo.ObjectType)
                     {
                         case en_GameObjectType.OBJECT_PLAYER:
-                            Vector2 localPos = Vector2.zero;
-                            RectTransformUtility.ScreenPointToLocalPointInRectangle(gameSceneUI.GetComponent<RectTransform>(),
-                                Camera.main.WorldToScreenPoint(Input.mousePosition),
-                                Camera.main, out localPos);
+                            if(CC._GameObjectInfo.ObjectId != Managers.NetworkManager._PlayerDBId)
+                            {
+                                Vector2 localPos = Vector2.zero;
+                                RectTransformUtility.ScreenPointToLocalPointInRectangle(gameSceneUI.GetComponent<RectTransform>(),
+                                    Camera.main.WorldToScreenPoint(Input.mousePosition),
+                                    Camera.main, out localPos);
 
-                            gameSceneUI._PlayerOptionUI.UIPlayerOptionSetPlayerGameObjectInfo(CC._GameObjectInfo);
-                            gameSceneUI._PlayerOptionUI.ShowCloseUI(true);
-                            gameSceneUI._PlayerOptionUI.PlayerOptionSetPosition(localPos);
+                                gameSceneUI._PlayerOptionUI.UIPlayerOptionSetPlayerGameObjectInfo(CC._GameObjectInfo);
+                                gameSceneUI._PlayerOptionUI.ShowCloseUI(true);
+                                gameSceneUI._PlayerOptionUI.PlayerOptionSetPosition(localPos);
+                            }
+                            
                             break;
                         case en_GameObjectType.OBJECT_NON_PLAYER_GENERAL_MERCHANT:
                             break;
@@ -308,11 +320,31 @@ public class GameObjectInput : MonoBehaviour
         {
             Vector3 ScreenMousePosition = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
             OnPointerPositionChange?.Invoke(ScreenMousePosition);
-            
-            Vector2 Direction = ((Vector2)ScreenMousePosition - (Vector2)transform.position).normalized;            
 
-            CMessage ReqFaceDirectionPacket = Packet.MakePacket.ReqMakeFaceDirectionPacket(Direction.x, Direction.y);
-            Managers.NetworkManager.GameServerSend(ReqFaceDirectionPacket);
+            //Vector2 Direction = ((Vector2)ScreenMousePosition - (Vector2)transform.position).normalized;
+
+            Transform FindTransform = transform.Find("RightWeaponParent");
+            if (FindTransform != null)
+            {
+                GameObject RightWeaponParent = FindTransform.gameObject;
+                if (RightWeaponParent != null)
+                {
+                    PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
+                    if (Weapon != null)
+                    {
+                        if (_OwnerObject != null)
+                        {
+                            _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton = Weapon.transform.right;
+
+                            _OwnerObject._WeaponPosition.x = Weapon.transform.position.x;
+                            _OwnerObject._WeaponPosition.y = Weapon.transform.position.y;                                                      
+                        }
+                    }
+                }
+            }            
+
+            //CMessage ReqFaceDirectionPacket = Packet.MakePacket.ReqMakeFaceDirectionPacket(Direction.x, Direction.y);
+            //Managers.NetworkManager.GameServerSend(ReqFaceDirectionPacket);
         }        
     }
 
