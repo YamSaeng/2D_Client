@@ -63,6 +63,13 @@ public class Protocol
 		en_PACKET_S2C_GAME_RES_LOGIN,
 
 		//------------------------------------------------------------
+		// 게임서버 캐릭터 정보 응답
+		// int8 CharacterCount
+		// st_GameObjectIno[] CharacterInfo
+		//------------------------------------------------------------
+		en_PACKET_S2C_GAME_CHARACTER_INFOS,
+
+		//------------------------------------------------------------
 		// 게임서버 캐릭터 생성 요청
 		// int32 CharacterNameLen
 		// WCHAR CharacterName
@@ -920,6 +927,20 @@ public class Protocol
 		// int64 PartyLeaderMandatePlayerID
 		//-----------------------------------------------------------
 		en_PACKET_S2C_PARTY_LEADER_MANDATE,
+
+		//-----------------------------------------------------------
+		// 게임서버 메뉴 요청
+		// int64 PlayerID
+		// int64 AccountID
+		// en_MenuType MenuType
+		//-----------------------------------------------------------
+		en_PACKET_C2S_MENU,
+
+		//-----------------------------------------------------------
+		// 게임서버 메뉴 요청 응답
+		// en_MenuType MenuType
+		//-----------------------------------------------------------
+		en_PACKET_S2C_MENU,
 
 		//-----------------------------------------------------------
 		// 게임서버 레이캐스팅 응답
