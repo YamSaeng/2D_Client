@@ -14,13 +14,7 @@ public class UI_LoginScene : UI_Scene
         public int Port;
         public IPEndPoint EndPoint;
     }
-
-    public enum en_ClientLoginState
-    {
-        LOG_OUT,
-        LOG_IN
-    }
-
+ 
     enum en_LoginUIGameObject
     {
         Account,
@@ -35,7 +29,6 @@ public class UI_LoginScene : UI_Scene
         LoginButton
     }
     
-    public en_ClientLoginState _ClientLoginState;
     st_LoginServerInfo _LoginServerInfo;
 
     public GameObject _LoginUI;    
@@ -47,9 +40,7 @@ public class UI_LoginScene : UI_Scene
 
     public override void Init()
     {
-        base.Init();        
-
-        _ClientLoginState = en_ClientLoginState.LOG_OUT;
+        base.Init();                
 
         // 서버 IP , Port 입력
         _LoginServerInfo.IPAddress = IPAddress.Parse("124.254.187.159");
@@ -79,14 +70,20 @@ public class UI_LoginScene : UI_Scene
         BindEvent(GetButton((int)en_LoginUIButtons.CreateButton).gameObject, OnClickCreateButton, Define.en_UIEvent.MouseClick);
         BindEvent(GetButton((int)en_LoginUIButtons.LoginButton).gameObject, OnClickLoginButton, Define.en_UIEvent.MouseClick);
         BindEvent(GetGameObject((int)en_LoginUIGameObject.LoginPannel).gameObject, OnLoginPannelClick, Define.en_UIEvent.MouseClick);
-
-        CConnector Connector = new CConnector();
-        Connector.Connect(_LoginServerInfo.EndPoint, () => { return Managers.NetworkManager._LoginServerSession; }, 1);
-
-        if (_ClientLoginState == en_ClientLoginState.LOG_OUT)
+        
+        if(Managers.NetworkManager._ServerState == en_ServerState.SERVER_STATE_NONE)
         {
-            _ClientLoginState = en_ClientLoginState.LOG_IN;            
+            Managers.NetworkManager._ServerState = en_ServerState.SERVER_STATE_LOGIN;
+
+            CConnector Connector = new CConnector();
+            Connector.Connect(_LoginServerInfo.EndPoint, () => { return Managers.NetworkManager._LoginServerSession; }, 1);
         }        
+        else if(Managers.NetworkManager._ServerState == en_ServerState.SERVER_STATE_LOGIN)
+        {
+            LoginUIVisible(false);
+
+            _CharacterChoiceUI.SetCharacterChoiceItem(Managers.NetworkManager._MyCharacterInfos);
+        }
     }
 
     private void OnLoginPannelClick(PointerEventData Event)
