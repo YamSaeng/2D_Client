@@ -316,7 +316,8 @@ public class GameObjectInput : MonoBehaviour
 
     private void GetPointerInput()
     {
-        if (Input.GetMouseButton(1) == true)
+        if (_OwnerObject._GameObjectInfo.ObjectId == Managers.NetworkManager._PlayerDBId 
+            && Input.GetMouseButton(1) == true)
         {
             Vector3 ScreenMousePosition = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
             OnPointerPositionChange?.Invoke(ScreenMousePosition);
@@ -350,7 +351,10 @@ public class GameObjectInput : MonoBehaviour
 
     private void GetMovementInput()
     {
-        Vector2 Direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        OnMovementKeyPressed?.Invoke(Direction);
+        if(_OwnerObject._GameObjectInfo.ObjectId == Managers.NetworkManager._PlayerDBId)
+        {
+            Vector2 Direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            OnMovementKeyPressed?.Invoke(Direction);
+        }        
     }
 }
