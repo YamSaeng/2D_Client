@@ -43,6 +43,8 @@ namespace Packet
                 st_GameObjectInfo[] ObjectInfos = new st_GameObjectInfo[PlayerCount];
                 S2CLoginPacket.GetData(ObjectInfos, PlayerCount);
 
+                Managers.NetworkManager._MyCharacterInfos = ObjectInfos;
+
                 // 캐릭터 선택창 정보 셋팅 후 UI 출력
                 UI_LoginScene LoginSceneUI = Managers.UI._SceneUI as UI_LoginScene;
                 if (LoginSceneUI != null)
@@ -60,6 +62,16 @@ namespace Packet
             }
 
             S2CLoginPacket.Dispose();
+        }
+
+        public static void S2C_CharacterInfosHandler(CMessage S2C_CharacterInfosPacket)
+        {
+            byte CharacterCount;
+
+            S2C_CharacterInfosPacket.GetData(out CharacterCount, sizeof(byte));
+
+            st_GameObjectInfo[] CharacterInfos = new st_GameObjectInfo[CharacterCount];
+            S2C_CharacterInfosPacket.GetData(CharacterInfos, CharacterCount);
         }
 
         // 캐릭터 생성요청 응답 처리
@@ -87,7 +99,7 @@ namespace Packet
 
                     // 캐릭터 선택창 활성화
                     LoginSceneUI._CharacterChoiceUI.gameObject.SetActive(true);
-                    // 캐릭터 선택창 정보 셋팅
+                    // 캐릭터 선택창 정보 셋-팅
                     LoginSceneUI._CharacterChoiceUI.SetCharacterChoiceItem(PlayerInfo.PlayerSlotIndex, PlayerInfo);
                 }
                 else
@@ -2868,6 +2880,8 @@ namespace Packet
             st_ServerInfo[] ServerLists = new st_ServerInfo[ServerListSize];
             S2C_LoginMessage.GetData(ServerLists, ServerListSize);
 
+            Managers.NetworkManager._ServerLists = ServerLists;
+
             UI_LoginScene LoginScene = Managers.UI._SceneUI as UI_LoginScene;
 
             UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._GlobalMessageBoxUI;
@@ -3516,6 +3530,18 @@ namespace Packet
             ReqPartyBanishPacket.InsertData(PartyBanishPlayerID, sizeof(long));
 
             return ReqPartyBanishPacket;
+        }
+
+        public static CMessage ReqMakeMenuOptionPacket(en_MenuType MenuType)
+        {
+            CMessage ReqMenuOptionPacket = new CMessage();
+
+            ReqMenuOptionPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_MENU, sizeof(short));
+            ReqMenuOptionPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqMenuOptionPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
+            ReqMenuOptionPacket.InsertData((byte)MenuType, sizeof(byte));
+
+            return ReqMenuOptionPacket;
         }
     }
 }
