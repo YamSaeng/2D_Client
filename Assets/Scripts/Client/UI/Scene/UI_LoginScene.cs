@@ -73,12 +73,18 @@ public class UI_LoginScene : UI_Scene
         
         if(Managers.NetworkManager._ServerState == en_ServerState.SERVER_STATE_NONE)
         {
-            Managers.NetworkManager._ServerState = en_ServerState.SERVER_STATE_LOGIN;
+            Managers.NetworkManager._ServerState = en_ServerState.SERVER_STATE_LOGIN_SERVER_CHOICE;
 
             CConnector Connector = new CConnector();
             Connector.Connect(_LoginServerInfo.EndPoint, () => { return Managers.NetworkManager._LoginServerSession; }, 1);
-        }        
-        else if(Managers.NetworkManager._ServerState == en_ServerState.SERVER_STATE_LOGIN)
+        }
+        else if (Managers.NetworkManager._ServerState == en_ServerState.SERVER_STATE_LOGIN_SERVER_CHOICE)
+        {
+            LoginUIVisible(false);
+
+            _SelectServerUI.SetSelectServer(Managers.NetworkManager._ServerLists, 1);
+        }
+        else if(Managers.NetworkManager._ServerState == en_ServerState.SERVER_STATE_LOGIN_CHARACTER_CHOICE)
         {
             LoginUIVisible(false);
 
