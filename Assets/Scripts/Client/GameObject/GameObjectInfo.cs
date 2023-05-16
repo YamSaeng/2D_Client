@@ -477,11 +477,6 @@ public enum en_LoginInfo
     LOGIN_ACCOUNT_LOGIN_SUCCESS
 }
 
-public enum en_OptionType
-{
-    OPTION_TYPE_NONE = 0    
-};
-
 public enum en_DayType
 {
     DAY_NONE = 0,
@@ -599,6 +594,7 @@ public enum en_ResourceName
     CLIENT_UI_SAWMILL,
 
     CLIENT_UI_OPTION,
+    CLIENT_UI_OPTION_ITEM,
 
     CLIENT_UI_MY_CHARACTER_HUD,
     CLIENT_UI_TARGET_HUD,
@@ -629,6 +625,12 @@ public enum en_CollisionPosition
     COLLISION_POSITION_SKILL_FRONT
 }
 
+public enum en_MenuType
+{
+    MENU_TYPE_NONE,
+	MENU_TYPE_CHARACTER_CHOICE
+};
+
 public enum en_SoundClip
 {
     SOUND_CLIP_NONE,
@@ -641,6 +643,14 @@ public enum en_WeaponType
     WEAPON_TYPE_NON,
     WEAPON_TYPE_MELEE,
     WEAPON_TYPE_RANGE
+}
+
+public enum en_ServerState
+{
+    SERVER_STATE_NONE,
+    SERVER_STATE_LOGIN_SERVER_CHOICE,
+    SERVER_STATE_LOGIN_CHARACTER_CHOICE,
+    SERVER_STATE_GAME
 }
 
 public class st_RayCastingPosition
@@ -904,7 +914,7 @@ public class st_PersonalMessage
 
 public class st_OptionItemInfo
 {
-    public en_OptionType OptionType;
+    public en_MenuType OptionType;
     public string OptionName;
 }
 
