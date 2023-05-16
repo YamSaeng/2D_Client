@@ -41,6 +41,9 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_GAME_RES_LOGIN:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_LoginHandler);
                 break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_GAME_CHARACTER_INFOS:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_CharacterInfosHandler);
+                break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_GAME_CREATE_CHARACTER:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_CreateCharacterHandler);
                 break;
