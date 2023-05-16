@@ -18,10 +18,10 @@ public class RectCollision : MonoBehaviour
 
     public Vector2 _MiddlePosition;
 
-    private Vector2 _LeftTop;
-    private Vector2 _LeftDown;
-    private Vector2 _RightTop;
-    private Vector2 _RightDown;
+    public Vector2 _LeftTop;
+    public Vector2 _RightTop;
+    public Vector2 _RightDown;
+    public Vector2 _LeftDown;        
     private Vector2 _LeftDownToTop;
 
     public Vector2 _CreatePositionSize;
@@ -154,7 +154,6 @@ public class RectCollision : MonoBehaviour
         if(_OwnCreature != null)
         {
             _Position = _OwnCreature.transform.position;
-            _LeftTop = _Position;
         }
 
         switch (_CollisionPositionType)
@@ -168,20 +167,7 @@ public class RectCollision : MonoBehaviour
                 _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
                 _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
                 break;
-        }
-
-        //if (IsServerMiddlePosition == false)
-        //{
-        //    // 움직이는 대상 
-        //    _MiddlePosition.x = _Position.x + _Size.x / 2.0f;
-        //    _MiddlePosition.y = _Position.y - _Size.y / 2.0f;
-        //}
-        //else
-        //{
-        //    // 스킬 판단 충돌체
-        //    _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
-        //    _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
-        //}
+        }       
 
         _LeftTop = _Position;      
 
@@ -235,7 +221,7 @@ public class RectCollision : MonoBehaviour
 
     IEnumerator RectCollisionDestoryCoroutine()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         Destroy(gameObject);
     }
