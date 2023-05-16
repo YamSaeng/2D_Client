@@ -4,6 +4,10 @@ using ServerCore;
 
 public class CNetworkManager
 {
+    public st_ServerInfo[] _ServerLists = new st_ServerInfo[1];
+    public st_GameObjectInfo[] _MyCharacterInfos = new st_GameObjectInfo[3];
+
+    public en_ServerState _ServerState = en_ServerState.SERVER_STATE_NONE;
     // AccountServer에서 발급해준 AccountId
     public long _AccountId { get; set; }
     // AccountServer에서 발급해준 Token
