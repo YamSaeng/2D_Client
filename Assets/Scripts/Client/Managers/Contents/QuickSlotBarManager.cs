@@ -70,4 +70,9 @@ public class QuickSlotBarManager
             }   
         }
     }
+
+    public void Clear()
+    {
+        _SkillQuickSlotBars.Clear();        
+    }
 }
