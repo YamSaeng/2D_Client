@@ -381,7 +381,7 @@ namespace Packet
 
             S2CCharacterInfoPacket.Dispose();
         }
-
+        
         public static void S2C_FaceDirectionHandler(CMessage S2C_FaceDirectionPacket)
         {
             long ObjectID;
@@ -395,20 +395,12 @@ namespace Packet
             GameObject FindGO = Managers.Object.FindById(ObjectID);
             if (FindGO != null)
             {
-                CBaseObject FindGameObject = FindGO.GetComponent<CBaseObject>();
-                if (FindGameObject != null)
+                GameObjectInput Input = FindGO.GetComponent<GameObjectInput>();
+                if(Input != null)
                 {
-                    GameObject RightWeaponParent = FindGameObject.transform.Find("RightWeaponParent").gameObject;
-                    if (RightWeaponParent != null)
-                    {
-                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                        if (Weapon != null)
-                        {
-                            Vector2 FaceDirection = new Vector2(FaceDirectionX, FaceDirectionY);
-                            Weapon.AimWeapon(FaceDirection);
-                        }
-                    }
-                }
+                    Vector2 FaceDirection = new Vector2(FaceDirectionX, FaceDirectionY);
+                    Input.OnS2CPointerPositionChange?.Invoke(FaceDirection);
+                }              
             }
         }
 
@@ -868,7 +860,7 @@ namespace Packet
 
             //Debug.Log($"S2C_DeSpawn 호출 {DeSpawnObjectCount}");
 
-            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene; // 로그인 씬 되서 호출하게 되어 에러남 접속 종료하는 대상 먼저 Remove하고 로그인씬으로 움직여야함
             UI_TargetHUD TargetHUDUI = GameSceneUI._TargetHUDUI;
 
             for (int i = 0; i < DeSpawnObjectCount; i++)
@@ -3163,6 +3155,18 @@ namespace Packet
             ReqMoveStopPacket.InsertData((byte)StopState, sizeof(byte));
 
             return ReqMoveStopPacket;
+        }
+
+        public static CMessage ReqMakeLookAtDirectionPacket(Vector2 LookAtDireciton)
+        {
+            CMessage ReqLookAtDirectionPacket = new CMessage();
+            ReqLookAtDirectionPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_FACE_DIRECTION, sizeof(short));
+            ReqLookAtDirectionPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqLookAtDirectionPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
+            ReqLookAtDirectionPacket.InsertData(LookAtDireciton.x, sizeof(float));
+            ReqLookAtDirectionPacket.InsertData(LookAtDireciton.y, sizeof(float));            
+
+            return ReqLookAtDirectionPacket;
         }
 
         public static CMessage ReqMakeSelectItemPacket(long AccountId, long PlayerId,
