@@ -32,6 +32,19 @@ public class GameObjectRenderer : MonoBehaviour
         }
     }
 
+    public void S2C_FaceDirection(Vector2 Direction)
+    {
+        Vector3 Result = Vector3.Cross(Vector2.up, Direction);
+        if(Result.z > 0)
+        {
+            _SpriteRenderer.flipX = true;
+        }
+        else if(Result.z < 0)
+        {
+            _SpriteRenderer.flipX = false;
+        }
+    }
+
     public void CheckIfBackwardMovement(Vector2 MovementVector)
     {
         float Angle = 0;
