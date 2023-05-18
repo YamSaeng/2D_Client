@@ -165,6 +165,9 @@ public class Managers : MonoBehaviour
     public static void Clear()
     {        
         Scene.Clear();
-        UI.Clear();        
+        UI.Clear();
+        
+        QuickSlotBar.Clear();
+        Object.Clear();
     }
 }
