@@ -36,8 +36,7 @@ public class RectCollision : MonoBehaviour
 
     public void SetUpOwnPlayer(CBaseObject OwnPlayer)
     {
-        _OwnCreature = OwnPlayer;
-        _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;        
+        _OwnCreature = OwnPlayer;                          
 
         switch (OwnPlayer._GameObjectInfo.ObjectType)
         {
@@ -48,6 +47,8 @@ public class RectCollision : MonoBehaviour
                 _Size.y = 1.0f;
 
                 _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+
+                _Direction = Vector2.zero;
                 break;
             case en_GameObjectType.OBJECT_WALL:
                 _Size.x = 1.0f;
@@ -60,18 +61,27 @@ public class RectCollision : MonoBehaviour
                 _Size.y = 1.0f;
 
                 _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+
+                _Direction = Vector2.zero;
                 break;
             case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
                 _Size.x = 2.0f;
                 _Size.y = 2.0f;
 
                 _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+
+                _Direction = Vector2.zero;
                 break;
             case en_GameObjectType.OBJECT_SKILL_SWORD_BLADE:
                 _Size.x = 1.0f;
                 _Size.y = 0.5f;
 
                 _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE;
+
+                _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
+                break;
+            default:
+                _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
                 break;
         }
     }
