@@ -20,7 +20,7 @@ public class GameObjectWeapon : MonoBehaviour
 
     // 입력으로 받은 Vector2로 향하게 무기의 위치를 조정해줌
     public void AimWeapon(Vector2 Pointer)
-    {
+    {        
         // Pinter로 향하는 벡터 구함        
         Vector2 Direction = (Pointer - (Vector2)transform.position).normalized;
         // 오른쪽 로컬 기준 좌표 값을 Pointer를 바라보게 해줌
@@ -41,6 +41,26 @@ public class GameObjectWeapon : MonoBehaviour
         //_DesiredAngle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AdjustWeaponRendering();
         transform.rotation = Quaternion.AngleAxis(_DesiredAngle, Vector3.forward);        
+    }
+
+    public void S2C_AimWeapon(Vector2 Direction)
+    {
+        // 오른쪽 로컬 기준 좌표 값을 Pointer를 바라보게 해줌
+        transform.right = Direction;
+
+        _DesiredAngle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg;
+
+        if (Direction.x < 0)
+        {
+            transform.localScale = new Vector3(1.0f, -1.0f, 1.0f);
+        }
+        else if (Direction.x > 0)
+        {
+            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        }
+        
+        AdjustWeaponRendering();
+        transform.rotation = Quaternion.AngleAxis(_DesiredAngle, Vector3.forward);
     }
 
     protected void AdjustWeaponRendering()
