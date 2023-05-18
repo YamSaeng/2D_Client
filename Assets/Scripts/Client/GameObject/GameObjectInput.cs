@@ -22,6 +22,9 @@ public class GameObjectInput : MonoBehaviour
     public UnityEvent<Vector2> OnPointerPositionChange { get; set; }
 
     [field: SerializeField]
+    public UnityEvent<Vector2> OnS2CPointerPositionChange { get; set; }
+
+    [field: SerializeField]
     public UnityEvent OnDefaultAttackPressed { get; set; }
 
     [field: SerializeField]
@@ -335,7 +338,19 @@ public class GameObjectInput : MonoBehaviour
                     {
                         if (_OwnerObject != null)
                         {
+                            float PreviouseAngle = Mathf.Rad2Deg * Mathf.Atan2(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y,
+                                _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x);
+                            
                             _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton = Weapon.transform.right;
+
+                            float CurrentAngle = Mathf.Rad2Deg * Mathf.Atan2(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y,
+                                _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x);
+
+                            if (Mathf.Abs(Mathf.Abs(CurrentAngle) - Mathf.Abs(PreviouseAngle)) > 1.2f)
+                            {                                
+                                CMessage LookAtDirectionPacket = Packet.MakePacket.ReqMakeLookAtDirectionPacket(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton);
+                                Managers.NetworkManager.GameServerSend(LookAtDirectionPacket);                                
+                            }                            
 
                             _OwnerObject._WeaponPosition.x = Weapon.transform.position.x;
                             _OwnerObject._WeaponPosition.y = Weapon.transform.position.y;                                                      
