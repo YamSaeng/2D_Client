@@ -61,9 +61,11 @@ public class UI_OptionItem : UI_Base
                     Managers.NetworkManager.GameServerSend(ReqMenuOptionPacket);
 
                     Managers.NetworkManager._ServerState = en_ServerState.SERVER_STATE_LOGIN_CHARACTER_CHOICE;
+                    
+                    Managers.Clear();
 
                     // LoginScene ·Îµù
-                    Managers.Scene.LoadScene(Define.en_Scene.LoginScene);                    
+                    Managers.Scene.LoadScene(Define.en_Scene.LoginScene);           
                     break;
             }            
 
