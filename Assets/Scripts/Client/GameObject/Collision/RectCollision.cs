@@ -168,18 +168,28 @@ public class RectCollision : MonoBehaviour
 
         switch (_CollisionPositionType)
         {
-            case en_CollisionPosition.COLLISION_POSITION_OBJECT:
-            case en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE:
+            case en_CollisionPosition.COLLISION_POSITION_OBJECT:            
                 _MiddlePosition.x = _Position.x + _Size.x / 2.0f;
                 _MiddlePosition.y = _Position.y - _Size.y / 2.0f;
+                _LeftTop = _Position;
+                break;
+            case en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE:
+                _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
+                _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
+
+                _LeftTop.x = _MiddlePosition.x - _Size.x / 2.0f;
+                _LeftTop.y = _MiddlePosition.y + _Size.y / 2.0f;
                 break;
             case en_CollisionPosition.COLLISION_POSITION_SKILL_FRONT:
                 _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
                 _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
-                break;
-        }       
 
-        _LeftTop = _Position;      
+                _LeftTop = _Position;
+                break;
+            default:
+                _LeftTop = _Position;
+                break;
+        }               
 
         _LeftDown.x = _LeftTop.x;
         _LeftDown.y = _LeftTop.y - _Size.y;
