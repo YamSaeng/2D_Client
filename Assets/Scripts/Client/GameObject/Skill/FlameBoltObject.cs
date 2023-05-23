@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillSwordBladeObject : CreatureObject
+public class FlameBoltObject : CreatureObject
 {
     public override void Init()
     {
@@ -30,6 +30,6 @@ public class SkillSwordBladeObject : CreatureObject
     {
         GameObjectRendererUpdate();
 
-        transform.position += (Vector3)(_GameObjectInfo.ObjectPositionInfo.LookAtDireciton.normalized * _GameObjectInfo.ObjectStatInfo.Speed * Time.deltaTime);        
+        transform.position += (Vector3)(_GameObjectInfo.ObjectPositionInfo.LookAtDireciton.normalized * _GameObjectInfo.ObjectStatInfo.Speed * Time.deltaTime);
     }
 }
