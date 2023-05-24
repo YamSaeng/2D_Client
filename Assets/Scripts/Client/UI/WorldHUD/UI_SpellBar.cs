@@ -26,12 +26,7 @@ public class UI_SpellBar : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-        
-    public void Init(float PositionX, float PositionY)
-    {
-        gameObject.transform.position = new Vector3(PositionX, PositionY, 0);
-    }
-
+    
     public void SpellStart(string SpellName, float SpellTime, float SpellSpeed)
     {
         // 마법 이름 저장
