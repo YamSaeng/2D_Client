@@ -43,9 +43,7 @@ public class GameObjectMovement : MonoBehaviour
             // 방향값이 달라지면 보내줘야함
             if (_OwnerObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.MOVING 
                 && MovementDirection.magnitude > 0)
-            {                
-                _OwnerObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;                
-
+            {                  
                 _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
 
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
@@ -76,7 +74,10 @@ public class GameObjectMovement : MonoBehaviour
 
                 _OwnerObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.IDLE;
 
-                CMessage ReqMoveStopPacket = Packet.MakePacket.ReqMakeMoveStopPacket( _OwnerObject.transform.position.x, _OwnerObject.transform.position.y, _OwnerObject._GameObjectInfo.ObjectPositionInfo.State );
+                CMessage ReqMoveStopPacket = Packet.MakePacket.ReqMakeMoveStopPacket(
+                    _OwnerObject.transform.position.x,
+                    _OwnerObject.transform.position.y,
+                    _OwnerObject._GameObjectInfo.ObjectPositionInfo.State);
                 Managers.NetworkManager.GameServerSend(ReqMoveStopPacket);
             }            
         }
