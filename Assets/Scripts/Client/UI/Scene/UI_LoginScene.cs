@@ -43,8 +43,8 @@ public class UI_LoginScene : UI_Scene
         base.Init();                
 
         // 서버 IP , Port 입력
-        _LoginServerInfo.IPAddress = IPAddress.Parse("124.254.187.159");
-        _LoginServerInfo.Port = 7778;
+        _LoginServerInfo.IPAddress = IPAddress.Parse("124.254.187.159");        
+        _LoginServerInfo.Port = 8889;
         _LoginServerInfo.EndPoint = new IPEndPoint(_LoginServerInfo.IPAddress, _LoginServerInfo.Port);
 
         _GlobalMessageBoxUI = GetComponentInChildren<UI_GlobalMessageBox>();
