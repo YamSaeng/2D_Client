@@ -20,6 +20,11 @@ public class PlayerObject : CreatureObject
             AddHPBar(0.5f, 0.35f);
         }
 
+        if(_SpellBarUI == null)
+        {
+            AddSpellBar(0.5f, -1.2f);
+        }
+
         if (_NameUI == null)
         {
             AddNameBar(0.5f, -0.2f);
