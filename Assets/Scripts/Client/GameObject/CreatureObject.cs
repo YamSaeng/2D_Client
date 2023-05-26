@@ -23,7 +23,7 @@ public class CreatureObject : CBaseObject
     public UI_Name _NameUI;
 
     [HideInInspector]
-    public UI_SpellBar _SpellBar;
+    public UI_SpellBar _SpellBarUI;
     [HideInInspector]
     public UI_GatheringBar _GatheringBar;
 
@@ -120,11 +120,10 @@ public class CreatureObject : CBaseObject
     protected void AddSpellBar(float SpellBarPositionX, float SpellBarPositionY)
     {
         GameObject SpellBarGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SPELL_BAR, transform);
-        SpellBarGo.transform.localPosition = new Vector3(0.5f, 0.15f, 0);
+        SpellBarGo.transform.localPosition = new Vector3(SpellBarPositionX, SpellBarPositionY, 0);
         SpellBarGo.name = "UI_SpellBar";
 
-        _SpellBar = SpellBarGo.GetComponent<UI_SpellBar>();
-        _SpellBar.Init(SpellBarPositionX, SpellBarPositionY);
+        _SpellBarUI = SpellBarGo.GetComponent<UI_SpellBar>();
     }
 
     protected void AddNameBar(float NameBarPositionX, float NameBarPositionY)
@@ -296,9 +295,9 @@ public class CreatureObject : CBaseObject
     
     public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
     {
-        if (_SpellBar != null)
+        if (_SpellBarUI != null)
         {
-            _SpellBar.SpellStart(SpellName, SpellCastingTime, SpellSpeed);
+            _SpellBarUI.SpellStart(SpellName, SpellCastingTime, SpellSpeed);
         }
         else
         {
