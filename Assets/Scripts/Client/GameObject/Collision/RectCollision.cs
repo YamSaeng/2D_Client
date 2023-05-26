@@ -76,7 +76,23 @@ public class RectCollision : MonoBehaviour
                 _Size.x = 1.0f;
                 _Size.y = 0.5f;
 
-                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE;
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+
+                _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
+                break;
+            case en_GameObjectType.OBJECT_SKILL_FLAME_BOLT:
+                _Size.x = 1.0f;
+                _Size.y = 0.7f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
+
+                _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
+                break;
+            case en_GameObjectType.OBJECT_SKILL_DIVINE_BOLT:
+                _Size.x = 1.0f;
+                _Size.y = 0.7f;
+
+                _CollisionPositionType = en_CollisionPosition.COLLISION_POSITION_OBJECT;
 
                 _Direction = _OwnCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
                 break;
@@ -168,37 +184,53 @@ public class RectCollision : MonoBehaviour
 
         switch (_CollisionPositionType)
         {
-            case en_CollisionPosition.COLLISION_POSITION_OBJECT:            
-                _MiddlePosition.x = _Position.x + _Size.x / 2.0f;
-                _MiddlePosition.y = _Position.y - _Size.y / 2.0f;
+            case en_CollisionPosition.COLLISION_POSITION_OBJECT:
                 _LeftTop = _Position;
-                break;
+
+                _LeftDown.x = _LeftTop.x;
+                _LeftDown.y = _LeftTop.y - _Size.y;
+
+                _RightTop.x = _LeftTop.x + _Size.x;
+                _RightTop.y = _LeftTop.y;
+
+                _RightDown.x = _LeftTop.x + _Size.x;
+                _RightDown.y = _LeftTop.y - _Size.y;
+
+                _MiddlePosition.x = ((_LeftTop.x * _RightDown.y - _LeftTop.y * _RightDown.x) * (_LeftDown.x - _RightTop.x) - (_LeftTop.x - _RightDown.x) * (_LeftDown.x * _RightTop.y - _LeftDown.y * _RightTop.x)) / ((_LeftTop.x - _RightDown.x) * (_LeftDown.y - _RightTop.y) - (_LeftTop.y - _RightDown.y) * (_LeftDown.x - _RightTop.x));
+                _MiddlePosition.y = ((_LeftTop.x * _RightDown.y - _LeftTop.y * _RightDown.x) * (_LeftDown.y - _RightTop.y) - (_LeftTop.y - _RightDown.y) * (_LeftDown.x * _RightTop.y - _LeftDown.y * _RightTop.x)) / ((_LeftTop.x - _RightDown.x) * (_LeftDown.y - _RightTop.y) - (_LeftTop.y - _RightDown.y) * (_LeftDown.x - _RightTop.x));
+                break;                
             case en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE:
                 _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
                 _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
 
                 _LeftTop.x = _MiddlePosition.x - _Size.x / 2.0f;
                 _LeftTop.y = _MiddlePosition.y + _Size.y / 2.0f;
+
+                _LeftDown.x = _LeftTop.x;
+                _LeftDown.y = _LeftTop.y - _Size.y;
+
+                _RightTop.x = _LeftTop.x + _Size.x;
+                _RightTop.y = _LeftTop.y;
+
+                _RightDown.x = _LeftTop.x + _Size.x;
+                _RightDown.y = _LeftTop.y - _Size.y;
                 break;
             case en_CollisionPosition.COLLISION_POSITION_SKILL_FRONT:
-                _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
-                _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
-
                 _LeftTop = _Position;
-                break;
-            default:
-                _LeftTop = _Position;
-                break;
-        }               
 
-        _LeftDown.x = _LeftTop.x;
-        _LeftDown.y = _LeftTop.y - _Size.y;
+                _LeftDown.x = _LeftTop.x;
+                _LeftDown.y = _LeftTop.y - _Size.y;
 
-        _RightTop.x = _LeftTop.x + _Size.x;
-        _RightTop.y = _LeftTop.y;
+                _RightTop.x = _LeftTop.x + _Size.x;
+                _RightTop.y = _LeftTop.y;
 
-        _RightDown.x = _LeftTop.x + _Size.x;
-        _RightDown.y = _LeftTop.y - _Size.y;
+                _RightDown.x = _LeftTop.x + _Size.x;
+                _RightDown.y = _LeftTop.y - _Size.y;
+
+                _MiddlePosition.x = _Position.x + _CreatePositionSize.x * 0.5f;
+                _MiddlePosition.y = _Position.y - _CreatePositionSize.y * 0.5f;
+                break;           
+        }           
 
         _LeftDownToTop = _LeftTop;
     }
