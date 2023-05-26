@@ -28,8 +28,10 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_RIGHT_WALL, "Wall/UpToRightWall");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL, "Wall/DownToLeftWall");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, "Wall/DownToRightWall");
-
+                
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE, "Skill/SwordBlade");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_FLAME_BOLT, "Skill/FlameBolt");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_DIVINE_BOLT, "Skill/DivineBolt");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
@@ -44,8 +46,9 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY, "UI/PartyHUD/UI_PartyFrame");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_PLAYER_INFO_FRAME, "UI/PartyHUD/UI_PartyPlayerInfoFrame");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_REACTION, "UI/PartyHUD/UI_PartyReaction");
-
+        
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_HP_BAR, "UI/WorldHUD/UI_HPBar");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_SPELL_BAR, "UI/WorldHUD/UI_SpellBar");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_MY_CHARACTER_HUD, "UI/MyHUD/UI_MyCharacterHUD");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_TARGET_HUD, "UI/TargetHUD/UI_TargetHUD");
