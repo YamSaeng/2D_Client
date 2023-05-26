@@ -140,6 +140,9 @@ public class Managers : MonoBehaviour
                 GOManagers.AddComponent<Managers>();
             }
 
+            // 백그라운드에서도 실행 하도록 함
+            Application.runInBackground = true;
+
             //사라지지 Managers 오브젝트가 사라지지 않도록 해줌
             DontDestroyOnLoad(GOManagers);
             _Instance = GOManagers.GetComponent<Managers>();
