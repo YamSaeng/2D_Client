@@ -80,6 +80,8 @@ public class ObjectManager
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CROP_CORN, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CROP_CORN));
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE));
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_FLAME_BOLT, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_FLAME_BOLT));
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_DIVINE_BOLT, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_DIVINE_BOLT));
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL));
@@ -239,13 +241,39 @@ public class ObjectManager
 
                 _Objects.Add(Info.ObjectId, SwordBladeGO);
 
-                SkillSwordBladeObject SwordBlade = SwordBladeGO.GetComponent<SkillSwordBladeObject>();
+                SwordBladeObject SwordBlade = SwordBladeGO.GetComponent<SwordBladeObject>();
                 SwordBlade._GameObjectInfo = Info;
                 SwordBlade.Init();
 
                 SwordBlade.CreatureSpriteShowClose(true);
 
                 return SwordBladeGO;
+            case en_GameObjectType.OBJECT_SKILL_FLAME_BOLT:
+                GameObject FlameBoltGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_SKILL_FLAME_BOLT].Pop().Object;
+                FlameBoltGO.name = Info.ObjectName;
+
+                _Objects.Add(Info.ObjectId, FlameBoltGO);
+
+                FlameBoltObject FlameBolt = FlameBoltGO.GetComponent<FlameBoltObject>();
+                FlameBolt._GameObjectInfo = Info;
+                FlameBolt.Init();
+
+                FlameBolt.CreatureSpriteShowClose(true);
+
+                return FlameBoltGO;
+            case en_GameObjectType.OBJECT_SKILL_DIVINE_BOLT:
+                GameObject DivineBoltGo = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_SKILL_DIVINE_BOLT].Pop().Object;
+                DivineBoltGo.name = Info.ObjectName;
+
+                _Objects.Add(Info.ObjectId, DivineBoltGo);
+
+                DivineBoltObject DivineBolt = DivineBoltGo.GetComponent<DivineBoltObject>();
+                DivineBolt._GameObjectInfo = Info;
+                DivineBolt.Init();
+
+                DivineBolt.CreatureSpriteShowClose(true);
+
+                return DivineBoltGo;
             case en_GameObjectType.OBJECT_ARCHITECTURE_CRAFTING_TABLE_FURNACE:
                 GameObject FurnaceGO = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE].Pop().Object;                
                 FurnaceGO.name = Info.ObjectName;
@@ -410,7 +438,7 @@ public class ObjectManager
             PoolObject.Object = RemoveGo;            
 
             //딕셔너리에서 제거후
-            _Objects.Remove(RemoveId);            
+            _Objects.Remove(RemoveId);
 
             switch (BaseObject._GameObjectInfo.ObjectType)
             {
