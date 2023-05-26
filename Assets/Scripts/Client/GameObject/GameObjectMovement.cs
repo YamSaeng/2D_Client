@@ -43,7 +43,17 @@ public class GameObjectMovement : MonoBehaviour
             // 방향값이 달라지면 보내줘야함
             if (_OwnerObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.MOVING 
                 && MovementDirection.magnitude > 0)
-            {                  
+            {
+                UI_SpellBar SpellBar = _OwnerObject.transform.Find("UI_SpellBar").GetComponent<UI_SpellBar>();
+                if (SpellBar != null)
+                {
+                    if (SpellBar.isActiveAndEnabled == true)
+                    {
+                        CMessage SpellCancelPacket = Packet.MakePacket.ReqMakeMagicCancelPacket();
+                        Managers.NetworkManager.GameServerSend(SpellCancelPacket);
+                    }
+                }
+
                 _OwnerObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = MovementDirection;
 
                 CMessage ReqMovePacket = Packet.MakePacket.ReqMakeMovePacket(
