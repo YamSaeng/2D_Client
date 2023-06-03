@@ -22,7 +22,7 @@ public class CropController : CreatureObject
 
         _CropBar = transform.Find("UI_CropBar").gameObject.GetComponent<UI_CropBar>();
 
-        _SpellBar = null;
+        _SpellBarUI = null;
         _GatheringBar = null;
 
         _NameUI.Init(_GameObjectInfo.ObjectName);

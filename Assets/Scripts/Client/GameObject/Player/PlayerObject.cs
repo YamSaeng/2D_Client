@@ -17,17 +17,17 @@ public class PlayerObject : CreatureObject
 
         if (_HPBarUI == null)
         {
-            AddHPBar(0.5f, 0.35f);
+            AddHPBar(0, 0.95f);
         }
 
         if(_SpellBarUI == null)
         {
-            AddSpellBar(0.5f, -1.2f);
+            AddSpellBar(0, -0.7f);
         }
 
         if (_NameUI == null)
         {
-            AddNameBar(0.5f, -0.2f);
+            AddNameBar(0, 0.35f);
         }
 
         GetComponent<GameObjectMovement>().SetOwner(this);

@@ -10,12 +10,12 @@ public class CGoblinObject : CreatureObject
 
         if (_HPBarUI == null)
         {
-            AddHPBar(0.5f, 0.35f);
-        }
+            AddHPBar(0, 0.95f);
+        }        
 
-        if(_NameUI == null)
+        if (_NameUI == null)
         {
-            AddNameBar(0.5f, -0.2f);
+            AddNameBar(0, 0.35f);
         }
     }
 
