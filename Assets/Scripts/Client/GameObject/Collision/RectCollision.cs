@@ -23,8 +23,7 @@ public class RectCollision : MonoBehaviour
     public Vector2 _RightDown;
     public Vector2 _LeftDown;        
     private Vector2 _LeftDownToTop;
-
-    public Vector2 _CreatePositionSize;
+    
     public Vector2 _Size;
 
     private float _Angle;    
@@ -102,13 +101,12 @@ public class RectCollision : MonoBehaviour
         }
     }
 
-    public void SetPositionDirection(en_CollisionPosition CollisionPositionType, Vector2 Position, Vector2 Direction, Vector2 CreatePositionSize, Vector2 Size)
+    public void SetPositionDirection(en_CollisionPosition CollisionPositionType, Vector2 Position, Vector2 Direction, Vector2 Size)
     {
         _CollisionPositionType = CollisionPositionType;
-        _Position = Position;
-        _LeftTop = _Position;
-        _Direction = Direction;
-        _CreatePositionSize = CreatePositionSize;
+        
+        _Position = Position;        
+        _Direction = Direction;        
         _Size = Size;
         
         StartCoroutine(RectCollisionDestoryCoroutine());        
@@ -176,61 +174,23 @@ public class RectCollision : MonoBehaviour
     }
 
     private void PositionUpdate()
-    {
-        if(_OwnCreature != null)
+    {      
+        if (_OwnCreature != null)
         {
             _Position = _OwnCreature.transform.position;
-        }
+        }        
 
-        switch (_CollisionPositionType)
-        {
-            case en_CollisionPosition.COLLISION_POSITION_OBJECT:
-                _LeftTop = _Position;
+        _LeftTop.x = _Position.x - _Size.x / 2.0f;
+        _LeftTop.y = _Position.y + _Size.y / 2.0f;
 
-                _LeftDown.x = _LeftTop.x;
-                _LeftDown.y = _LeftTop.y - _Size.y;
+        _RightTop.x = _Position.x + _Size.x / 2.0f;
+        _RightTop.y = _Position.y + _Size.y / 2.0f;
 
-                _RightTop.x = _LeftTop.x + _Size.x;
-                _RightTop.y = _LeftTop.y;
+        _LeftDown.x = _Position.x - _Size.x / 2.0f;
+        _LeftDown.y = _Position.y - _Size.y / 2.0f;
 
-                _RightDown.x = _LeftTop.x + _Size.x;
-                _RightDown.y = _LeftTop.y - _Size.y;
-
-                _MiddlePosition.x = ((_LeftTop.x * _RightDown.y - _LeftTop.y * _RightDown.x) * (_LeftDown.x - _RightTop.x) - (_LeftTop.x - _RightDown.x) * (_LeftDown.x * _RightTop.y - _LeftDown.y * _RightTop.x)) / ((_LeftTop.x - _RightDown.x) * (_LeftDown.y - _RightTop.y) - (_LeftTop.y - _RightDown.y) * (_LeftDown.x - _RightTop.x));
-                _MiddlePosition.y = ((_LeftTop.x * _RightDown.y - _LeftTop.y * _RightDown.x) * (_LeftDown.y - _RightTop.y) - (_LeftTop.y - _RightDown.y) * (_LeftDown.x * _RightTop.y - _LeftDown.y * _RightTop.x)) / ((_LeftTop.x - _RightDown.x) * (_LeftDown.y - _RightTop.y) - (_LeftTop.y - _RightDown.y) * (_LeftDown.x - _RightTop.x));
-                break;                
-            case en_CollisionPosition.COLLISION_POSITION_SKILL_MIDDLE:
-                _MiddlePosition.x = _Position.x + _CreatePositionSize.x / 2.0f;
-                _MiddlePosition.y = _Position.y - _CreatePositionSize.y / 2.0f;
-
-                _LeftTop.x = _MiddlePosition.x - _Size.x / 2.0f;
-                _LeftTop.y = _MiddlePosition.y + _Size.y / 2.0f;
-
-                _LeftDown.x = _LeftTop.x;
-                _LeftDown.y = _LeftTop.y - _Size.y;
-
-                _RightTop.x = _LeftTop.x + _Size.x;
-                _RightTop.y = _LeftTop.y;
-
-                _RightDown.x = _LeftTop.x + _Size.x;
-                _RightDown.y = _LeftTop.y - _Size.y;
-                break;
-            case en_CollisionPosition.COLLISION_POSITION_SKILL_FRONT:
-                _LeftTop = _Position;
-
-                _LeftDown.x = _LeftTop.x;
-                _LeftDown.y = _LeftTop.y - _Size.y;
-
-                _RightTop.x = _LeftTop.x + _Size.x;
-                _RightTop.y = _LeftTop.y;
-
-                _RightDown.x = _LeftTop.x + _Size.x;
-                _RightDown.y = _LeftTop.y - _Size.y;
-
-                _MiddlePosition.x = _Position.x + _CreatePositionSize.x * 0.5f;
-                _MiddlePosition.y = _Position.y - _CreatePositionSize.y * 0.5f;
-                break;           
-        }           
+        _RightDown.x = _Position.x + _Size.x / 2.0f;
+        _RightDown.y = _Position.y - _Size.y / 2.0f;
 
         _LeftDownToTop = _LeftTop;
     }
@@ -250,17 +210,17 @@ public class RectCollision : MonoBehaviour
         Vector2 Basis2 = new Vector2(-Sin, Cos);
         Matrix2x2 RotationMatrix = new Matrix2x2(Basis1, Basis2);
 
-        Vector2 LeftTopRot = RotationMatrix * (_LeftTop - _MiddlePosition);
-        Vector2 LeftDownRot = RotationMatrix * (_LeftDown - _MiddlePosition);
-        Vector2 RightTopRot = RotationMatrix * (_RightTop - _MiddlePosition);
-        Vector2 RightDownRot = RotationMatrix * (_RightDown - _MiddlePosition);
-        Vector2 LeftDownToTopRotate = RotationMatrix * (_LeftTop - _MiddlePosition);
+        Vector2 LeftTopRot = RotationMatrix * (_LeftTop - _Position);
+        Vector2 LeftDownRot = RotationMatrix * (_LeftDown - _Position);
+        Vector2 RightTopRot = RotationMatrix * (_RightTop - _Position);
+        Vector2 RightDownRot = RotationMatrix * (_RightDown - _Position);
+        Vector2 LeftDownToTopRotate = RotationMatrix * (_LeftTop - _Position);
 
-        _LeftTop = LeftTopRot + _MiddlePosition;
-        _LeftDown = LeftDownRot + _MiddlePosition;
-        _RightTop = RightTopRot + _MiddlePosition;
-        _RightDown = RightDownRot + _MiddlePosition;
-        _LeftDownToTop = LeftDownToTopRotate + _MiddlePosition;
+        _LeftTop = LeftTopRot + _Position;
+        _LeftDown = LeftDownRot + _Position;
+        _RightTop = RightTopRot + _Position;
+        _RightDown = RightDownRot + _Position;
+        _LeftDownToTop = LeftDownToTopRotate + _Position;
     }
 
     public void UpdateRayCasting()
