@@ -52,7 +52,7 @@ public class CServerSession : CSession
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_CHARACTER_INFO:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_CharacterInfoHandler);
-                break;
+                break;            
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_FACE_DIRECTION:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_FaceDirectionHandler);
                 break;

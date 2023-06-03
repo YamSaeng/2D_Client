@@ -450,15 +450,16 @@ namespace Packet
 
                     }
 
-                    FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x = LookAtDirectionX;
-                    FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y = LookAtDirectionY;
-
                     GameObjectRenderer Renderer = FindGameObject.GetComponentInChildren<GameObjectRenderer>();
                     if (Renderer != null)
                     {
                         Renderer.FaceDirection(NewFaceDirection);
                     }
 
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x = LookAtDirectionX;
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y = LookAtDirectionY;
+
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;
                     FindGameObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = NewMoveDirection;
                     FindGameObject.transform.position = new Vector3(PositionX, PositionY, 0);
                 }
@@ -756,7 +757,7 @@ namespace Packet
                 }
                 else
                 {
-                    CC._SpellBar.SpellEnd();
+                    CC._SpellBarUI.SpellEnd();
                 }
             }
 
@@ -772,7 +773,7 @@ namespace Packet
             PlayerObject FindPlayerObject = Managers.Object.FindById(PlayerId).GetComponent<PlayerObject>();
             if (FindPlayerObject != null)
             {
-                FindPlayerObject._SpellBar.SpellEnd();
+                FindPlayerObject._SpellBarUI.SpellEnd();
             }
             else
             {
@@ -1266,7 +1267,9 @@ namespace Packet
                         case en_GameObjectStatusType.STATUS_ABNORMAL_SPELL_WINTER_BINDING:
                         case en_GameObjectStatusType.STATUS_ABNORMAL_SPELL_ROOT:
                         case en_GameObjectStatusType.STATUS_ABNORMAL_DISCIPLINE_ROOT:
-                            break;                        
+                            StatusApplyObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = Vector2.zero;
+                            StatusApplyObject.transform.position = new Vector3(TargetPositionX, TargetPositionY, 0);
+                            break;                                                                            
                     }
 
                     StatusApplyObject.AnimationPlay("STATUS_ABNORMAL");
@@ -2461,7 +2464,7 @@ namespace Packet
             GameObject FindGameObject = Managers.Object.FindById(TargetId);
             if (FindGameObject != null)
             {
-                CreatureObject baseController = FindGameObject.GetComponent<CreatureObject>();
+                CBaseObject baseController = FindGameObject.GetComponent<CBaseObject>();
 
                 if (BufDeBuf == true)
                 {
@@ -2552,15 +2555,15 @@ namespace Packet
             GameObject FindGameObject = Managers.Object.FindById(TargetId);
             if (FindGameObject != null)
             {
-                PlayerObject baseController = FindGameObject.GetComponent<PlayerObject>();
+                CBaseObject BaseObject = FindGameObject.GetComponent<CBaseObject>();
 
                 if (BufDeBuf == true)
                 {
-                    baseController._Bufs.Remove((en_SkillType)OffSkillType);
+                    BaseObject._Bufs.Remove((en_SkillType)OffSkillType);
                 }
                 else
                 {
-                    baseController._DeBufs.Remove((en_SkillType)OffSkillType);
+                    BaseObject._DeBufs.Remove((en_SkillType)OffSkillType);
                 }
             }
 
@@ -2805,8 +2808,6 @@ namespace Packet
             float PositionY;
             float DirectionX;
             float DirectionY;
-            float CreatePositionSizeX;
-            float CreatePositionSizeY;
             float SizeX;
             float SizeY;
 
@@ -2815,12 +2816,10 @@ namespace Packet
             S2C_CollisionSpawnMessage.GetData(out PositionY, sizeof(float));
             S2C_CollisionSpawnMessage.GetData(out DirectionX, sizeof(float));
             S2C_CollisionSpawnMessage.GetData(out DirectionY, sizeof(float));
-            S2C_CollisionSpawnMessage.GetData(out CreatePositionSizeX, sizeof(float));
-            S2C_CollisionSpawnMessage.GetData(out CreatePositionSizeY, sizeof(float));
             S2C_CollisionSpawnMessage.GetData(out SizeX, sizeof(float));
             S2C_CollisionSpawnMessage.GetData(out SizeY, sizeof(float));
 
-            Managers.Object.RectCollisionWorldSpawn(CollisionPositionType, PositionX, PositionY, DirectionX, DirectionY, CreatePositionSizeX, CreatePositionSizeY, SizeX, SizeY);            
+            Managers.Object.RectCollisionWorldSpawn(CollisionPositionType, PositionX, PositionY, DirectionX, DirectionY, SizeX, SizeY);            
         }
 
         public static void S2C_Ping(CMessage S2C_PingMessage)
@@ -2980,37 +2979,37 @@ namespace Packet
             return ReqAttackPacket;
         }
 
-        public static CMessage ReqMakeMagicPacket(long AccountId, long PlayerId, en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
+        public static CMessage ReqMakeMagicPacket(en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
         {
             CMessage ReqMagicPacket = new CMessage();
 
             ReqMagicPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SPELL, sizeof(short));
-            ReqMagicPacket.InsertData(AccountId, sizeof(long));
-            ReqMagicPacket.InsertData(PlayerId, sizeof(long));
+            ReqMagicPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqMagicPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqMagicPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
             ReqMagicPacket.InsertData((short)ReqSkillType, sizeof(short));
 
             return ReqMagicPacket;
         }
 
-        public static CMessage ReqMakeMagicCancelPacket(long AccountId, long PlayerId)
+        public static CMessage ReqMakeMagicCancelPacket()
         {
             CMessage ReqMagicCancelPacket = new CMessage();
 
             ReqMagicCancelPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_MAGIC_CANCEL, sizeof(short));
-            ReqMagicCancelPacket.InsertData(AccountId, sizeof(long));
-            ReqMagicCancelPacket.InsertData(PlayerId, sizeof(long));
+            ReqMagicCancelPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqMagicCancelPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
 
             return ReqMagicCancelPacket;
         }
 
-        public static CMessage ReqMakeGatheringCancelPacket(long AccountID, long ObjectID)
+        public static CMessage ReqMakeGatheringCancelPacket()
         {
             CMessage ReqGatheringCancelPacket = new CMessage();
 
             ReqGatheringCancelPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_GATHERING_CANCEL, sizeof(short));
-            ReqGatheringCancelPacket.InsertData(AccountID, sizeof(long));
-            ReqGatheringCancelPacket.InsertData(ObjectID, sizeof(long));
+            ReqGatheringCancelPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqGatheringCancelPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
 
             return ReqGatheringCancelPacket;
         }
