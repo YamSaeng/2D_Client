@@ -104,7 +104,7 @@ public class ObjectManager
         }
     }
 
-    public GameObject RectCollisionWorldSpawn(byte CollisionPositionType, float PositionX, float PositionY, float DirectionX, float DirectionY, float CreatePositionSizeX, float CreatePositionSizeY, float SizeX, float SizeY)
+    public GameObject RectCollisionWorldSpawn(byte CollisionPositionType, float PositionX, float PositionY, float DirectionX, float DirectionY, float SizeX, float SizeY)
     {
         GameObject RectCollisionGO = _ObjectPools[en_ResourceName.CLIENT_COLLISION_RECT].Pop().Object;
         
@@ -112,13 +112,12 @@ public class ObjectManager
         if(rectCollision != null)
         {
             Vector2 Position = new Vector2(PositionX, PositionY);
-            Vector2 Direction = new Vector2(DirectionX, DirectionY);
-            Vector2 CreatePositionSize = new Vector2(CreatePositionSizeX, CreatePositionSizeY);
+            Vector2 Direction = new Vector2(DirectionX, DirectionY);            
             Vector2 Size = new Vector2(SizeX, SizeY);
 
             RectCollisionGO.transform.position = new Vector3(PositionX, PositionY, 0);            
 
-            rectCollision.SetPositionDirection((en_CollisionPosition)CollisionPositionType, Position, Direction, CreatePositionSize, Size);
+            rectCollision.SetPositionDirection((en_CollisionPosition)CollisionPositionType, Position, Direction, Size);
         }
 
         return RectCollisionGO;
