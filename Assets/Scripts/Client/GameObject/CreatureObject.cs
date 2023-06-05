@@ -210,23 +210,25 @@ public class CreatureObject : CBaseObject
         }
     }
 
-    public void EquipmentBoxUICreate(CItem[] EquipmentItems)
+    public void EquipmentBoxUICreate()
     {
         GameObject EquipmentBoxGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, _GameSceneUI.transform);
         _EquipmentBoxUI = EquipmentBoxGO.GetComponent<UI_EquipmentBox>();
         _EquipmentBoxUI.GetComponent<RectTransform>().localPosition = new Vector3(-600.0f, 100.0f, 0.0f);
         _EquipmentBoxUI.Binding();        
 
-        _EquipmentBoxUI.EquipmentBoxUICreate(6);
-
-        foreach(CItem EquipmentItem in EquipmentItems)
-        {
-            _EquipmentBoxUI.OnEquipmentItem(EquipmentItem._ItemInfo);
-        }
+        _EquipmentBoxUI.EquipmentBoxUICreate(6);        
 
         _GameSceneUI._EquipmentBoxUI = _EquipmentBoxUI;
+        _GameSceneUI._EquipmentBoxUI.ShowCloseUI(false);        
+    }
 
-        _GameSceneUI._EquipmentBoxUI.ShowCloseUI(false);
+    public void EquipmentBoxUIItemCreate(CItem[] EquipmentItems)
+    {
+        foreach (CItem EquipmentItem in EquipmentItems)
+        {
+            _EquipmentBoxUI.OnEquipmentItem(EquipmentItem._ItemInfo);
+        }                
     }
 
     public void SkillBoxUICreate()
