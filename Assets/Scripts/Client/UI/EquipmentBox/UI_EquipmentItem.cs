@@ -73,7 +73,7 @@ public class UI_EquipmentItem : UI_Base
     {
         _EquipmentItemInfo = EquipmentItemInfo;
 
-        GetImage((int)en_EquipmentItemImage.EquipmentItemImage).sprite = Managers.Sprite._ItemSprite[EquipmentItemInfo.ItemSmallCategory];
+        GetImage((int)en_EquipmentItemImage.EquipmentItemImage).sprite = Managers.Sprite._ItemSprite[EquipmentItemInfo.ItemSmallCategory];      
     }
 
     public void InitEquipmentItemUI()
@@ -81,6 +81,11 @@ public class UI_EquipmentItem : UI_Base
         _EquipmentItemInfo = null;
 
         GetImage((int)en_EquipmentItemImage.EquipmentItemImage).sprite = _InitImage;
+    }
+
+    public st_ItemInfo GetEquipmentItemInfo()
+    {
+        return _EquipmentItemInfo;
     }
 }
 

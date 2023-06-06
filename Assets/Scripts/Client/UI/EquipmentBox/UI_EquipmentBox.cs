@@ -40,7 +40,9 @@ public class UI_EquipmentBox : UI_Base
     public int _WearArmorDefence = 0;
     public int _BootArmorDefence = 0;
 
-    UI_EquipmentItem[] _EquipmentParts;    
+    UI_EquipmentItem[] _EquipmentParts;
+
+    public CreatureObject _OwnerObject;
 
     public override void Init()
     {
@@ -83,16 +85,61 @@ public class UI_EquipmentBox : UI_Base
         rectTransform.anchoredPosition += Event.delta;
     }
 
+    public UI_EquipmentItem GetEquipment(en_EquipmentParts EquipmentPart)
+    {
+        return _EquipmentParts[(int)en_EquipmentParts.EQUIPMENT_PARTS_HEAD];
+    }
+
     public void OnEquipmentItem(st_ItemInfo OnEquipmentItemInfo)
     {
-        _EquipmentParts[(int)OnEquipmentItemInfo.ItemEquipmentPart].SetEquipment(OnEquipmentItemInfo);
+        _EquipmentParts[(int)OnEquipmentItemInfo.ItemEquipmentPart].SetEquipment(OnEquipmentItemInfo);        
+
+        switch(OnEquipmentItemInfo.ItemLargeCategory)
+        {
+            case en_LargeItemCategory.ITEM_LARGE_CATEGORY_WEAPON:
+                PlayerWeapon RightWeaponParent = _OwnerObject.transform.Find("RightWeaponParent").GetComponent<PlayerWeapon>();
+                if(RightWeaponParent != null)
+                {                                     
+                    switch (OnEquipmentItemInfo.ItemSmallCategory)
+                    {
+                        case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
+                            Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_DAGGER_WOOD, RightWeaponParent.transform);
+                            break;
+                        case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:
+                            Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, RightWeaponParent.transform);
+                            break;
+                    }
+
+                    RightWeaponParent.OnWeapon();
+                }             
+                break;
+        }        
 
         EquipmentBoxRefreshUI();
     }
 
     public void OffEquipmentItem(en_EquipmentParts OffEquipmentParts)
     {
-        _EquipmentParts[(int)OffEquipmentParts].InitEquipmentItemUI();
+        switch (_EquipmentParts[(int)OffEquipmentParts].GetEquipmentItemInfo().ItemLargeCategory)
+        {
+            case en_LargeItemCategory.ITEM_LARGE_CATEGORY_WEAPON:
+                PlayerWeapon RightWeapon = _OwnerObject.transform.Find("RightWeaponParent").GetComponent<PlayerWeapon>();
+                if (RightWeapon != null)
+                {                    
+                    switch(_EquipmentParts[(int)OffEquipmentParts].GetEquipmentItemInfo().ItemSmallCategory)
+                    {
+                        case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:                            
+                            Destroy(RightWeapon.transform.Find("WeaponLongSwordWood").gameObject);
+                            break;
+                    }
+
+                    RightWeapon.OffWeapon();                    
+                }
+
+                break;
+        }
+
+        _EquipmentParts[(int)OffEquipmentParts].InitEquipmentItemUI();        
 
         EquipmentBoxRefreshUI();
     }
@@ -119,5 +166,5 @@ public class UI_EquipmentBox : UI_Base
             GetTextMeshPro((int)en_EquipmentBoxTexts.DefencePointText).text = $"방어력 {_HeadArmorDefence + _WearArmorDefence + _BootArmorDefence + Player._GameObjectInfo.ObjectStatInfo.Defence}";
             GetTextMeshPro((int)en_EquipmentBoxTexts.EvasionRatePointText).text = $"회피율 {Player._GameObjectInfo.ObjectStatInfo.EvasionRate}";
         }
-    }  
+    }     
 }
