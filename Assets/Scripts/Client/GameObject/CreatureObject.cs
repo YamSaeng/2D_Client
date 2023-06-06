@@ -215,7 +215,8 @@ public class CreatureObject : CBaseObject
         GameObject EquipmentBoxGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, _GameSceneUI.transform);
         _EquipmentBoxUI = EquipmentBoxGO.GetComponent<UI_EquipmentBox>();
         _EquipmentBoxUI.GetComponent<RectTransform>().localPosition = new Vector3(-600.0f, 100.0f, 0.0f);
-        _EquipmentBoxUI.Binding();        
+        _EquipmentBoxUI.Binding();
+        _EquipmentBoxUI._OwnerObject = this;
 
         _EquipmentBoxUI.EquipmentBoxUICreate(6);        
 
