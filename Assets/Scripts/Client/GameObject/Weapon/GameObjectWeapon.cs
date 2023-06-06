@@ -14,8 +14,7 @@ public class GameObjectWeapon : MonoBehaviour
 
     private void Awake()
     {
-        _WeaponRenderer = GetComponentInChildren<WeaponRenderer>();
-        _Weapon = GetComponentInChildren<Weapon>();
+    
     }
 
     // 입력으로 받은 Vector2로 향하게 무기의 위치를 조정해줌
@@ -74,6 +73,18 @@ public class GameObjectWeapon : MonoBehaviour
         }
     }
 
+    public void OnWeapon()
+    {
+        _WeaponRenderer = GetComponentInChildren<WeaponRenderer>();
+        _Weapon = GetComponentInChildren<Weapon>();
+    }
+
+    public void OffWeapon()
+    {
+        _WeaponRenderer = null;
+        _Weapon = null;
+    }
+
     // GameObjectInput OnDefaultAttackPressed 이벤트와 연결
     // 가지고 있는 무기로 공격 시도
     public void Attack()
@@ -108,5 +119,10 @@ public class GameObjectWeapon : MonoBehaviour
             _Weapon.StopAttacking();
             _Weapon.Reload();
         }
+    }
+
+    public Weapon GetWeapon()
+    {
+        return _Weapon;
     }
 }
