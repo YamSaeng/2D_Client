@@ -17,9 +17,11 @@ public class SpriteManager
 
     private void LoadItemSprite()
     {
-        _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_SWORD_WOOD,
+        _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD,
+            Managers.Resource.Load<Sprite>("Sprites/Weapon & Tool/Wooden Dagger"));
+        _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD,
             Managers.Resource.Load<Sprite>("Sprites/Weapon & Tool/Wooden Sword"));
-        _ItemSprite.Add(en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_WOOD_SHIELD,
+        _ItemSprite.Add(en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_SHIELD_WOOD,
             Managers.Resource.Load<Sprite>("Sprites/Weapon & Tool/Wooden Shield"));
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_WEAR_LEATHER,
             Managers.Resource.Load<Sprite>("Sprites/Equipment/Leather Armor"));
