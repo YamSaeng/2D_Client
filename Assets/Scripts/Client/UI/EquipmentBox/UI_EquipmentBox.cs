@@ -87,7 +87,7 @@ public class UI_EquipmentBox : UI_Base
 
     public UI_EquipmentItem GetEquipment(en_EquipmentParts EquipmentPart)
     {
-        return _EquipmentParts[(int)en_EquipmentParts.EQUIPMENT_PARTS_HEAD];
+        return _EquipmentParts[(int)EquipmentPart];
     }
 
     public void OnEquipmentItem(st_ItemInfo OnEquipmentItemInfo)
