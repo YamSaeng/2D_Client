@@ -36,6 +36,9 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
 
+        _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_DAGGER_WOOD, "Weapon/WeaponDaggerWood");
+        _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, "Weapon/WeaponLongSwordWood");        
+
         _ResourcePath.Add(en_ResourceName.CLIENT_COLLISION_RECT, "Collision/RectCollision");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_CHATTING_TEXT, "UI/ChattingBox/UI_ChattingText");
@@ -78,8 +81,9 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_EXPLANATION, "UI/Inventory/UI_ItemExplanation");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_DIVIDE, "UI/Inventory/UI_InventoryItemDivide");
-
-        _ResourcePath.Add(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, "UI/Equipment/UI_EquipmentBox");
+        
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, "UI/Equipment/UI_EquipmentBox");        
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_EQUIPMENT_ITEM, "UI/Equipment/UI_EquipmentItem");        
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_GLOBAL_MESSAGE, "UI/GlobalMessage/UI_GlobalMessage");
 
