@@ -177,6 +177,20 @@ enum en_StateChange
     SPELL_TO_IDLE,
 };
 
+public enum en_SkillKinds
+{
+    SKILL_KIND_NONE,
+	SKILL_KIND_GLOBAL_SKILL,
+
+	SKILL_KIND_MELEE_SKILL,	
+
+	SKILL_KIND_SPELL_SKILL,	
+
+	SKILL_KIND_HEAL_SKILL,	
+
+	SKILL_KIND_RANGE_SKILL
+};
+
 public enum en_SkillCharacteristic
 {
     SKILL_CATEGORY_NONE,
@@ -869,6 +883,7 @@ public class st_SkillInfo
 {
     public bool IsSkillLearn;
     public bool CanSkillUse;
+    public en_SkillKinds SkillKind;
     public en_SkillCharacteristic SkillCharacteristic;
     public en_SkillLargeCategory SkillLargeCategory;
     public en_SkillMediumCategory SkillMediumCategory;
@@ -887,6 +902,7 @@ public class st_SkillInfo
     public st_SkillInfo()
     {
         IsSkillLearn = false;
+        SkillKind = en_SkillKinds.SKILL_KIND_NONE;
         SkillLargeCategory = en_SkillLargeCategory.SKILL_LARGE_CATEGORY_NONE;
         SkillMediumCategory = en_SkillMediumCategory.SKILL_MEDIUM_CATEGORY_NONE;
         SkillType = en_SkillType.SKILL_TYPE_NONE;
