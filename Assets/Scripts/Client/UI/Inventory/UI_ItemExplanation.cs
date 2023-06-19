@@ -44,11 +44,20 @@ public class UI_ItemExplanation : UI_Base
 
         switch (_ItemInfo.ItemSmallCategory)
         {
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_SWORD_WOOD:
-                GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "검";
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
+                GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "단검";
                 break;
-            case en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_WOOD_SHIELD:
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:
+                GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "장검";
+                break;
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_GREAT_SWORD_WOOD:
+                GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "대검";
+                break;
+            case en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_SHIELD_WOOD:
                 GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "방패";
+                break;
+            case en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_BOW_WOOD:
+                GetTextMeshPro((int)en_ItemMaterialExplainText.ItemCategoryText).text = "장궁";
                 break;
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_WEAR_LEATHER:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_HAT_LEATHER:
