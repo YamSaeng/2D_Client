@@ -318,14 +318,16 @@ namespace Packet
                     byte EquipmentCount;
                     S2CCharacterInfoPacket.GetData(out EquipmentCount, sizeof(byte));
 
+                    FindGameObject.EquipmentBoxUICreate();
+
                     if (EquipmentCount > 0)
                     {
                         // 착용 장비 아이템 정보
                         CItem[] EquipmentItems = new CItem[EquipmentCount];
                         S2CCharacterInfoPacket.GetData(EquipmentItems, EquipmentCount);
 
-                        FindGameObject.EquipmentBoxUICreate(EquipmentItems);
-                    }
+                        FindGameObject.EquipmentBoxUIItemCreate(EquipmentItems);
+                    }             
 
                     ////조합템 정보 셋팅
                     //byte CraftItemCount;
@@ -522,7 +524,7 @@ namespace Packet
         {
             long AttackID;
             long TargetId;
-            short SkillType;
+            byte SkillKind;
             short ResourceType;
             int DamagePoint;
             int HP;
@@ -530,7 +532,7 @@ namespace Packet
 
             S2C_CommonDamagePacket.GetData(out AttackID, sizeof(long));
             S2C_CommonDamagePacket.GetData(out TargetId, sizeof(long));
-            S2C_CommonDamagePacket.GetData(out SkillType, sizeof(short));
+            S2C_CommonDamagePacket.GetData(out SkillKind, sizeof(byte));
             S2C_CommonDamagePacket.GetData(out ResourceType, sizeof(short));
             S2C_CommonDamagePacket.GetData(out DamagePoint, sizeof(int));
             S2C_CommonDamagePacket.GetData(out HP, sizeof(int));
@@ -553,7 +555,7 @@ namespace Packet
                         FindTargetCreature.OnDamaged();
 
                         UI_Damage DamageUI = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_DAMAGE).GetComponent<UI_Damage>();
-                        DamageUI.Setup((en_SkillType)SkillType, DamagePoint,
+                        DamageUI.Setup((en_SkillKinds)SkillKind, DamagePoint,
                             IsCritical,
                             FindTargetCreature.transform.position.x,
                             FindTargetCreature.transform.position.y);
@@ -569,7 +571,7 @@ namespace Packet
 
                         if (FindTargetCreature._HPBarUI != null)
                         {
-                            FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP = HP;
+                            FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP -= DamagePoint;
                             FindTargetCreature.UpdateHPBar();
 
                             if (FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP > 0)
@@ -704,83 +706,79 @@ namespace Packet
             S2C_ToAttackPacket.Dispose();
         }
 
-        public static void S2C_MagicHandler(CMessage S2CMagicPacket)
+        public static void S2C_SkillCastingStartHandler(CMessage S2C_SkillCastingStartPacket)
         {
             long ObjectId;
-            bool SpellStart;
+            bool SkillCastingStart;
             short SkillType;
-            float SpellTime;
+            float SkillCastingTime;            
 
-            S2CMagicPacket.GetData(out ObjectId, sizeof(long));
-            S2CMagicPacket.GetData(out SpellStart, sizeof(bool));
-            S2CMagicPacket.GetData(out SkillType, sizeof(short));
-            S2CMagicPacket.GetData(out SpellTime, sizeof(float));
+            S2C_SkillCastingStartPacket.GetData(out ObjectId, sizeof(long));
+            S2C_SkillCastingStartPacket.GetData(out SkillCastingStart, sizeof(bool));
+            S2C_SkillCastingStartPacket.GetData(out SkillType, sizeof(short));
+            S2C_SkillCastingStartPacket.GetData(out SkillCastingTime, sizeof(float));                        
 
             CreatureObject CC = Managers.Object.FindById(ObjectId).GetComponent<CreatureObject>();
             if (CC != null)
             {
-                if (SpellStart == true)
+                if (SkillCastingStart == true)
                 {
                     switch ((en_SkillType)SkillType)
                     {
                         case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_FLAME_BOLT:
-                            CC.SpellStart("불꽃작살", SpellTime, 1.0f);
+                            CC.SkillCastingStart("불꽃작살", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ROOT:
-                            CC.SpellStart("속박", SpellTime, 1.0f);
+                            CC.SkillCastingStart("속박", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ICE_CHAIN:
-                            CC.SpellStart("얼음사슬", SpellTime, 1.0f);
+                            CC.SkillCastingStart("얼음사슬", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_ICE_WAVE:
-                            CC.SpellStart("냉기파동", SpellTime, 1.0f);
+                            CC.SkillCastingStart("냉기파동", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_LIGHTNING_STRIKE:
-                            CC.SpellStart("낙뢰", SpellTime, 1.0f);
+                            CC.SkillCastingStart("낙뢰", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_SPELL_ACTIVE_ATTACK_HEL_FIRE:
-                            CC.SpellStart("지옥의화염", SpellTime, 1.0f);
+                            CC.SkillCastingStart("지옥의화염", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_DISCIPLINE_ACTIVE_ATTACK_DIVINE_STRIKE:
-                            CC.SpellStart("신성한일격", SpellTime, 1.0f);
+                            CC.SkillCastingStart("신성한일격", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_DISCIPLINE_ACTIVE_ATTACK_ROOT:
-                            CC.SpellStart("속박", SpellTime, 1.0f);
+                            CC.SkillCastingStart("속박", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_DISCIPLINE_ACTIVE_HEAL_HEALING_LIGHT:
-                            CC.SpellStart("치유의빛", SpellTime, 1.0f);
+                            CC.SkillCastingStart("치유의빛", SkillCastingTime, 1.0f);
                             break;
                         case en_SkillType.SKILL_DISCIPLINE_ACTIVE_HEAL_HEALING_WIND:
-                            CC.SpellStart("치유의바람", SpellTime, 1.0f);
+                            CC.SkillCastingStart("치유의바람", SkillCastingTime, 1.0f);
                             break;
                     }
                 }
                 else
                 {
-                    CC._SpellBarUI.SpellEnd();
+                    CC._SkillCastingBarUI.SkillCastingEnd();
                 }
             }
 
-            S2CMagicPacket.Dispose();
+            S2C_SkillCastingStartPacket.Dispose();
         }
 
-        public static void S2C_MagicCancelHandler(CMessage S2CMagicCancelPacket)
+        public static void S2C_SkillCastingCancelHandler(CMessage S2C_SkillCastingCancelPacket)
         {
             long PlayerId;
 
-            S2CMagicCancelPacket.GetData(out PlayerId, sizeof(long));
+            S2C_SkillCastingCancelPacket.GetData(out PlayerId, sizeof(long));
 
             PlayerObject FindPlayerObject = Managers.Object.FindById(PlayerId).GetComponent<PlayerObject>();
             if (FindPlayerObject != null)
             {
-                FindPlayerObject._SpellBarUI.SpellEnd();
-            }
-            else
-            {
-                Debug.Log("마법 취소 요청한 유저를 찾을 수 없음");
-            }
+                FindPlayerObject._SkillCastingBarUI.SkillCastingEnd();
+            }            
 
-            S2CMagicCancelPacket.Dispose();
+            S2C_SkillCastingCancelPacket.Dispose();
         }
 
         public static void S2C_GatheringCancelHandler(CMessage S2C_GatheringCancelPacket)
@@ -2217,16 +2215,15 @@ namespace Packet
 
         public static void S2C_CoolTimeStartHandler(CMessage S2C_CoolTimeStartMessage)
         {
-            byte QuickSlotBarIndex;
-            byte QuickSlotBarSlotIndex;
             float SkillCoolTimeSpeed;
-            bool EmptySkill;
+            byte QuickSlotPositionSize;
+            byte QuickSlotBarIndex;
+            byte QuickSlotBarSlotIndex;            
+            bool EmptySkill;            
+            int CoolTime = 0;
             st_SkillInfo QuickSlotSkillInfo = null;
-            int CoolTime;
 
-            S2C_CoolTimeStartMessage.GetData(out QuickSlotBarIndex, sizeof(byte));
-            S2C_CoolTimeStartMessage.GetData(out QuickSlotBarSlotIndex, sizeof(byte));
-            S2C_CoolTimeStartMessage.GetData(out SkillCoolTimeSpeed, sizeof(float));
+            S2C_CoolTimeStartMessage.GetData(out SkillCoolTimeSpeed, sizeof(float));            
             S2C_CoolTimeStartMessage.GetData(out EmptySkill, sizeof(bool));
 
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
@@ -2234,19 +2231,32 @@ namespace Packet
 
             if (EmptySkill == true)
             {
-                S2C_CoolTimeStartMessage.GetData(out CoolTime, sizeof(int));
-
-                QuickSlotBarBoxUI.QuickSlotBarBoxCoolTimerStart(QuickSlotBarIndex, QuickSlotBarSlotIndex, CoolTime);
+                S2C_CoolTimeStartMessage.GetData(out CoolTime, sizeof(int));                
             }
             else
             {
-                S2C_CoolTimeStartMessage.GetData(out QuickSlotSkillInfo);
+                S2C_CoolTimeStartMessage.GetData(out QuickSlotSkillInfo);                
+            }
 
-                Managers.QuickSlotBar._SkillQuickSlotBars[QuickSlotBarIndex]
+            S2C_CoolTimeStartMessage.GetData(out QuickSlotPositionSize, sizeof(byte));            
+
+            for (int i = 0; i < QuickSlotPositionSize; i++)
+            {
+                S2C_CoolTimeStartMessage.GetData(out QuickSlotBarIndex, sizeof(byte));
+                S2C_CoolTimeStartMessage.GetData(out QuickSlotBarSlotIndex, sizeof(byte));
+
+                if (EmptySkill == true)
+                {
+                    QuickSlotBarBoxUI.QuickSlotBarBoxCoolTimerStart(QuickSlotBarIndex, QuickSlotBarSlotIndex, CoolTime);
+                }
+                else
+                {
+                    Managers.QuickSlotBar._SkillQuickSlotBars[QuickSlotBarIndex]
                 ._QuickSlotBarSlotInfos[QuickSlotBarSlotIndex].QuickBarSkillInfo = QuickSlotSkillInfo;
 
-                QuickSlotBarBoxUI.QuickSlotBarBoxCoolTimerStart(QuickSlotBarIndex, QuickSlotBarSlotIndex, SkillCoolTimeSpeed);
-            }
+                    QuickSlotBarBoxUI.QuickSlotBarBoxCoolTimerStart(QuickSlotBarIndex, QuickSlotBarSlotIndex, SkillCoolTimeSpeed);
+                }
+            }                        
 
             S2C_CoolTimeStartMessage.Dispose();
         }
@@ -2404,7 +2414,7 @@ namespace Packet
                     EquipmentBoxUI.OnEquipmentItem(EquipementItem._ItemInfo);
 
                     UI_InventoryItem FindItem = Managers.MyInventory.FindItem(EquipementItem._ItemInfo.ItemSmallCategory);
-                    Managers.MyInventory.InitItem(FindItem);
+                    Managers.MyInventory.InitItem(FindItem);                 
                 }
             }
 
@@ -2605,10 +2615,9 @@ namespace Packet
         {
             byte ComboSkillQuickSlotPositionSize;
 
-            st_SkillInfo ComboSkillInfo;
+            short ComboSkillType;            
 
-            S2C_ComboSkillOnMessage.GetData(out ComboSkillInfo);
-
+            S2C_ComboSkillOnMessage.GetData(out ComboSkillType, sizeof(short));
             S2C_ComboSkillOnMessage.GetData(out ComboSkillQuickSlotPositionSize, sizeof(byte));
 
             for (byte i = 0; i < ComboSkillQuickSlotPositionSize; i++)
@@ -2619,49 +2628,93 @@ namespace Packet
                 S2C_ComboSkillOnMessage.GetData(out QuickSlotBarIndex, sizeof(byte));
                 S2C_ComboSkillOnMessage.GetData(out QuickSlotBarSlotIndex, sizeof(byte));
 
+                st_SkillInfo ComboSkillInfo = Managers.SkillBox._Characteristic.FindSkill(ComboSkillType);
+
                 st_QuickSlotBarSlotInfo QuickSlotBarSlotInfo = Managers.QuickSlotBar.FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);
                 QuickSlotBarSlotInfo.QuickBarSkillInfo = ComboSkillInfo;
 
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
 
-                // 서버에서 받은 연속기 스킬 UI 생성
-                UI_QuickSlotBarItem ComboSkillQuickSlotItem = GameSceneUI._QuickSlotBarBoxUI._QuickSlotBars[QuickSlotBarIndex].QuickSlotCreate(QuickSlotBarSlotIndex);
+                if(GameSceneUI != null)
+                {
+                    // 서버에서 받은 연속기 스킬 UI 생성
+                    UI_QuickSlotBarItem ComboSkillQuickSlotItem = GameSceneUI._QuickSlotBarBoxUI._QuickSlotBars[QuickSlotBarIndex].QuickSlotCreate(QuickSlotBarSlotIndex);
 
-                ComboSkillQuickSlotItem.SetQuickBarItem(QuickSlotBarSlotInfo);
-                ComboSkillQuickSlotItem.QuickSlotBarComboSkillOn();
+                    ComboSkillQuickSlotItem.SetQuickBarItem(QuickSlotBarSlotInfo);
+                    ComboSkillQuickSlotItem.QuickSlotBarComboSkillOn();
 
-                GameSceneUI._QuickSlotBarBoxUI._QuickSlotBars[QuickSlotBarIndex]._QuickBarButtons[QuickSlotBarSlotIndex]._ComboSkillUI = ComboSkillQuickSlotItem;
+                    GameSceneUI._QuickSlotBarBoxUI._ComboSkillQuickSlotBars.Add(ComboSkillQuickSlotItem);                    
+                }                
             }
         }
 
         public static void S2C_ComboSkillOffMessageHandler(CMessage S2C_ComboSkillOffMessage)
         {
+            byte ComboSkillOffCheck;
+
             byte ComboSkillQuickSlotPositionSize;
 
             byte QuickSlotBarIndex;
             byte QuickSlotBarSlotIndex;
-            st_SkillInfo QuickSlotBarSlotSkillInfo;
-            short OffComboSkillType;
+            short OffComboSkillType;            
+            short RollbackSkillType;
 
-            S2C_ComboSkillOffMessage.GetData(out QuickSlotBarSlotSkillInfo);
-            S2C_ComboSkillOffMessage.GetData(out OffComboSkillType, sizeof(short));
-
-            S2C_ComboSkillOffMessage.GetData(out ComboSkillQuickSlotPositionSize, sizeof(byte));
-
-            for (byte i = 0; i < ComboSkillQuickSlotPositionSize; i++)
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            if(GameSceneUI != null)
             {
-                S2C_ComboSkillOffMessage.GetData(out QuickSlotBarIndex, sizeof(byte));
-                S2C_ComboSkillOffMessage.GetData(out QuickSlotBarSlotIndex, sizeof(byte));
+                S2C_ComboSkillOffMessage.GetData(out ComboSkillOffCheck, sizeof(byte));
 
-                st_QuickSlotBarSlotInfo FindQuickSlotBarSlotInfo = Managers.QuickSlotBar.FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);
-                FindQuickSlotBarSlotInfo.QuickBarSkillInfo = QuickSlotBarSlotSkillInfo;
+                if (ComboSkillOffCheck == 1)
+                {
+                    S2C_ComboSkillOffMessage.GetData(out OffComboSkillType, sizeof(short));
+                    S2C_ComboSkillOffMessage.GetData(out RollbackSkillType, sizeof(short));
 
-                UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-                UI_QuickSlotBarItem FindComboSkillOffItem = GameSceneUI._QuickSlotBarBoxUI._QuickSlotBars[QuickSlotBarIndex]._QuickBarButtons[QuickSlotBarSlotIndex]._ComboSkillUI;
-                FindComboSkillOffItem.Destroy();
+                    S2C_ComboSkillOffMessage.GetData(out ComboSkillQuickSlotPositionSize, sizeof(byte));
 
-                GameSceneUI._QuickSlotBarBoxUI._QuickSlotBars[QuickSlotBarIndex]._QuickBarButtons[QuickSlotBarSlotIndex]._ComboSkillUI = null;
+                    if ((en_SkillType)RollbackSkillType != en_SkillType.SKILL_TYPE_NONE)
+                    {
+                        st_SkillInfo QuickSlotBarSkillInfo = Managers.SkillBox._Characteristic.FindSkill(RollbackSkillType);
+                        if (QuickSlotBarSkillInfo != null)
+                        {
+                            for (byte i = 0; i < ComboSkillQuickSlotPositionSize; i++)
+                            {
+                                S2C_ComboSkillOffMessage.GetData(out QuickSlotBarIndex, sizeof(byte));
+                                S2C_ComboSkillOffMessage.GetData(out QuickSlotBarSlotIndex, sizeof(byte));
+
+                                st_QuickSlotBarSlotInfo FindQuickSlotBarSlotInfo = Managers.QuickSlotBar.FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);
+                                FindQuickSlotBarSlotInfo.QuickBarSkillInfo = QuickSlotBarSkillInfo;
+                            }
+                        }
+                    }                   
+                }
+                else if (ComboSkillOffCheck == 2)
+                {
+                    S2C_ComboSkillOffMessage.GetData(out OffComboSkillType, sizeof(short));
+
+                    if ((en_SkillType)OffComboSkillType != en_SkillType.SKILL_TYPE_NONE)
+                    {
+                        S2C_ComboSkillOffMessage.GetData(out ComboSkillQuickSlotPositionSize, sizeof(byte));
+
+                        for (byte i = 0; i < ComboSkillQuickSlotPositionSize; i++)
+                        {
+                            S2C_ComboSkillOffMessage.GetData(out QuickSlotBarIndex, sizeof(byte));
+                            S2C_ComboSkillOffMessage.GetData(out QuickSlotBarSlotIndex, sizeof(byte));
+                            S2C_ComboSkillOffMessage.GetData(out RollbackSkillType, sizeof(short));
+
+                            st_SkillInfo QuickSlotBarSkillInfo = Managers.SkillBox._Characteristic.FindSkill(RollbackSkillType);
+                            if (QuickSlotBarSkillInfo != null)
+                            {
+                                st_QuickSlotBarSlotInfo FindQuickSlotBarSlotInfo = Managers.QuickSlotBar.FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);
+                                FindQuickSlotBarSlotInfo.QuickBarSkillInfo = QuickSlotBarSkillInfo;
+                            }
+                        }
+                    }                      
+                }
+
+                GameSceneUI._QuickSlotBarBoxUI.QuickSlotBoxComboSkillOff();
             }
+
+            S2C_ComboSkillOffMessage.Dispose();
         }
 
         public static void S2C_GlobalMessage(CMessage S2C_PersonalMessage)
@@ -2702,6 +2755,8 @@ namespace Packet
                 GameSceneUI._PartyReactionUI.SetPartyReactionBodytext(ReqPartyPlayerName, ReqPartyPlayerObjectID);
                 GameSceneUI._PartyReactionUI.ShowCloseUI(true);
             }
+
+            S2C_PartyInviteMessage.Dispose();
         }
 
         public static void S2C_PartyAcceptHandler(CMessage S2C_PartyAcceptMessage)
@@ -2722,6 +2777,8 @@ namespace Packet
             {
                 GameSceneUI._PartyFrameUI.PartyPlayerFrameCreate(PartyPlayerGameObjectInfo);
             }
+
+            S2C_PartyAcceptMessage.Dispose();
         }
 
         public static void S2C_PartyQuitHandler(CMessage S2C_PartyQuitMessage)
@@ -2957,51 +3014,35 @@ namespace Packet
             return GameServerLoginPacket;
         }
 
-        public static CMessage ReqMakeAttackPacket(byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex,
-            en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType,
-            float WeaponPositionX, float WeaponPositionY,
+        public static CMessage ReqMakeSkillProcessPacket(byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex,
+            en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType,            
             float AttackDirectionX, float AttackDirectionY)
         {
             CMessage ReqAttackPacket = new CMessage();
 
-            ReqAttackPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ATTACK, sizeof(short));
+            ReqAttackPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SKILL_PROCESS, sizeof(short));
             ReqAttackPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
             ReqAttackPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqAttackPacket.InsertData(QuickSlotBarIndex, sizeof(byte));
             ReqAttackPacket.InsertData(QuickSlotBarSlotIndex, sizeof(byte));
             ReqAttackPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
-            ReqAttackPacket.InsertData((short)ReqSkillType, sizeof(short));
-            ReqAttackPacket.InsertData(WeaponPositionX, sizeof(float));
-            ReqAttackPacket.InsertData(WeaponPositionY, sizeof(float));
+            ReqAttackPacket.InsertData((short)ReqSkillType, sizeof(short));            
             ReqAttackPacket.InsertData(AttackDirectionX, sizeof(float));
             ReqAttackPacket.InsertData(AttackDirectionY, sizeof(float));
 
             return ReqAttackPacket;
         }
 
-        public static CMessage ReqMakeMagicPacket(en_SkillCharacteristic ReqSkillCharacteristicType, en_SkillType ReqSkillType)
+        public static CMessage ReqMakeSkillCastingCancelPacket()
         {
             CMessage ReqMagicPacket = new CMessage();
 
-            ReqMagicPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SPELL, sizeof(short));
+            ReqMagicPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SKILL_CASTING_CANCEL, sizeof(short));
             ReqMagicPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
-            ReqMagicPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
-            ReqMagicPacket.InsertData((byte)ReqSkillCharacteristicType, sizeof(byte));
-            ReqMagicPacket.InsertData((short)ReqSkillType, sizeof(short));
+            ReqMagicPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));            
 
             return ReqMagicPacket;
-        }
-
-        public static CMessage ReqMakeMagicCancelPacket()
-        {
-            CMessage ReqMagicCancelPacket = new CMessage();
-
-            ReqMagicCancelPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_MAGIC_CANCEL, sizeof(short));
-            ReqMagicCancelPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
-            ReqMagicCancelPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
-
-            return ReqMagicCancelPacket;
-        }
+        }       
 
         public static CMessage ReqMakeGatheringCancelPacket()
         {
