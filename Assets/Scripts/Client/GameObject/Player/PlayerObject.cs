@@ -20,9 +20,9 @@ public class PlayerObject : CreatureObject
             AddHPBar(0, 0.95f);
         }
 
-        if(_SpellBarUI == null)
+        if(_SkillCastingBarUI == null)
         {
-            AddSpellBar(0, -0.7f);
+            AddSkillCastingBar(0, -0.7f);
         }
 
         if (_NameUI == null)
