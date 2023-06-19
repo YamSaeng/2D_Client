@@ -77,11 +77,11 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_TO_ATTACK:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_ToAttackHandler);
                 break;
-            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_SPELL:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MagicHandler);
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_SKILL_CASTING_START:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_SkillCastingStartHandler);
                 break;
-            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_MAGIC_CANCEL:
-                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_MagicCancelHandler);
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_SKILL_CASTING_CANCEL:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_SkillCastingCancelHandler);
                 break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_GATHERING_CANCEL:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_GatheringCancelHandler);
