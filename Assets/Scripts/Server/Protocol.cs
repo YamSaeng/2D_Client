@@ -114,7 +114,7 @@ public class Protocol
 		en_PACKET_S2C_CHARACTER_INFO,
 
 		//------------------------------------------------------------
-		// 오브젝트가 바라보는 방향 저장 요청
+		// 오브젝트가 바라보는 방향 저장
 		// int64 AccountID
 		// int64 PlayerDBID
 		// float DirectionX
@@ -133,7 +133,7 @@ public class Protocol
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 움직이기 요청
 		// int64 AccountId
-		// int32 PlayerDBId
+		// int64 PlayerDBId
 		// float DirectionX
 		// float DirectionY
 		// float MoveStartPositionX
@@ -144,7 +144,7 @@ public class Protocol
 
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 움직이기 요청 응답	
-		// int32 PlayerDBId
+		// int64 PlayerDBId
 		// float MoveStopPosition
 		// float MoveStopPosition
 		// int8 MoveStopState	
@@ -190,14 +190,15 @@ public class Protocol
 		en_PACKET_S2C_GATHERING_DAMAGE,
 
 		//------------------------------------------------------------
-		// 게임서버 캐릭터 공격 요청
+		// 게임서버 캐릭터 기술 처리 요청
 		// int64 AccountId
 		// int32 PlayerDBId
-		// int8 Dir
-		// en_AttackRange RangeAttack;
-		// int8 RangeDistance;
+		// int8 SkillcharacteristicType
+		// int16 SkillType
+		// float SkillDirectionX
+		// float SkillDirectionY
 		//------------------------------------------------------------	
-		en_PACKET_C2S_ATTACK,
+		en_PACKET_C2S_SKILL_PROCESS,
 
 		//------------------------------------------------------------
 		// 게임서버 캐릭터 공격 요청 응답
@@ -217,35 +218,27 @@ public class Protocol
 		en_PACKET_S2C_TO_ATTACK,
 
 		//------------------------------------------------------------
-		// 게임서버 캐릭터 마법 요청
-		// int64 AccountId
-		// int64 PlayerDBId	
-		// en_SkillType SpellSkillType
-		//------------------------------------------------------------
-		en_PACKET_C2S_SPELL,
-
-		//------------------------------------------------------------
-		// 게임서버 캐릭터 마법 요청 응답	
+		// 게임서버 캐릭터 기술 캐스팅 시작 응답	
 		// int64 PlayerDBId
 		// bool SpellStart
 		// en_SkillType SpellSkillType
 		// float SpellTime
 		//------------------------------------------------------------
-		en_PACKET_S2C_SPELL,
+		en_PACKET_S2C_SKILL_CASTING_START,
 
 		//------------------------------------------------------------
-		// 게임서버 캐릭터 마법 취소 요청
+		// 게임서버 캐릭터 기술 시전 취소 요청
 		// int64 AccountId
 		// int64 PlayerId	
 		//------------------------------------------------------------
-		en_PACKET_C2S_MAGIC_CANCEL,
+		en_PACKET_C2S_SKILL_CASTING_CANCEL,
 
 		//------------------------------------------------------------
-		// 게임서버 캐릭터 마법 취소 요청 응답
+		// 게임서버 캐릭터 기술 시전 취소 요청 응답
 		// int64 AccountId
 		// int64 PlayerId	
 		//------------------------------------------------------------
-		en_PACKET_S2C_MAGIC_CANCEL,
+		en_PACKET_S2C_SKILL_CASTING_CANCEL,
 
 		//------------------------------------------------------------
 		// 게임서버 채집 요청
@@ -383,7 +376,7 @@ public class Protocol
 		// en_GameObjectType ObjectType
 		// en_CreatureState ObjectState	
 		//------------------------------------------------------------
-		en_PACKET_S2C_OBJECT_STATE_CHANGE,		
+		en_PACKET_S2C_OBJECT_STATE_CHANGE,
 
 		//------------------------------------------------------------
 		// 게임서버 상태이상 적용 
@@ -965,6 +958,8 @@ public class Protocol
 		// float PositionY
 		// float DirectionX
 		// float DirectionY
+		// float SizeX
+		// float SizeY
 		//-----------------------------------------------------------
 		en_PACKET_S2C_COLLISION,
 
