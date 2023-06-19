@@ -44,13 +44,13 @@ public class GameObjectMovement : MonoBehaviour
             if (_OwnerObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.MOVING 
                 && MovementDirection.magnitude > 0)
             {
-                UI_SpellBar SpellBar = _OwnerObject.transform.Find("UI_SpellBar").GetComponent<UI_SpellBar>();
-                if (SpellBar != null)
+                UI_SkillCastingBar SkillCastingBar = _OwnerObject.transform.Find("UI_SkillCastingBar").GetComponent<UI_SkillCastingBar>();
+                if (SkillCastingBar != null)
                 {
-                    if (SpellBar.isActiveAndEnabled == true)
+                    if (SkillCastingBar.isActiveAndEnabled == true)
                     {
-                        CMessage SpellCancelPacket = Packet.MakePacket.ReqMakeMagicCancelPacket();
-                        Managers.NetworkManager.GameServerSend(SpellCancelPacket);
+                        CMessage SkillCastingCancelPacket = Packet.MakePacket.ReqMakeSkillCastingCancelPacket();
+                        Managers.NetworkManager.GameServerSend(SkillCastingCancelPacket);
                     }
                 }
 
