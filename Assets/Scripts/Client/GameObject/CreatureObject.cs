@@ -23,7 +23,7 @@ public class CreatureObject : CBaseObject
     public UI_Name _NameUI;
 
     [HideInInspector]
-    public UI_SpellBar _SpellBarUI;
+    public UI_SkillCastingBar _SkillCastingBarUI;
     [HideInInspector]
     public UI_GatheringBar _GatheringBar;
 
@@ -117,13 +117,13 @@ public class CreatureObject : CBaseObject
         _HPBarUI.gameObject.SetActive(false);
     }
 
-    protected void AddSpellBar(float SpellBarPositionX, float SpellBarPositionY)
+    protected void AddSkillCastingBar(float SkillCastingBarPositionX, float SkillCastingBarPositionY)
     {
-        GameObject SpellBarGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SPELL_BAR, transform);
-        SpellBarGo.transform.localPosition = new Vector3(SpellBarPositionX, SpellBarPositionY, 0);
-        SpellBarGo.name = "UI_SpellBar";
+        GameObject SkillCastingBarGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_CASTING_BAR, transform);
+        SkillCastingBarGo.transform.localPosition = new Vector3(SkillCastingBarPositionX, SkillCastingBarPositionY, 0);
+        SkillCastingBarGo.name = "UI_SkillCastingBar";
 
-        _SpellBarUI = SpellBarGo.GetComponent<UI_SpellBar>();
+        _SkillCastingBarUI = SkillCastingBarGo.GetComponent<UI_SkillCastingBar>();
     }
 
     protected void AddNameBar(float NameBarPositionX, float NameBarPositionY)
@@ -296,15 +296,15 @@ public class CreatureObject : CBaseObject
         }        
     }    
     
-    public void SpellStart(string SpellName, float SpellCastingTime, float SpellSpeed)
+    public void SkillCastingStart(string SkillCastingName, float SkillCastingTime, float SkillCastingSpeed)
     {
-        if (_SpellBarUI != null)
+        if (_SkillCastingBarUI != null)
         {
-            _SpellBarUI.SpellStart(SpellName, SpellCastingTime, SpellSpeed);
+            _SkillCastingBarUI.SkillCastingStart(SkillCastingName, SkillCastingTime, SkillCastingSpeed);
         }
         else
         {
-            Debug.Log("Spell Bar를 찾을 수 없습니다.");
+            Debug.Log("SkillCasting Bar를 찾을 수 없습니다.");
         }
     }
 
