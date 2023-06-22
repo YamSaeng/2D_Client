@@ -378,8 +378,7 @@ namespace ServerCore
             QuickSlotBarSlotInfo.AccountDBId = _MessageBufReader.ReadInt64();
             QuickSlotBarSlotInfo.PlayerDBId = _MessageBufReader.ReadInt64();
             QuickSlotBarSlotInfo.QuickSlotBarIndex = _MessageBufReader.ReadByte();
-            QuickSlotBarSlotInfo.QuickSlotBarSlotIndex = _MessageBufReader.ReadByte();
-            QuickSlotBarSlotInfo.QuickSlotKey = (KeyCode)_MessageBufReader.ReadInt16();
+            QuickSlotBarSlotInfo.QuickSlotBarSlotIndex = _MessageBufReader.ReadByte();            
 
             bool EmptyQuickSlotSkillInfo;
             EmptyQuickSlotSkillInfo = _MessageBufReader.ReadBoolean();
@@ -520,6 +519,7 @@ namespace ServerCore
 
             SkillInfo.CanSkillUse = _MessageBufReader.ReadBoolean();
             SkillInfo.IsSkillLearn = _MessageBufReader.ReadBoolean();
+            SkillInfo.SkillKind = (en_SkillKinds)_MessageBufReader.ReadByte();
             SkillInfo.SkillCharacteristic = (en_SkillCharacteristic)_MessageBufReader.ReadByte();
             SkillInfo.SkillLargeCategory = (en_SkillLargeCategory)_MessageBufReader.ReadByte();
             SkillInfo.SkillMediumCategory = (en_SkillMediumCategory)_MessageBufReader.ReadByte();
