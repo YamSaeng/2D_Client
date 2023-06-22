@@ -150,8 +150,7 @@ public class Managers : MonoBehaviour
             _Instance._ResourceManager.Init();
             _Instance._ObjectManager.Init();
             _Instance._SoundManager.Init();
-            _Instance._CameraManager.Init();
-            _Instance._KeyManager.BindingKey();            
+            _Instance._CameraManager.Init();            
 
             _Instance._InventoryController = GOManagers.GetComponent<InventoryController>();
 
