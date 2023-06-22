@@ -337,6 +337,95 @@ public enum en_EquipmentParts
     EQUIPMENT_PARTS_BOOT
 };
 
+public enum en_UserQuickSlot
+{
+    USER_KEY_QUICK_SLOT_NONE,
+
+    USER_KEY_QUICK_SLOT_MOVE_UP,
+    USER_KEY_QUICK_SLOT_MOVE_DOWN,
+    USER_KEY_QUICK_SLOT_MOVE_LEFT,
+    USER_KEY_QUICK_SLOT_MOVE_RIGHT,
+
+    USER_KEY_QUICK_SLOT_UI_INVENTORY,
+    USER_KEY_QUICK_SLOT_UI_SKILL_BOX,
+    USER_KEY_QUICK_SLOT_UI_EQUIPMENT_BOX,
+
+    USER_KEY_QUICK_SLOT_ONE_ONE,
+    USER_KEY_QUICK_SLOT_ONE_TWO,
+    USER_KEY_QUICK_SLOT_ONE_THREE,
+    USER_KEY_QUICK_SLOT_ONE_FOUR,
+    USER_KEY_QUICK_SLOT_ONE_FIVE,
+
+    USER_KEY_QUICK_SLOT_TWO_ONE,
+    USER_KEY_QUICK_SLOT_TWO_TWO,
+    USER_KEY_QUICK_SLOT_TWO_THREE,
+    USER_KEY_QUICK_SLOT_TWO_FOUR,
+    USER_KEY_QUICK_SLOT_TWO_FIVE,
+
+    USER_KEY_ESCAPE,
+    USER_KEY_ENTER_CHATTING
+}
+
+public enum en_KeyCode
+{
+    KEY_CODE_NONE,
+
+    KEY_CODE_W,
+    KEY_CODE_S,
+    KEY_CODE_A,
+    KEY_CODE_D,
+
+    KEY_CODE_I,
+    KEY_CODE_E,
+    KEY_CODE_K,
+
+    KEY_CODE_ZERO,
+    KEY_CODE_ONE,
+    KEY_CODE_TWO,
+    KEY_CODE_THREE,
+    KEY_CODE_FOUR,
+    KEY_CODE_FIVE,
+    KEY_CODE_SIX,
+    KEY_CODE_SEVEN,
+    KEY_CODE_EIGHT,
+    KEY_CODE_NINE,
+
+    KEY_CODE_Q,
+    KEY_CODE_R,
+    KEY_CODE_T,
+    KEY_CODE_Y,
+    KEY_CODE_U,
+    KEY_CODE_O,
+    KEY_CODE_P,
+    KEY_CODE_F,
+    KEY_CODE_G,
+    KEY_CODE_H,
+    KEY_CODE_J,
+    KEY_CODE_L,
+    KEY_CODE_Z,
+    KEY_CODE_X,
+    KEY_CODE_C,
+    KEY_CODE_V,
+    KEY_CODE_B,
+    KEY_CODE_N,
+    KEY_CODE_M,
+    
+    KEY_CODE_ESCAPE,
+    KEY_CODE_ENTER    
+}
+
+public class st_BindingKey
+{
+    public en_UserQuickSlot UserQuickSlot;
+    public en_KeyCode KeyCode;
+
+    public st_BindingKey()
+    {
+        UserQuickSlot = en_UserQuickSlot.USER_KEY_QUICK_SLOT_NONE;
+        KeyCode = en_KeyCode.KEY_CODE_NONE;
+    }
+}
+
 public enum en_GlobalMessageType
 {
     PERSONAL_MESSAGE_NONE,
@@ -632,7 +721,7 @@ public enum en_ResourceName
     CLIENT_UI_PLAYER_OPTION,
 
     CLIENT_UI_HP_BAR,
-    CLIENT_UI_SPELL_BAR,
+    CLIENT_UI_SKILL_CASTING_BAR,
     CLIENT_UI_GATHERING_BAR,
 
     CLIENT_UI_NAME,
@@ -659,7 +748,8 @@ public enum en_CollisionPosition
 public enum en_MenuType
 {
     MENU_TYPE_NONE,
-	MENU_TYPE_CHARACTER_CHOICE
+	MENU_TYPE_CHARACTER_CHOICE,
+    MENU_TYPE_QUICK_SLOT_KEY_SETTING
 };
 
 public enum en_SoundClip
@@ -925,8 +1015,7 @@ public class st_QuickSlotBarSlotInfo
     public long AccountDBId; // Äü½½·Ô ½½·Ô ¼ÒÀ¯ÇÑ Account
     public long PlayerDBId;  // Äü½½·Ô ½½·Ô ¼ÒÀ¯ÇÑ Player	
     public byte QuickSlotBarIndex; // Äü½½·Ô Index
-    public byte QuickSlotBarSlotIndex; // Äü½½·Ô ½½·Ô Index
-    public KeyCode QuickSlotKey;
+    public byte QuickSlotBarSlotIndex; // Äü½½·Ô ½½·Ô Index    
     public st_SkillInfo QuickBarSkillInfo = null;	// Äü½½·Ô¿¡ µî·ÏÇÒ ½ºÅ³ Á¤º¸    
     public st_ItemInfo QuickBarItemInfo = null;
 };
