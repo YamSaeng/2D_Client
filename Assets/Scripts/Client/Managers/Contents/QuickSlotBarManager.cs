@@ -29,20 +29,56 @@ public class QuickSlotBarManager
     }
 
     // 키가 등록되어 있는 퀵슬롯바를 찾아서 반환한다.
-    public st_QuickSlotBarSlotInfo FindExekey(KeyCode FindKey)
+    public st_QuickSlotBarSlotInfo FindExekey(en_UserQuickSlot UserQuickSlot)
     {
-        for(byte SlotBarIndex = 0; SlotBarIndex < _SkillQuickSlotBars.Count;++SlotBarIndex)
+        byte QuickSlotBarIndex = 0;
+        byte QuickSlotBarSlotIndex = 0;
+
+        switch (UserQuickSlot)
         {
-            for(byte SlotBarSlotIndex = 0; SlotBarSlotIndex < _SkillQuickSlotBars[SlotBarIndex]._QuickSlotBarSlotInfos.Count;++SlotBarSlotIndex)
-            {
-                if(_SkillQuickSlotBars[SlotBarIndex]._QuickSlotBarSlotInfos[SlotBarSlotIndex].QuickSlotKey == FindKey)
-                {
-                    return _SkillQuickSlotBars[SlotBarIndex]._QuickSlotBarSlotInfos[SlotBarSlotIndex];
-                }                
-            }
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_ONE:
+                QuickSlotBarIndex = 0;
+                QuickSlotBarSlotIndex = 0;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_TWO:
+                QuickSlotBarIndex = 0;
+                QuickSlotBarSlotIndex = 1;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_THREE:
+                QuickSlotBarIndex = 0;
+                QuickSlotBarSlotIndex = 2;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_FOUR:
+                QuickSlotBarIndex = 0;
+                QuickSlotBarSlotIndex = 3;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_FIVE:
+                QuickSlotBarIndex = 0;
+                QuickSlotBarSlotIndex = 4;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_ONE:
+                QuickSlotBarIndex = 1;
+                QuickSlotBarSlotIndex = 0;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_TWO:
+                QuickSlotBarIndex = 1;
+                QuickSlotBarSlotIndex = 1;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_THREE:
+                QuickSlotBarIndex = 1;
+                QuickSlotBarSlotIndex = 2;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FOUR:
+                QuickSlotBarIndex = 1;
+                QuickSlotBarSlotIndex = 3;
+                break;
+            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE:
+                QuickSlotBarIndex = 1;
+                QuickSlotBarSlotIndex = 4;
+                break;
         }
 
-        return null;
+        return FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);      
     }
 
     public st_QuickSlotBarSlotInfo FindQuickSlot(byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex)
