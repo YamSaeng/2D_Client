@@ -171,13 +171,13 @@ namespace Packet
             S2CEnterGamePacket.Dispose();
         }
 
-        public static void S2C_CharacterInfoHandler(CMessage S2CCharacterInfoPacket)
+        public static void S2C_CharacterInfoHandler(CMessage S2C_CharacterInfoPacket)
         {
             long AccountId;
             long ObjectId;
 
-            S2CCharacterInfoPacket.GetData(out AccountId, sizeof(long));
-            S2CCharacterInfoPacket.GetData(out ObjectId, sizeof(long));
+            S2C_CharacterInfoPacket.GetData(out AccountId, sizeof(long));
+            S2C_CharacterInfoPacket.GetData(out ObjectId, sizeof(long));
 
             //Debug.Log("캐릭터 정보 전달 받음 " + "AccountID : " + AccountId.ToString() + " ObjectId : " + ObjectId.ToString() + " NetworkManagerID : " +Managers.NetworkManager._PlayerDBId.ToString());
 
@@ -191,15 +191,34 @@ namespace Packet
                     long RequireExperience;
                     long TotalExperience;
 
-                    S2CCharacterInfoPacket.GetData(out CurrentExperience, sizeof(long));
-                    S2CCharacterInfoPacket.GetData(out RequireExperience, sizeof(long));
-                    S2CCharacterInfoPacket.GetData(out TotalExperience, sizeof(long));
+                    S2C_CharacterInfoPacket.GetData(out CurrentExperience, sizeof(long));
+                    S2C_CharacterInfoPacket.GetData(out RequireExperience, sizeof(long));
+                    S2C_CharacterInfoPacket.GetData(out TotalExperience, sizeof(long));
 
                     UI_PlayerExperience PlayerExperienceUI = GameSceneUI._PlayerExperienceUI;
                     PlayerExperienceUI.PlayerGainExp(0, CurrentExperience, RequireExperience, TotalExperience);
 
+                    short UserQuickSlotKeyMax;
+                    S2C_CharacterInfoPacket.GetData(out UserQuickSlotKeyMax, sizeof(short));
+
+                    st_BindingKey[] UserQuickSlotKeys = new st_BindingKey[UserQuickSlotKeyMax];
+                    for (int i = 0; i < UserQuickSlotKeyMax; i++)
+                    {
+                        short UserQuickSlotKey;
+                        short QuickSlotKeyCode;
+
+                        S2C_CharacterInfoPacket.GetData(out UserQuickSlotKey, sizeof(short));
+                        S2C_CharacterInfoPacket.GetData(out QuickSlotKeyCode, sizeof(short));
+
+                        UserQuickSlotKeys[i] = new st_BindingKey();
+                        UserQuickSlotKeys[i].UserQuickSlot = (en_UserQuickSlot)UserQuickSlotKey;
+                        UserQuickSlotKeys[i].KeyCode = (en_KeyCode)QuickSlotKeyCode;
+                    }
+
+                    Managers.Key.BindingKeyInit(UserQuickSlotKeyMax, UserQuickSlotKeys);
+
                     byte SkillPoint;
-                    S2CCharacterInfoPacket.GetData(out SkillPoint, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out SkillPoint, sizeof(byte));
 
                     FindGameObject._GameObjectInfo.ObjectSkillPoint = SkillPoint;
 
@@ -208,54 +227,54 @@ namespace Packet
                     // 스킬 데이터 가져오기
                     // 공용 스킬 패시브 개수
                     byte PublicPassiveSkillCount;
-                    S2CCharacterInfoPacket.GetData(out PublicPassiveSkillCount, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out PublicPassiveSkillCount, sizeof(byte));
 
                     if (PublicPassiveSkillCount > 0)
                     {
                         // 공용 패시브 스킬
                         st_SkillInfo[] PublicPassiveSkills = new st_SkillInfo[PublicPassiveSkillCount];
-                        S2CCharacterInfoPacket.GetData(PublicPassiveSkills, PublicPassiveSkillCount);
+                        S2C_CharacterInfoPacket.GetData(PublicPassiveSkills, PublicPassiveSkillCount);
 
                         Managers.SkillBox.CreatePublicChracteristicPassive(en_SkillCharacteristic.SKILL_CATEGORY_PUBLIC, PublicPassiveSkillCount, PublicPassiveSkills);
                     }
 
                     // 공용 스킬 액티브 개수
                     byte PublicActiveSkillCount;
-                    S2CCharacterInfoPacket.GetData(out PublicActiveSkillCount, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out PublicActiveSkillCount, sizeof(byte));
 
                     if (PublicActiveSkillCount > 0)
                     {
                         // 공용 액티브 스킬
                         st_SkillInfo[] PublicActiveSkills = new st_SkillInfo[PublicActiveSkillCount];
-                        S2CCharacterInfoPacket.GetData(PublicActiveSkills, PublicActiveSkillCount);
+                        S2C_CharacterInfoPacket.GetData(PublicActiveSkills, PublicActiveSkillCount);
 
                         Managers.SkillBox.CreatePublicChracteristicActive(en_SkillCharacteristic.SKILL_CATEGORY_PUBLIC, PublicActiveSkillCount, PublicActiveSkills);
                     }
 
                     byte Characteristic;
-                    S2CCharacterInfoPacket.GetData(out Characteristic, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out Characteristic, sizeof(byte));
 
                     if ((en_SkillCharacteristic)Characteristic != en_SkillCharacteristic.SKILL_CATEGORY_NONE)
                     {
                         byte CharacteristicPassiveSkillCount;
-                        S2CCharacterInfoPacket.GetData(out CharacteristicPassiveSkillCount, sizeof(byte));
+                        S2C_CharacterInfoPacket.GetData(out CharacteristicPassiveSkillCount, sizeof(byte));
 
                         if (CharacteristicPassiveSkillCount > 0)
                         {
                             st_SkillInfo[] CharacteristicPassiveSkills = new st_SkillInfo[CharacteristicPassiveSkillCount];
-                            S2CCharacterInfoPacket.GetData(CharacteristicPassiveSkills, CharacteristicPassiveSkillCount);
+                            S2C_CharacterInfoPacket.GetData(CharacteristicPassiveSkills, CharacteristicPassiveSkillCount);
 
                             Managers.SkillBox.CreateChracteristicPassive((en_SkillCharacteristic)Characteristic,
                                 CharacteristicPassiveSkillCount, CharacteristicPassiveSkills);
                         }
 
                         byte CharacteristicActiveSkillCount;
-                        S2CCharacterInfoPacket.GetData(out CharacteristicActiveSkillCount, sizeof(byte));
+                        S2C_CharacterInfoPacket.GetData(out CharacteristicActiveSkillCount, sizeof(byte));
 
                         if (CharacteristicActiveSkillCount > 0)
                         {
                             st_SkillInfo[] CharacteristicActiveSkills = new st_SkillInfo[CharacteristicActiveSkillCount];
-                            S2CCharacterInfoPacket.GetData(CharacteristicActiveSkills, CharacteristicActiveSkillCount);
+                            S2C_CharacterInfoPacket.GetData(CharacteristicActiveSkills, CharacteristicActiveSkillCount);
 
                             Managers.SkillBox.CreateChracteristicActive((en_SkillCharacteristic)Characteristic,
                                CharacteristicActiveSkillCount, CharacteristicActiveSkills);
@@ -266,23 +285,23 @@ namespace Packet
                     byte InventoryWidth;  // 가방 너비
                     byte InventoryHeight; // 가방 높이
 
-                    S2CCharacterInfoPacket.GetData(out InventoryWidth, sizeof(byte));
-                    S2CCharacterInfoPacket.GetData(out InventoryHeight, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out InventoryWidth, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out InventoryHeight, sizeof(byte));
 
                     byte InventoryItemCount;
-                    S2CCharacterInfoPacket.GetData(out InventoryItemCount, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out InventoryItemCount, sizeof(byte));
 
                     CItem[] InventoryItems = new CItem[InventoryItemCount];
-                    S2CCharacterInfoPacket.GetData(InventoryItems, InventoryItemCount);
+                    S2C_CharacterInfoPacket.GetData(InventoryItems, InventoryItemCount);
 
                     //돈 정보 셋팅
                     long GoldCount;
                     short SliverCount;
                     short BronzeCount;
 
-                    S2CCharacterInfoPacket.GetData(out GoldCount, sizeof(long));
-                    S2CCharacterInfoPacket.GetData(out SliverCount, sizeof(short));
-                    S2CCharacterInfoPacket.GetData(out BronzeCount, sizeof(short));
+                    S2C_CharacterInfoPacket.GetData(out GoldCount, sizeof(long));
+                    S2C_CharacterInfoPacket.GetData(out SliverCount, sizeof(short));
+                    S2C_CharacterInfoPacket.GetData(out BronzeCount, sizeof(short));
 
                     FindGameObject.InventoryCreate(InventoryWidth, InventoryHeight, InventoryItems, GoldCount, SliverCount, BronzeCount);
 
@@ -291,12 +310,12 @@ namespace Packet
                     byte QuickSlotBarSlotSize;
                     byte QuickSlotBarCount;
 
-                    S2CCharacterInfoPacket.GetData(out QuickSlotBarSize, sizeof(byte));
-                    S2CCharacterInfoPacket.GetData(out QuickSlotBarSlotSize, sizeof(byte));
-                    S2CCharacterInfoPacket.GetData(out QuickSlotBarCount, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out QuickSlotBarSize, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out QuickSlotBarSlotSize, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out QuickSlotBarCount, sizeof(byte));
 
                     st_QuickSlotBarSlotInfo[] QuickSlotBarSlotInfos = new st_QuickSlotBarSlotInfo[QuickSlotBarCount];
-                    S2CCharacterInfoPacket.GetData(QuickSlotBarSlotInfos, QuickSlotBarCount);
+                    S2C_CharacterInfoPacket.GetData(QuickSlotBarSlotInfos, QuickSlotBarCount);
 
                     // 퀵슬롯 생성
                     Managers.QuickSlotBar.Init(QuickSlotBarSize, QuickSlotBarSlotSize);
@@ -316,7 +335,7 @@ namespace Packet
 
                     // 착용 장비 개수
                     byte EquipmentCount;
-                    S2CCharacterInfoPacket.GetData(out EquipmentCount, sizeof(byte));
+                    S2C_CharacterInfoPacket.GetData(out EquipmentCount, sizeof(byte));
 
                     FindGameObject.EquipmentBoxUICreate();
 
@@ -324,7 +343,7 @@ namespace Packet
                     {
                         // 착용 장비 아이템 정보
                         CItem[] EquipmentItems = new CItem[EquipmentCount];
-                        S2CCharacterInfoPacket.GetData(EquipmentItems, EquipmentCount);
+                        S2C_CharacterInfoPacket.GetData(EquipmentItems, EquipmentCount);
 
                         FindGameObject.EquipmentBoxUIItemCreate(EquipmentItems);
                     }             
@@ -369,7 +388,7 @@ namespace Packet
                     //}
 
                     st_Day DayInfo = new st_Day();
-                    S2CCharacterInfoPacket.GetData(out DayInfo);
+                    S2C_CharacterInfoPacket.GetData(out DayInfo);
 
                     //GameObject GameSceneGO = GameObject.Find("GameScene");
                     //GameScene GameScene = GameSceneGO.GetComponent<GameScene>();
@@ -381,7 +400,7 @@ namespace Packet
                 }
             }
 
-            S2CCharacterInfoPacket.Dispose();
+            S2C_CharacterInfoPacket.Dispose();
         }
         
         public static void S2C_FaceDirectionHandler(CMessage S2C_FaceDirectionPacket)
@@ -3395,8 +3414,7 @@ namespace Packet
             ReqQuickSlotSavePacket.InsertData(AccountId, sizeof(long));
             ReqQuickSlotSavePacket.InsertData(PlayerId, sizeof(long));
             ReqQuickSlotSavePacket.InsertData(QuickSlotBarSlotInfo.QuickSlotBarIndex, sizeof(byte));
-            ReqQuickSlotSavePacket.InsertData(QuickSlotBarSlotInfo.QuickSlotBarSlotIndex, sizeof(byte));
-            ReqQuickSlotSavePacket.InsertData((short)QuickSlotBarSlotInfo.QuickSlotKey, sizeof(short));
+            ReqQuickSlotSavePacket.InsertData(QuickSlotBarSlotInfo.QuickSlotBarSlotIndex, sizeof(byte));            
 
             if (QuickSlotBarSlotInfo.QuickBarSkillInfo != null)
             {
