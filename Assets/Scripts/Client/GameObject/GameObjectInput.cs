@@ -39,6 +39,8 @@ public class GameObjectInput : MonoBehaviour
     [field: SerializeField]
     public UnityEvent OnSkillUIOpen { get; set; }
 
+    Vector2 _MoveInputDirection;
+
     private void Awake()
     {
         _MainCamera = Camera.main;
@@ -46,12 +48,12 @@ public class GameObjectInput : MonoBehaviour
 
     void Update()
     {
-        GetKeyboardInput();
         GetPointerInput();
         GetMouseButtonInput();
-        GetMovementInput();        
-
-        Managers.Key.QuickSlotBarKeyUpdate();
+               
+        Managers.Key.MoveQuickSlotKeyUpdate();
+        Managers.Key.QuickSlotBarActions();
+        Managers.Key.UIActions();
     }
 
     public void SetOwner(CreatureObject OwnerObject)
@@ -204,119 +206,7 @@ public class GameObjectInput : MonoBehaviour
             }
         }
     }
-
-    private void GetKeyboardInput()
-    {
-        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-        if(GameSceneUI != null)
-        {
-            PlayerObject Player = GetComponent<PlayerObject>();
-            if(Player != null)
-            {
-                if (Player._IsChattingFocus == false)
-                {
-                    if (Input.GetKeyDown(KeyCode.I))
-                    {
-                        OnInventroyUIOpen?.Invoke();
-                    }
-
-                    if (Input.GetKeyDown(KeyCode.C))
-                    {
-                        OnEquipmentUIOpen?.Invoke();
-                    }
-
-                    if (Input.GetKeyDown(KeyCode.K))
-                    {
-                        OnSkillUIOpen?.Invoke();
-                    }
-                }
-
-                if(Player._IsChattingFocus == false)
-                {
-                    if (Input.GetKeyDown(KeyCode.Escape))
-                    {
-                        if (GameSceneUI.IsGameSceneUIStackEmpty() == true)
-                        {
-                            GameSceneUI.AddGameSceneUIStack(GameSceneUI._OptionUI);
-                        }
-                        else
-                        {
-                            // GameSceneUIStack이 비어 있지 않을 경우
-                            // 하나씩 뽑아서 UI를 닫아줌
-                            UI_Base GameSceneUIStackUI = GameSceneUI.FindGameSceneUIStack();
-                            if (GameSceneUIStackUI != null)
-                            {
-                                UI_Furnace FurnaceUI = GameSceneUIStackUI as UI_Furnace;
-                                if (FurnaceUI != null)
-                                {
-                                    CMessage ReqCraftingTableNonSelectPacket = Packet.MakePacket.ReqMakeCraftingTableNonSelectPacket(Managers.NetworkManager._AccountId,
-                                        Managers.NetworkManager._PlayerDBId,
-                                        FurnaceUI._FurnaceController._GameObjectInfo.ObjectId,
-                                        FurnaceUI._FurnaceController._GameObjectInfo.ObjectType);
-                                    Managers.NetworkManager.GameServerSend(ReqCraftingTableNonSelectPacket);
-                                }
-
-                                GameSceneUI.DeleteGameSceneUIStack(GameSceneUIStackUI);
-                            }
-                        }
-                    }
-                }
-
-                if (Player._IsChattingFocus == false
-                    && Input.GetKeyDown(KeyCode.Return))
-                {
-                    if (Player != null)
-                    {
-                        Player._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.STOP;
-
-                        CMessage ReqMoveStop = Packet.MakePacket.ReqMakeMoveStopPacket(
-                            gameObject.transform.position.x,
-                            gameObject.transform.position.y,
-                            Player._GameObjectInfo.ObjectPositionInfo.State);
-                        Managers.NetworkManager.GameServerSend(ReqMoveStop);
-
-                        GameObjectMovement gameObjectMovement = GetComponent<GameObjectMovement>();
-                        if (gameObjectMovement != null)
-                        {
-                            Player._IsChattingFocus = true;
-
-                            gameObjectMovement.OnMovementStop?.Invoke();                           
-
-                            InputField ChattingInputField = GameSceneUI._ChattingBoxGroup.GetChattingInputField();
-                            if(ChattingInputField != null)
-                            {
-                                ChattingInputField.text = "";
-                                ChattingInputField.gameObject.SetActive(true);
-                                ChattingInputField.ActivateInputField();
-                            }                            
-                        }
-                    }
-                }
-                else if(Player._IsChattingFocus == true
-                    && Input.GetKeyDown(KeyCode.Return))
-                {
-                    UI_ChattingBoxGroup ChattingBoxGroupUI = GameSceneUI._ChattingBoxGroup;
-
-                    InputField ChattingInputField = GameSceneUI._ChattingBoxGroup.GetChattingInputField();
-                    if(ChattingInputField != null)
-                    {
-                        Player._IsChattingFocus = false;
-
-                        if (ChattingInputField.text.Length > 0)
-                        {
-                            CMessage ReqChattingMessage = Packet.MakePacket.ReqMakeChattingPacket(ChattingInputField.text);
-                            Managers.NetworkManager.GameServerSend(ReqChattingMessage);
-                        }
-
-                        ChattingInputField.text = "";
-                        ChattingInputField.gameObject.SetActive(false);
-                        ChattingInputField.DeactivateInputField();
-                    }
-                }
-            }
-        }        
-    }   
-
+   
     private void GetPointerInput()
     {
         if (_OwnerObject._GameObjectInfo.ObjectId == Managers.NetworkManager._PlayerDBId 
@@ -362,14 +252,5 @@ public class GameObjectInput : MonoBehaviour
             //CMessage ReqFaceDirectionPacket = Packet.MakePacket.ReqMakeFaceDirectionPacket(Direction.x, Direction.y);
             //Managers.NetworkManager.GameServerSend(ReqFaceDirectionPacket);
         }        
-    }
-
-    private void GetMovementInput()
-    {
-        if(_OwnerObject._GameObjectInfo.ObjectId == Managers.NetworkManager._PlayerDBId)
-        {
-            Vector2 Direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            OnMovementKeyPressed?.Invoke(Direction);
-        }        
-    }
+    }   
 }

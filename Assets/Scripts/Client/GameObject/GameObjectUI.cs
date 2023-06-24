@@ -34,6 +34,7 @@ public class GameObjectUI : MonoBehaviour
         }
     }
 
+    // GameObjectInput에 OnEquipmentUIOpen와 연결
     public void EquipmentUIOnOff()
     {
         if (_GameSceneUI != null && _OwnerPlayer != null)
