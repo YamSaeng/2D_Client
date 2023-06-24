@@ -51,7 +51,7 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_PARTY_REACTION, "UI/PartyHUD/UI_PartyReaction");
         
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_HP_BAR, "UI/WorldHUD/UI_HPBar");
-        _ResourcePath.Add(en_ResourceName.CLIENT_UI_SPELL_BAR, "UI/WorldHUD/UI_SpellBar");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_CASTING_BAR, "UI/WorldHUD/UI_SkillCastingBar");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_MY_CHARACTER_HUD, "UI/MyHUD/UI_MyCharacterHUD");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_TARGET_HUD, "UI/TargetHUD/UI_TargetHUD");
@@ -73,6 +73,9 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_BAR, "UI/QuickSlot/UI_QuickSlotBar");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_BAR_BUTTON, "UI/QuickSlot/UI_QuickSlotBarButton");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_ITEM_DRAG, "UI/QuickSlot/UI_QuickSlotItemDrag");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_KEY, "UI/QuickSlotKey/UI_QuickSlotKey");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_QUICK_SLOT_KEY_ITEM, "UI/QuickSlotKey/UI_QuickSlotKeyItem");
                 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_LEATHER, "Item/Leather");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN, "Item/BronzeCoin");
