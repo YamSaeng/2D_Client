@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class KeyManager
 {    
     // 서버로부터 받은 단축키 키 정보
-    private st_BindingKey[] _BindingKeys;    
+    public st_BindingKey[] _BindingKeys;    
     // 퀵슬롯바에 연동되어 있는 단축키 키 정보
     private List<st_BindingKey> _QuickSlotBarBindingKeys = new List<st_BindingKey>();
     // UI 열고 닫기 단축키 키 정보
@@ -108,8 +108,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_ONE:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_ONE:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_TWO:
                 if (Input.GetKey(KeyCode.Alpha2))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_TWO:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_TWO:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha2))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -120,8 +144,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_THREE:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_THREE:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_FOUR:
                 if (Input.GetKey(KeyCode.Alpha4))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_FOUR:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_FOUR:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -132,8 +180,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_FIVE:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_FIVE:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_SIX:
                 if (Input.GetKey(KeyCode.Alpha6))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_SIX:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_SIX:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha6))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -144,8 +216,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_SEVEN:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha7))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_SEVEN:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha7))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_EIGHT:
                 if (Input.GetKey(KeyCode.Alpha8))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_EIGHT:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha8))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_EIGHT:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha8))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -156,8 +252,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_NINE:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha9))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_NINE:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha9))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_ZERO:
                 if (Input.GetKey(KeyCode.Alpha0))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_ZERO:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha0))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_ZERO:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha0))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -168,20 +288,68 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_Q:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Q))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_Q:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_W:
                 if (Input.GetKey(KeyCode.W))
                 {
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_W:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.W))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_W:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.W))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;            
             case en_KeyCode.KEY_CODE_E:
                 if (Input.GetKey(KeyCode.E))
                 {
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_E:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.E))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_E:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.E))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;            
             case en_KeyCode.KEY_CODE_R:
                 if (Input.GetKey(KeyCode.R))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_R:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_R:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.R))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -192,8 +360,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_T:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.T))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_T:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.T))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_Y:
                 if (Input.GetKey(KeyCode.Y))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_Y:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Y))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_Y:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Y))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -204,8 +396,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_U:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.U))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_U:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.U))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_I:
                 if (Input.GetKey(KeyCode.I))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_I:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.I))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_I:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.I))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -216,8 +432,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_O:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.O))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_O:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.O))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_P:
                 if (Input.GetKey(KeyCode.P))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_P:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.P))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_P:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.P))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -228,8 +468,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_A:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_A:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.A))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_S:
                 if (Input.GetKey(KeyCode.S))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_S:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_S:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.S))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -240,8 +504,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_D:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_D:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.D))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_F:
                 if (Input.GetKey(KeyCode.F))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_F:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_F:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.F))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -252,8 +540,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_G:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.G))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_G:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.G))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_H:
                 if (Input.GetKey(KeyCode.H))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_H:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.H))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_H:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.H))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -264,8 +576,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_J:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.J))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_J:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.J))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_K:
                 if (Input.GetKey(KeyCode.K))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_K:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.K))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_K:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.K))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -276,8 +612,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_L:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_L:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.L))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_Z:
                 if (Input.GetKey(KeyCode.Z))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_Z:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Z))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_Z:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Z))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -288,8 +648,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_X:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.X))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_X:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.X))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_C:
                 if (Input.GetKey(KeyCode.C))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_C:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_C:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.C))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -300,8 +684,32 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_V:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.V))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_V:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.V))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_B:
                 if (Input.GetKey(KeyCode.B))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_B:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.B))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_B:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.B))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -312,18 +720,54 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_CTRL_N:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.N))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_N:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.N))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
             case en_KeyCode.KEY_CODE_M:
                 if (Input.GetKey(KeyCode.M))
                 {
                     IsKeyBoardKeyAction = true;
                 }
                 break;
-            //case en_KeyCode.KEY_CODE_CTRL_ONE:
-            //    if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha1))
-            //    {
-            //        IsKeyBoardKeyAction = true;
-            //    }
-            //    break;
+            case en_KeyCode.KEY_CODE_CTRL_M:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.M))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_M:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.M))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CAPSLOCK:
+                if (Input.GetKey(KeyCode.CapsLock))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_CTRL_CAPSLOCK:
+                if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.CapsLock))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_ALT_CAPSLOCK:
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.CapsLock))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;               
         }
 
         return IsKeyBoardKeyAction;
@@ -729,5 +1173,5 @@ public class KeyManager
                 }
             }
         }        
-    }
+    }    
 }
