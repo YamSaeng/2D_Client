@@ -31,6 +31,7 @@ public class QuickSlotBarManager
     // 키가 등록되어 있는 퀵슬롯바를 찾아서 반환한다.
     public st_QuickSlotBarSlotInfo FindExekey(en_UserQuickSlot UserQuickSlot)
     {
+        bool IsFindQuickSlotInfo = true;
         byte QuickSlotBarIndex = 0;
         byte QuickSlotBarSlotIndex = 0;
 
@@ -76,10 +77,20 @@ public class QuickSlotBarManager
                 QuickSlotBarIndex = 1;
                 QuickSlotBarSlotIndex = 4;
                 break;
+            default:
+                IsFindQuickSlotInfo = false;
+                break;
         }
 
-        return FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);      
-    }
+        if(IsFindQuickSlotInfo == true)
+        {
+            return FindQuickSlot(QuickSlotBarIndex, QuickSlotBarSlotIndex);
+        }
+        else
+        {
+            return null;
+        }        
+    }  
 
     public st_QuickSlotBarSlotInfo FindQuickSlot(byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex)
     {
