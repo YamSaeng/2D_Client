@@ -29,8 +29,7 @@ public class InventoryController : UI_Base
         get => _SelectedInventory;
         set
         {
-            _SelectedInventory = value;
-                       
+            _SelectedInventory = value;      
         }
     }    
 

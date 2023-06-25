@@ -272,8 +272,11 @@ public class UI_InventoryItem : UI_Base
 
         switch(_ItemInfo.ItemSmallCategory)
         {
-            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_SWORD_WOOD:
-            case en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_WOOD_SHIELD:            
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_GREAT_SWORD_WOOD:
+            case en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_SHIELD_WOOD:
+            case en_SmallItemCategory.ITEM_SAMLL_CATEGORY_WEAPON_BOW_WOOD:            
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_WEAR_LEATHER:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_HAT_LEATHER:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_ARMOR_BOOT_LEATHER:

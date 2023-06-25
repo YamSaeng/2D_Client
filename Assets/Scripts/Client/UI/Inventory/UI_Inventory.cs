@@ -68,6 +68,9 @@ public class UI_Inventory : UI_Base
 
     public void InventoryCreate(int GridInventoryWidth, int GridInventoryHeight)
     {
+        InventorySizeWidth = GridInventoryWidth;
+        InventorySizeHeight = GridInventoryHeight;
+
         // 그리드 가방 슬롯 개수 설정
         InventorySlots = new UI_InventoryItem[GridInventoryWidth, GridInventoryHeight];
         // 그리드 가방 크기 설정
