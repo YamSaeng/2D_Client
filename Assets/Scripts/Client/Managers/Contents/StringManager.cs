@@ -9,12 +9,78 @@ public class StringManager
     public Dictionary<en_SkillCharacteristic, string> _SkillCharacteristicString = new Dictionary<en_SkillCharacteristic, string>();
     public Dictionary<en_SkillType, string> _SkillDamageString = new Dictionary<en_SkillType, string>();
     public Dictionary<en_SkillType, string> _SkillExplanationString = new Dictionary<en_SkillType, string>();
+    public Dictionary<en_UserQuickSlot, string> _UserQuickSlotString = new Dictionary<en_UserQuickSlot, string>();
+    public Dictionary<en_KeyCode, string> _KeyCodeString = new Dictionary<en_KeyCode, string>();
 
     public void Init()
     {
         LoadSkillString();
         LoadSkillCharacteristicString();
         LoadSkillExplanationString();
+        LoadUserQuickSlotString();
+        LoadKeyCodeString();
+    }
+
+    private void LoadUserQuickSlotString()
+    {
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_UP, "위로 걷기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_DOWN, "아래로 걷기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_LEFT, "왼쪽으로 걷기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_RIGHT, "오른쪽으로 걷기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_UI_INVENTORY, "가방 열기/닫기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_UI_SKILL_BOX, "특성 창 열기/닫기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_UI_EQUIPMENT_BOX, "장비 창 열기/닫기");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_ONE, "첫번째 단축키 1");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_TWO, "첫번째 단축키 2");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_THREE, "첫번째 단축키 3");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_FOUR, "첫번째 단축키 4");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_ONE_FIVE, "첫번째 단축키 5");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_ONE, "두번째 단축키 1");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_TWO, "두번째 단축키 2");        
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_THREE, "두번째 단축키 3");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FOUR, "두번째 단축키 4");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE, "두번째 단축키 5");        
+    }
+
+    private void LoadKeyCodeString()
+    {
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_NONE, "");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_W, "W");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_S, "S");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_A, "A");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_D, "D");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_I, "I");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_E, "E");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_K, "K");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ZERO, "0");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ONE, "1");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_TWO, "2");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_THREE, "3");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_FOUR, "4");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_FIVE, "5");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_SIX, "6");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_SEVEN, "7");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_EIGHT, "8");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_NINE, "9");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_Q, "Q");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_R, "R");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_T, "T");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_Y, "Y");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_U, "U");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_O, "O");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_P, "P");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_F, "F");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_G, "G");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_H, "H");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_J, "J");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_L, "L");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_Z, "Z");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_X, "X");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_C, "C");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_V, "V");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_B, "B");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_N, "N");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_M, "M");
     }
 
     private void LoadSkillExplanationString()
