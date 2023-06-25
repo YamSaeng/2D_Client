@@ -71,378 +71,383 @@ public class UI_QuickSlotKeyItem : UI_Base
         GetTextMeshPro((int)en_QuickSlotKeyItemText.QuickSlotKeyText).text = Managers.String._UserQuickSlotString[_BindingKey.UserQuickSlot];                
     }
 
+    private bool QuickSlotKetInput(en_KeyCode KeyCode)
+    {
+        return Managers.Key.KeyBoardGetKeyActions(KeyCode);
+    }
+
     private void Update()
     {        
         if (_IsQuickSlotKeyInput == true)
         {
-            if(Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.W))
+            if(QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_W))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + W";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.W))
+            else if(QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_W))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + W";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if(Input.GetKey(KeyCode.W))
+            else if(QuickSlotKetInput(en_KeyCode.KEY_CODE_W))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "W";                
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.S))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_S))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + S";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_S))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + S";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.S))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_S))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "S";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.A))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_A))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + A";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.A))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_A))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + A";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.A))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_A))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "A";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.D))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_D))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + D";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_D))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + D";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.D))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_D))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "D";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.I))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_I))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + I";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.I))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_I))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + I";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.I))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_I))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "I";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.E))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_E))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + E";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.E))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_E))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + E";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.E))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_E))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "E";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.K))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_K))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + K";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.K))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_K))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + K";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.K))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_K))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "K";
 
                 _IsQuickSlotKeyInput = false;
             }                       
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha1))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_ONE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 1";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha1))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_ONE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 1";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha1))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ONE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "1";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha2))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_TWO))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 2";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha2))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_TWO))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 2";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha2))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_TWO))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "2";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha3))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_THREE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 3";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha3))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_THREE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 3";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha3))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_THREE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "3";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha4))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_FOUR))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 4";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha4))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_FOUR))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 4";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha4))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_FOUR))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "4";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha5))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_FIVE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 5";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha5))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_FIVE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 5";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha5))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_FIVE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "5";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha6))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_SIX))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 6";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha6))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_SIX))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 6";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha6))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_SIX))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "6";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha7))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_SEVEN))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 7";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha7))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_SEVEN))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 7";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha7))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_SEVEN))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "7";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha8))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_EIGHT))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 8";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha8))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_EIGHT))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 8";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha8))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_EIGHT))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "8";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha9))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_NINE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 9";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha9))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_NINE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 9";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha9))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_NINE))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "9";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Alpha0))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_ZERO))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 0";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Alpha0))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_ZERO))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 0";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Alpha0))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ZERO))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "0";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Q))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Q))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + Q";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Q))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Q))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + Q";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Q))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Q))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Q";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.R))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_R))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + R";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_R))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + R";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.R))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_R))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "R";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.T))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_T))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + T";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.T))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_T))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + T";
 
@@ -455,323 +460,323 @@ public class UI_QuickSlotKeyItem : UI_Base
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Y))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Y))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + Y";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Y))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Y))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + Y";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Y))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Y))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Y";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.U))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_U))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + U";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.U))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_U))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + U";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.U))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_U))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "U";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.O))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_O))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + O";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.O))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_O))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + O";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.O))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_O))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "O";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.P))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_P))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + P";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.P))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_P))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + P";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.P))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_P))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "P";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.F))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_F))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + F";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.F))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_F))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + F";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.F))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_F))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "F";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.G))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_G))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + G";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.G))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_G))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + G";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.G))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_G))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "G";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.H))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_H))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + H";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.H))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_H))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + H";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.H))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_H))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "H";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.J))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_J))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + J";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.J))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_J))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + J";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.J))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_J))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "J";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.L))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_L))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + L";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_L))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + L";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.L))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_L))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "L";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.Z))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Z))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + Z";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Z))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Z))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + Z";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.Z))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Z))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Z";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.X))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_X))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + X";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.X))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_X))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + X";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.X))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_X))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "X";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.C))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_C))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + C";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_C))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + C";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.C))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_C))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "C";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.V))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_V))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + V";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.V))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_V))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + V";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.V))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_V))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "V";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.B))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_B))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + B";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.B))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_B))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + B";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.B))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_B))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "B";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.N))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_N))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + N";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.N))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_N))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + N";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.N))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_N))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "N";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.M))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_M))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + M";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.M))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_M))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + M";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.M))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_M))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "M";
 
                 _IsQuickSlotKeyInput = false;
             }
 
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.CapsLock))
+            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_CAPSLOCK))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + CapsLock";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.CapsLock))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_CAPSLOCK))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + CapsLock";
 
                 _IsQuickSlotKeyInput = false;
             }
-            else if (Input.GetKey(KeyCode.CapsLock))
+            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CAPSLOCK))
             {
                 GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "CapsLock";
 
