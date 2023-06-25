@@ -196,26 +196,7 @@ namespace Packet
                     S2C_CharacterInfoPacket.GetData(out TotalExperience, sizeof(long));
 
                     UI_PlayerExperience PlayerExperienceUI = GameSceneUI._PlayerExperienceUI;
-                    PlayerExperienceUI.PlayerGainExp(0, CurrentExperience, RequireExperience, TotalExperience);
-
-                    short UserQuickSlotKeyMax;
-                    S2C_CharacterInfoPacket.GetData(out UserQuickSlotKeyMax, sizeof(short));
-
-                    st_BindingKey[] UserQuickSlotKeys = new st_BindingKey[UserQuickSlotKeyMax];
-                    for (int i = 0; i < UserQuickSlotKeyMax; i++)
-                    {
-                        short UserQuickSlotKey;
-                        short QuickSlotKeyCode;
-
-                        S2C_CharacterInfoPacket.GetData(out UserQuickSlotKey, sizeof(short));
-                        S2C_CharacterInfoPacket.GetData(out QuickSlotKeyCode, sizeof(short));
-
-                        UserQuickSlotKeys[i] = new st_BindingKey();
-                        UserQuickSlotKeys[i].UserQuickSlot = (en_UserQuickSlot)UserQuickSlotKey;
-                        UserQuickSlotKeys[i].KeyCode = (en_KeyCode)QuickSlotKeyCode;
-                    }
-
-                    Managers.Key.BindingKeyInit(UserQuickSlotKeyMax, UserQuickSlotKeys);
+                    PlayerExperienceUI.PlayerGainExp(0, CurrentExperience, RequireExperience, TotalExperience);                                        
 
                     byte SkillPoint;
                     S2C_CharacterInfoPacket.GetData(out SkillPoint, sizeof(byte));
@@ -332,6 +313,28 @@ namespace Packet
 
                     // 퀵슬롯 정보 업데이트
                     QuickSlotBarBoxUI.RefreshQuickSlotBarBoxUI();
+
+                    short UserQuickSlotKeyMax;
+                    S2C_CharacterInfoPacket.GetData(out UserQuickSlotKeyMax, sizeof(short));
+
+                    st_BindingKey[] UserQuickSlotKeys = new st_BindingKey[UserQuickSlotKeyMax];
+                    for (int i = 0; i < UserQuickSlotKeyMax; i++)
+                    {
+                        short UserQuickSlotKey;
+                        short QuickSlotKeyCode;
+
+                        S2C_CharacterInfoPacket.GetData(out UserQuickSlotKey, sizeof(short));
+                        S2C_CharacterInfoPacket.GetData(out QuickSlotKeyCode, sizeof(short));
+
+                        UserQuickSlotKeys[i] = new st_BindingKey();
+                        UserQuickSlotKeys[i].UserQuickSlot = (en_UserQuickSlot)UserQuickSlotKey;
+                        UserQuickSlotKeys[i].KeyCode = (en_KeyCode)QuickSlotKeyCode;
+                    }
+
+                    Managers.Key.BindingKeyInit(UserQuickSlotKeyMax, UserQuickSlotKeys);
+
+                    UI_QuickSlotKey QuickSlotKey = GameSceneUI._QuickSlotKeyUI;
+                    QuickSlotKey.QuickSlotKeyCreate();
 
                     // 착용 장비 개수
                     byte EquipmentCount;
