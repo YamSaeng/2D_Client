@@ -709,6 +709,23 @@ public class Protocol
 		en_PACKET_S2C_QUICKSLOT_EMPTY,
 
 		//------------------------------------------------------------
+		// 게임서버 단축키 키 바꾸기 요청 
+		// int64 AccountID
+		// int64 PlayerID
+		// int16 UserQuickSlot
+		// int16 NewKeyCode
+		//------------------------------------------------------------
+		en_PACKET_C2S_QUICK_SLOT_KEY_CHANGE,
+
+		//------------------------------------------------------------
+		// 게임서버 단축키 키 바꾸기 요청 	
+		// int64 PlayerID
+		// int16 UserQuickSlot
+		// int16 NewKeyCode
+		//------------------------------------------------------------
+		en_PACKET_S2C_QUICK_SLOT_KEY_CHANGE,
+
+		//------------------------------------------------------------
 		// 게임서버 제작템 목록
 		// int64 ObjectId
 		// st_CraftingItemCategory CraftingItemCategory;
