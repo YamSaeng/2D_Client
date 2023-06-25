@@ -9,15 +9,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_QuickSlotBarItem : UI_Base
-{
-    Dictionary<KeyCode, string> _QuickSlotKeyDictionary = new Dictionary<KeyCode, string>();
-
+{    
     // 퀵슬롯바 박스
     UI_QuickSlotBarBox _QuickSlotBarBox;
     UI_GameScene _GameSceneUI;
 
-    public st_QuickSlotBarSlotInfo _QuickSlotBarSlotInfo = null;
-    public UI_QuickSlotBarItem _ComboSkillUI = null;
+    public st_QuickSlotBarSlotInfo _QuickSlotBarSlotInfo = null;    
 
     private float _SkillCoolTime;
     private float _SkillRemainTime;
@@ -50,8 +47,6 @@ public class UI_QuickSlotBarItem : UI_Base
 
     public override void Init()
     {
-        QuickSlotKeySave();
-
         _QuickSlotBarItemAnimator = GetComponent<Animator>();
 
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;        
@@ -78,13 +73,12 @@ public class UI_QuickSlotBarItem : UI_Base
     public override void ShowCloseUI(bool IsShowClose)
     {
     
-    }
+    }    
 
     public void SetQuickBarItem(st_QuickSlotBarSlotInfo QuickSlotBarSlotInfo)
     {
         _QuickSlotBarSlotInfo = QuickSlotBarSlotInfo;
-
-        GetTextMeshPro((int)en_QuickSlotBarText.QuickSlotSkillKeyText).text = _QuickSlotKeyDictionary[_QuickSlotBarSlotInfo.QuickSlotKey];
+        
         GetImage((int)en_QuickSlotBarImage.QuickSlotSkillCoolTimeImage).fillAmount = 0;
         GetTextMeshPro((int)en_QuickSlotBarText.QuickSlotCoolTimeText).text = "";
 
@@ -105,7 +99,7 @@ public class UI_QuickSlotBarItem : UI_Base
 
                 GetTextMeshPro((int)en_QuickSlotBarText.QuickSlotItemCountText).text = _QuickSlotBarSlotInfo.QuickBarItemInfo.ItemCount.ToString();
                 break;
-        }        
+        }
     }
 
     public void QuickSlotBarItemCoolTimeStart(float SkillCoolTimeSpeed)
@@ -336,36 +330,5 @@ public class UI_QuickSlotBarItem : UI_Base
     public void QuickSlotBarComboSkillOn()
     {
         _QuickSlotBarItemAnimator.Play("QuickSlotBarComboSkillOn");
-    }       
-
-    public void Destroy()
-    {
-        _QuickSlotBarItemAnimator = null;
-        _InitImage = null;
-        _QuickSlotBarBox = null;
-        _QuickSlotKeyDictionary.Clear();
-
-        GetImage((int)en_QuickSlotBarImage.QuickSlotSkillCoolTimeImage).sprite = null;
-        GetImage((int)en_QuickSlotBarImage.QuickSlotSkillIconImage).sprite = null;
-
-        GetTextMeshPro((int)en_QuickSlotBarText.QuickSlotSkillKeyText).text = "";
-        GetTextMeshPro((int)en_QuickSlotBarText.QuickSlotCoolTimeText).text = "";
-
-        Destroy(gameObject);
-    }
-
-    private void QuickSlotKeySave()
-    {
-        _QuickSlotKeyDictionary.Add(KeyCode.None, "");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha1, "1");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha2, "2");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha3, "3");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha4, "4");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha5, "5");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha6, "6");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha7, "7");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha8, "8");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha9, "9");
-        _QuickSlotKeyDictionary.Add(KeyCode.Alpha0, "0");
-    }
+    }            
 }

@@ -13,6 +13,8 @@ public class UI_QuickSlotBarBox : UI_Base
 
     public Dictionary<byte, UI_QuickSlotBar> _QuickSlotBars { get; private set; } = new Dictionary<byte, UI_QuickSlotBar>();
 
+    public List<UI_QuickSlotBarItem> _ComboSkillQuickSlotBars = new List<UI_QuickSlotBarItem>();
+
     public override void Init()
     {
 
@@ -20,7 +22,7 @@ public class UI_QuickSlotBarBox : UI_Base
 
     public override void Binding()
     {
-
+        Bind<GameObject>(typeof(en_QuickSlotBoxGameObject));
     }
 
     public override void ShowCloseUI(bool IsShowClose)
@@ -31,7 +33,7 @@ public class UI_QuickSlotBarBox : UI_Base
 
     public void UIQuickSlotBarBoxCreate(byte QuickSlotBarSize, byte QuickSlotBarSlotSize)
     {
-        Bind<GameObject>(typeof(en_QuickSlotBoxGameObject));
+        Binding();
 
         _QuickSlotBars.Clear();
 
@@ -48,6 +50,16 @@ public class UI_QuickSlotBarBox : UI_Base
 
             _QuickSlotBars.Add(i, QuickSlotBar);
         }
+    }
+
+    public void QuickSlotBoxComboSkillOff()
+    {
+        foreach (UI_QuickSlotBarItem QuickSlotBarItem in _ComboSkillQuickSlotBars)
+        {
+            Destroy(QuickSlotBarItem.gameObject);
+        }
+
+        _ComboSkillQuickSlotBars.Clear();
     }
 
     public void RefreshQuickSlotBarBoxUI()
@@ -112,7 +124,7 @@ public class UI_QuickSlotBarBox : UI_Base
             }
         }
     }
-
+    
     public bool IsCollision(UI_Base CollisionUI)
     {
         List<UI_QuickSlotBar> QuickSlotBars = _QuickSlotBars.Values.ToList();
