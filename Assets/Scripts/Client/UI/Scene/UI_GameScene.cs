@@ -33,6 +33,7 @@ public class UI_GameScene : UI_Scene
     public UI_PartyFrame _PartyFrameUI { get; private set; }
     public UI_PartyPlayerOption _PartyPlayerOptionUI { get; private set; }
     public UI_PartyReaction _PartyReactionUI { get; private set; }
+    public UI_QuickSlotKey _QuickSlotKeyUI { get; private set; }
 
     public override void ShowCloseUI(bool IsShowClose)
     {
@@ -117,6 +118,10 @@ public class UI_GameScene : UI_Scene
         GameObject PartyReactionGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_PARTY_REACTION, this.transform);
         _PartyReactionUI = PartyReactionGO.GetComponent<UI_PartyReaction>();
         _PartyReactionUI.Binding();
+
+        GameObject QuickSlotKeyGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_QUICK_SLOT_KEY, this.transform);
+        _QuickSlotKeyUI = QuickSlotKeyGO.GetComponent<UI_QuickSlotKey>();
+        _QuickSlotKeyUI.Binding();
 
         Camera MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         MainCamera.orthographicSize = 6;
