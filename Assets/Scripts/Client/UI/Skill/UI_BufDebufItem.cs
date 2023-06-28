@@ -87,6 +87,12 @@ public class UI_BufDebufItem : UI_Base
 
             if(_SkillBufDeBufCoolTimeCO != null)
             {
+                Animator BufDebufItemAniamtor = GetComponent<Animator>();
+                if (BufDebufItemAniamtor != null)
+                {
+                    BufDebufItemAniamtor.SetBool("IsBlinkStart", false);
+                }
+
                 StopCoroutine(_SkillBufDeBufCoolTimeCO);                
             }
 
@@ -113,7 +119,16 @@ public class UI_BufDebufItem : UI_Base
             TimePassed += Time.deltaTime;
 
             GetTextMeshPro((int)en_BufDebufText.BufDebufCoolTimeText).text = (_SkillRemainTime - TimePassed).ToString("F1");
-            
+                        
+            if(_SkillRemainTime - TimePassed < 3.0f)
+            {
+                Animator BufDebufItemAniamtor = GetComponent<Animator>();
+                if(BufDebufItemAniamtor != null)
+                {
+                    BufDebufItemAniamtor.SetBool("IsBlinkStart", true);
+                }
+            }
+
             yield return null;
         }
 
