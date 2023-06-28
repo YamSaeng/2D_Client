@@ -93,6 +93,11 @@ public abstract class UI_Base : MonoBehaviour
         return Get<InputField>(Index);
     }
 
+    protected TMP_InputField GetTMPInputField(int Index)
+    {
+        return Get<TMP_InputField>(Index);
+    }
+
     protected ScrollRect GetScrollRect(int Index)
     {
         return Get<ScrollRect>(Index);
