@@ -32,6 +32,8 @@ public class UI_QuickSlotKey : UI_Base
 
     public override void ShowCloseUI(bool IsShowClose)
     {
+        QuickSlotKeyUIUpdate();
+
         gameObject.SetActive(IsShowClose);
     }
 
@@ -51,9 +53,32 @@ public class UI_QuickSlotKey : UI_Base
             {
                 QuickSlotKeyItemUI.Binding();
                 QuickSlotKeyItemUI.SetQuickSlotKeyItemBindingKey(BindingKey);
+
+                _QuickSlotBindingKeys.Add(QuickSlotKeyItemUI);
             }
         }
 
         ShowCloseUI(false);
+    }
+
+    public void QuickSlotKeyFindFix(en_KeyCode KeyCode)
+    {
+        foreach(UI_QuickSlotKeyItem QuickSlotKeyItemUI in _QuickSlotBindingKeys)
+        {
+            if(QuickSlotKeyItemUI._BindingKey.KeyCode == KeyCode)
+            {
+                QuickSlotKeyItemUI._BindingKey.KeyCode = en_KeyCode.KEY_CODE_NONE;
+                QuickSlotKeyItemUI.QuickSlotKeyItemUIUpdate();
+                break;
+            }
+        }
+    }
+
+    public void QuickSlotKeyUIUpdate()
+    {
+        foreach (UI_QuickSlotKeyItem QuickSlotKeyItemUI in _QuickSlotBindingKeys)
+        {
+            QuickSlotKeyItemUI.QuickSlotKeyItemUIUpdate();
+        }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class UI_QuickSlotKeyItem : UI_Base
 {
-    st_BindingKey _BindingKey;
+    public st_BindingKey _BindingKey;
 
     enum en_QuickSlotKeyItemText
     {
@@ -68,7 +68,13 @@ public class UI_QuickSlotKeyItem : UI_Base
     {
         _BindingKey = BindingKey;
 
-        GetTextMeshPro((int)en_QuickSlotKeyItemText.QuickSlotKeyText).text = Managers.String._UserQuickSlotString[_BindingKey.UserQuickSlot];                
+        QuickSlotKeyItemUIUpdate();        
+    }
+
+    public void QuickSlotKeyItemUIUpdate()
+    {
+        GetTextMeshPro((int)en_QuickSlotKeyItemText.QuickSlotKeyText).text = Managers.String._UserQuickSlotString[_BindingKey.UserQuickSlot];
+        GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = Managers.String._KeyCodeString[_BindingKey.KeyCode];
     }
 
     private bool QuickSlotKetInput(en_KeyCode KeyCode)
@@ -80,708 +86,724 @@ public class UI_QuickSlotKeyItem : UI_Base
     {        
         if (_IsQuickSlotKeyInput == true)
         {
-            if(QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_W))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + W";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if(QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_W))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + W";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if(QuickSlotKetInput(en_KeyCode.KEY_CODE_W))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "W";                
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_S))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + S";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_S))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + S";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_S))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "S";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_A))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + A";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_A))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + A";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_A))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "A";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_D))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + D";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_D))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + D";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_D))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "D";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_I))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + I";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_I))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + I";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_I))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "I";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_E))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + E";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_E))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + E";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_E))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "E";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_K))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + K";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_K))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + K";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_K))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "K";
-
-                _IsQuickSlotKeyInput = false;
-            }                       
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_ONE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 1";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_ONE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 1";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ONE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "1";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_TWO))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 2";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_TWO))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 2";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_TWO))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "2";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_THREE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 3";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_THREE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 3";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_THREE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "3";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_FOUR))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 4";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_FOUR))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 4";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_FOUR))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "4";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_FIVE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 5";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_FIVE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 5";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_FIVE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "5";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_SIX))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 6";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_SIX))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 6";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_SIX))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "6";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_SEVEN))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 7";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_SEVEN))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 7";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_SEVEN))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "7";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_EIGHT))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 8";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_EIGHT))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 8";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_EIGHT))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "8";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_NINE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 9";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_NINE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 9";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_NINE))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "9";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_ZERO))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + 0";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_ZERO))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + 0";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ZERO))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "0";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Q))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + Q";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Q))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + Q";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Q))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Q";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_R))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + R";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_R))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + R";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_R))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "R";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_T))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + T";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_T))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + T";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (Input.GetKey(KeyCode.T))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "T";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Y))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + Y";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Y))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + Y";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Y))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Y";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_U))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + U";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_U))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + U";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_U))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "U";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_O))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + O";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_O))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + O";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_O))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "O";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_P))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + P";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_P))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + P";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_P))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "P";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_F))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + F";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_F))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + F";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_F))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "F";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_G))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + G";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_G))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + G";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_G))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "G";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_H))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + H";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_H))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + H";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_H))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "H";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_J))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + J";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_J))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + J";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_J))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "J";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_L))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + L";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_L))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + L";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_L))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "L";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Z))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + Z";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Z))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + Z";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Z))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Z";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_X))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + X";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_X))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + X";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_X))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "X";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_C))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + C";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_C))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + C";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_C))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "C";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_V))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + V";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_V))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + V";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_V))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "V";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_B))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + B";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_B))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + B";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_B))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "B";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_N))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + N";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_N))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + N";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_N))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "N";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_M))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + M";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_M))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + M";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_M))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "M";
-
-                _IsQuickSlotKeyInput = false;
-            }
-
-            if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_CAPSLOCK))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Alt + CapsLock";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_CAPSLOCK))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "Ctrl + CapsLock";
-
-                _IsQuickSlotKeyInput = false;
-            }
-            else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CAPSLOCK))
-            {
-                GetTMPInputField((int)en_QuickSlotKeyItemInputField.UserQuickSlotKeyInputField).text = "CapsLock";
-
-                _IsQuickSlotKeyInput = false;
-            }
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            if(GameSceneUI != null)
+            {
+                en_KeyCode NewkeyCode = en_KeyCode.KEY_CODE_NONE;
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_W))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_W;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_W))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_W;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_W))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_W;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_S))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_S;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_S))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_S;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_S))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_S;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_A))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_A;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_A))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_A;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_A))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_A;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_D))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_D;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_D))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_D;                    
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_D))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_D;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_I))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_I;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_I))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_I;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_I))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_I;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_E))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_E;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_E))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_E;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_E))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_E;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_K))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_K;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_K))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_K;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_K))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_K;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_ONE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_ONE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_ONE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_ONE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ONE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ONE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_TWO))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_TWO;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_TWO))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_TWO;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_TWO))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_TWO;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_THREE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_THREE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_THREE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_THREE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_THREE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_THREE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_FOUR))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_FOUR;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_FOUR))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_FOUR;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_FOUR))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_FOUR;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_FIVE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_FIVE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_FIVE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_FIVE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_FIVE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_FIVE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_SIX))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_SIX;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_SIX))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_SIX;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_SIX))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_SIX;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_SEVEN))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_SEVEN;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_SEVEN))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_SEVEN;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_SEVEN))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_SEVEN;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_EIGHT))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_EIGHT;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_EIGHT))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_EIGHT;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_EIGHT))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_EIGHT;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_NINE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_NINE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_NINE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_NINE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_NINE))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_NINE;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_ZERO))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_ZERO;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_ZERO))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_ZERO;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ZERO))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ZERO;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Q))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_Q;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Q))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_Q;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Q))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_Q;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_R))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_R;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_R))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_R;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_R))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_R;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_T))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_T;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_T))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_T;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_T))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_T;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Y))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_Y;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Y))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_Y;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Y))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_Y;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_U))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_U;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_U))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_U;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_U))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_U;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_O))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_O;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_O))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_O;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_O))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_O;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_P))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_P;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_P))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_P;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_P))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_P;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_F))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_F;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_F))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_F;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_F))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_F;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_G))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_G;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_G))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_G;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_G))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_G;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_H))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_H;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_H))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_H;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_H))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_H;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_J))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_J;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_J))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_J;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_J))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_J;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_L))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_L;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_L))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_L;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_L))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_L;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_Z))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_Z;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_Z))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_Z;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_Z))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_Z;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_X))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_X;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_X))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_X;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_X))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_X;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_C))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_C;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_C))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_C;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_C))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_C;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_V))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_V;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_V))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_V;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_V))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_V;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_B))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_B;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_B))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_B;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_B))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_B;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_N))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_N;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_N))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_N;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_N))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_N;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_M))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_M;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_M))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_M;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_M))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_M;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if (QuickSlotKetInput(en_KeyCode.KEY_CODE_ALT_CAPSLOCK))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_ALT_CAPSLOCK;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CTRL_CAPSLOCK))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CTRL_CAPSLOCK;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+                else if (QuickSlotKetInput(en_KeyCode.KEY_CODE_CAPSLOCK))
+                {
+                    NewkeyCode = en_KeyCode.KEY_CODE_CAPSLOCK;
+
+                    _IsQuickSlotKeyInput = false;
+                }
+
+                if(_IsQuickSlotKeyInput == false)
+                {
+                    // 입력한 KeyCode에 연결되어 있었던 단축키 초기화
+                    GameSceneUI._QuickSlotKeyUI.QuickSlotKeyFindFix(NewkeyCode);
+
+                    _BindingKey.KeyCode = NewkeyCode;
+                }
+
+                QuickSlotKeyItemUIUpdate();
+            }                        
         }        
     }
 }
