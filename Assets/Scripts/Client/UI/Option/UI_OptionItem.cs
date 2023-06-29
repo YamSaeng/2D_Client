@@ -45,6 +45,9 @@ public class UI_OptionItem : UI_Base
             case en_MenuType.MENU_TYPE_CHARACTER_CHOICE:
                 GetTextMeshPro((int)en_OptionItemText.UI_OptionItemText).text = "캐릭터 선택";
                 break;
+            case en_MenuType.MENU_TYPE_QUICK_SLOT_KEY_SETTING:
+                GetTextMeshPro((int)en_OptionItemText.UI_OptionItemText).text = "단축키 설정";
+                break;
         }
     }
 
@@ -55,8 +58,7 @@ public class UI_OptionItem : UI_Base
         {            
             switch (_OptionType)
             {                
-                case en_MenuType.MENU_TYPE_CHARACTER_CHOICE:                    
-
+                case en_MenuType.MENU_TYPE_CHARACTER_CHOICE:   
                     CMessage ReqMenuOptionPacket = Packet.MakePacket.ReqMakeMenuOptionPacket(_OptionType);
                     Managers.NetworkManager.GameServerSend(ReqMenuOptionPacket);
 
@@ -66,6 +68,10 @@ public class UI_OptionItem : UI_Base
 
                     // LoginScene 로딩
                     Managers.Scene.LoadScene(Define.en_Scene.LoginScene);           
+                    break;
+                case en_MenuType.MENU_TYPE_QUICK_SLOT_KEY_SETTING:
+                    GameSceneUI.AddGameSceneUIStack(GameSceneUI._QuickSlotKeyUI);                    
+                    GameSceneUI._QuickSlotKeyUI.ShowCloseUI(true);
                     break;
             }            
 
