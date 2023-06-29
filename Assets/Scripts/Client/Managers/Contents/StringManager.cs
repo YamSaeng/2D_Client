@@ -46,41 +46,152 @@ public class StringManager
     {
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_NONE, "");
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_W, "W");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_W, "Ctrl + W");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_W, "Alt + W");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_S, "S");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_S, "Ctrl + S");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_S, "Alt + S");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_A, "A");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_A, "A");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_A, "A");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_D, "D");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_D, "D");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_D, "D");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_I, "I");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_I, "I");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_I, "I");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_E, "E");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_E, "E");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_E, "E");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_K, "K");
-        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ZERO, "0");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_K, "K");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_K, "K");
+        
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_ONE, "1");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_ONE, "1");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_ONE, "1");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_TWO, "2");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_TWO, "2");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_TWO, "2");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_THREE, "3");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_THREE, "3");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_THREE, "3");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_FOUR, "4");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_FOUR, "4");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_FOUR, "4");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_FIVE, "5");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_FIVE, "5");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_FIVE, "5");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_SIX, "6");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_SIX, "6");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_SIX, "6");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_SEVEN, "7");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_SEVEN, "7");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_SEVEN, "7");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_EIGHT, "8");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_EIGHT, "8");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_EIGHT, "8");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_NINE, "9");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_NINE, "9");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_NINE, "9");
+
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ZERO, "0");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_ZERO, "0");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_ZERO, "0");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_Q, "Q");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_Q, "Q");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_Q, "Q");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_R, "R");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_R, "R");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_R, "R");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_T, "T");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_T, "T");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_T, "T");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_Y, "Y");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_Y, "Y");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_Y, "Y");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_U, "U");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_U, "U");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_U, "U");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_O, "O");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_O, "O");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_O, "O");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_P, "P");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_P, "P");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_P, "P");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_F, "F");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_F, "F");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_F, "F");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_G, "G");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_G, "G");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_G, "G");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_H, "H");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_H, "H");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_H, "H");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_J, "J");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_J, "J");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_J, "J");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_L, "L");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_L, "L");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_L, "L");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_Z, "Z");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_Z, "Z");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_Z, "Z");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_X, "X");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_X, "X");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_X, "X");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_C, "C");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_C, "C");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_C, "C");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_V, "V");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_V, "V");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_V, "V");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_B, "B");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_B, "B");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_B, "B");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_N, "N");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_N, "N");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_N, "N");
+
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_M, "M");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_M, "M");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_M, "M");
+
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CAPSLOCK, "CapsLock");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_CAPSLOCK, "Ctrl + CapsLock");
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_CAPSLOCK, "Alt + CapsLock");
     }
 
     private void LoadSkillExplanationString()
