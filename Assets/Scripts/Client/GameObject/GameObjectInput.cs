@@ -50,10 +50,17 @@ public class GameObjectInput : MonoBehaviour
     {
         GetPointerInput();
         GetMouseButtonInput();
-               
-        Managers.Key.MoveQuickSlotKeyUpdate();
-        Managers.Key.QuickSlotBarActions();
-        Managers.Key.UIActions();
+
+        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+        if(GameSceneUI != null)
+        {
+            if(!GameSceneUI._QuickSlotKeyUI.gameObject.activeSelf)
+            {
+                Managers.Key.MoveQuickSlotKeyUpdate();
+                Managers.Key.QuickSlotBarActions();
+                Managers.Key.UIActions();
+            }           
+        }        
     }
 
     public void SetOwner(CreatureObject OwnerObject)
