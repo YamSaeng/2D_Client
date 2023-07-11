@@ -41,20 +41,20 @@ public class ObjectManager
 
         public CPoolObject Pop()
         {   
-            CPoolObject PopObject = new CPoolObject();
-
-            _UseCount++;
+            CPoolObject PopObject = new CPoolObject();            
 
             if(_AllocCount > _UseCount)
-            {
+            {                
                 PopObject = _PoolStacks.Pop();
             }
             else
-            {
+            {                
                 PopObject.Object = Managers.Resource.Instantiate(_ObjectPoolType);
 
                 _AllocCount++;
-            }           
+            }
+
+            _UseCount++;
 
             PopObject.Object.gameObject.SetActive(true);            
 
@@ -325,7 +325,7 @@ public class ObjectManager
                 LeatherController.Init();                
 
                 return LeatherGo;
-            case en_GameObjectType.OBJECT_ITEM_MATERIAL_BRONZE_COIN:
+            case en_GameObjectType.OBJECT_ITEM_MATERIAL_BRONZE_COIN:                
                 GameObject CopperCoinGo = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN].Pop().Object;
                 CopperCoinGo.name = Info.ObjectName;                
 
@@ -422,7 +422,7 @@ public class ObjectManager
         {
             Debug.Log($"삭제할 {RemoveId}가 존재하지 않음");
             return;
-        }
+        }        
 
         CBaseObject BaseObject = RemoveGo.GetComponent<CBaseObject>();
         if(BaseObject != null)
@@ -438,6 +438,20 @@ public class ObjectManager
 
             //딕셔너리에서 제거후
             _Objects.Remove(RemoveId);
+
+            Transform RightWeaponParentTransform = Creature.transform.Find("RightWeaponParent");
+            if(RightWeaponParentTransform != null)
+            {
+                PlayerWeapon RightWeaponParent = RightWeaponParentTransform.GetComponent<PlayerWeapon>();
+                if (RightWeaponParent != null)
+                {
+                    GameObject RightWeaponGO = RightWeaponParent.transform.Find("WeaponLongSwordWood").gameObject;
+                    if (RightWeaponGO != null)
+                    {
+                        UnityEngine.Object.Destroy(RightWeaponGO);
+                    }
+                }
+            }           
 
             switch (BaseObject._GameObjectInfo.ObjectType)
             {
