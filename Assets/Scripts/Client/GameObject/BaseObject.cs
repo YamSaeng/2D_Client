@@ -80,11 +80,15 @@ public class CBaseObject : MonoBehaviour
     {
         _GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
 
-        _RectCollision = transform.Find("Collision").GetComponent<RectCollision>();
-        if (_RectCollision != null)
+        Transform CollisionTr = transform.Find("Collision");
+        if(CollisionTr != null)
         {
-            _RectCollision.SetUpOwnPlayer(this);
-        }
+            _RectCollision = CollisionTr.GetComponent<RectCollision>();
+            if (_RectCollision != null)
+            {
+                _RectCollision.SetUpOwnPlayer(this);
+            }
+        }        
 
         transform.position = new Vector3(_GameObjectInfo.ObjectPositionInfo.Position.x, _GameObjectInfo.ObjectPositionInfo.Position.y, 0);
     }    
