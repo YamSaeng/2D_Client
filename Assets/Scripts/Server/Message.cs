@@ -370,6 +370,22 @@ namespace ServerCore
             _Front = (int)_MessageReadStream.Position;
         }
 
+        public void GetData(out st_Equipment Data)
+        {
+            st_Equipment Equipment = new st_Equipment();        
+
+            st_ItemInfo EquipemtItemInfo = new st_ItemInfo();
+
+            GetData(out EquipemtItemInfo);
+
+            Equipment.EquipmentItemInfo = EquipemtItemInfo;
+
+
+            Data = Equipment;
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
         public void GetData(out st_QuickSlotBarSlotInfo Data)
         {
             st_QuickSlotBarSlotInfo QuickSlotBarSlotInfo = new st_QuickSlotBarSlotInfo();
