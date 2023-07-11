@@ -83,8 +83,11 @@ public enum en_GameObjectType
 
     OBJECT_ITEM,
     OBJECT_ITEM_WEAPON,
-    OBJECT_ITEM_WEAPON_WOOD_SWORD,
+    OBJECT_ITEM_WEAPON_WOOD_DAGGER,
+    OBJECT_ITEM_WEAPON_WOOD_LONG_SWORD,
+    OBJECT_ITEM_WEAPON_WOOD_GREAT_SWORD,
     OBJECT_ITEM_WEAPON_WOOD_SHIELD,
+    OBJECT_ITEM_WEAPON_WOOD_BOW,
 
     OBJECT_ITEM_TOOL,
     OBJECT_ITEM_TOOL_FARMING_SHOVEL,
@@ -1045,6 +1048,11 @@ public class st_GameObjectInfo
         ObjectStatInfo = new st_StatInfo();
     }
 }
+
+public class st_Equipment
+{    
+    public st_ItemInfo EquipmentItemInfo;
+};
 
 public class st_Experience
 {
