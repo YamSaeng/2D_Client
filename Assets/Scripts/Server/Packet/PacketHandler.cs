@@ -119,8 +119,8 @@ namespace Packet
         {
             bool EnterGameSuccess;
             st_GameObjectInfo PlayerInfo;
-            int SpawnPositionX;
-            int SpawnPositionY;
+            int EnterGamePositionX;
+            int EnterGamePositionY;
 
             S2CEnterGamePacket.GetData(out EnterGameSuccess, sizeof(bool));
 
@@ -128,10 +128,8 @@ namespace Packet
             {
                 S2CEnterGamePacket.GetData(out PlayerInfo);
 
-                S2CEnterGamePacket.GetData(out SpawnPositionX, sizeof(int));
-                S2CEnterGamePacket.GetData(out SpawnPositionY, sizeof(int));
-
-                Vector2Int SpawnPosition = new Vector2Int(SpawnPositionX, SpawnPositionY);
+                S2CEnterGamePacket.GetData(out EnterGamePositionX, sizeof(int));
+                S2CEnterGamePacket.GetData(out EnterGamePositionY, sizeof(int));
 
                 //Debug.Log("게임 입장 성공 " + " ObjectId : " + PlayerInfo.ObjectId.ToString() + " AccountID : " + Managers.NetworkManager._AccountId.ToString());
 
@@ -154,7 +152,7 @@ namespace Packet
 
                         if (GameSceneUI._Minimap != null)
                         {
-                            GameSceneUI._Minimap.MiniMapMyPositionUpdate(SpawnPositionX, SpawnPositionY);
+                            GameSceneUI._Minimap.MiniMapMyPositionUpdate(EnterGamePositionX, EnterGamePositionY);
                         }
                     }
                     else
@@ -438,6 +436,7 @@ namespace Packet
             float MoveDirectionY;
             float PositionX;
             float PositionY;
+            byte State;
 
             S2C_MovePacket.GetData(out ObjectID, sizeof(long));
             S2C_MovePacket.GetData(out LookAtDirectionX, sizeof(float));
@@ -446,6 +445,7 @@ namespace Packet
             S2C_MovePacket.GetData(out MoveDirectionY, sizeof(float));
             S2C_MovePacket.GetData(out PositionX, sizeof(float));
             S2C_MovePacket.GetData(out PositionY, sizeof(float));
+            S2C_MovePacket.GetData(out State, sizeof(byte));
             S2C_MovePacket.GetData(out TargetID, sizeof(long));
 
             GameObject FindGO = Managers.Object.FindById(ObjectID);
@@ -483,7 +483,7 @@ namespace Packet
                     FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x = LookAtDirectionX;
                     FindGameObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y = LookAtDirectionY;
 
-                    FindGameObject._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.MOVING;
+                    FindGameObject._GameObjectInfo.ObjectPositionInfo.State = (en_CreatureState)State;
                     FindGameObject._GameObjectInfo.ObjectPositionInfo.MoveDireciton = NewMoveDirection;
                     FindGameObject.transform.position = new Vector3(PositionX, PositionY, 0);
                 }
@@ -557,7 +557,6 @@ namespace Packet
             S2C_CommonDamagePacket.GetData(out SkillKind, sizeof(byte));
             S2C_CommonDamagePacket.GetData(out ResourceType, sizeof(short));
             S2C_CommonDamagePacket.GetData(out DamagePoint, sizeof(int));
-            S2C_CommonDamagePacket.GetData(out HP, sizeof(int));
             S2C_CommonDamagePacket.GetData(out IsCritical, sizeof(bool));
 
             //// 크리티컬 공격 성공시 카메라 흔들기
@@ -834,16 +833,16 @@ namespace Packet
 
             GameObject FindGO = Managers.Object.FindById(ObjectId);
             if (FindGO != null)
-            {
+            {                
                 CBaseObject FindPlayerObject = FindGO.GetComponent<CBaseObject>();
                 if (FindPlayerObject != null)
-                {
+                {                    
                     GameObject RightWeaponParent = FindPlayerObject.transform.Find("RightWeaponParent").gameObject;
                     if (RightWeaponParent != null)
-                    {
+                    {                        
                         PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
                         if (Weapon != null)
-                        {
+                        {                            
                             Weapon.Attack();
                         }
                     }
@@ -851,23 +850,45 @@ namespace Packet
             }
         }
 
-        public static void S2C_SpawnHandler(CMessage S2CSpawnPacket)
+        public static void S2C_SpawnHandler(CMessage S2C_SpawnPacket)
         {
-            int SpawnCount;
+            int SpawnObjectCount;
 
-            S2CSpawnPacket.GetData(out SpawnCount, sizeof(int));
+            S2C_SpawnPacket.GetData(out SpawnObjectCount, sizeof(int));            
 
-            st_GameObjectInfo[] ObjectInfos = new st_GameObjectInfo[SpawnCount];
-            S2CSpawnPacket.GetData(ObjectInfos, SpawnCount);
-
-            //Debug.Log($"S2C_Spawn 호출 {SpawnCount} {ObjectInfos[0].ObjectName}");
-
-            for (int i = 0; i < SpawnCount; i++)
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            if(GameSceneUI != null)
             {
-                GameObject FindGameObject = Managers.Object.Add(ObjectInfos[i]);
-            }
+                UI_EquipmentBox EquipmentBoxUI = GameSceneUI._EquipmentBoxUI;
+                if (EquipmentBoxUI != null)
+                {
+                    for (int i = 0; i < SpawnObjectCount; i++)
+                    {
+                        st_GameObjectInfo GameObjectInfo = new st_GameObjectInfo();
+                        S2C_SpawnPacket.GetData(out GameObjectInfo);                        
 
-            S2CSpawnPacket.Dispose();
+                        GameObject FindGameObject = Managers.Object.Add(GameObjectInfo);
+
+                        byte EquipmentCount;
+
+                        S2C_SpawnPacket.GetData(out EquipmentCount, sizeof(byte));
+
+                        for (int j = 0; j < EquipmentCount; j++)
+                        {
+                            st_Equipment EquipmentItem = new st_Equipment();
+
+                            S2C_SpawnPacket.GetData(out EquipmentItem);
+
+                            if (EquipmentItem.EquipmentItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
+                            {
+                                EquipmentBoxUI.OnEquipmentItem(EquipmentItem.EquipmentItemInfo, GameObjectInfo.ObjectId);
+                            }
+                        }                        
+                    }                    
+                }
+            }                        
+
+            S2C_SpawnPacket.Dispose();
         }
 
         public static void S2C_DespawnHandler(CMessage S2CDeSpawnPacket)
@@ -891,7 +912,7 @@ namespace Packet
                 {
                     TargetHUDUI.TargetHUDOff();
                 }
-
+                
                 Managers.Object.Remove(DeSpawnObjectIds[i]);
             }
 
@@ -2433,7 +2454,7 @@ namespace Packet
 
                 if (EquipmentBoxUI != null)
                 {
-                    EquipmentBoxUI.OnEquipmentItem(EquipementItem._ItemInfo);
+                    EquipmentBoxUI.OnEquipmentItem(EquipementItem._ItemInfo, PlayerId);
 
                     UI_InventoryItem FindItem = Managers.MyInventory.FindItem(EquipementItem._ItemInfo.ItemSmallCategory);
                     Managers.MyInventory.InitItem(FindItem);                 
