@@ -33,7 +33,7 @@ public class GameObjectAnimation : MonoBehaviour
     }
 
     public void PlayWeaponMeleeAttack()
-    {
+    {        
         _AgentAnimator.SetTrigger("IsWeaponMeleeAttack");
     }    
 
@@ -53,4 +53,9 @@ public class GameObjectAnimation : MonoBehaviour
             _AgentAnimator.SetTrigger("IsLeftDead");
         }        
     }    
+
+    public void DeadToIdle()
+    {
+        _AgentAnimator.SetTrigger("DeadToIdle");
+    }
 }
