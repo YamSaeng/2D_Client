@@ -90,55 +90,15 @@ public class UI_EquipmentBox : UI_Base
         return _EquipmentParts[(int)EquipmentPart];
     }
 
-    public void OnEquipmentItem(st_ItemInfo OnEquipmentItemInfo)
+    public void OnEquipmentItem(st_ItemInfo OnEquipmentItemInfo, long ObjectID)
     {
-        _EquipmentParts[(int)OnEquipmentItemInfo.ItemEquipmentPart].SetEquipment(OnEquipmentItemInfo);        
-
-        switch(OnEquipmentItemInfo.ItemLargeCategory)
-        {
-            case en_LargeItemCategory.ITEM_LARGE_CATEGORY_WEAPON:
-                PlayerWeapon RightWeaponParent = _OwnerObject.transform.Find("RightWeaponParent").GetComponent<PlayerWeapon>();
-                if(RightWeaponParent != null)
-                {                                     
-                    switch (OnEquipmentItemInfo.ItemSmallCategory)
-                    {
-                        case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
-                            Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_DAGGER_WOOD, RightWeaponParent.transform);
-                            break;
-                        case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:
-                            Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, RightWeaponParent.transform);
-                            break;
-                    }
-
-                    RightWeaponParent.OnWeapon();
-                }             
-                break;
-        }        
+        _EquipmentParts[(int)OnEquipmentItemInfo.ItemEquipmentPart].SetEquipment(OnEquipmentItemInfo);       
 
         EquipmentBoxRefreshUI();
     }
 
     public void OffEquipmentItem(en_EquipmentParts OffEquipmentParts)
     {
-        switch (_EquipmentParts[(int)OffEquipmentParts].GetEquipmentItemInfo().ItemLargeCategory)
-        {
-            case en_LargeItemCategory.ITEM_LARGE_CATEGORY_WEAPON:
-                PlayerWeapon RightWeapon = _OwnerObject.transform.Find("RightWeaponParent").GetComponent<PlayerWeapon>();
-                if (RightWeapon != null)
-                {                    
-                    switch(_EquipmentParts[(int)OffEquipmentParts].GetEquipmentItemInfo().ItemSmallCategory)
-                    {
-                        case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:                            
-                            Destroy(RightWeapon.transform.Find("WeaponLongSwordWood").gameObject);
-                            break;
-                    }
-
-                    RightWeapon.OffWeapon();                    
-                }
-
-                break;
-        }
-
         _EquipmentParts[(int)OffEquipmentParts].InitEquipmentItemUI();        
 
         EquipmentBoxRefreshUI();
