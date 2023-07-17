@@ -64,17 +64,26 @@ public class EquipmentBox
                             OffEquipmentItem(EquipmentItemInfo.ItemEquipmentPart);
                         }
 
+                        GameObject NewRightWeaponGO = null;
+
                         switch (EquipmentItemInfo.ItemSmallCategory)
                         {
                             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
-                                Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_DAGGER_WOOD, RightWeapon.transform);
+                                NewRightWeaponGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_DAGGER_WOOD, RightWeapon.transform);
                                 break;
                             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:
-                                Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, RightWeapon.transform);
+                                NewRightWeaponGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, RightWeapon.transform);
                                 break;
                         }
 
-                        RightWeapon.OnWeapon();
+                        if(NewRightWeaponGO != null)
+                        {
+                            Weapon NewRightWeapon = NewRightWeaponGO.GetComponent<Weapon>();
+                            if(NewRightWeapon != null)
+                            {
+                                RightWeapon.OnWeapon(NewRightWeapon);
+                            }
+                        }                        
                     }
                     break;
             }           
