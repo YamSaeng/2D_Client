@@ -24,8 +24,12 @@ public class UI_GlobalMessageBox : UI_Scene
     public void Update()
     {
         int GlobalMessageCount = _GlobalMessages.Count;
-        RectTransform GlobalMessageBoxRect = GetGameObject((int)en_GlobalMessageBoxGameObject.GlobalMessageBoxScroll).GetComponent<RectTransform>();
-        GlobalMessageBoxRect.sizeDelta = new Vector2(GlobalMessageBoxRect.rect.width, GlobalMessageCount * GLOBAL_MESSAGE_GAP);
+        GameObject GlobalMessageBoxGO = GetGameObject((int)en_GlobalMessageBoxGameObject.GlobalMessageBoxScroll);
+        if(GlobalMessageBoxGO != null)
+        {
+            RectTransform GlobalMessageBoxRect = GlobalMessageBoxGO.GetComponent<RectTransform>();
+            GlobalMessageBoxRect.sizeDelta = new Vector2(GlobalMessageBoxRect.rect.width, GlobalMessageCount * GLOBAL_MESSAGE_GAP);
+        }        
     }
 
     public void NewStatusAbnormalMessage(en_GlobalMessageType PersonalMessageType, string StatusAbnormalMessage)
