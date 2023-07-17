@@ -76,7 +76,7 @@ public class Weapon : MonoBehaviour
         {
             switch(_WeaponType)
             {   
-                case en_WeaponType.WEAPON_TYPE_MELEE:
+                case en_WeaponType.WEAPON_TYPE_MELEE:                    
                     OnAttack?.Invoke();
                     break;
                 case en_WeaponType.WEAPON_TYPE_RANGE:

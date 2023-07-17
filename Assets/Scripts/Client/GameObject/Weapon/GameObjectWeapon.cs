@@ -85,6 +85,16 @@ public class GameObjectWeapon : MonoBehaviour
         _Weapon = null;
     }
 
+    public void ChildWeaponDestory()
+    {
+        if(_Weapon != null)
+        {
+            Destroy(_Weapon.gameObject);
+
+            OffWeapon();
+        }
+    }
+
     // GameObjectInput OnDefaultAttackPressed 이벤트와 연결
     // 가지고 있는 무기로 공격 시도
     public void Attack()
