@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CItemObject : CreatureObject
+public class CItemObject : CBaseObject
 {
     public PlayerObject _Target;
     public en_ItemState _ItemState;    
