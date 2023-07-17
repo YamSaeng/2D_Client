@@ -40,8 +40,13 @@ public class UI_ItemGainBox : UI_Base
     public void Update()
     {
         int ItemGainCount = _ItemGains.Count;
-        RectTransform ItemGainBoxRect = GetGameObject((int)en_ItemGainBoxGameObject.ItemGainScrollBox).GetComponent<RectTransform>();
-        ItemGainBoxRect.sizeDelta = new Vector2(ItemGainBoxRect.rect.width, ItemGainCount * ITEM_GAIN_GAP);
+
+        GameObject ItemGainScrollBoxGO = GetGameObject((int)en_ItemGainBoxGameObject.ItemGainScrollBox);
+        if(ItemGainScrollBoxGO != null)
+        {
+            RectTransform ItemGainBoxRect = ItemGainScrollBoxGO.GetComponent<RectTransform>();
+            ItemGainBoxRect.sizeDelta = new Vector2(ItemGainBoxRect.rect.width, ItemGainCount * ITEM_GAIN_GAP);
+        }        
     }
 
     public void NewItemGainMessage(st_ItemInfo GainItemInfo, int Count)
