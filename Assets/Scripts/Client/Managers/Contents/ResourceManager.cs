@@ -36,8 +36,10 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_FURNACE, "CraftingTable/Furnace");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_CRAFTING_TABLE_SAWMILL, "CraftingTable/Sawmill");
 
+        _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_PARENT, "Weapon/WeaponParent");
         _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_DAGGER_WOOD, "Weapon/WeaponDaggerWood");
-        _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, "Weapon/WeaponLongSwordWood");        
+        _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, "Weapon/WeaponLongSwordWood");
+        _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_BOW_WOOD, "Weapon/WeaponBowWood");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_COLLISION_RECT, "Collision/RectCollision");
 
@@ -79,6 +81,7 @@ public class ResourceManager
                 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_LEATHER, "Item/Leather");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN, "Item/BronzeCoin");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_LOG, "Item/WoodLog");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_NAME, "UI/WorldHUD/UI_Name");
 
