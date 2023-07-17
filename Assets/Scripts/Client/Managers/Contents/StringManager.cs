@@ -39,7 +39,8 @@ public class StringManager
         _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_TWO, "두번째 단축키 2");        
         _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_THREE, "두번째 단축키 3");
         _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FOUR, "두번째 단축키 4");
-        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE, "두번째 단축키 5");        
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE, "두번째 단축키 5");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION, "상호작용 키");
     }
 
     private void LoadKeyCodeString()
