@@ -12,6 +12,9 @@ public class CBaseObject : MonoBehaviour
 
     [HideInInspector]
     public RectCollision _RectCollision;
+    
+    [HideInInspector]
+    public UI_Name _NameUI;
 
     protected UI_GameScene _GameSceneUI;
     // 상태이상 정보
@@ -107,7 +110,30 @@ public class CBaseObject : MonoBehaviour
                 }
             }
         }         
-    }  
+    }
+
+    public void CreatureSpriteShowClose(bool IsShowClose)
+    {
+        GameObjectRenderer CreatureRenderer = transform.Find("GameObjectRenderer")?.GetComponent<GameObjectRenderer>();
+        if (CreatureRenderer != null)
+        {
+            SpriteRenderer CreatureSprite = CreatureRenderer.GetComponent<SpriteRenderer>();
+            if (CreatureSprite != null)
+            {
+                CreatureSprite.enabled = IsShowClose;
+            }
+        }
+    }
+
+    protected void AddNameBar(float NameBarPositionX, float NameBarPositionY)
+    {
+        GameObject NameUIGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_NAME, transform);
+        NameUIGo.transform.localPosition = new Vector3(NameBarPositionX, NameBarPositionY, 0);
+        NameUIGo.name = "UI_NameBar";
+
+        _NameUI = NameUIGo.GetComponent<UI_Name>();
+        _NameUI.Init(_GameObjectInfo.ObjectName);
+    }
 
     // DissolveFeedback 완료시 반납
     public void ObjectReturn()

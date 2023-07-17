@@ -18,9 +18,7 @@ public class CreatureObject : CBaseObject
     public UI_SpeechBubble _SpeechBubbleUI;
 
     [HideInInspector]
-    public UI_HPBar _HPBarUI;
-    [HideInInspector]
-    public UI_Name _NameUI;
+    public UI_HPBar _HPBarUI;    
 
     [HideInInspector]
     public UI_SkillCastingBar _SkillCastingBarUI;
@@ -108,17 +106,7 @@ public class CreatureObject : CBaseObject
         SkillCastingBarGo.name = "UI_SkillCastingBar";
 
         _SkillCastingBarUI = SkillCastingBarGo.GetComponent<UI_SkillCastingBar>();
-    }
-
-    protected void AddNameBar(float NameBarPositionX, float NameBarPositionY)
-    {
-        GameObject NameUIGo = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_NAME, transform);
-        NameUIGo.transform.localPosition = new Vector3(NameBarPositionX, NameBarPositionY, 0);
-        NameUIGo.name = "UI_NameBar";
-
-        _NameUI = NameUIGo.GetComponent<UI_Name>();
-        _NameUI.Init(_GameObjectInfo.ObjectName);
-    }
+    }   
 
     protected void AddGatheringBar(float GatheringBarPositionX, float GatheringBarPositionY)
     {
@@ -238,19 +226,6 @@ public class CreatureObject : CBaseObject
         CreatureObjectWeaponShowClose(IsShowClose);
         CreatureObjectNameShowClose(IsShowClose);
         CreatureObjectHPBarShowClose(IsShowClose);
-    }
-
-    public void CreatureSpriteShowClose(bool IsShowClose)
-    {
-        GameObjectRenderer CreatureRenderer = transform.Find("GameObjectRenderer")?.GetComponent<GameObjectRenderer>();
-        if(CreatureRenderer != null)
-        {
-            SpriteRenderer CreatureSprite = CreatureRenderer.GetComponent<SpriteRenderer>();
-            if (CreatureSprite != null)
-            {                
-                CreatureSprite.enabled = IsShowClose;                
-            }
-        }       
     }    
 
     public void CreatureObjectWeaponShowClose(bool IsShowClose)
