@@ -165,28 +165,7 @@ public class ObjectManager
                 Goblin._GameObjectInfo = Info;
                 Goblin.Init();
 
-                Goblin.CreatureSpriteShowClose(true);
-
-                if (Goblin._GameObjectInfo.ObjectStatInfo.HP > 0)
-                {
-                    Goblin.CreatureObjectWeaponShowClose(true);
-                    Goblin.CreatureObjectNameShowClose(true);
-
-                    GameObject RightWeaponParent = Goblin.transform.Find("RightWeaponParent").gameObject;
-                    if (RightWeaponParent != null)
-                    {
-                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                        if (Weapon != null)
-                        {
-                            Weapon.Init();
-                        }
-                    }
-                }
-                else
-                {
-                    Goblin.CreatureObjectWeaponShowClose(false);
-                    Goblin.CreatureObjectNameShowClose(false);
-                }                
+                Goblin.CreatureSpriteShowClose(true);                     
 
                 Goblin.GetComponent<GameObjectMovement>().SetOwner(Goblin);                
                 return GoblinGO;            
@@ -439,19 +418,10 @@ public class ObjectManager
             //딕셔너리에서 제거후
             _Objects.Remove(RemoveId);
 
-            Transform RightWeaponParentTransform = Creature.transform.Find("RightWeaponParent");
-            if(RightWeaponParentTransform != null)
+            if(Creature._EquipmentBox != null)
             {
-                PlayerWeapon RightWeaponParent = RightWeaponParentTransform.GetComponent<PlayerWeapon>();
-                if (RightWeaponParent != null)
-                {
-                    GameObject RightWeaponGO = RightWeaponParent.transform.Find("WeaponLongSwordWood").gameObject;
-                    if (RightWeaponGO != null)
-                    {
-                        UnityEngine.Object.Destroy(RightWeaponGO);
-                    }
-                }
-            }           
+                Creature._EquipmentBox.WeaponDestroy();
+            }            
 
             switch (BaseObject._GameObjectInfo.ObjectType)
             {
