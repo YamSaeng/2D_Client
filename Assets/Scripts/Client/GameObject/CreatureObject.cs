@@ -31,6 +31,8 @@ public class CreatureObject : CBaseObject
     public UI_Inventory _InventoryUI { get; set; } // 가방 UI
 
     [HideInInspector]
+    public EquipmentBox _EquipmentBox { get; set; }
+    [HideInInspector]
     public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비 UI
 
     [HideInInspector]
@@ -49,11 +51,13 @@ public class CreatureObject : CBaseObject
     public UnityEvent OnDieEvent { get; set; }
 
     [field: SerializeField]
-
     public UnityEvent<bool> OnDieAnimationEvent { get; set; }    
+
     public override void Init()
     {
-        base.Init();            
+        base.Init();
+
+        _EquipmentBox = new EquipmentBox();
 
         switch (_GameObjectInfo.ObjectType)
         {
@@ -71,27 +75,7 @@ public class CreatureObject : CBaseObject
             case en_GameObjectType.OBJECT_GOBLIN:
                 StartCoroutine(SpawnEventCoroutine());
                 break;
-        }
-
-        Vector2 NewDirection = _GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
-
-        Vector2 NewFaceDirection = new Vector2(NewDirection.x + transform.position.x, NewDirection.y + transform.position.y);
-
-        GetComponentInChildren<GameObjectRenderer>()?.FaceDirection(NewFaceDirection);
-
-        Transform FindTransform = transform.Find("RightWeaponParent");
-        if (FindTransform != null)
-        {
-            GameObject RightWeaponParent = FindTransform.gameObject;
-            if (RightWeaponParent != null)
-            {
-                PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                if (Weapon != null)
-                {
-                    Weapon.AimWeapon(NewFaceDirection);
-                }
-            }
-        }
+        }        
 
         if(_HPBarUI != null)
         {
@@ -221,14 +205,21 @@ public class CreatureObject : CBaseObject
         _EquipmentBoxUI.EquipmentBoxUICreate(6);        
 
         _GameSceneUI._EquipmentBoxUI = _EquipmentBoxUI;
-        _GameSceneUI._EquipmentBoxUI.ShowCloseUI(false);        
+        _GameSceneUI._EquipmentBoxUI.ShowCloseUI(false);
+
+        EquipmentBoxCreate();
+    }
+
+    public void EquipmentBoxCreate()
+    {
+        _EquipmentBox.Init(this);
     }
 
     public void EquipmentBoxUIItemCreate(CItem[] EquipmentItems)
     {
         foreach (CItem EquipmentItem in EquipmentItems)
         {
-            _EquipmentBoxUI.OnEquipmentItem(EquipmentItem._ItemInfo);
+            _EquipmentBox.OnEquipmentItem(EquipmentItem._ItemInfo);            
         }                
     }
 
@@ -256,7 +247,7 @@ public class CreatureObject : CBaseObject
         {
             SpriteRenderer CreatureSprite = CreatureRenderer.GetComponent<SpriteRenderer>();
             if (CreatureSprite != null)
-            {   
+            {                
                 CreatureSprite.enabled = IsShowClose;                
             }
         }       
@@ -264,20 +255,16 @@ public class CreatureObject : CBaseObject
 
     public void CreatureObjectWeaponShowClose(bool IsShowClose)
     {
-        GameObject RightWeaponParent = transform.Find("RightWeaponParent")?.gameObject;
-        if (RightWeaponParent != null)
+        switch(_GameObjectInfo.ObjectPositionInfo.State)
         {
-            switch (_GameObjectInfo.ObjectPositionInfo.State)
-            {
-                case en_CreatureState.ROOTING:
-                case en_CreatureState.DEAD:
-                    RightWeaponParent.gameObject.SetActive(false);
-                    break;
-                default:
-                    RightWeaponParent.gameObject.SetActive(IsShowClose);
-                    break;
-            }
-        }
+            case en_CreatureState.ROOTING:
+            case en_CreatureState.DEAD:
+                _EquipmentBox.WeaponItemShowClose(false);
+                break;
+            default:
+                _EquipmentBox.WeaponItemShowClose(IsShowClose);
+                break;
+        }       
     }    
 
     public void CreatureObjectNameShowClose(bool IsShowClose)
@@ -294,8 +281,8 @@ public class CreatureObject : CBaseObject
         {
             _HPBarUI.gameObject.SetActive(IsShowClose);
         }        
-    }    
-    
+    }           
+
     public void SkillCastingStart(string SkillCastingName, float SkillCastingTime, float SkillCastingSpeed)
     {
         if (_SkillCastingBarUI != null)
@@ -308,9 +295,14 @@ public class CreatureObject : CBaseObject
         }
     }
 
+    public void CreatureObjectInit()
+    {
+        
+    }
+
     IEnumerator SpawnEventCoroutine()
     {
-        yield return new WaitForSeconds(0.1f);
-        OnSpawnEvent?.Invoke();      
+        yield return new WaitForSeconds(0.1f);        
+        OnSpawnEvent?.Invoke();             
     }
 }
