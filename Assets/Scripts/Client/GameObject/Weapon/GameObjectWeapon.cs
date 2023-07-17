@@ -73,10 +73,10 @@ public class GameObjectWeapon : MonoBehaviour
         }
     }
 
-    public void OnWeapon()
+    public void OnWeapon(Weapon NewWeapon)
     {
-        _WeaponRenderer = GetComponentInChildren<WeaponRenderer>();
-        _Weapon = GetComponentInChildren<Weapon>();
+        _WeaponRenderer = NewWeapon.GetComponent<WeaponRenderer>();
+        _Weapon = NewWeapon;        
     }
 
     public void OffWeapon()
