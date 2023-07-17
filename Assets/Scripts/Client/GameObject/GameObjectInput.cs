@@ -224,37 +224,33 @@ public class GameObjectInput : MonoBehaviour
 
             //Vector2 Direction = ((Vector2)ScreenMousePosition - (Vector2)transform.position).normalized;
 
-            Transform FindTransform = transform.Find("RightWeaponParent");
-            if (FindTransform != null)
+            GameObject RightWeaponGO = _OwnerObject._EquipmentBox.GetEquipmentItem(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND);
+            if(RightWeaponGO != null)
             {
-                GameObject RightWeaponParent = FindTransform.gameObject;
-                if (RightWeaponParent != null)
+                PlayerWeapon Weapon = RightWeaponGO.GetComponent<PlayerWeapon>();
+                if (Weapon != null)
                 {
-                    PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                    if (Weapon != null)
+                    if (_OwnerObject != null)
                     {
-                        if (_OwnerObject != null)
+                        float PreviouseAngle = Mathf.Rad2Deg * Mathf.Atan2(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y,
+                            _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x);
+
+                        _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton = Weapon.transform.right;
+
+                        float CurrentAngle = Mathf.Rad2Deg * Mathf.Atan2(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y,
+                            _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x);
+
+                        if (Mathf.Abs(Mathf.Abs(CurrentAngle) - Mathf.Abs(PreviouseAngle)) > 1.2f)
                         {
-                            float PreviouseAngle = Mathf.Rad2Deg * Mathf.Atan2(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y,
-                                _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x);
-                            
-                            _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton = Weapon.transform.right;
-
-                            float CurrentAngle = Mathf.Rad2Deg * Mathf.Atan2(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.y,
-                                _OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton.x);
-
-                            if (Mathf.Abs(Mathf.Abs(CurrentAngle) - Mathf.Abs(PreviouseAngle)) > 1.2f)
-                            {                                
-                                CMessage LookAtDirectionPacket = Packet.MakePacket.ReqMakeLookAtDirectionPacket(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton);
-                                Managers.NetworkManager.GameServerSend(LookAtDirectionPacket);                                
-                            }                            
-
-                            _OwnerObject._WeaponPosition.x = Weapon.transform.position.x;
-                            _OwnerObject._WeaponPosition.y = Weapon.transform.position.y;                                                      
+                            CMessage LookAtDirectionPacket = Packet.MakePacket.ReqMakeLookAtDirectionPacket(_OwnerObject._GameObjectInfo.ObjectPositionInfo.LookAtDireciton);
+                            Managers.NetworkManager.GameServerSend(LookAtDirectionPacket);
                         }
+
+                        _OwnerObject._WeaponPosition.x = Weapon.transform.position.x;
+                        _OwnerObject._WeaponPosition.y = Weapon.transform.position.y;
                     }
                 }
-            }            
+            }                   
 
             //CMessage ReqFaceDirectionPacket = Packet.MakePacket.ReqMakeFaceDirectionPacket(Direction.x, Direction.y);
             //Managers.NetworkManager.GameServerSend(ReqFaceDirectionPacket);
