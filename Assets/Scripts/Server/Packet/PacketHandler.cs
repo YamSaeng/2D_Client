@@ -338,6 +338,7 @@ namespace Packet
                     byte EquipmentCount;
                     S2C_CharacterInfoPacket.GetData(out EquipmentCount, sizeof(byte));
 
+                    // 장비 창 생성
                     FindGameObject.EquipmentBoxUICreate();
 
                     if (EquipmentCount > 0)
@@ -669,16 +670,19 @@ namespace Packet
             GameObject FindGO = Managers.Object.FindById(ObjectId);
             if (FindGO != null)
             {
-                CBaseObject FindPlayerObject = FindGO.GetComponent<CBaseObject>();
-                if (FindPlayerObject != null)
+                CreatureObject FindObject = FindGO.GetComponent<CreatureObject>();
+                if (FindObject != null)
                 {
-                    GameObject RightWeaponParent = FindPlayerObject.transform.Find("RightWeaponParent").gameObject;
-                    if (RightWeaponParent != null)
+                    if (FindObject._EquipmentBox != null)
                     {
-                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                        if (Weapon != null)
+                        GameObject RightWeaponGO = FindObject._EquipmentBox.GetEquipmentItem(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND);
+                        if (RightWeaponGO != null)
                         {
-                            Weapon.StopAttack();
+                            PlayerWeapon RightWeapon = RightWeaponGO.GetComponent<PlayerWeapon>();
+                            if (RightWeapon != null)
+                            {
+                                RightWeapon.StopAttack();
+                            }
                         }
                     }
                 }
@@ -833,19 +837,22 @@ namespace Packet
 
             GameObject FindGO = Managers.Object.FindById(ObjectId);
             if (FindGO != null)
-            {                
-                CBaseObject FindPlayerObject = FindGO.GetComponent<CBaseObject>();
-                if (FindPlayerObject != null)
-                {                    
-                    GameObject RightWeaponParent = FindPlayerObject.transform.Find("RightWeaponParent").gameObject;
-                    if (RightWeaponParent != null)
-                    {                        
-                        PlayerWeapon Weapon = RightWeaponParent.GetComponent<PlayerWeapon>();
-                        if (Weapon != null)
-                        {                            
-                            Weapon.Attack();
+            {
+                CreatureObject FindObject = FindGO.GetComponent<CreatureObject>();
+                if (FindObject != null)
+                {
+                    if (FindObject._EquipmentBox != null)
+                    {
+                        GameObject RightWeaponGO = FindObject._EquipmentBox.GetEquipmentItem(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND);
+                        if (RightWeaponGO != null)
+                        {
+                            PlayerWeapon RightWeapon = RightWeaponGO.GetComponent<PlayerWeapon>();
+                            if (RightWeapon != null)
+                            {
+                                RightWeapon.Attack();
+                            }
                         }
-                    }
+                    }                    
                 }
             }
         }
@@ -859,32 +866,52 @@ namespace Packet
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
             if(GameSceneUI != null)
             {
-                UI_EquipmentBox EquipmentBoxUI = GameSceneUI._EquipmentBoxUI;
-                if (EquipmentBoxUI != null)
+                for (int i = 0; i < SpawnObjectCount; i++)
                 {
-                    for (int i = 0; i < SpawnObjectCount; i++)
+                    st_GameObjectInfo GameObjectInfo = new st_GameObjectInfo();
+                    S2C_SpawnPacket.GetData(out GameObjectInfo);
+
+                    GameObject FindGameObject = Managers.Object.Add(GameObjectInfo);
+                    if (FindGameObject != null)
                     {
-                        st_GameObjectInfo GameObjectInfo = new st_GameObjectInfo();
-                        S2C_SpawnPacket.GetData(out GameObjectInfo);                        
-
-                        GameObject FindGameObject = Managers.Object.Add(GameObjectInfo);
-
-                        byte EquipmentCount;
-
-                        S2C_SpawnPacket.GetData(out EquipmentCount, sizeof(byte));
-
-                        for (int j = 0; j < EquipmentCount; j++)
+                        CreatureObject FindCreature = FindGameObject.GetComponent<CreatureObject>();
+                        if (FindCreature != null)
                         {
-                            st_Equipment EquipmentItem = new st_Equipment();
-
-                            S2C_SpawnPacket.GetData(out EquipmentItem);
-
-                            if (EquipmentItem.EquipmentItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
+                            if(FindCreature._EquipmentBox != null)
                             {
-                                EquipmentBoxUI.OnEquipmentItem(EquipmentItem.EquipmentItemInfo, GameObjectInfo.ObjectId);
-                            }
-                        }                        
-                    }                    
+                                FindCreature._EquipmentBox.Init(FindCreature);
+
+                                byte EquipmentCount;
+
+                                S2C_SpawnPacket.GetData(out EquipmentCount, sizeof(byte));
+
+                                for (int j = 0; j < EquipmentCount; j++)
+                                {
+                                    st_Equipment EquipmentItem = new st_Equipment();
+
+                                    S2C_SpawnPacket.GetData(out EquipmentItem);
+
+                                    if (EquipmentItem.EquipmentItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
+                                    {
+                                        FindCreature._EquipmentBox.OnEquipmentItem(EquipmentItem.EquipmentItemInfo);
+                                    }
+                                }
+
+                                if (FindCreature._GameObjectInfo.ObjectStatInfo.HP > 0)
+                                {
+                                    FindCreature.CreatureObjectWeaponShowClose(true);
+                                    FindCreature.CreatureObjectNameShowClose(true);
+
+                                    FindCreature._EquipmentBox.WeaponItemInit();    
+                                }
+                                else
+                                {
+                                    FindCreature.CreatureObjectWeaponShowClose(false);
+                                    FindCreature.CreatureObjectNameShowClose(false);
+                                }
+                            }                            
+                        }
+                    }
                 }
             }                        
 
@@ -1327,8 +1354,10 @@ namespace Packet
         public static void S2C_DieHandler(CMessage S2CDiePacket)
         {
             long DieObjectId;
+            byte DieObjectState;
 
             S2CDiePacket.GetData(out DieObjectId, sizeof(long));
+            S2CDiePacket.GetData(out DieObjectState, sizeof(byte));
 
             GameObject FindGameObject = Managers.Object.FindById(DieObjectId);
             if (FindGameObject != null)
@@ -1338,7 +1367,7 @@ namespace Packet
                 {
                     DieCreature._HP = 0;
 
-                    DieCreature._GameObjectInfo.ObjectPositionInfo.State = en_CreatureState.ROOTING;
+                    DieCreature._GameObjectInfo.ObjectPositionInfo.State = (en_CreatureState)DieObjectState;
 
                     DieCreature.OnDieEvent?.Invoke();
 
@@ -2447,19 +2476,18 @@ namespace Packet
             S2C_OnEquipmentMessage.GetData(out PlayerId, sizeof(long));
             S2C_OnEquipmentMessage.GetData(out EquipementItem);
 
-            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-            if (GameSceneUI != null)
+            GameObject FindGameObject = Managers.Object.FindById(PlayerId);
+            if (FindGameObject != null)
             {
-                UI_EquipmentBox EquipmentBoxUI = GameSceneUI._EquipmentBoxUI;
-
-                if (EquipmentBoxUI != null)
+                CreatureObject FindCreature = FindGameObject.GetComponent<CreatureObject>();
+                if (FindCreature != null)
                 {
-                    EquipmentBoxUI.OnEquipmentItem(EquipementItem._ItemInfo, PlayerId);
-
-                    UI_InventoryItem FindItem = Managers.MyInventory.FindItem(EquipementItem._ItemInfo.ItemSmallCategory);
-                    Managers.MyInventory.InitItem(FindItem);                 
+                    FindCreature._EquipmentBox.OnEquipmentItem(EquipementItem._ItemInfo);
                 }
             }
+
+            UI_InventoryItem FindItem = Managers.MyInventory.FindItem(EquipementItem._ItemInfo.ItemSmallCategory);
+            Managers.MyInventory.InitItem(FindItem);
 
             S2C_OnEquipmentMessage.Dispose();
         }
@@ -2472,11 +2500,15 @@ namespace Packet
             S2C_OffEquipmentMessage.GetData(out PlayerID, sizeof(long));
             S2C_OffEquipmentMessage.GetData(out OffEquipmentParts, sizeof(byte));
 
-            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-            if (GameSceneUI != null)
+            GameObject FindGameObject = Managers.Object.FindById(PlayerID);
+            if (FindGameObject != null)
             {
-                GameSceneUI._EquipmentBoxUI.OffEquipmentItem((en_EquipmentParts)OffEquipmentParts);
-            }
+                CreatureObject FindCreature = FindGameObject.GetComponent<CreatureObject>();
+                if (FindCreature != null)
+                {
+                    FindCreature._EquipmentBox.OffEquipmentItem((en_EquipmentParts)OffEquipmentParts);                    
+                }
+            }           
         }
 
         public static void S2C_ExperienceHandler(CMessage S2C_ExperienceMessage)
