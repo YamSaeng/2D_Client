@@ -40,7 +40,7 @@ public class UI_EquipmentItem : UI_Base
 
     private void OnEquipmentItemClick(PointerEventData EquipmentItemClickEvent)
     {
-        if(EquipmentItemClickEvent.button == PointerEventData.InputButton.Right)
+        if(_EquipmentItemInfo != null && EquipmentItemClickEvent.button == PointerEventData.InputButton.Right)
         {
             if(EquipmentItemClickEvent.clickCount == 1)
             {
