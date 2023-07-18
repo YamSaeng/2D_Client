@@ -81,6 +81,9 @@ public class KeyManager
                 case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE:
                     _QuickSlotBarBindingKeys.Add(BindingKey);
                     break;
+                case en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION:
+                    _UIBindingKeys.Add(BindingKey);
+                    break;
             }
         }
 
@@ -96,7 +99,7 @@ public class KeyManager
         _UIBindingKeys.Add(EnterChattingBindingKey);
     }
 
-    bool KeyBoardGetKeyActions(en_KeyCode eKeyCode)
+    public bool KeyBoardGetKeyActions(en_KeyCode eKeyCode)
     {
         bool IsKeyBoardKeyAction = false;
 
@@ -867,95 +870,7 @@ public class KeyManager
                     MoveDirecion.x = 1.0f;
                 }
             }                
-        }
-
-        if(_MoveUpKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_UP 
-            && _MoveLeftKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_LEFT)
-        {
-            if (KeyBoardGetKeyActions(_MoveUpKeyBinding.KeyCode))
-            {
-                MoveDirecion.y += 1.0f;
-                if (MoveDirecion.y > 0)
-                {
-                    MoveDirecion.y = 1.0f;
-                }
-            }
-
-            if (KeyBoardGetKeyActions(_MoveLeftKeyBinding.KeyCode))
-            {
-                MoveDirecion.x += -1.0f;
-                if (MoveDirecion.x < 0)
-                {
-                    MoveDirecion.x = -1.0f;
-                }
-            }           
-        }
-
-        if(_MoveUpKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_UP
-            && _MoveRightKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_RIGHT)
-        {
-            if (KeyBoardGetKeyActions(_MoveUpKeyBinding.KeyCode))
-            {
-                MoveDirecion.y += 1.0f;
-                if (MoveDirecion.y > 0)
-                {
-                    MoveDirecion.y = 1.0f;
-                }
-            }
-
-            if (KeyBoardGetKeyActions(_MoveRightKeyBinding.KeyCode))
-            {
-                MoveDirecion.x += 1.0f;
-                if (MoveDirecion.x > 0)
-                {
-                    MoveDirecion.x = 1.0f;
-                }
-            }
-        }
-
-        if(_MoveDownKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_DOWN
-            && _MoveLeftKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_LEFT)
-        {
-            if (KeyBoardGetKeyActions(_MoveDownKeyBinding.KeyCode))
-            {
-                MoveDirecion.y += -1.0f;
-                if (MoveDirecion.y < 0)
-                {
-                    MoveDirecion.y = -1.0f;
-                }
-            }
-
-            if (KeyBoardGetKeyActions(_MoveLeftKeyBinding.KeyCode))
-            {
-                MoveDirecion.x += -1.0f;
-                if (MoveDirecion.x < 0)
-                {
-                    MoveDirecion.x = -1.0f;
-                }
-            }
-        }
-
-        if(_MoveDownKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_DOWN
-            && _MoveRightKeyBinding.UserQuickSlot == en_UserQuickSlot.USER_KEY_QUICK_SLOT_MOVE_RIGHT)
-        {
-            if (KeyBoardGetKeyActions(_MoveDownKeyBinding.KeyCode))
-            {
-                MoveDirecion.y += -1.0f;
-                if (MoveDirecion.y < 0)
-                {
-                    MoveDirecion.y = -1.0f;
-                }
-            }
-
-            if (KeyBoardGetKeyActions(_MoveRightKeyBinding.KeyCode))
-            {
-                MoveDirecion.x += 1.0f;
-                if (MoveDirecion.x > 0)
-                {
-                    MoveDirecion.x = 1.0f;
-                }
-            }
-        }
+        }       
 
         GameObject FindObject = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId);
         if(FindObject != null)
@@ -1005,9 +920,9 @@ public class KeyManager
                         if (EquipmentItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
                         {
                             if (QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillKind == en_SkillKinds.SKILL_KIND_SPELL_SKILL)
-                            {
+                            {                                
                                 if (Player._GameObjectInfo.ObjectPositionInfo.MoveDireciton.magnitude == 0)
-                                {
+                                {                                    
                                     CMessage ReqQuickSlotPacket = Packet.MakePacket.ReqMakeSkillProcessPacket(
                                         QuickSlotBarSlotInfo.QuickSlotBarIndex,
                                         QuickSlotBarSlotInfo.QuickSlotBarSlotIndex,
@@ -1019,7 +934,7 @@ public class KeyManager
                                 }
                             }
                             else
-                            {
+                            {                                
                                 CMessage ReqQuickSlotPacket = Packet.MakePacket.ReqMakeSkillProcessPacket(
                                         QuickSlotBarSlotInfo.QuickSlotBarIndex,
                                         QuickSlotBarSlotInfo.QuickSlotBarSlotIndex,
