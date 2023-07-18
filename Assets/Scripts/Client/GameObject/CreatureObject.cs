@@ -55,7 +55,10 @@ public class CreatureObject : CBaseObject
     {
         base.Init();
 
-        _EquipmentBox = new EquipmentBox();
+        if(_EquipmentBox == null)
+        {
+            _EquipmentBox = new EquipmentBox();
+        }      
 
         switch (_GameObjectInfo.ObjectType)
         {
