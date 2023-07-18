@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipmentBox
 {
+    private bool IsInit = false;
+
     private UI_GameScene _GameScene;
 
     public CreatureObject _OwnerObject;
@@ -14,35 +16,40 @@ public class EquipmentBox
 
     public void Init(CreatureObject OwnerObject)
     {
-        _GameScene = Managers.UI._SceneUI as UI_GameScene;
-        
         _OwnerObject = OwnerObject;
-
-        _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_HEAD, null);
-        _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_BODY, null);
-        _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND, null);
-        _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND, null);
-        _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_BOOT, null);
-
-        _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_HEAD, null);
-        _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_BODY, null);
-        _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND, Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_PARENT, _OwnerObject.transform));
-        _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND, Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_PARENT, _OwnerObject.transform));
-        _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_BOOT, null);
-
-        _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND].gameObject.name = "LeftHandWeapon";
-        _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND].gameObject.name = "RightHandWeapon";        
-
-        PlayerWeapon RightWeapon = _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND].GetComponent<PlayerWeapon>();
         
-        GameObjectInput OwnerObjectInput = _OwnerObject.GetComponent<GameObjectInput>();
-        if(OwnerObjectInput != null)
+        if (!IsInit)
         {
-            OwnerObjectInput.OnPointerPositionChange.AddListener(RightWeapon.AimWeapon);
-            OwnerObjectInput.OnS2CPointerPositionChange.AddListener(RightWeapon.S2C_AimWeapon);
-            OwnerObjectInput.OnDefaultAttackPressed.AddListener(RightWeapon.Attack);
-            OwnerObjectInput.OnDefaultAttackReleased.AddListener(RightWeapon.StopAttack);
-        }
+            IsInit = true;
+
+            _GameScene = Managers.UI._SceneUI as UI_GameScene;
+
+            _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_HEAD, null);
+            _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_BODY, null);
+            _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND, null);
+            _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND, null);
+            _EquipmentParts.Add(en_EquipmentParts.EQUIPMENT_PARTS_BOOT, null);
+
+            _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_HEAD, null);
+            _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_BODY, null);
+            _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND, Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_PARENT, _OwnerObject.transform));
+            _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND, Managers.Resource.Instantiate(en_ResourceName.CLIENT_WEAPON_PARENT, _OwnerObject.transform));
+            _EquipemtPartsItem.Add(en_EquipmentParts.EQUIPMENT_PARTS_BOOT, null);
+
+            _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND].gameObject.name = "LeftHandWeapon";
+            _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND].gameObject.name = "RightHandWeapon";
+
+            PlayerWeapon RightWeapon = _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND].GetComponent<PlayerWeapon>();
+
+            GameObjectInput OwnerObjectInput = _OwnerObject.GetComponent<GameObjectInput>();
+            if (OwnerObjectInput != null)
+            {
+                OwnerObjectInput.OnPointerPositionChange.AddListener(RightWeapon.AimWeapon);
+                OwnerObjectInput.OnS2CPointerPositionChange.AddListener(RightWeapon.S2C_AimWeapon);
+                OwnerObjectInput.OnDefaultAttackPressed.AddListener(RightWeapon.Attack);
+                OwnerObjectInput.OnDefaultAttackReleased.AddListener(RightWeapon.StopAttack);
+            }
+        }        
     }
 
     // 장비 착용
@@ -60,8 +67,11 @@ public class EquipmentBox
                     {
                         // 착용하고 있는 장비가 있을 경우 기존 장비는 파괴
                         if (_EquipemtPartsItem[EquipmentItemInfo.ItemEquipmentPart] != null)
-                        {
-                            OffEquipmentItem(EquipmentItemInfo.ItemEquipmentPart);
+                        {                            
+                            if(RightWeapon._Weapon != null)
+                            {
+                                OffEquipmentItem(EquipmentItemInfo.ItemEquipmentPart);
+                            }                            
                         }
 
                         GameObject NewRightWeaponGO = null;
@@ -101,10 +111,10 @@ public class EquipmentBox
 
     // 장비 벗기
     public void OffEquipmentItem(en_EquipmentParts OffEquipmentPart)
-    {
+    {        
         if(_EquipemtPartsItem[OffEquipmentPart] != null)
         {
-            switch(OffEquipmentPart)
+            switch (OffEquipmentPart)
             {
                 case en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND:
                     GameObjectWeapon RightWeapon = _EquipemtPartsItem[OffEquipmentPart].GetComponent<GameObjectWeapon>();
@@ -113,7 +123,9 @@ public class EquipmentBox
                         RightWeapon.ChildWeaponDestory();
                     }
                     break;
-            }            
+            }
+
+            _EquipmentParts[OffEquipmentPart] = null;
         }                
 
         // 장비창 업데이트
@@ -183,6 +195,7 @@ public class EquipmentBox
         if(RightWeaponGO != null)
         {
             GameObject RightWeapon = null;
+
             switch (_EquipmentParts[en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND].ItemSmallCategory)
             {
                 case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
