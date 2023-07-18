@@ -410,18 +410,18 @@ public class ObjectManager
             if (Creature != null)
             {
                 Creature.CreatureShowClose(false);
+
+                if (Creature._EquipmentBox != null)
+                {
+                    Creature._EquipmentBox.WeaponDestroy();
+                }
             }
 
             CPoolObject PoolObject = new CPoolObject();
             PoolObject.Object = RemoveGo;            
 
             //딕셔너리에서 제거후
-            _Objects.Remove(RemoveId);
-
-            if(Creature._EquipmentBox != null)
-            {
-                Creature._EquipmentBox.WeaponDestroy();
-            }            
+            _Objects.Remove(RemoveId);            
 
             switch (BaseObject._GameObjectInfo.ObjectType)
             {
