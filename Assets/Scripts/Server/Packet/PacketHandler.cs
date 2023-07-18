@@ -1352,7 +1352,7 @@ namespace Packet
         }
 
         public static void S2C_DieHandler(CMessage S2CDiePacket)
-        {
+        {            
             long DieObjectId;
             byte DieObjectState;
 
@@ -1372,7 +1372,6 @@ namespace Packet
                     DieCreature.OnDieEvent?.Invoke();
 
                     // Flip = false 오른쪽 Flip = true  왼쪽
-
                     GameObjectRenderer CreatureRenderer = DieCreature.transform.Find("GameObjectRenderer").GetComponent<GameObjectRenderer>();
                     if (CreatureRenderer != null)
                     {
@@ -1381,6 +1380,11 @@ namespace Packet
                         {
                             DieCreature.OnDieAnimationEvent?.Invoke(Sprite.flipX);
                         }
+                    }
+
+                    if(DieCreature._EquipmentBox != null)
+                    {
+                        DieCreature._EquipmentBox.WeaponDestroy();
                     }
 
                     UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
