@@ -8,7 +8,7 @@ public class GameObjectWeapon : MonoBehaviour
     [SerializeField]
     protected WeaponRenderer _WeaponRenderer;
     [SerializeField]
-    protected Weapon _Weapon;
+    public Weapon _Weapon;
 
     protected float _DesiredAngle;
 
