@@ -16,14 +16,14 @@ public class CGoblinObject : CreatureObject
         if (_NameUI == null)
         {
             AddNameBar(0, 0.35f);
-        }
-    }
+        }        
+    }    
 
     protected override void UpdateController()
     {
         Transform RendererTransform = transform.Find("GameObjectRenderer");
 
-        GameObject RightWeaponGO = _EquipmentBox.GetEquipmentItem(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND);        
+        GameObject RightWeaponGO = _EquipmentBox?.GetEquipmentItem(en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND);        
 
         Vector2 LookAtPosition = gameObject.transform.position + (Vector3)_GameObjectInfo.ObjectPositionInfo.LookAtDireciton;
 
