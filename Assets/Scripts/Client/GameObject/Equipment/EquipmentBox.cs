@@ -199,14 +199,17 @@ public class EquipmentBox
             switch (_EquipmentParts[en_EquipmentParts.EQUIPMENT_PARTS_RIGHT_HAND].ItemSmallCategory)
             {
                 case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_DAGGER_WOOD:
-                    RightWeapon = RightWeaponGO.transform.Find("WeaponDaggerWood").gameObject;                    
+                    RightWeapon = RightWeaponGO.transform.Find("WeaponDaggerWood")?.gameObject;                    
                     break;
                 case en_SmallItemCategory.ITEM_SMALL_CATEGORY_WEAPON_LONG_SWORD_WOOD:
-                    RightWeapon = RightWeaponGO.transform.Find("WeaponLongSwordWood").gameObject;
+                    RightWeapon = RightWeaponGO.transform.Find("WeaponLongSwordWood")?.gameObject;
                     break;
             }
 
-            Object.Destroy(RightWeapon.gameObject);
+            if(RightWeapon != null)
+            {
+                Object.Destroy(RightWeapon.gameObject);
+            }
         }
 
         GameObject LeftWeaponGO = _EquipemtPartsItem[en_EquipmentParts.EQUIPMENT_PARTS_LEFT_HAND];
