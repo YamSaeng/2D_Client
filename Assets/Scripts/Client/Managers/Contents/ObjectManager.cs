@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObjectManager
@@ -535,5 +536,10 @@ public class ObjectManager
         }
 
         _Objects.Clear();
+    }
+
+    public List<GameObject> GetObjects()
+    {
+        return _Objects.Values.ToList();
     }
 }
