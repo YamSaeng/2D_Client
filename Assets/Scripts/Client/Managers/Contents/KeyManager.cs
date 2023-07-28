@@ -81,6 +81,9 @@ public class KeyManager
                 case en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE:
                     _QuickSlotBarBindingKeys.Add(BindingKey);
                     break;
+                case en_UserQuickSlot.USER_KEY_QUICK_SLOT_FIND_AROUND_OBJECT:
+                    _UIBindingKeys.Add(BindingKey);
+                    break;
                 case en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION:
                     _UIBindingKeys.Add(BindingKey);
                     break;
@@ -800,8 +803,20 @@ public class KeyManager
                     IsKeyBoardKeyAction = true;
                 }
                 break;
+            case en_KeyCode.KEY_CODE_F:
+                if(Input.GetKeyDown(KeyCode.F))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;                
             case en_KeyCode.KEY_CODE_ESCAPE:
                 if(Input.GetKeyDown(KeyCode.Escape))
+                {
+                    IsKeyBoardKeyAction = true;
+                }
+                break;
+            case en_KeyCode.KEY_CODE_TAB:
+                if(Input.GetKeyDown(KeyCode.Tab))
                 {
                     IsKeyBoardKeyAction = true;
                 }
@@ -1000,6 +1015,11 @@ public class KeyManager
                                 break;
                             case en_UserQuickSlot.USER_KEY_QUICK_SLOT_UI_EQUIPMENT_BOX:
                                 GOInput.OnEquipmentUIOpen?.Invoke();
+                                break;
+                            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION:
+                                break;
+                            case en_UserQuickSlot.USER_KEY_QUICK_SLOT_FIND_AROUND_OBJECT:
+                                Player.FindAroundObject();                                                              
                                 break;
                             case en_UserQuickSlot.USER_KEY_ESCAPE:
                                 if (GameSceneUI.IsGameSceneUIStackEmpty() == true)
