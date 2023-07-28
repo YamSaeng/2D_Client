@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class UI_GameScene : UI_Scene
-{    
+{
+    public GameObject _Object;
     public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비창 UI    
     public UI_InventoryItemDivide _InventoryItemDivideUI {  get; set; } // 아이템 분배 UI
     public UI_TargetHUD _TargetHUDUI { get; set; } // Target HUD UI
@@ -34,7 +35,7 @@ public class UI_GameScene : UI_Scene
     public UI_PartyPlayerOption _PartyPlayerOptionUI { get; private set; }
     public UI_PartyReaction _PartyReactionUI { get; private set; }
     public UI_QuickSlotKey _QuickSlotKeyUI { get; private set; }
-
+    public UI_Interaction _InteractionUI { get; private set; }
     public override void ShowCloseUI(bool IsShowClose)
     {
         throw new System.NotImplementedException();
@@ -43,6 +44,12 @@ public class UI_GameScene : UI_Scene
     public override void Init()
     {
         base.Init();
+
+        _Object = new GameObject();
+        if(_Object != null)
+        {
+            _Object.name = "@Object";
+        }
     }        
 
     public override void Binding()
@@ -122,6 +129,10 @@ public class UI_GameScene : UI_Scene
         GameObject QuickSlotKeyGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_QUICK_SLOT_KEY, this.transform);
         _QuickSlotKeyUI = QuickSlotKeyGO.GetComponent<UI_QuickSlotKey>();
         _QuickSlotKeyUI.Binding();
+        
+        GameObject InteractionGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INTERACTION, this.transform);
+        _InteractionUI = InteractionGO.GetComponent<UI_Interaction>();
+        _InteractionUI.Binding();
 
         Camera MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         MainCamera.orthographicSize = 6;
@@ -214,7 +225,7 @@ public class UI_GameScene : UI_Scene
         }
 
         return null;
-    }        
+    }            
 
     private void Update()
     {
