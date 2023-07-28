@@ -40,7 +40,8 @@ public class StringManager
         _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_THREE, "두번째 단축키 3");
         _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FOUR, "두번째 단축키 4");
         _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_TWO_FIVE, "두번째 단축키 5");
-        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION, "상호작용 키");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_FIND_AROUND_OBJECT, "주변 탐색");
+        _UserQuickSlotString.Add(en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION, "상호작용 키");        
     }
 
     private void LoadKeyCodeString()
@@ -193,6 +194,8 @@ public class StringManager
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_CAPSLOCK, "CapsLock");
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_CTRL_CAPSLOCK, "Ctrl + CapsLock");
         _KeyCodeString.Add(en_KeyCode.KEY_CODE_ALT_CAPSLOCK, "Alt + CapsLock");
+
+        _KeyCodeString.Add(en_KeyCode.KEY_CODE_TAB, "Tab");
     }
 
     private void LoadSkillExplanationString()
