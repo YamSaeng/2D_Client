@@ -145,6 +145,7 @@ public enum en_CreatureState
     ATTACK,
     SPELL,
     GATHERING,
+    CRAFTING,
     ROOTING,
     DEAD
 };
@@ -365,7 +366,9 @@ public enum en_UserQuickSlot
     USER_KEY_QUICK_SLOT_TWO_FOUR,
     USER_KEY_QUICK_SLOT_TWO_FIVE,
 
-    USER_KEY_QUICK_SLOT_INTERACTION,
+    USER_KEY_QUICK_SLOT_FIND_AROUND_OBJECT,
+
+    USER_KEY_QUICK_SLOT_INTERACTION,    
 
     USER_KEY_ESCAPE,
     USER_KEY_ENTER_CHATTING
@@ -524,7 +527,8 @@ public enum en_KeyCode
     KEY_CODE_ALT_CAPSLOCK,
 
     KEY_CODE_ESCAPE,
-    KEY_CODE_ENTER
+    KEY_CODE_ENTER,
+    KEY_CODE_TAB
 }
 
 public class st_BindingKey
@@ -844,6 +848,8 @@ public enum en_ResourceName
     CLIENT_UI_NAME,
 
     CLIENT_UI_SPEECH_BUBBLE,
+
+    CLIENT_UI_INTERACTION,
 
     CLIENT_UI_SCENE_LOGIN,
     CLIENT_UI_SCENE_GAME,
