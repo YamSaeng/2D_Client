@@ -98,16 +98,20 @@ public class GameObjectInput : MonoBehaviour
                 CBaseObject HitObject = Hit.transform.GetComponent<CBaseObject>();
                 if(HitObject != null)
                 {
-                    switch(HitObject._GameObjectInfo.ObjectType)
+                    if(HitObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.ROOTING
+                        && HitObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.DEAD)
                     {
-                        case en_GameObjectType.OBJECT_PLAYER:
-                        case en_GameObjectType.OBJECT_GOBLIN:
-                            CMessage ReqLeftMousePositionObjectInfoPacket = Packet.MakePacket.ReqMakeLeftMouseWorldObjectInfoPacket(                                
-                                HitObject._GameObjectInfo.ObjectId,
-                                HitObject._GameObjectInfo.ObjectType);
-                            Managers.NetworkManager.GameServerSend(ReqLeftMousePositionObjectInfoPacket);
-                            break;
-                    }
+                        switch (HitObject._GameObjectInfo.ObjectType)
+                        {
+                            case en_GameObjectType.OBJECT_PLAYER:
+                            case en_GameObjectType.OBJECT_GOBLIN:
+                                CMessage ReqLeftMousePositionObjectInfoPacket = Packet.MakePacket.ReqMakeLeftMouseWorldObjectInfoPacket(
+                                    HitObject._GameObjectInfo.ObjectId,
+                                    HitObject._GameObjectInfo.ObjectType);
+                                Managers.NetworkManager.GameServerSend(ReqLeftMousePositionObjectInfoPacket);
+                                break;
+                        }
+                    }                    
                 }                
             }
             else
