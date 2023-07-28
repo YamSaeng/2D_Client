@@ -103,6 +103,8 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_OPTION, "UI/Option/UI_Option");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_OPTION_ITEM, "UI/Option/UI_OptionItem");
 
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_INTERACTION, "UI/Interaction/UI_Interaction");
+
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DAY, "Day/DayManager");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_MAP_MAIN_FIELD, "Map/MainField");
