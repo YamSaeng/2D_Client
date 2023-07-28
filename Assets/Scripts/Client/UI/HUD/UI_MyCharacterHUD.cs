@@ -46,7 +46,7 @@ public class UI_MyCharacterHUD : UI_Base
         Bind<TextMeshProUGUI>(typeof(en_MyCharacterHUDText));
         Bind<GameObject>(typeof(en_MyCharacterHUDGameObject));
 
-        GetComponent<RectTransform>().localPosition = new Vector3(-380.0f, -200.0f, 0);
+        GetComponent<RectTransform>().localPosition = new Vector3(-380.0f, -150.0f, 0);
     }
 
     public override void ShowCloseUI(bool IsShowClose)

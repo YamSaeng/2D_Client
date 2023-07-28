@@ -56,7 +56,7 @@ public class UI_TargetHUD : UI_Base
         Bind<Slider>(typeof(en_TargetHUDSlider));
         Bind<TextMeshProUGUI>(typeof(en_TextHUDText));
 
-        GetComponent<RectTransform>().localPosition = new Vector3(380.0f, -200.0f, 0);
+        GetComponent<RectTransform>().localPosition = new Vector3(380.0f, -150.0f, 0);
     }
 
     public void TargetHUDUpdate()
@@ -93,6 +93,8 @@ public class UI_TargetHUD : UI_Base
         _TargetObject = Target;
         
         gameObject.SetActive(true);
+
+        gameObject.transform.SetAsLastSibling();
 
         if (_TargetObject._GameObjectInfo.ObjectStatInfo.MaxDP == 0)
         {
@@ -226,8 +228,11 @@ public class UI_TargetHUD : UI_Base
         if(_TargetObject != null)
         {
             if(_TargetObject._GameObjectInfo.ObjectId == Managers.NetworkManager._PlayerDBId)
-            {
-                GetTextMeshPro((int)en_TextHUDText.TargetDistanceText).text = "";
+            {                
+                if(GetTextMeshPro((int)en_TextHUDText.TargetDistanceText))
+                {
+                    GetTextMeshPro((int)en_TextHUDText.TargetDistanceText).text = "";
+                }                
             }
             else
             {
