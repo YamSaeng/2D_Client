@@ -549,8 +549,7 @@ namespace Packet
             long TargetId;
             byte SkillKind;
             short ResourceType;
-            int DamagePoint;
-            int HP;
+            int DamagePoint;            
             bool IsCritical;
 
             S2C_CommonDamagePacket.GetData(out AttackID, sizeof(long));
@@ -594,12 +593,17 @@ namespace Packet
                         if (FindTargetCreature._HPBarUI != null)
                         {
                             FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP -= DamagePoint;
+                            if(FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP < 0)
+                            {
+                                FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP = 0;
+                            }
+
                             FindTargetCreature.UpdateHPBar();
 
                             if (FindTargetCreature._GameObjectInfo.ObjectStatInfo.HP > 0)
                             {
                                 FindTargetCreature._HPBarUI.ActiveChoiceUI(true);
-                            }
+                            }                            
                         }
 
                         // 데미지 적용 대상이 나일 경우
@@ -877,6 +881,19 @@ namespace Packet
                         CreatureObject FindCreature = FindGameObject.GetComponent<CreatureObject>();
                         if (FindCreature != null)
                         {
+                            if(FindCreature._GameObjectInfo.ObjectPositionInfo.State == en_CreatureState.ROOTING)
+                            {
+                                float Dot = Vector2.Dot(Vector2.up, FindCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton);
+                                if(Dot > 0)
+                                {
+                                    FindCreature.OnDieAnimationEvent?.Invoke(false);
+                                }                                
+                                else
+                                {
+                                    FindCreature.OnDieAnimationEvent?.Invoke(true);
+                                }
+                            }
+
                             if(FindCreature._EquipmentBox != null)
                             {
                                 FindCreature._EquipmentBox.Init(FindCreature);
@@ -1015,83 +1032,86 @@ namespace Packet
             if (FindObject != null)
             {
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-                UI_TargetHUD TargetHUDUI = GameSceneUI._TargetHUDUI;
-                if (TargetHUDUI != null)
+                if(GameSceneUI != null)
                 {
-                    TargetHUDUI.TargetHUDOn(FindObject);
+                    GameSceneUI._InteractionUI.SetInteractionInfoText(FindObject._GameObjectInfo.ObjectType, FindObject._GameObjectInfo.ObjectId);
 
-                    GameSceneUI.AddGameSceneUIStack(TargetHUDUI);
-
-                    TargetHUDUI.gameObject.transform.SetAsLastSibling();
-
-                    CreatureObject CC = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<CreatureObject>();
-                    if (CC != null)
+                    UI_TargetHUD TargetHUDUI = GameSceneUI._TargetHUDUI;
+                    if (TargetHUDUI != null)
                     {
-                        CC._SelectTargetObjectInfo = FindObject._GameObjectInfo;
-                    }
+                        TargetHUDUI.TargetHUDOn(FindObject);
 
-                    TargetHUDUI.TargetHUDUpdate();
-                    TargetHUDUI.TargetHUDBufDebufEmpty();
+                        GameSceneUI.AddGameSceneUIStack(TargetHUDUI);
 
-                    for (int i = 0; i < BufSkillInfos.Length; i++)
-                    {
-                        if (FindObject._Bufs.Count > 0)
+                        CreatureObject CC = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<CreatureObject>();
+                        if (CC != null)
                         {
-                            st_SkillInfo FindBufSkillInfo = FindObject._Bufs.Values
-                            .FirstOrDefault(BufItem => BufItem.SkillType == BufSkillInfos[i].SkillType);
-                            if (FindBufSkillInfo != null)
+                            CC._SelectTargetObjectInfo = FindObject._GameObjectInfo;
+                        }
+
+                        TargetHUDUI.TargetHUDUpdate();
+                        TargetHUDUI.TargetHUDBufDebufEmpty();
+
+                        for (int i = 0; i < BufSkillInfos.Length; i++)
+                        {
+                            if (FindObject._Bufs.Count > 0)
                             {
-                                st_SkillInfo FindBufValue;
-                                FindObject._Bufs.TryGetValue(BufSkillInfos[i].SkillType, out FindBufValue);
-                                FindObject._Bufs[BufSkillInfos[i].SkillType] = BufSkillInfos[i];
+                                st_SkillInfo FindBufSkillInfo = FindObject._Bufs.Values
+                                .FirstOrDefault(BufItem => BufItem.SkillType == BufSkillInfos[i].SkillType);
+                                if (FindBufSkillInfo != null)
+                                {
+                                    st_SkillInfo FindBufValue;
+                                    FindObject._Bufs.TryGetValue(BufSkillInfos[i].SkillType, out FindBufValue);
+                                    FindObject._Bufs[BufSkillInfos[i].SkillType] = BufSkillInfos[i];
+                                }
+                                else
+                                {
+                                    FindObject._Bufs.Add(BufSkillInfos[i].SkillType, BufSkillInfos[i]);
+                                }
                             }
                             else
                             {
                                 FindObject._Bufs.Add(BufSkillInfos[i].SkillType, BufSkillInfos[i]);
                             }
                         }
-                        else
-                        {
-                            FindObject._Bufs.Add(BufSkillInfos[i].SkillType, BufSkillInfos[i]);
-                        }
-                    }
 
-                    for (int i = 0; i < DeBufSkillInfos.Length; i++)
-                    {
-
-                        if (FindObject._DeBufs.Count > 0)
+                        for (int i = 0; i < DeBufSkillInfos.Length; i++)
                         {
-                            st_SkillInfo FindDeBufSkillInfo = FindObject._DeBufs.Values
-                            .FirstOrDefault(DeBufItem => DeBufItem.SkillType == DeBufSkillInfos[i].SkillType);
-                            if (FindDeBufSkillInfo != null)
+
+                            if (FindObject._DeBufs.Count > 0)
                             {
-                                st_SkillInfo FindDefValue;
-                                FindObject._DeBufs.TryGetValue(DeBufSkillInfos[i].SkillType, out FindDefValue);
-                                FindObject._DeBufs[DeBufSkillInfos[i].SkillType] = DeBufSkillInfos[i];
+                                st_SkillInfo FindDeBufSkillInfo = FindObject._DeBufs.Values
+                                .FirstOrDefault(DeBufItem => DeBufItem.SkillType == DeBufSkillInfos[i].SkillType);
+                                if (FindDeBufSkillInfo != null)
+                                {
+                                    st_SkillInfo FindDefValue;
+                                    FindObject._DeBufs.TryGetValue(DeBufSkillInfos[i].SkillType, out FindDefValue);
+                                    FindObject._DeBufs[DeBufSkillInfos[i].SkillType] = DeBufSkillInfos[i];
+                                }
+                                else
+                                {
+                                    FindObject._DeBufs.Add(DeBufSkillInfos[i].SkillType, DeBufSkillInfos[i]);
+                                }
                             }
                             else
                             {
                                 FindObject._DeBufs.Add(DeBufSkillInfos[i].SkillType, DeBufSkillInfos[i]);
                             }
                         }
-                        else
+
+                        // 위에서 설정한 정보를 토대로 Buf, DebufUI 업데이트
+
+                        for (int i = 0; i < BufSkillInfos.Length; i++)
                         {
-                            FindObject._DeBufs.Add(DeBufSkillInfos[i].SkillType, DeBufSkillInfos[i]);
+                            TargetHUDUI.TargetHUDBufUpdate(BufSkillInfos[i].SkillType);
+                        }
+
+                        for (int i = 0; i < DeBufSkillInfos.Length; i++)
+                        {
+                            TargetHUDUI.TargetHUDDeBufUpdate(DeBufSkillInfos[i].SkillType);
                         }
                     }
-
-                    // 위에서 설정한 정보를 토대로 Buf, DebufUI 업데이트
-
-                    for (int i = 0; i < BufSkillInfos.Length; i++)
-                    {
-                        TargetHUDUI.TargetHUDBufUpdate(BufSkillInfos[i].SkillType);
-                    }
-
-                    for (int i = 0; i < DeBufSkillInfos.Length; i++)
-                    {
-                        TargetHUDUI.TargetHUDDeBufUpdate(DeBufSkillInfos[i].SkillType);
-                    }
-                }
+                }                
             }
 
             if (PreviousChoiceObjectId != 0)
@@ -1113,7 +1133,7 @@ namespace Packet
             }
 
             FindObject._NameUI.ActiveChoiceUI(true);
-            FindObject._HPBarUI.SelectTargetHPBar(true);
+            FindObject._HPBarUI.SelectTargetHPBar(true);            
 
             S2C_LeftMousePositionObjectInfoPacket.Dispose();
         }
@@ -1377,8 +1397,16 @@ namespace Packet
                     {
                         SpriteRenderer Sprite = CreatureRenderer.GetComponent<SpriteRenderer>();
                         if (Sprite != null)
-                        {
-                            DieCreature.OnDieAnimationEvent?.Invoke(Sprite.flipX);
+                        {                            
+                            float Dot = Vector2.Dot(Vector2.up, DieCreature._GameObjectInfo.ObjectPositionInfo.LookAtDireciton);
+                            if(Dot > 0)
+                            {
+                                DieCreature.OnDieAnimationEvent?.Invoke(false);
+                            }
+                            else
+                            {
+                                DieCreature.OnDieAnimationEvent?.Invoke(true);
+                            }                            
                         }
                     }
 
@@ -2152,8 +2180,7 @@ namespace Packet
         public static void S2C_SkillLearn(CMessage S2C_SkillLearnMessage)
         {
             bool IsSkillLearn;
-            byte LearnSkillSize;
-            short LearnSkillType;
+            byte LearnSkillSize;            
             byte SkillMaxPoint;
             byte SkillPoint;
 
