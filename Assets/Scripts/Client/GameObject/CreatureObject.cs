@@ -233,16 +233,19 @@ public class CreatureObject : CBaseObject
 
     public void CreatureObjectWeaponShowClose(bool IsShowClose)
     {
-        switch(_GameObjectInfo.ObjectPositionInfo.State)
+        if(_EquipmentBox != null)
         {
-            case en_CreatureState.ROOTING:
-            case en_CreatureState.DEAD:
-                _EquipmentBox.WeaponItemShowClose(false);
-                break;
-            default:
-                _EquipmentBox.WeaponItemShowClose(IsShowClose);
-                break;
-        }       
+            switch (_GameObjectInfo.ObjectPositionInfo.State)
+            {
+                case en_CreatureState.ROOTING:
+                case en_CreatureState.DEAD:
+                    _EquipmentBox.WeaponItemShowClose(false);
+                    break;
+                default:
+                    _EquipmentBox.WeaponItemShowClose(IsShowClose);
+                    break;
+            }
+        }        
     }    
 
     public void CreatureObjectNameShowClose(bool IsShowClose)
