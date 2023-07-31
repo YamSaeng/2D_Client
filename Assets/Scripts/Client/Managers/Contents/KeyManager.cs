@@ -1043,6 +1043,15 @@ public class KeyManager
                                             Managers.NetworkManager.GameServerSend(ReqCraftingTableNonSelectPacket);
                                         }
 
+                                        UI_TargetHUD TargetHUDUI = GameSceneUIStackUI as UI_TargetHUD;
+                                        if (TargetHUDUI != null)
+                                        {
+                                            if(GameSceneUI._InteractionUI.gameObject.activeSelf == true)
+                                            {
+                                                GameSceneUI._InteractionUI.ShowCloseUI(false);
+                                            }                                            
+                                        }
+
                                         GameSceneUI.DeleteGameSceneUIStack(GameSceneUIStackUI);
                                     }
                                 }
