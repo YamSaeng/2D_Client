@@ -3692,5 +3692,19 @@ namespace Packet
 
             return ReqMenuOptionPacket;
         }
+
+        public static CMessage ReqMakeInteractionPacket(en_InteractionType InteractionType, en_GameObjectType ObjectType, long ObjectID)
+        {
+            CMessage ReqInteractionPacket = new CMessage();
+
+            ReqInteractionPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_INTERACTION, sizeof(short));
+            ReqInteractionPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqInteractionPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
+            ReqInteractionPacket.InsertData((byte)InteractionType, sizeof(byte));
+            ReqInteractionPacket.InsertData((short)ObjectType, sizeof(short));
+            ReqInteractionPacket.InsertData(ObjectID, sizeof(long));
+
+            return ReqInteractionPacket;
+        }
     }
 }
