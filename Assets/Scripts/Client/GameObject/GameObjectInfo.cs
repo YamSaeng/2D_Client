@@ -875,6 +875,12 @@ public enum en_MenuType
     MENU_TYPE_QUICK_SLOT_KEY_SETTING
 };
 
+public enum en_InteractionType
+{
+    INTERACTION_TYPE_NONE,
+    INTERACTION_TYPE_ROOTING
+}
+
 public enum en_SoundClip
 {
     SOUND_CLIP_NONE,
