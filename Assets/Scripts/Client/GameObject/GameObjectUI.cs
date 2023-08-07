@@ -21,16 +21,19 @@ public class GameObjectUI : MonoBehaviour
     public void InventoryUIOnOff()
     {
         if (_GameSceneUI != null && _OwnerPlayer != null)
-        {
-            if(_OwnerPlayer._InventoryUI != null && _OwnerPlayer._InventoryUI.gameObject.activeSelf == false)
+        {         
+            if(_OwnerPlayer._InventoryManager != null)
             {
-                _GameSceneUI.AddGameSceneUIStack(_OwnerPlayer._InventoryUI);
-            }
-            else
-            {
-                _GameSceneUI.DeleteGameSceneUIStack(_OwnerPlayer._InventoryUI);
-                _GameSceneUI.EmptyItemExplanation();
-            }
+                if (_OwnerPlayer._InventoryManager._InventoryUI != null && _OwnerPlayer._InventoryManager._InventoryUI.gameObject.activeSelf == false)
+                {
+                    _GameSceneUI.AddGameSceneUIStack(_OwnerPlayer._InventoryManager._InventoryUI);
+                }
+                else
+                {
+                    _GameSceneUI.DeleteGameSceneUIStack(_OwnerPlayer._InventoryManager._InventoryUI);
+                    _GameSceneUI.EmptyItemExplanation();
+                }
+            }            
         }
     }
 
