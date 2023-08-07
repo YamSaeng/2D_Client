@@ -496,38 +496,7 @@ namespace ServerCore
             _Front = (int)_MessageReadStream.Position;
 
             Data = DataParsing;
-        }
-
-        public void GetData(out CItem Item)
-        {
-            CItem NewItem = new CItem();
-
-            st_ItemInfo ItemInfo;
-
-            GetData(out ItemInfo);
-
-            NewItem._ItemInfo = ItemInfo;
-            Item = NewItem;
-
-            _Front = (int)_MessageReadStream.Position;
-        }
-
-        public void GetData(CItem[] Items, int Count)
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                CItem NewItem = new CItem();
-
-                st_ItemInfo ItemInfo;
-
-                GetData(out ItemInfo);
-
-                NewItem._ItemInfo = ItemInfo;
-                Items[i] = NewItem;
-            }
-
-            _Front = (int)_MessageReadStream.Position;
-        }
+        }      
 
         public void GetData(out st_SkillInfo Data)
         {
@@ -630,6 +599,20 @@ namespace ServerCore
             }
 
             Data = ItemInfo;
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
+        public void GetData(st_ItemInfo[] Items, int ItemCount)
+        {
+            for(int i=0;i<ItemCount;i++)
+            {
+                st_ItemInfo ItemInfo;
+
+                GetData(out ItemInfo);
+
+                Items[i] = ItemInfo;
+            }
 
             _Front = (int)_MessageReadStream.Position;
         }

@@ -224,9 +224,7 @@ namespace ServerCore
             {
                 try
                 {
-                    _RecvBuffer.MoveRear(Args.BytesTransferred);
-
-                    CMessage.st_ENCODE_HEADER EncodeHeader;
+                    _RecvBuffer.MoveRear(Args.BytesTransferred);                    
 
                     while (true)
                     {
