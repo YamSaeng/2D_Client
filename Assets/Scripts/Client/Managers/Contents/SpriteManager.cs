@@ -51,6 +51,8 @@ public class SpriteManager
             Managers.Resource.Load<Sprite>("Sprites/Material/Wooden Plank"));
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_YARN,
             Managers.Resource.Load<Sprite>("Sprites/Material/Yarn"));
+        _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_FABRIC,
+            Managers.Resource.Load<Sprite>("Sprites/Material/Fabric"));        
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_CHAR_COAL,
             Managers.Resource.Load<Sprite>("Sprites/Ore & Gem/CharCoal"));
         _ItemSprite.Add(en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_COPPER_NUGGET,
