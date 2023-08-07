@@ -26,7 +26,7 @@ public class CreatureObject : CBaseObject
     public UI_GatheringBar _GatheringBar;
 
     [HideInInspector]
-    public UI_Inventory _InventoryUI { get; set; } // 가방 UI
+    public InventoryManager _InventoryManager;    
 
     [HideInInspector]
     public EquipmentBox _EquipmentBox { get; set; }
@@ -35,7 +35,7 @@ public class CreatureObject : CBaseObject
 
     [HideInInspector]
     public UI_SkillBox _SkillBoxUI { get; set; } // 기술 UI    
-
+     
     // 내가 선택한 오브젝트 정보
     public st_GameObjectInfo _SelectTargetObjectInfo;
 
@@ -58,7 +58,16 @@ public class CreatureObject : CBaseObject
         if(_EquipmentBox == null)
         {
             _EquipmentBox = new EquipmentBox();
-        }      
+        }        
+
+        if(_GameObjectInfo.ObjectId != Managers.NetworkManager._PlayerDBId)
+        {
+            if (_InventoryManager == null)
+            {
+                _InventoryManager = new InventoryManager();
+                _InventoryManager.InventoryCreate(this, 1, 10, 10);
+            }
+        }       
 
         switch (_GameObjectInfo.ObjectType)
         {
@@ -73,7 +82,7 @@ public class CreatureObject : CBaseObject
                 _SpeechBubbleUI.ShowCloseUI(false);
                                
                 break;
-            case en_GameObjectType.OBJECT_GOBLIN:
+            case en_GameObjectType.OBJECT_GOBLIN:                
                 StartCoroutine(SpawnEventCoroutine());
                 break;
         }        
@@ -143,47 +152,7 @@ public class CreatureObject : CBaseObject
 
         //변경된 HP적용
         _HPBarUI.SetHPBar(HPRatio);
-    }
-
-    public void InventoryCreate(int InventoryWidth,
-        int InventoryHeight,
-        CItem[] InventoryItems,
-        long GoldCoinCount, short SliverCoinCount, short BronzeCoinCount)
-    {
-        if (_GameSceneUI != null)
-        {
-            GameObject InventoryBodyGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INVENTORY_BOX, _GameSceneUI.transform);
-            InventoryBodyGO.GetComponent<RectTransform>().localPosition = new Vector3(600.0f, 100.0f, 0.0f);
-
-            GameObject InentoryEdgeGO = InventoryBodyGO.transform.Find("InventoryEdge").gameObject;
-            GameObject InentoryGO = InentoryEdgeGO.transform.Find("Inventory").gameObject;
-            UI_Inventory InventorUI = InentoryGO.GetComponent<UI_Inventory>();
-            _InventoryUI = InventorUI;
-            _InventoryUI.Binding();
-            _InventoryUI._InventoryRectTransform = InentoryGO.GetComponent<RectTransform>();
-
-            _InventoryUI.InventoryCreate(InventoryWidth, InventoryHeight);
-
-            for (byte i = 0; i < InventoryItems.Length; i++)
-            {
-                GameObject InventoryItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INVENTORY_ITEM, _GameSceneUI.transform);
-
-                UI_InventoryItem InventoryItem = InventoryItemGO.GetComponent<UI_InventoryItem>();
-                InventoryItem.GetComponent<RectTransform>().SetAsLastSibling();
-                InventoryItem.Set(InventoryItems[i]._ItemInfo);
-                InventoryItem.Binding();
-                InventoryItem.SetParentGridInventory(_InventoryUI);
-
-                _InventoryUI.PlaceItem(InventoryItem, InventoryItem._ItemInfo.ItemTileGridPositionX, InventoryItem._ItemInfo.ItemTileGridPositionY);
-            }
-
-            _InventoryUI.MoneyUIUpdate(GoldCoinCount, SliverCoinCount, BronzeCoinCount);
-
-            _InventoryUI.ShowCloseUI(false);
-
-            Managers.MyInventory.SelectedInventory = InventorUI;
-        }
-    }
+    }   
 
     public void EquipmentBoxUICreate()
     {
@@ -206,11 +175,11 @@ public class CreatureObject : CBaseObject
         _EquipmentBox.Init(this);
     }
 
-    public void EquipmentBoxUIItemCreate(CItem[] EquipmentItems)
+    public void EquipmentBoxUIItemCreate(st_ItemInfo[] EquipmentItemInfos)
     {
-        foreach (CItem EquipmentItem in EquipmentItems)
+        foreach (st_ItemInfo EquipmentItemInfo in EquipmentItemInfos)
         {
-            _EquipmentBox.OnEquipmentItem(EquipmentItem._ItemInfo);            
+            _EquipmentBox.OnEquipmentItem(EquipmentItemInfo);            
         }                
     }
 
