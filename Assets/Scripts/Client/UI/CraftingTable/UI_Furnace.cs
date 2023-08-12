@@ -131,11 +131,11 @@ public class UI_Furnace : UI_Base
 
                 int MaterialCount = 0;
                 // 용광로에서 해당 아이템을 몇개 가지고 있는지 확인한다.                
-                foreach (CItem MaterialItem in _FurnaceController._FurnaceMaterials.Values.ToList())
+                foreach (st_ItemInfo MaterialItem in _FurnaceController._FurnaceMaterials.Values.ToList())
                 {
-                    if (MaterialItem._ItemInfo.ItemSmallCategory == MaterialItemInfo.MaterialItemType)
+                    if (MaterialItem.ItemSmallCategory == MaterialItemInfo.MaterialItemType)
                     {
-                        MaterialCount = MaterialItem._ItemInfo.ItemCount;
+                        MaterialCount = MaterialItem.ItemCount;
                     }
                 }
 

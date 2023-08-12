@@ -128,11 +128,11 @@ public class UI_Sawmill : UI_Base
 
                 int MaterialCount = 0;
                 // 용광로에서 해당 아이템을 몇개 가지고 있는지 확인한다.                
-                foreach (CItem MaterialItem in _SawmillController._SawmillMaterials.Values.ToList())
+                foreach (st_ItemInfo MaterialItem in _SawmillController._SawmillMaterials.Values.ToList())
                 {
-                    if (MaterialItem._ItemInfo.ItemSmallCategory == MaterialItemInfo.MaterialItemType)
+                    if (MaterialItem.ItemSmallCategory == MaterialItemInfo.MaterialItemType)
                     {
-                        MaterialCount = MaterialItem._ItemInfo.ItemCount;
+                        MaterialCount = MaterialItem.ItemCount;
                     }
                 }
 
@@ -155,9 +155,9 @@ public class UI_Sawmill : UI_Base
         //    _SawmillCompleteItemUIList.Clear();
         //}
 
-        foreach (CItem CompleteItem in _SawmillController._SawmillCompleteItems.Values.ToList())
+        foreach (st_ItemInfo CompleteItem in _SawmillController._SawmillCompleteItems.Values.ToList())
         {
-            switch (CompleteItem._ItemInfo.ItemSmallCategory)
+            switch (CompleteItem.ItemSmallCategory)
             {
                 case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_WOOD_FLANK:
                     //GameObject CraftingCompleteItemGO = Managers.Resource.Instantiate("UI/Crafting/UI_CraftingTableCompleteItem", GetGameObject((int)en_SawmillGameObject.SawmillCompleteContent).transform);
