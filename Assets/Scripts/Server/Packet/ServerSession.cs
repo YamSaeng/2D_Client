@@ -235,6 +235,9 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_PARTY_LEADER_MANDATE:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_PartyLeaderManDate);
                 break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_INTERACTION:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_InteractionHandler);
+                break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_RAY_CASTING:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_RayCastingHandler);                
                 break;
