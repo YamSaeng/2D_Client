@@ -270,7 +270,7 @@ namespace Packet
                     byte InventoryItemCount;
                     S2C_CharacterInfoPacket.GetData(out InventoryItemCount, sizeof(byte));
 
-                    CItem[] InventoryItems = new CItem[InventoryItemCount];
+                    st_ItemInfo[] InventoryItems = new st_ItemInfo[InventoryItemCount];
                     S2C_CharacterInfoPacket.GetData(InventoryItems, InventoryItemCount);
 
                     //돈 정보 셋팅
@@ -279,10 +279,16 @@ namespace Packet
                     short BronzeCount;
 
                     S2C_CharacterInfoPacket.GetData(out GoldCount, sizeof(long));
-                    S2C_CharacterInfoPacket.GetData(out SliverCount, sizeof(short));
+                    S2C_CharacterInfoPacket.GetData(out SliverCount, sizeof(short));                   
                     S2C_CharacterInfoPacket.GetData(out BronzeCount, sizeof(short));
 
-                    FindGameObject.InventoryCreate(InventoryWidth, InventoryHeight, InventoryItems, GoldCount, SliverCount, BronzeCount);
+                    if(FindGameObject._InventoryManager == null)
+                    {
+                        FindGameObject._InventoryManager = new InventoryManager();
+                    }
+
+                    FindGameObject._InventoryManager.InventoryCreate(FindGameObject, 1, InventoryWidth, InventoryHeight);
+                    FindGameObject._InventoryManager.S2C_InventoryInsertItem(InventoryItems, GoldCount, SliverCount, BronzeCount);
 
                     // 퀵슬롯 셋팅
                     byte QuickSlotBarSize;
@@ -344,7 +350,7 @@ namespace Packet
                     if (EquipmentCount > 0)
                     {
                         // 착용 장비 아이템 정보
-                        CItem[] EquipmentItems = new CItem[EquipmentCount];
+                        st_ItemInfo[] EquipmentItems = new st_ItemInfo[EquipmentCount];
                         S2C_CharacterInfoPacket.GetData(EquipmentItems, EquipmentCount);
 
                         FindGameObject.EquipmentBoxUIItemCreate(EquipmentItems);
@@ -1604,7 +1610,7 @@ namespace Packet
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
                 if (GameSceneUI != null)
                 {
-                    CItem[] MaterialItems = new CItem[MaterialItemCount];
+                    st_ItemInfo[] MaterialItems = new st_ItemInfo[MaterialItemCount];
                     S2C_CraftingTableItemInputMessage.GetData(MaterialItems, MaterialItemCount);
 
                     PlayerObject ObjectTypeCheck = FindGameObject.GetComponent<PlayerObject>();
@@ -1616,9 +1622,9 @@ namespace Packet
                             {
                                 Furnace._FurnaceMaterials.Clear();
 
-                                foreach (CItem MaterialItem in MaterialItems)
+                                foreach (st_ItemInfo MaterialItem in MaterialItems)
                                 {
-                                    Furnace._FurnaceMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
+                                    Furnace._FurnaceMaterials.Add(MaterialItem.ItemSmallCategory, MaterialItem);
 
                                     if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true)
                                     {
@@ -1633,9 +1639,9 @@ namespace Packet
                             {
                                 Sawmill._SawmillMaterials.Clear();
 
-                                foreach (CItem MaterialItem in MaterialItems)
+                                foreach (st_ItemInfo MaterialItem in MaterialItems)
                                 {
-                                    Sawmill._SawmillMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
+                                    Sawmill._SawmillMaterials.Add(MaterialItem.ItemSmallCategory, MaterialItem);
 
                                     if (GameSceneUI._SawmillUI.gameObject.activeSelf == true)
                                     {
@@ -1667,7 +1673,7 @@ namespace Packet
             {
                 S2C_CraftingTableCompleteItemSelectMessage.GetData(out MaterialItemCount, sizeof(short));
 
-                CItem[] MaterialItems = new CItem[MaterialItemCount];
+                st_ItemInfo[] MaterialItems = new st_ItemInfo[MaterialItemCount];
                 S2C_CraftingTableCompleteItemSelectMessage.GetData(MaterialItems, MaterialItemCount);
 
                 PlayerObject ObjectTypeCheck = FindGameObject.GetComponent<PlayerObject>();
@@ -1685,9 +1691,9 @@ namespace Packet
 
                                 Furnace._FurnaceMaterials.Clear();
 
-                                foreach (CItem MaterialItem in MaterialItems)
+                                foreach (st_ItemInfo MaterialItem in MaterialItems)
                                 {
-                                    Furnace._FurnaceMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
+                                    Furnace._FurnaceMaterials.Add(MaterialItem.ItemSmallCategory, MaterialItem);
 
                                     if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true)
                                     {
@@ -1704,9 +1710,9 @@ namespace Packet
 
                                 Sawmill._SawmillMaterials.Clear();
 
-                                foreach (CItem MaterialItem in MaterialItems)
+                                foreach (st_ItemInfo MaterialItem in MaterialItems)
                                 {
-                                    Sawmill._SawmillMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
+                                    Sawmill._SawmillMaterials.Add(MaterialItem.ItemSmallCategory, MaterialItem);
 
                                     if (GameSceneUI._SawmillUI.gameObject.activeSelf == true)
                                     {
@@ -1869,7 +1875,7 @@ namespace Packet
             {
                 S2C_CraftingTableMaterialItemListMessage.GetData(out MaterialItemCount, sizeof(short));
 
-                CItem[] MaterialItems = new CItem[MaterialItemCount];
+                st_ItemInfo[] MaterialItems = new st_ItemInfo[MaterialItemCount];
                 S2C_CraftingTableMaterialItemListMessage.GetData(MaterialItems, MaterialItemCount);
 
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
@@ -1883,9 +1889,9 @@ namespace Packet
                             {
                                 Furnace._FurnaceMaterials.Clear();
 
-                                foreach (CItem MaterialItem in MaterialItems)
+                                foreach (st_ItemInfo MaterialItem in MaterialItems)
                                 {
-                                    Furnace._FurnaceMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
+                                    Furnace._FurnaceMaterials.Add(MaterialItem.ItemSmallCategory, MaterialItem);
 
                                     // 용광로 UI가 활성화 되어 있고, 선택한 완성 아이템이 동일할 경우 재료 아이템을 업데이트 한것을 보여준다.
                                     if (GameSceneUI._FurnaceUI.gameObject.activeSelf == true
@@ -1902,9 +1908,9 @@ namespace Packet
                             {
                                 Sawmill._SawmillMaterials.Clear();
 
-                                foreach (CItem MaterialItem in MaterialItems)
+                                foreach (st_ItemInfo MaterialItem in MaterialItems)
                                 {
-                                    Sawmill._SawmillMaterials.Add(MaterialItem._ItemInfo.ItemSmallCategory, MaterialItem);
+                                    Sawmill._SawmillMaterials.Add(MaterialItem.ItemSmallCategory, MaterialItem);
 
                                     // 용광로 UI가 활성화 되어 있고, 선택한 완성 아이템이 동일할 경우 재료 아이템을 업데이트 한것을 보여준다.
                                     if (GameSceneUI._SawmillUI.gameObject.activeSelf == true
@@ -1934,7 +1940,7 @@ namespace Packet
             {
                 S2C_CraftingTableCompleteItemListMessage.GetData(out CompleteItemCount, sizeof(short));
 
-                CItem[] CompleteItems = new CItem[CompleteItemCount];
+                st_ItemInfo[] CompleteItems = new st_ItemInfo[CompleteItemCount];
                 S2C_CraftingTableCompleteItemListMessage.GetData(CompleteItems, CompleteItemCount);
 
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
@@ -1948,11 +1954,11 @@ namespace Packet
                             {
                                 Furnace._FurnaceCompleteItems.Clear();
 
-                                foreach (CItem CompleteItem in CompleteItems)
+                                foreach (st_ItemInfo CompleteItem in CompleteItems)
                                 {
-                                    if (CompleteItem._ItemInfo.ItemCount > 0)
+                                    if (CompleteItem.ItemCount > 0)
                                     {
-                                        Furnace._FurnaceCompleteItems.Add(CompleteItem._ItemInfo.ItemSmallCategory, CompleteItem);
+                                        Furnace._FurnaceCompleteItems.Add(CompleteItem.ItemSmallCategory, CompleteItem);
                                     }
 
                                     // 용광로 UI가 활성화 되어 있을 경우
@@ -1969,11 +1975,11 @@ namespace Packet
                             {
                                 Sawmill._SawmillCompleteItems.Clear();
 
-                                foreach (CItem CompleteItem in CompleteItems)
+                                foreach (st_ItemInfo CompleteItem in CompleteItems)
                                 {
-                                    if (CompleteItem._ItemInfo.ItemCount > 0)
+                                    if (CompleteItem.ItemCount > 0)
                                     {
-                                        Sawmill._SawmillCompleteItems.Add(CompleteItem._ItemInfo.ItemSmallCategory, CompleteItem);
+                                        Sawmill._SawmillCompleteItems.Add(CompleteItem.ItemSmallCategory, CompleteItem);
                                     }
 
                                     if (GameSceneUI._SawmillUI.gameObject.activeSelf == true)
@@ -1994,7 +2000,7 @@ namespace Packet
         {
             long AccountId;
             long TargetId;
-            CItem SelectItem;
+            st_ItemInfo SelectItem;
 
             S2C_ItemSelectMessage.GetData(out AccountId, sizeof(long));
             S2C_ItemSelectMessage.GetData(out TargetId, sizeof(long));
@@ -2011,8 +2017,8 @@ namespace Packet
             if (PC != null)
             {
                 Vector2Int SelectTileGridPosition = new Vector2Int();
-                SelectTileGridPosition.x = SelectItem._ItemInfo.ItemTileGridPositionX;
-                SelectTileGridPosition.y = SelectItem._ItemInfo.ItemTileGridPositionY;
+                SelectTileGridPosition.x = SelectItem.ItemTileGridPositionX;
+                SelectTileGridPosition.y = SelectItem.ItemTileGridPositionY;
 
                 Managers.MyInventory.ResSelectItem(SelectTileGridPosition);
             }
@@ -2024,8 +2030,8 @@ namespace Packet
         {
             long AccountId;
             long TargetId;
-            CItem PlaceItem;
-            CItem SelectItem;
+            st_ItemInfo PlaceItem;
+            st_ItemInfo SelectItem;
 
             S2CItemPlaceMessage.GetData(out AccountId, sizeof(long));
             S2CItemPlaceMessage.GetData(out TargetId, sizeof(long));
@@ -2042,7 +2048,7 @@ namespace Packet
             PlayerObject PC = FindGameObject.GetComponent<PlayerObject>();
             if (PC != null)
             {
-                Managers.MyInventory.ResPlaceItem(PlaceItem._ItemInfo, SelectItem._ItemInfo);
+                Managers.MyInventory.ResPlaceItem(PlaceItem, SelectItem);
             }
 
             S2CItemPlaceMessage.Dispose();
@@ -2456,13 +2462,13 @@ namespace Packet
         public static void S2C_InventoryItemUpdateHandler(CMessage S2C_InventoryItemUpdateMessage)
         {
             long PlayerId;
-            CItem UpdateItem;
+            st_ItemInfo UpdateItem;
 
             S2C_InventoryItemUpdateMessage.GetData(out PlayerId, sizeof(long));
             S2C_InventoryItemUpdateMessage.GetData(out UpdateItem);
 
-            UI_InventoryItem FindItem = Managers.MyInventory.FindItem(UpdateItem._ItemInfo.ItemSmallCategory);
-            FindItem._ItemInfo = UpdateItem._ItemInfo;
+            UI_InventoryItem FindItem = Managers.MyInventory.FindItem(UpdateItem.ItemSmallCategory);
+            FindItem._ItemInfo = UpdateItem;
 
             FindItem.RefreshInventoryItemUI();
 
@@ -2502,7 +2508,7 @@ namespace Packet
         public static void S2C_OnEquipmentHandler(CMessage S2C_OnEquipmentMessage)
         {
             long PlayerId;
-            CItem EquipementItem;
+            st_ItemInfo EquipementItem;
 
             S2C_OnEquipmentMessage.GetData(out PlayerId, sizeof(long));
             S2C_OnEquipmentMessage.GetData(out EquipementItem);
@@ -2513,11 +2519,11 @@ namespace Packet
                 CreatureObject FindCreature = FindGameObject.GetComponent<CreatureObject>();
                 if (FindCreature != null)
                 {
-                    FindCreature._EquipmentBox.OnEquipmentItem(EquipementItem._ItemInfo);
+                    FindCreature._EquipmentBox.OnEquipmentItem(EquipementItem);
                 }
             }
 
-            UI_InventoryItem FindItem = Managers.MyInventory.FindItem(EquipementItem._ItemInfo.ItemSmallCategory);
+            UI_InventoryItem FindItem = Managers.MyInventory.FindItem(EquipementItem.ItemSmallCategory);
             Managers.MyInventory.InitItem(FindItem);
 
             S2C_OnEquipmentMessage.Dispose();
@@ -2937,6 +2943,29 @@ namespace Packet
             {
 
             }
+        }
+
+        public static void S2C_InteractionHandler(CMessage S2C_InteractionMessage)
+        {
+            long TargetObjectID;
+            byte RootingItemsCount;            
+
+            S2C_InteractionMessage.GetData(out TargetObjectID, sizeof(long));
+            S2C_InteractionMessage.GetData(out RootingItemsCount, sizeof(byte));
+
+            st_ItemInfo[] RootingItems = new st_ItemInfo[RootingItemsCount];
+            S2C_InteractionMessage.GetData(RootingItems, RootingItemsCount);
+
+            GameObject RootingGameobject = Managers.Object.FindById(TargetObjectID);
+            if(RootingGameobject != null)
+            {
+                CreatureObject RootingCreature = RootingGameobject.GetComponent<CreatureObject>();
+                if(RootingCreature != null)
+                {
+                    RootingCreature._InventoryManager.S2C_InventoryInsertItem(RootingItems, 0, 0, 0);
+                    RootingCreature._InventoryManager._InventoryUI.ShowCloseUI(true);
+                }
+            }    
         }
 
         public static void S2C_RayCastingHandler(CMessage S2C_RayCastingMessage)
