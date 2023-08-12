@@ -79,6 +79,7 @@ public class UI_ItemExplanation : UI_Base
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_WOOD_LOG:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_WOOD_FLANK:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_YARN:
+            case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_FABRIC:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_COPPER_NUGGET:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_COPPER_INGOT:
             case en_SmallItemCategory.ITEM_SMALL_CATEGORY_MATERIAL_IRON_NUGGET:
