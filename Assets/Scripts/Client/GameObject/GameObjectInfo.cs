@@ -1020,7 +1020,7 @@ public class st_PositionInfo : IEquatable<st_PositionInfo>
 
 public class st_StatInfo
 {
-    public int Level;
+    public byte Level;
     public int HP;
     public int MaxHP;
     public int MP;
