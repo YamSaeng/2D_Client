@@ -322,7 +322,7 @@ namespace ServerCore
             GameObjectInfo.ObjectPositionInfo.MoveDireciton.x = _MessageBufReader.ReadSingle();
             GameObjectInfo.ObjectPositionInfo.MoveDireciton.y = _MessageBufReader.ReadSingle();
 
-            GameObjectInfo.ObjectStatInfo.Level = _MessageBufReader.ReadInt32();
+            GameObjectInfo.ObjectStatInfo.Level = _MessageBufReader.ReadByte();
             GameObjectInfo.ObjectStatInfo.HP = _MessageBufReader.ReadInt32();
             GameObjectInfo.ObjectStatInfo.MaxHP = _MessageBufReader.ReadInt32();
             GameObjectInfo.ObjectStatInfo.MP = _MessageBufReader.ReadInt32();
@@ -471,7 +471,7 @@ namespace ServerCore
         {
             st_StatInfo DataParsing = new st_StatInfo();
 
-            DataParsing.Level = _MessageBufReader.ReadInt32();
+            DataParsing.Level = _MessageBufReader.ReadByte();
             DataParsing.HP = _MessageBufReader.ReadInt32();
             DataParsing.MaxHP = _MessageBufReader.ReadInt32();
             DataParsing.MP = _MessageBufReader.ReadInt32();
