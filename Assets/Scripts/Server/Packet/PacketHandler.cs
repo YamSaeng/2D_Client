@@ -274,13 +274,9 @@ namespace Packet
                     S2C_CharacterInfoPacket.GetData(InventoryItems, InventoryItemCount);
 
                     //돈 정보 셋팅
-                    long GoldCount;
-                    short SliverCount;
-                    short BronzeCount;
+                    long Coin;                    
 
-                    S2C_CharacterInfoPacket.GetData(out GoldCount, sizeof(long));
-                    S2C_CharacterInfoPacket.GetData(out SliverCount, sizeof(short));                   
-                    S2C_CharacterInfoPacket.GetData(out BronzeCount, sizeof(short));
+                    S2C_CharacterInfoPacket.GetData(out Coin, sizeof(long));                    
 
                     if(FindGameObject._InventoryManager == null)
                     {
@@ -288,7 +284,7 @@ namespace Packet
                     }
 
                     FindGameObject._InventoryManager.InventoryCreate(FindGameObject, 1, InventoryWidth, InventoryHeight);
-                    FindGameObject._InventoryManager.S2C_InventoryInsertItem(InventoryItems, GoldCount, SliverCount, BronzeCount);
+                    FindGameObject._InventoryManager.S2C_InventoryCreateInsertItem(InventoryItems, Coin);
 
                     // 퀵슬롯 셋팅
                     byte QuickSlotBarSize;
@@ -1521,18 +1517,12 @@ namespace Packet
 
                 if (IsMoney == true)
                 {
-                    long GoldCoinCount;
-                    S2CItemToInventoryMessage.GetData(out GoldCoinCount, sizeof(long));
-
-                    short SliverCoinCount;
-                    S2CItemToInventoryMessage.GetData(out SliverCoinCount, sizeof(short));
-
-                    short BronzeCoinCount;
-                    S2CItemToInventoryMessage.GetData(out BronzeCoinCount, sizeof(short));
+                    long CoinCount;
+                    S2CItemToInventoryMessage.GetData(out CoinCount, sizeof(long));                    
 
                     S2CItemToInventoryMessage.GetData(out AddItemInfo);
 
-                    Managers.MyInventory.MoneyItemUpdate(GoldCoinCount, SliverCoinCount, BronzeCoinCount);
+                    Managers.MyInventory.MoneyItemUpdate(CoinCount);
                 }
                 else
                 {
@@ -2948,24 +2938,35 @@ namespace Packet
         public static void S2C_InteractionHandler(CMessage S2C_InteractionMessage)
         {
             long TargetObjectID;
-            byte RootingItemsCount;            
+            byte InteractionType;            
 
-            S2C_InteractionMessage.GetData(out TargetObjectID, sizeof(long));
-            S2C_InteractionMessage.GetData(out RootingItemsCount, sizeof(byte));
-
-            st_ItemInfo[] RootingItems = new st_ItemInfo[RootingItemsCount];
-            S2C_InteractionMessage.GetData(RootingItems, RootingItemsCount);
-
-            GameObject RootingGameobject = Managers.Object.FindById(TargetObjectID);
-            if(RootingGameobject != null)
+            S2C_InteractionMessage.GetData(out InteractionType, sizeof(byte));
+            S2C_InteractionMessage.GetData(out TargetObjectID, sizeof(long));            
+            
+            switch((en_InteractionType)InteractionType)
             {
-                CreatureObject RootingCreature = RootingGameobject.GetComponent<CreatureObject>();
-                if(RootingCreature != null)
-                {
-                    RootingCreature._InventoryManager.S2C_InventoryInsertItem(RootingItems, 0, 0, 0);
-                    RootingCreature._InventoryManager._InventoryUI.ShowCloseUI(true);
-                }
-            }    
+                case en_InteractionType.INTERACTION_TYPE_ROOTING:
+                    byte RootingItemsCount;
+                    long RootingMoney;
+
+                    S2C_InteractionMessage.GetData(out RootingItemsCount, sizeof(byte));
+                    S2C_InteractionMessage.GetData(out RootingMoney, sizeof(long));
+
+                    st_ItemInfo[] RootingItems = new st_ItemInfo[RootingItemsCount];
+                    S2C_InteractionMessage.GetData(RootingItems, RootingItemsCount);
+
+                    GameObject RootingGameobject = Managers.Object.FindById(TargetObjectID);
+                    if (RootingGameobject != null)
+                    {
+                        CreatureObject RootingCreature = RootingGameobject.GetComponent<CreatureObject>();
+                        if (RootingCreature != null)
+                        {
+                            RootingCreature._InventoryManager.S2C_InventoryCreateInsertItem(RootingItems, RootingMoney);                            
+                            RootingCreature._InventoryManager._InventoryUI.ShowCloseUI(true);
+                        }
+                    }
+                    break;
+            }            
         }
 
         public static void S2C_RayCastingHandler(CMessage S2C_RayCastingMessage)
