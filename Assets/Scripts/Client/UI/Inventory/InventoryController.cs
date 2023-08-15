@@ -20,9 +20,7 @@ public class InventoryController : UI_Base
     // 선택한 Grid 인벤토리
     private UI_Inventory _SelectedInventory;    
 
-    long _GoldCoinCount;
-    short _SliverCoinCount;
-    short _BronzeCoinCount;
+    long _Coin;    
 
     public UI_Inventory SelectedInventory
     {
@@ -195,29 +193,17 @@ public class InventoryController : UI_Base
         return SelectedInventory.FindItem(ItemCategory);
     }
 
-    public void MoneyItemUpdate(Int64 GoldCoinCount, Int16 SliverCoinCount, Int16 BronzeCoinCount)
+    public void MoneyItemUpdate(long Coin)
     {
-        _GoldCoinCount = GoldCoinCount;
-        _SliverCoinCount = SliverCoinCount;
-        _BronzeCoinCount = BronzeCoinCount;
+        _Coin = Coin;       
 
-        _SelectedInventory.MoneyUIUpdate(_GoldCoinCount, _SliverCoinCount, _BronzeCoinCount);
+        _SelectedInventory.MoneyUIUpdate(_Coin);
     }
 
-    public long GetGoldCount()
+    public long GetCoin()
     {
-        return _GoldCoinCount;
-    }
-
-    public short GetSilverCount()
-    {
-        return _SliverCoinCount;
-    }
-
-    public short GetBronzeCoinCount()
-    {
-        return _BronzeCoinCount;
-    } 
+        return _Coin;
+    }    
 
     private void Update()
     {
