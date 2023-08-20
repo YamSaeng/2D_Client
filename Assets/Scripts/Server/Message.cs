@@ -548,7 +548,7 @@ namespace ServerCore
             st_ItemInfo ItemInfo = new st_ItemInfo();
 
             ItemInfo.ItemDBId = _MessageBufReader.ReadInt64();
-            ItemInfo.IsEquipped = _MessageBufReader.ReadBoolean();
+            ItemInfo.ItemIsEquipped = _MessageBufReader.ReadBoolean();
             ItemInfo.ItemWidth = _MessageBufReader.ReadInt16();
             ItemInfo.ItemHeight = _MessageBufReader.ReadInt16();
             ItemInfo.ItemTileGridPositionX = _MessageBufReader.ReadInt16();
@@ -578,7 +578,7 @@ namespace ServerCore
 
             ItemInfo.ItemCount = _MessageBufReader.ReadInt16();
 
-            ItemInfo.IsEquipped = _MessageBufReader.ReadBoolean();
+            ItemInfo.ItemIsEquipped = _MessageBufReader.ReadBoolean();
 
             short ItemCraftingMaterialCount = _MessageBufReader.ReadInt16();
             if (ItemCraftingMaterialCount > 0)
