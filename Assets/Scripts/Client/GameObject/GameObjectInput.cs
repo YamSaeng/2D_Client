@@ -9,8 +9,10 @@ using UnityEngine.UI;
 
 public class GameObjectInput : MonoBehaviour
 {
-    private Camera _MainCamera;    
-    private bool _IsDefaultAttack = false;
+    private bool _IsMouseDrag = false;
+    private Vector3 _LeftMouseCurrentClickPoint;
+    private Vector3 _LeftMouseCurrentDragPoint;
+    private Camera _MainCamera;        
 
     [field: SerializeField]
     public CreatureObject _OwnerObject { get; set; }
@@ -50,6 +52,7 @@ public class GameObjectInput : MonoBehaviour
     {
         GetPointerInput();
         GetMouseButtonInput();
+        GetMouseDragInput();
 
         UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
         if(GameSceneUI != null)
@@ -60,7 +63,7 @@ public class GameObjectInput : MonoBehaviour
                 Managers.Key.QuickSlotBarActions();
                 Managers.Key.UIActions();
             }           
-        }        
+        }         
     }
 
     public void SetOwner(CreatureObject OwnerObject)
@@ -83,10 +86,38 @@ public class GameObjectInput : MonoBehaviour
         }
     }
 
-    private void LeftMouseButtonClick()
+    private void GetMouseDragInput()
     {
-        Vector3 MousePosition = Input.mousePosition;
-        Vector3 ScreenToMousePosition = _MainCamera.ScreenToWorldPoint(MousePosition);
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 DragMousePosition = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
+            if (DragMousePosition != _LeftMouseCurrentDragPoint)
+            {
+                _IsMouseDrag = true;
+            }
+
+            _LeftMouseCurrentDragPoint = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (_IsMouseDrag == true)
+            {
+                _IsMouseDrag = false;
+                _LeftMouseCurrentDragPoint = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+                CMessage ReqLeftMouseDragObjectsSelectPacket = Packet.MakePacket.ReqMakeLeftMouseDragObjectsSelectPacket(_LeftMouseCurrentClickPoint.x, _LeftMouseCurrentClickPoint.y, _LeftMouseCurrentDragPoint.x, _LeftMouseCurrentDragPoint.y);
+                Managers.NetworkManager.GameServerSend(ReqLeftMouseDragObjectsSelectPacket);                
+            }
+        }
+    }
+
+    private void LeftMouseButtonClick()
+    {        
+        Vector3 ScreenToMousePosition = _MainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+        _LeftMouseCurrentClickPoint = ScreenToMousePosition;
+        _LeftMouseCurrentDragPoint = ScreenToMousePosition;
 
         // IsPointerOverGameObject == 마우스가 UI에 있으면 true 반환
         if (!EventSystem.current.IsPointerOverGameObject())
@@ -166,8 +197,7 @@ public class GameObjectInput : MonoBehaviour
                             EnvironmentController EnvironmentObject = CC.GetComponent<EnvironmentController>();
                             if (EnvironmentObject != null && EnvironmentObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.DEAD)
                             {
-                                CMessage ReqGathering = Packet.MakePacket.ReqMakeGatheringPacket(Managers.NetworkManager._AccountId,
-                                Managers.NetworkManager._PlayerDBId,
+                                CMessage ReqGathering = Packet.MakePacket.ReqMakeGatheringPacket(
                                 CC._GameObjectInfo.ObjectId,
                                 CC._GameObjectInfo.ObjectType);
                                 Managers.NetworkManager.GameServerSend(ReqGathering);
@@ -177,8 +207,7 @@ public class GameObjectInput : MonoBehaviour
                             CropController CropObject = CC.GetComponent<CropController>();
                             if (CropObject != null && CropObject._GameObjectInfo.ObjectPositionInfo.State != en_CreatureState.DEAD)
                             {
-                                CMessage ReqGathering = Packet.MakePacket.ReqMakeGatheringPacket(Managers.NetworkManager._AccountId,
-                                Managers.NetworkManager._PlayerDBId,
+                                CMessage ReqGathering = Packet.MakePacket.ReqMakeGatheringPacket(
                                 CC._GameObjectInfo.ObjectId,
                                 CC._GameObjectInfo.ObjectType);
                                 Managers.NetworkManager.GameServerSend(ReqGathering);
@@ -190,8 +219,7 @@ public class GameObjectInput : MonoBehaviour
                                 FurnaceController FurnaceObject = CC.GetComponent<FurnaceController>();
                                 if (FurnaceObject != null)
                                 {
-                                    CMessage ReqMousePositionObjectInfo = Packet.MakePacket.ReqMakeRightMouseObjectInfoPacket(Managers.NetworkManager._AccountId,
-                                    Managers.NetworkManager._PlayerDBId,
+                                    CMessage ReqMousePositionObjectInfo = Packet.MakePacket.ReqMakeRightMouseObjectInfoPacket(
                                     FurnaceObject._GameObjectInfo.ObjectId,
                                     FurnaceObject._GameObjectInfo.ObjectType);
                                     Managers.NetworkManager.GameServerSend(ReqMousePositionObjectInfo);
@@ -204,8 +232,7 @@ public class GameObjectInput : MonoBehaviour
                                 SawmillController SawmillObject = CC.GetComponent<SawmillController>();
                                 if (SawmillObject != null)
                                 {
-                                    CMessage ReqMousePositionObjectInfo = Packet.MakePacket.ReqMakeRightMouseObjectInfoPacket(Managers.NetworkManager._AccountId,
-                                    Managers.NetworkManager._PlayerDBId,
+                                    CMessage ReqMousePositionObjectInfo = Packet.MakePacket.ReqMakeRightMouseObjectInfoPacket(
                                     SawmillObject._GameObjectInfo.ObjectId,
                                     SawmillObject._GameObjectInfo.ObjectType);
                                     Managers.NetworkManager.GameServerSend(ReqMousePositionObjectInfo);
