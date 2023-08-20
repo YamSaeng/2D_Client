@@ -3217,15 +3217,14 @@ namespace Packet
             return ReqLeftMousePositionObjectInfoPacket;
         }
 
-        public static CMessage ReqMakeLeftMouseUIObjectInfoPacket(long AccountID, long PlayerID,
-            long OwnerObjectID, en_GameObjectType OwnerObjectType,
+        public static CMessage ReqMakeLeftMouseUIObjectInfoPacket(long OwnerObjectID, en_GameObjectType OwnerObjectType,
             en_UIObjectInfo UIObjectinfo, en_SmallItemCategory LeftMouseItemCategory)
         {
             CMessage ReqLeftMouseUIObjectInfoPacket = new CMessage();
 
             ReqLeftMouseUIObjectInfoPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_LEFT_MOUSE_UI_OBJECT_INFO, sizeof(short));
-            ReqLeftMouseUIObjectInfoPacket.InsertData(AccountID, sizeof(long));
-            ReqLeftMouseUIObjectInfoPacket.InsertData(PlayerID, sizeof(long));
+            ReqLeftMouseUIObjectInfoPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqLeftMouseUIObjectInfoPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqLeftMouseUIObjectInfoPacket.InsertData(OwnerObjectID, sizeof(long));
             ReqLeftMouseUIObjectInfoPacket.InsertData((short)OwnerObjectType, sizeof(short));
             ReqLeftMouseUIObjectInfoPacket.InsertData((short)UIObjectinfo, sizeof(short));
@@ -3234,28 +3233,42 @@ namespace Packet
             return ReqLeftMouseUIObjectInfoPacket;
         }
 
-        public static CMessage ReqMakeRightMouseObjectInfoPacket(long AccountId, long PlayerId, long ObjectId, en_GameObjectType ObjectType)
+        public static CMessage ReqMakeRightMouseObjectInfoPacket(long ObjectId, en_GameObjectType ObjectType)
         {
             CMessage ReqRightMouseObjectInfoPacket = new CMessage();
 
             ReqRightMouseObjectInfoPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_RIGHT_MOUSE_OBJECT_INFO, sizeof(short));
-            ReqRightMouseObjectInfoPacket.InsertData(AccountId, sizeof(long));
-            ReqRightMouseObjectInfoPacket.InsertData(PlayerId, sizeof(long));
+            ReqRightMouseObjectInfoPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqRightMouseObjectInfoPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqRightMouseObjectInfoPacket.InsertData(ObjectId, sizeof(long));
             ReqRightMouseObjectInfoPacket.InsertData((short)ObjectType, sizeof(short));
 
             return ReqRightMouseObjectInfoPacket;
         }
 
-        public static CMessage ReqMakeCraftingTableMaterialItemSubtractPacket(long AccountID, long PlayerID,
-            long CraftingTableObjectID, en_GameObjectType OwnerObjectType,
+        public static CMessage ReqMakeLeftMouseDragObjectsSelectPacket(float LeftMouseDragStartPositionX, float LeftMouseDragStartPositionY, float LeftMouseDragEndPositionX, float LeftMouseDragEndPositionY)
+        {
+            CMessage ReqRightMouseObjectInfoPacket = new CMessage();
+
+            ReqRightMouseObjectInfoPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_LEFT_DRAG_OBJECTS_SELECT, sizeof(short));
+            ReqRightMouseObjectInfoPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqRightMouseObjectInfoPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
+            ReqRightMouseObjectInfoPacket.InsertData(LeftMouseDragStartPositionX, sizeof(float));
+            ReqRightMouseObjectInfoPacket.InsertData(LeftMouseDragStartPositionY, sizeof(float));
+            ReqRightMouseObjectInfoPacket.InsertData(LeftMouseDragEndPositionX, sizeof(float));
+            ReqRightMouseObjectInfoPacket.InsertData(LeftMouseDragEndPositionY, sizeof(float));
+
+            return ReqRightMouseObjectInfoPacket;
+        }
+
+        public static CMessage ReqMakeCraftingTableMaterialItemSubtractPacket(long CraftingTableObjectID, en_GameObjectType OwnerObjectType,
             en_SmallItemCategory MaterialItemType)
         {
             CMessage ReqRightMouseUIObjectInfoPacket = new CMessage();
 
             ReqRightMouseUIObjectInfoPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_TABLE_MATERIAL_ITEM_SUBTRACT, sizeof(short));
-            ReqRightMouseUIObjectInfoPacket.InsertData(AccountID, sizeof(long));
-            ReqRightMouseUIObjectInfoPacket.InsertData(PlayerID, sizeof(long));
+            ReqRightMouseUIObjectInfoPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqRightMouseUIObjectInfoPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqRightMouseUIObjectInfoPacket.InsertData(CraftingTableObjectID, sizeof(long));
             ReqRightMouseUIObjectInfoPacket.InsertData((short)OwnerObjectType, sizeof(short));
             ReqRightMouseUIObjectInfoPacket.InsertData((short)MaterialItemType, sizeof(short));
@@ -3263,15 +3276,14 @@ namespace Packet
             return ReqRightMouseUIObjectInfoPacket;
         }
 
-        public static CMessage ReqMakeCraftingTableCompleteItemSubtractPacket(long AccountID, long PlayerID,
-            long CraftingTableObjectID, en_GameObjectType OwnerObjectType,
+        public static CMessage ReqMakeCraftingTableCompleteItemSubtractPacket(long CraftingTableObjectID, en_GameObjectType OwnerObjectType,
             en_SmallItemCategory CompleteItemType)
         {
             CMessage ReqRightMouseUIObjectInfoPacket = new CMessage();
 
             ReqRightMouseUIObjectInfoPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_TABLE_COMPLETE_ITEM_SUBTRACT, sizeof(short));
-            ReqRightMouseUIObjectInfoPacket.InsertData(AccountID, sizeof(long));
-            ReqRightMouseUIObjectInfoPacket.InsertData(PlayerID, sizeof(long));
+            ReqRightMouseUIObjectInfoPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqRightMouseUIObjectInfoPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqRightMouseUIObjectInfoPacket.InsertData(CraftingTableObjectID, sizeof(long));
             ReqRightMouseUIObjectInfoPacket.InsertData((short)OwnerObjectType, sizeof(short));
             ReqRightMouseUIObjectInfoPacket.InsertData((short)CompleteItemType, sizeof(short));
@@ -3279,26 +3291,26 @@ namespace Packet
             return ReqRightMouseUIObjectInfoPacket;
         }
 
-        public static CMessage ReqMakeCraftingTableNonSelectPacket(long AccountID, long PlayerID, long CraftingTableObjectID, en_GameObjectType CraftingTableObjectType)
+        public static CMessage ReqMakeCraftingTableNonSelectPacket(long CraftingTableObjectID, en_GameObjectType CraftingTableObjectType)
         {
             CMessage ReqCraftingTableNonSelectPacket = new CMessage();
 
             ReqCraftingTableNonSelectPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_TABLE_NON_SELECT, sizeof(short));
-            ReqCraftingTableNonSelectPacket.InsertData(AccountID, sizeof(long));
-            ReqCraftingTableNonSelectPacket.InsertData(PlayerID, sizeof(long));
+            ReqCraftingTableNonSelectPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqCraftingTableNonSelectPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqCraftingTableNonSelectPacket.InsertData(CraftingTableObjectID, sizeof(long));
             ReqCraftingTableNonSelectPacket.InsertData((short)CraftingTableObjectType, sizeof(short));
 
             return ReqCraftingTableNonSelectPacket;
         }
 
-        public static CMessage ReqMakeGatheringPacket(long AccountID, long PlayerID, long ObjectID, en_GameObjectType GameObjectType)
+        public static CMessage ReqMakeGatheringPacket(long ObjectID, en_GameObjectType GameObjectType)
         {
             CMessage ReqRightMousePositionPacket = new CMessage();
 
             ReqRightMousePositionPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_GATHERING, sizeof(short));
-            ReqRightMousePositionPacket.InsertData(AccountID, sizeof(long));
-            ReqRightMousePositionPacket.InsertData(PlayerID, sizeof(long));
+            ReqRightMousePositionPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqRightMousePositionPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqRightMousePositionPacket.InsertData(ObjectID, sizeof(long));
             ReqRightMousePositionPacket.InsertData((short)GameObjectType, sizeof(short));
 
@@ -3345,44 +3357,42 @@ namespace Packet
             return ReqLookAtDirectionPacket;
         }
 
-        public static CMessage ReqMakeSelectItemPacket(long AccountId, long PlayerId,
-            short SelectItemTileGridPositionX, short SelectItemTileGridPositionY)
+        public static CMessage ReqMakeSelectItemPacket(short SelectItemTileGridPositionX, short SelectItemTileGridPositionY)
         {
             CMessage ReqSelectItemPacket = new CMessage();
             ReqSelectItemPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ITEM_SELECT, sizeof(short));
-            ReqSelectItemPacket.InsertData(AccountId, sizeof(long));
-            ReqSelectItemPacket.InsertData(PlayerId, sizeof(long));
+            ReqSelectItemPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqSelectItemPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqSelectItemPacket.InsertData(SelectItemTileGridPositionX, sizeof(short));
             ReqSelectItemPacket.InsertData(SelectItemTileGridPositionY, sizeof(short));
 
             return ReqSelectItemPacket;
         }
 
-        public static CMessage ReqMakePlaceItemPacket(long AccountId, long PlayerId, short TileGridPositionX, short TileGridPositionY)
+        public static CMessage ReqMakePlaceItemPacket(short TileGridPositionX, short TileGridPositionY)
         {
             CMessage ReqPlaceItemPacket = new CMessage();
             ReqPlaceItemPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ITEM_PLACE, sizeof(short));
-            ReqPlaceItemPacket.InsertData(AccountId, sizeof(long));
-            ReqPlaceItemPacket.InsertData(PlayerId, sizeof(long));
+            ReqPlaceItemPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqPlaceItemPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqPlaceItemPacket.InsertData(TileGridPositionX, sizeof(short));
             ReqPlaceItemPacket.InsertData(TileGridPositionY, sizeof(short));
 
             return ReqPlaceItemPacket;
         }
 
-        public static CMessage ReqMakeRotateItemPacket(long AccountID, long PlayerID,
-            en_SmallItemCategory RotateItemCategory)
+        public static CMessage ReqMakeRotateItemPacket(en_SmallItemCategory RotateItemCategory)
         {
             CMessage ReqRotateItemPacket = new CMessage();
             ReqRotateItemPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ITEM_ROTATE, sizeof(short));
-            ReqRotateItemPacket.InsertData(AccountID, sizeof(long));
-            ReqRotateItemPacket.InsertData(PlayerID, sizeof(long));
+            ReqRotateItemPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqRotateItemPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqRotateItemPacket.InsertData((short)RotateItemCategory, sizeof(short));
 
             return ReqRotateItemPacket;
         }
 
-        public static CMessage ReqMakeItemLootingPacket(long AccountId, st_PositionInfo ItemPositionInfo)
+        public static CMessage ReqMakeItemLootingPacket(st_PositionInfo ItemPositionInfo)
         {
             CMessage ReqItemLootingPacket = new CMessage();
             ReqItemLootingPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_LOOTING, sizeof(short));
@@ -3394,26 +3404,26 @@ namespace Packet
             return ReqItemLootingPacket;
         }
 
-        public static CMessage ReqMakeItemDropPacket(long AccountID, long PlayerID, en_SmallItemCategory DropItemType, int DropItemCount)
+        public static CMessage ReqMakeItemDropPacket(en_SmallItemCategory DropItemType, int DropItemCount)
         {
             CMessage ReqItemDropPacket = new CMessage();
 
             ReqItemDropPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_ITEM_DROP, sizeof(short));
-            ReqItemDropPacket.InsertData(AccountID, sizeof(long));
-            ReqItemDropPacket.InsertData(PlayerID, sizeof(long));
+            ReqItemDropPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqItemDropPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqItemDropPacket.InsertData((short)DropItemType, sizeof(short));
             ReqItemDropPacket.InsertData(DropItemCount, sizeof(int));
 
             return ReqItemDropPacket;
         }
 
-        public static CMessage ReqMakeCraftingTableItemAddPacket(long AccountID, long PlayerID, long CraftingTableObjectID, en_SmallItemCategory InputItemSmallCateogry, short InputItemCount)
+        public static CMessage ReqMakeCraftingTableItemAddPacket(long CraftingTableObjectID, en_SmallItemCategory InputItemSmallCateogry, short InputItemCount)
         {
             CMessage ReqCraftingTableItemAddPacket = new CMessage();
 
             ReqCraftingTableItemAddPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_TABLE_ITEM_ADD, sizeof(short));
-            ReqCraftingTableItemAddPacket.InsertData(AccountID, sizeof(long));
-            ReqCraftingTableItemAddPacket.InsertData(PlayerID, sizeof(long));
+            ReqCraftingTableItemAddPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqCraftingTableItemAddPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqCraftingTableItemAddPacket.InsertData(CraftingTableObjectID, sizeof(long));
             ReqCraftingTableItemAddPacket.InsertData((short)InputItemSmallCateogry, sizeof(short));
             ReqCraftingTableItemAddPacket.InsertData(InputItemCount, sizeof(short));
@@ -3421,14 +3431,13 @@ namespace Packet
             return ReqCraftingTableItemAddPacket;
         }
 
-        public static CMessage ReqMakeCraftingTableCraftingStartPacket(long AccountID, long PlayerID, long CraftingTableObjectID,
-            en_SmallItemCategory CraftingCompleteItemType, short CraftingCount)
+        public static CMessage ReqMakeCraftingTableCraftingStartPacket(long CraftingTableObjectID, en_SmallItemCategory CraftingCompleteItemType, short CraftingCount)
         {
             CMessage ReqCraftingTableCraftingStartPacket = new CMessage();
 
             ReqCraftingTableCraftingStartPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_TABLE_CRAFTING_START, sizeof(short));
-            ReqCraftingTableCraftingStartPacket.InsertData(AccountID, sizeof(long));
-            ReqCraftingTableCraftingStartPacket.InsertData(PlayerID, sizeof(long));
+            ReqCraftingTableCraftingStartPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqCraftingTableCraftingStartPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqCraftingTableCraftingStartPacket.InsertData(CraftingTableObjectID, sizeof(long));
             ReqCraftingTableCraftingStartPacket.InsertData((short)CraftingCompleteItemType, sizeof(short));
             ReqCraftingTableCraftingStartPacket.InsertData(CraftingCount, sizeof(short));
@@ -3436,19 +3445,19 @@ namespace Packet
             return ReqCraftingTableCraftingStartPacket;
         }
 
-        public static CMessage ReqMakeCraftingTableCraftingStopPacket(long AccountID, long PlayerID, long CraftingTableObjectID)
+        public static CMessage ReqMakeCraftingTableCraftingStopPacket(long CraftingTableObjectID)
         {
             CMessage ReqCraftingTableCraftingStopPacket = new CMessage();
 
             ReqCraftingTableCraftingStopPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_TABLE_CRAFTING_STOP, sizeof(short));
-            ReqCraftingTableCraftingStopPacket.InsertData(AccountID, sizeof(long));
-            ReqCraftingTableCraftingStopPacket.InsertData(PlayerID, sizeof(long));
+            ReqCraftingTableCraftingStopPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqCraftingTableCraftingStopPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqCraftingTableCraftingStopPacket.InsertData(CraftingTableObjectID, sizeof(long));
 
             return ReqCraftingTableCraftingStopPacket;
         }
 
-        public static CMessage ReqMakeQuickSlotSwapPacket(long AccountId, long PlayerId, byte SwapQuickSlotBarIndexA, byte SwapQuickSlotBarSlotIndexA, byte SwapQuickSlotBarIndexB, byte SwapQuickSlotBarSlotIndexB)
+        public static CMessage ReqMakeQuickSlotSwapPacket(byte SwapQuickSlotBarIndexA, byte SwapQuickSlotBarSlotIndexA, byte SwapQuickSlotBarIndexB, byte SwapQuickSlotBarSlotIndexB)
         {
             CMessage ReqQuickSlotSwapPacket = new CMessage();
 
@@ -3465,7 +3474,7 @@ namespace Packet
             return ReqQuickSlotSwapPacket;
         }
 
-        public static CMessage ReqMakeItemUsePacket(long AccountId, long PlayerId, en_SmallItemCategory UseItemSmallCategory, short TilePositionX, short TilePositionY)
+        public static CMessage ReqMakeItemUsePacket(en_SmallItemCategory UseItemSmallCategory, short TilePositionX, short TilePositionY)
         {
             CMessage ReqItemUsePacket = new CMessage();
 
@@ -3501,11 +3510,11 @@ namespace Packet
             return ReqSelectSkillCharacteristicPacket;
         }
 
-        public static CMessage ReqMakeEnterGamePacket(long AccountId, string EnterGameCharacterName)
+        public static CMessage ReqMakeEnterGamePacket(string EnterGameCharacterName)
         {
             CMessage ReqEnterGamePacket = new CMessage();
             ReqEnterGamePacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_GAME_ENTER, sizeof(short));
-            ReqEnterGamePacket.InsertData(AccountId, sizeof(long));
+            ReqEnterGamePacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
             ReqEnterGamePacket.InsertData(EnterGameCharacterName);
 
             return ReqEnterGamePacket;
@@ -3524,12 +3533,12 @@ namespace Packet
             return ReqSkillLearnPacket;
         }
 
-        public static CMessage ReqMakeQuickSlotSavePacket(long AccountId, long PlayerId, st_QuickSlotBarSlotInfo QuickSlotBarSlotInfo)
+        public static CMessage ReqMakeQuickSlotSavePacket(st_QuickSlotBarSlotInfo QuickSlotBarSlotInfo)
         {
             CMessage ReqQuickSlotSavePacket = new CMessage();
             ReqQuickSlotSavePacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_QUICKSLOT_SAVE, sizeof(short));
-            ReqQuickSlotSavePacket.InsertData(AccountId, sizeof(long));
-            ReqQuickSlotSavePacket.InsertData(PlayerId, sizeof(long));
+            ReqQuickSlotSavePacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqQuickSlotSavePacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqQuickSlotSavePacket.InsertData(QuickSlotBarSlotInfo.QuickSlotBarIndex, sizeof(byte));
             ReqQuickSlotSavePacket.InsertData(QuickSlotBarSlotInfo.QuickSlotBarSlotIndex, sizeof(byte));            
 
@@ -3561,12 +3570,12 @@ namespace Packet
             return ReqQuickSlotSavePacket;
         }
 
-        public static CMessage ReqMakeQuickSlotInitPacket(long AccountId, long PlayerId, en_SkillCharacteristic InitSkillCharacteristic, en_SkillType InitSkillType, byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex)
+        public static CMessage ReqMakeQuickSlotInitPacket(en_SkillCharacteristic InitSkillCharacteristic, en_SkillType InitSkillType, byte QuickSlotBarIndex, byte QuickSlotBarSlotIndex)
         {
             CMessage ReqQuickSlotInitPacket = new CMessage();
             ReqQuickSlotInitPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_QUICKSLOT_EMPTY, sizeof(short));
-            ReqQuickSlotInitPacket.InsertData(AccountId, sizeof(long));
-            ReqQuickSlotInitPacket.InsertData(PlayerId, sizeof(long));
+            ReqQuickSlotInitPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqQuickSlotInitPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqQuickSlotInitPacket.InsertData((byte)InitSkillCharacteristic, sizeof(byte));
             ReqQuickSlotInitPacket.InsertData((short)InitSkillType, sizeof(short));
             ReqQuickSlotInitPacket.InsertData(QuickSlotBarIndex, sizeof(byte));
@@ -3575,15 +3584,14 @@ namespace Packet
             return ReqQuickSlotInitPacket;
         }
 
-        public static CMessage ReqMakeCraftingConfirmPacket(long AccountId, long PlayerId,
-            en_LargeItemCategory CategoryType, en_SmallItemCategory CraftingItemType,
+        public static CMessage ReqMakeCraftingConfirmPacket(en_LargeItemCategory CategoryType, en_SmallItemCategory CraftingItemType,
             short CraftingItemCount, byte MaterialCount,
             List<st_CraftingMaterialItemInfo> Materials)
         {
             CMessage ReqCraftingConfirmPacket = new CMessage();
             ReqCraftingConfirmPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_CRAFTING_CONFIRM, sizeof(short));
-            ReqCraftingConfirmPacket.InsertData(AccountId, sizeof(long));
-            ReqCraftingConfirmPacket.InsertData(PlayerId, sizeof(long));
+            ReqCraftingConfirmPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqCraftingConfirmPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqCraftingConfirmPacket.InsertData((byte)CategoryType, sizeof(byte));
             ReqCraftingConfirmPacket.InsertData((short)CraftingItemType, sizeof(short));
             ReqCraftingConfirmPacket.InsertData(CraftingItemCount, sizeof(short));
@@ -3614,38 +3622,38 @@ namespace Packet
             return ReqCraftingConfirmPacket;
         }
 
-        public static CMessage ReqMakeOffEquipmentPacket(long AccountID, long PlayerID, en_EquipmentParts OffEquipmentParts)
+        public static CMessage ReqMakeOffEquipmentPacket(en_EquipmentParts OffEquipmentParts)
         {
             CMessage ReqOffEquipmentPacket = new CMessage();
 
             ReqOffEquipmentPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_OFF_EQUIPMENT, sizeof(short));
-            ReqOffEquipmentPacket.InsertData(AccountID, sizeof(long));
-            ReqOffEquipmentPacket.InsertData(PlayerID, sizeof(long));
+            ReqOffEquipmentPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqOffEquipmentPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqOffEquipmentPacket.InsertData((byte)OffEquipmentParts, sizeof(byte));
 
             return ReqOffEquipmentPacket;
         }
 
-        public static CMessage ReqMakeSeedFarmingPacket(long AccountID, long PlayerID, en_SmallItemCategory SeedSmallItemCategory)
+        public static CMessage ReqMakeSeedFarmingPacket(en_SmallItemCategory SeedSmallItemCategory)
         {
             CMessage ReqSeedFarmingPacket = new CMessage();
 
             ReqSeedFarmingPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_SEED_FARMING, sizeof(short));
-            ReqSeedFarmingPacket.InsertData(AccountID, sizeof(long));
-            ReqSeedFarmingPacket.InsertData(PlayerID, sizeof(long));
+            ReqSeedFarmingPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqSeedFarmingPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqSeedFarmingPacket.InsertData((short)SeedSmallItemCategory, sizeof(short));
 
             return ReqSeedFarmingPacket;
         }
 
-        public static CMessage ReqMakePlantGrowthPacket(long AccountID, long PlayerID, long PlantObjectID, en_GameObjectType PlantObjectType)
+        public static CMessage ReqMakePlantGrowthPacket(long PlantObjectID, en_GameObjectType PlantObjectType)
         {
             CMessage ReqPlantGrowthPacket = new CMessage();
 
             ReqPlantGrowthPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_PLANT_GROWTH_CHECK, sizeof(short));
 
-            ReqPlantGrowthPacket.InsertData(AccountID, sizeof(long));
-            ReqPlantGrowthPacket.InsertData(PlayerID, sizeof(long));
+            ReqPlantGrowthPacket.InsertData(Managers.NetworkManager._AccountId, sizeof(long));
+            ReqPlantGrowthPacket.InsertData(Managers.NetworkManager._PlayerDBId, sizeof(long));
             ReqPlantGrowthPacket.InsertData(PlantObjectID, sizeof(long));
             ReqPlantGrowthPacket.InsertData((short)PlantObjectType, sizeof(short));
 
