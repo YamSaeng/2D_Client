@@ -914,7 +914,8 @@ public class st_RayCastingPosition
 public class st_ItemInfo
 {
     public long ItemDBId; // 아이템 DB에 저장되어 있는 ID    
-    public bool IsEquipped; // 아이템을 착용할 수 있는지
+    public bool ItemIsEquipped; // 아이템을 착용할 수 있는지
+    public bool ItemIsSearching; // 아이템 탐색 여부
     public short ItemWidth;    // 아이템 너비
     public short ItemHeight;   // 아이템 높이    
     public short ItemTileGridPositionX; // 아이템 X 위치
@@ -924,6 +925,8 @@ public class st_ItemInfo
     public en_MediumItemCategory ItemMediumCategory; // 아이템 중 분류
     public en_SmallItemCategory ItemSmallCategory; // 아이템 소 분류   3
     public en_EquipmentParts ItemEquipmentPart;
+    public int ItemSearchingTime; // 아이템 탐색 시간
+    public long ItemSearchingRemainTime; // 아이템 탐색 남은 시간
     public string ItemName; // 아이템 이름
     public string ItemExplain; // 아이템 설명문
     public long ItemCraftingTime;                   // 아이템 제작 시간
@@ -938,7 +941,8 @@ public class st_ItemInfo
     public st_ItemInfo()
     {
         ItemDBId = 0;
-        IsEquipped = false;
+        ItemIsEquipped = false;
+        ItemIsSearching = false;
         ItemWidth = 0;
         ItemHeight = 0;
         ItemTileGridPositionX = 0;
@@ -948,6 +952,8 @@ public class st_ItemInfo
         ItemMediumCategory = en_MediumItemCategory.ITEM_MEDIUM_CATEGORY_NONE;
         ItemSmallCategory = en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE;
         ItemEquipmentPart = en_EquipmentParts.EQUIPMENT_PARTS_NONE;
+        ItemSearchingTime = 0;
+        ItemSearchingRemainTime = 0;
         ItemName = "";
         ItemExplain = "";
         ItemCraftingTime = 0;
