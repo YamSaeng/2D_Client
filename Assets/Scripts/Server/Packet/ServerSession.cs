@@ -101,6 +101,9 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_LEFT_MOUSE_OBJECT_INFO:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_LeftMousePositionObjectInfoHandler);
                 break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_LEFT_DRAG_OBJECTS_SELECT:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_LeftMouseDragObjectsSelectHandler);
+                break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_RIGHT_MOUSE_OBJECT_INFO:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_RightMouseObjectInfoHandler);
                 break;
