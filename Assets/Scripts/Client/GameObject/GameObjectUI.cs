@@ -22,15 +22,16 @@ public class GameObjectUI : MonoBehaviour
     {
         if (_GameSceneUI != null && _OwnerPlayer != null)
         {         
-            if(_OwnerPlayer._InventoryManager != null)
+            if(_OwnerPlayer._Inventory != null)
             {
-                if (_OwnerPlayer._InventoryManager._InventoryUI != null && _OwnerPlayer._InventoryManager._InventoryUI.gameObject.activeSelf == false)
+                if (_OwnerPlayer._Inventory._InventoryUI != null 
+                    && _OwnerPlayer._Inventory._InventoryUI.gameObject.activeSelf == false)
                 {
-                    _GameSceneUI.AddGameSceneUIStack(_OwnerPlayer._InventoryManager._InventoryUI);
+                    _GameSceneUI.AddGameSceneUIStack(_OwnerPlayer._Inventory._InventoryUI);
                 }
                 else
                 {
-                    _GameSceneUI.DeleteGameSceneUIStack(_OwnerPlayer._InventoryManager._InventoryUI);
+                    _GameSceneUI.DeleteGameSceneUIStack(_OwnerPlayer._Inventory._InventoryUI);
                     _GameSceneUI.EmptyItemExplanation();
                 }
             }            
