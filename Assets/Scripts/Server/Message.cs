@@ -578,6 +578,8 @@ namespace ServerCore
 
             ItemInfo.ItemCount = _MessageBufReader.ReadInt16();
 
+            ItemInfo.ItemIsSearching = _MessageBufReader.ReadBoolean();
+
             ItemInfo.ItemIsEquipped = _MessageBufReader.ReadBoolean();
 
             short ItemCraftingMaterialCount = _MessageBufReader.ReadInt16();
