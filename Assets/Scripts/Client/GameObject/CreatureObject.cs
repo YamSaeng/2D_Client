@@ -26,7 +26,7 @@ public class CreatureObject : CBaseObject
     public UI_GatheringBar _GatheringBar;
 
     [HideInInspector]
-    public InventoryManager _InventoryManager;    
+    public Inventory _Inventory;
 
     [HideInInspector]
     public EquipmentBox _EquipmentBox { get; set; }
@@ -62,10 +62,10 @@ public class CreatureObject : CBaseObject
 
         if(_GameObjectInfo.ObjectId != Managers.NetworkManager._PlayerDBId)
         {
-            if (_InventoryManager == null)
+            if (_Inventory == null)
             {
-                _InventoryManager = new InventoryManager();
-                _InventoryManager.InventoryCreate(this, 1, 10, 10);
+                _Inventory = new Inventory();
+                _Inventory.InventoryCreate(10, 10);                
             }
         }       
 
@@ -233,6 +233,14 @@ public class CreatureObject : CBaseObject
         }        
     }           
 
+    public void S2C_InventoryInsertItem(st_ItemInfo[] InventoryItems, long Coin)
+    {
+        foreach(st_ItemInfo InventoryItem in InventoryItems)
+        {
+            _Inventory.PlaceItem(InventoryItem, InventoryItem.ItemTileGridPositionX, InventoryItem.ItemTileGridPositionY);   
+        }       
+    }
+
     public void SkillCastingStart(string SkillCastingName, float SkillCastingTime, float SkillCastingSpeed)
     {
         if (_SkillCastingBarUI != null)
@@ -243,11 +251,6 @@ public class CreatureObject : CBaseObject
         {
             Debug.Log("SkillCasting Bar를 찾을 수 없습니다.");
         }
-    }
-
-    public void CreatureObjectInit()
-    {
-        
     }
 
     IEnumerator SpawnEventCoroutine()
