@@ -23,8 +23,8 @@ public class UI_Inventory : UI_Base
     public RectTransform _InventoryRectTransform;
 
     // 가방의 너비와 높이
-    [SerializeField] int InventorySizeWidth;
-    [SerializeField] int InventorySizeHeight;
+    [SerializeField] int _InventoryWidth;
+    [SerializeField] int _InventoryHeight;
         
     [SerializeField] GameObject InventoryEdge;    
 
@@ -35,9 +35,7 @@ public class UI_Inventory : UI_Base
 
     enum en_InventoryMoneyText
     {
-        GoldCoinCountText,
-        SliverCoinCountText,
-        BronzeCoinCountText
+        CoinText
     }
 
     public override void Init()
@@ -68,8 +66,8 @@ public class UI_Inventory : UI_Base
 
     public void InventoryCreate(int GridInventoryWidth, int GridInventoryHeight)
     {
-        InventorySizeWidth = GridInventoryWidth;
-        InventorySizeHeight = GridInventoryHeight;
+        _InventoryWidth = GridInventoryWidth;
+        _InventoryHeight = GridInventoryHeight;
 
         // 그리드 가방 슬롯 개수 설정
         InventorySlots = new UI_InventoryItem[GridInventoryWidth, GridInventoryHeight];
@@ -135,9 +133,9 @@ public class UI_Inventory : UI_Base
     // 가방에서 아이템 찾기
     public UI_InventoryItem FindItem(en_SmallItemCategory FindSmallCategory)
     {
-        for (int X = 0; X < InventorySizeWidth; X++)
+        for (int X = 0; X < _InventoryWidth; X++)
         {
-            for (int Y = 0; Y < InventorySizeHeight;Y++)
+            for (int Y = 0; Y < _InventoryHeight;Y++)
             {
                 if(InventorySlots[X,Y] != null && InventorySlots[X, Y]._ItemInfo.ItemSmallCategory == FindSmallCategory)
                 {
@@ -153,8 +151,8 @@ public class UI_Inventory : UI_Base
     public Vector2Int? FindSpaceForObject(UI_InventoryItem ItemToInsert)
     {
         // 탐색할 높이와 너비를 구한다.
-        int Height = InventorySizeHeight - ItemToInsert.HEIGHT + 1;
-        int Width = InventorySizeWidth - ItemToInsert.WIDTH + 1;
+        int Height = _InventoryHeight - ItemToInsert.HEIGHT + 1;
+        int Width = _InventoryWidth - ItemToInsert.WIDTH + 1;
 
         // 가방 슬롯 공간 중에서 아이템의 넓이 만큼 비어 있는곳을 찾는다.
         for (int Y = 0; Y < Height; Y++)
@@ -372,7 +370,7 @@ public class UI_Inventory : UI_Base
         }
 
         // x 위치값이 가방 너비보다 커지거나 Y 위치값이 가방 높이보다 커질 경우 false
-        if(PositionX >= InventorySizeWidth || PositionY >= InventorySizeHeight)
+        if(PositionX >= _InventoryWidth || PositionY >= _InventoryHeight)
         {
             return false;
         }
@@ -380,11 +378,9 @@ public class UI_Inventory : UI_Base
         return true;
     }
 
-    public void MoneyUIUpdate(Int64 GoldCoinCount, Int16 SliverCoinCount, Int16 BronzeCoinCount)
+    public void MoneyUIUpdate(long Coin)
     {
-        GetTextMeshPro((int)en_InventoryMoneyText.GoldCoinCountText).text = GoldCoinCount.ToString();
-        GetTextMeshPro((int)en_InventoryMoneyText.SliverCoinCountText).text = SliverCoinCount.ToString();
-        GetTextMeshPro((int)en_InventoryMoneyText.BronzeCoinCountText).text = BronzeCoinCount.ToString();
+        GetTextMeshPro((int)en_InventoryMoneyText.CoinText).text = Coin.ToString();        
     }
 
     public bool IsCollision(UI_Base CollisionUI)
@@ -401,5 +397,26 @@ public class UI_Inventory : UI_Base
         }
 
         return false;
+    }
+
+    public void InventoryInit()
+    {
+        for(int Width = 0; Width < _InventoryWidth; Width++)
+        {
+            for(int Height = 0; Height < _InventoryHeight; Height++)
+            {
+                if(InventorySlots[Width,Height] != null)
+                {
+                    UI_InventoryItem InventoryItem = InventorySlots[Width,Height];
+                    if(InventoryItem != null)
+                    {
+                        Destroy(InventoryItem.gameObject);
+                        InventorySlots[Width,Height] = null;
+                    }
+                }
+            }
+        }
+
+        GetTextMeshPro((int)en_InventoryMoneyText.CoinText).text = "0";
     }
 }
