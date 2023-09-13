@@ -827,6 +827,7 @@ public enum en_ResourceName
     CLIENT_UI_SKILL_EXPLANATION,
     CLIENT_UI_SKILL_ITEM,
     CLIENT_UI_SKILL_ITEM_DRAG,
+    CLIENT_UI_SKILL_CHARACTERISTIC_SELECT,
     CLIENT_UI_SKILL_BUF_DEBUF,
 
     CLIENT_UI_ITEM_EXPLANATION,
@@ -1027,24 +1028,42 @@ public class st_PositionInfo : IEquatable<st_PositionInfo>
 public class st_StatInfo
 {
     public byte Level;
+
+    public int Str;
+    public int Dex;
+    public int Int;    
+    public int Luck;
+
+    public int Con;
+    public int Wis;
+
     public int HP;
     public int MaxHP;
     public int MP;
     public int MaxMP;
-    public int DP;
-    public int MaxDP;
+    
     public short AutoRecoveyHPPercent;
     public short AutoRecoveyMPPercent;
-    public int MinMeleeAttackDamage;
-    public int MaxMeleeAttackDamage;
-    public short MeleeAttackHitRate;
-    public short MagicDamage;
-    public float MagicHitRate;
+
+    public int MinAttackPoint;
+    public int MaxAttackPoint;
+
+    public short SpiritPoint;
+
+    public short AttackHitRate;
+    public float SpellCastingRate;
+
     public int Defence;
+
     public short EvasionRate;
-    public short MeleeCriticalPoint;
-    public short MagicCriticalPoint;
+
+    public short AttackCriticalPoint;
+    public short SpellCriticalPoint;
+
+    public short AttackCriticalResistance;
+
     public short StatusAbnormalResistance;
+
     public float Speed;
     public float MaxSpeed;
 }
