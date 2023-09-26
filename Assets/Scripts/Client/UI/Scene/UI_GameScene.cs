@@ -7,7 +7,7 @@ public class UI_GameScene : UI_Scene
 {
     public GameObject _Object;
     public UI_EquipmentBox _EquipmentBoxUI { get; set; } // 장비창 UI    
-    public UI_InventoryItemDivide _InventoryItemDivideUI {  get; set; } // 아이템 분배 UI
+    public UI_InventoryItemDivide _InventoryItemDivideUI { get; set; } // 아이템 분배 UI
     public UI_TargetHUD _TargetHUDUI { get; set; } // Target HUD UI
     public UI_ChattingBoxGroup _ChattingBoxGroup { get; private set; } // 채팅창 UI
     public UI_Minimap _Minimap { get; private set; } // 미니맵 UI
@@ -20,7 +20,7 @@ public class UI_GameScene : UI_Scene
     public UI_SkillExplanation _SkillExplanationUI { get; private set; } // 스킬 설명문 UI
     public UI_ItemExplanation _ItemExplanationUI { get; private set; } // 아이템 설명문 UI
     public UI_Furnace _FurnaceUI { get; private set; } // 용광로 UI
-    public UI_Sawmill _SawmillUI {  get; private set; } // 제재소 UI         
+    public UI_Sawmill _SawmillUI { get; private set; } // 제재소 UI         
     public UI_Option _OptionUI { get; private set; } // 옵션 UI    
     // GameScene에 현재 열려잇는 UI를 관리할 배열
     // 모든 UI는 GameSceneUIList에 저장될때 저장되는 인덱스 번호를 가진다.
@@ -36,6 +36,9 @@ public class UI_GameScene : UI_Scene
     public UI_PartyReaction _PartyReactionUI { get; private set; }
     public UI_QuickSlotKey _QuickSlotKeyUI { get; private set; }
     public UI_Interaction _InteractionUI { get; private set; }
+    public UI_Menu _MenuUI { get; private set; }
+    public UI_Building _BuildingUI { get; private set; }
+
     public override void ShowCloseUI(bool IsShowClose)
     {
         throw new System.NotImplementedException();
@@ -46,11 +49,11 @@ public class UI_GameScene : UI_Scene
         base.Init();
 
         _Object = new GameObject();
-        if(_Object != null)
+        if (_Object != null)
         {
             _Object.name = "@Object";
         }
-    }        
+    }
 
     public override void Binding()
     {
@@ -60,7 +63,7 @@ public class UI_GameScene : UI_Scene
         _Minimap.Binding();
 
         _ItemGainBox = GetComponentInChildren<UI_ItemGainBox>();
-        _ItemGainBox.Binding();        
+        _ItemGainBox.Binding();
 
         _QuickSlotBarBoxUI = GetComponentInChildren<UI_QuickSlotBarBox>();
 
@@ -90,7 +93,7 @@ public class UI_GameScene : UI_Scene
 
         GameObject OptionGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_OPTION, this.transform);
         _OptionUI = OptionGO.GetComponent<UI_Option>();
-        _OptionUI.Binding();       
+        _OptionUI.Binding();
 
         GameObject DragSkillItemGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_ITEM_DRAG, this.transform);
         _DragSkillItemUI = DragSkillItemGO.GetComponent<UI_SkillItemDrag>();
@@ -109,11 +112,11 @@ public class UI_GameScene : UI_Scene
         _TargetHUDUI = TargetHUDGO.GetComponent<UI_TargetHUD>();
         _TargetHUDUI.Binding();
         _TargetHUDUI.TargetHUDOff();
-                
+
         GameObject PlayerOptionGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_PLAYER_OPTION, this.transform);
         _PlayerOptionUI = PlayerOptionGO.GetComponent<UI_PlayerOption>();
         _PlayerOptionUI.Binding();
-                
+
         GameObject PartyFrameGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_PARTY, this.transform);
         _PartyFrameUI = PartyFrameGO.GetComponent<UI_PartyFrame>();
         _PartyFrameUI.Binding();
@@ -129,10 +132,18 @@ public class UI_GameScene : UI_Scene
         GameObject QuickSlotKeyGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_QUICK_SLOT_KEY, this.transform);
         _QuickSlotKeyUI = QuickSlotKeyGO.GetComponent<UI_QuickSlotKey>();
         _QuickSlotKeyUI.Binding();
-        
+
         GameObject InteractionGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_INTERACTION, this.transform);
         _InteractionUI = InteractionGO.GetComponent<UI_Interaction>();
         _InteractionUI.Binding();
+
+        GameObject MenuUIGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_MENU, this.transform);
+        _MenuUI = MenuUIGO.GetComponent<UI_Menu>();
+        _MenuUI.Binding();
+
+        GameObject BuildingUIGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_MENU_BUILDING, this.transform);
+        _BuildingUI = BuildingUIGO.GetComponent<UI_Building>();
+        _BuildingUI.Binding();
 
         Camera MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         MainCamera.orthographicSize = 6;
@@ -144,8 +155,8 @@ public class UI_GameScene : UI_Scene
 
         _SkillExplanationUI.SkillExplanationSet(SkillInfo);
         _SkillExplanationUI.ShowCloseUI(true);
-        
-        _SkillExplanationUI.GetComponent<RectTransform>().position = Input.mousePosition;        
+
+        _SkillExplanationUI.GetComponent<RectTransform>().position = Input.mousePosition;
     }
 
     public void EmptySkillExplanation()
@@ -185,13 +196,13 @@ public class UI_GameScene : UI_Scene
 
         for (int EmptyIndex = 0; EmptyIndex < Constants.GameSceneUIListMax; EmptyIndex++)
         {
-            if(_GameSceneUIList[EmptyIndex] == null)
+            if (_GameSceneUIList[EmptyIndex] == null)
             {
                 _GameSceneUIList[EmptyIndex] = AddUI;
-                AddUI._SceneUIListIndex = EmptyIndex;         
+                AddUI._SceneUIListIndex = EmptyIndex;
                 break;
             }
-        }               
+        }
     }
 
     public void DeleteGameSceneUIStack(UI_Base DeleteUI)
@@ -205,7 +216,7 @@ public class UI_GameScene : UI_Scene
     {
         for (int i = 0; i < Constants.GameSceneUIListMax; ++i)
         {
-            if(_GameSceneUIList[i] != null)
+            if (_GameSceneUIList[i] != null)
             {
                 return false;
             }
@@ -225,7 +236,7 @@ public class UI_GameScene : UI_Scene
         }
 
         return null;
-    }            
+    }
 
     private void Update()
     {
@@ -237,6 +248,6 @@ public class UI_GameScene : UI_Scene
         if (_ItemExplanationUI != null && _ItemExplanationUI.gameObject.activeSelf == true)
         {
             _ItemExplanationUI.GetComponent<RectTransform>().position = Input.mousePosition;
-        }        
-    }   
+        }
+    }
 }
