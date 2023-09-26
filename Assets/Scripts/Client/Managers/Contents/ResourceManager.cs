@@ -61,6 +61,7 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_DAMAGE, "UI/Damage/UI_Damage");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_BOX, "UI/Skill/UI_SkillBox");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_CHARACTERISTIC_SELECT, "UI/Skill/UI_SkilCharacteristic");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_ITEM, "UI/Skill/UI_SkillItem");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_ITEM_DRAG, "UI/Skill/UI_SkillItemDrag");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SKILL_EXPLANATION, "UI/Skill/UI_SkillExplanation");
@@ -102,8 +103,11 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_OPTION, "UI/Option/UI_Option");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_OPTION_ITEM, "UI/Option/UI_OptionItem");
-
+        
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_INTERACTION, "UI/Interaction/UI_Interaction");
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_MENU, "UI/Menu/UI_Menu");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_MENU_BUILDING, "UI/Building/UI_Building");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DAY, "Day/DayManager");
 
