@@ -11,7 +11,8 @@ using UnityEngine.UI;
 public class UI_CharacterCreate : UI_Scene
 {
     // 캐릭터 선택창으로 부터 받은 캐릭터 슬롯 Index;
-    public byte _CharacterCreateSlotIndex { get; set; }    
+    public byte _CharacterCreateSlotIndex { get; set; }
+    public UI_SelectSkilCharacteristic _SelectSkillCharacteristic;
 
     enum en_CharacterCreatePopButton
     {        
@@ -37,6 +38,9 @@ public class UI_CharacterCreate : UI_Scene
         Bind<Image>(typeof(en_SampleCharacterImage));
         
         BindEvent(GetButton((int)en_CharacterCreatePopButton.CharacterCreateButton).gameObject, OnCharacterCreateButtonClick, Define.en_UIEvent.MouseClick);
+
+        _SelectSkillCharacteristic = gameObject.transform.Find("UI_SelectSkilCharacteristic").GetComponent<UI_SelectSkilCharacteristic>();
+        _SelectSkillCharacteristic.Binding();
     }  
 
     void OnCharacterCreateButtonClick(PointerEventData Event)
@@ -50,7 +54,7 @@ public class UI_CharacterCreate : UI_Scene
         string CharacterName = GetInputField((int)en_CharacterCreateInputField.CharacterNameInputField).text;
 
         // 게임 캐릭터 생성 요청
-        CMessage ReqGameServerCreateCharacterPacket = Packet.MakePacket.ReqMakeCreateCharacterPacket(CharacterName, _CharacterCreateSlotIndex);
+        CMessage ReqGameServerCreateCharacterPacket = Packet.MakePacket.ReqMakeCreateMainCharacterPacket(CharacterName, _CharacterCreateSlotIndex, _SelectSkillCharacteristic._SkillCharacteristic);
         Managers.NetworkManager.GameServerSend(ReqGameServerCreateCharacterPacket);
     }
 }
