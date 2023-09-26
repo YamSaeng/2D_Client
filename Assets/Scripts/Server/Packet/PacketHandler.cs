@@ -182,8 +182,8 @@ namespace Packet
             UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
             if (GameSceneUI != null)
             {
-                CreatureObject FindGameObject = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<CreatureObject>();
-                if (FindGameObject != null)
+                CreatureObject MyCharacterGameObject = Managers.Object.FindById(Managers.NetworkManager._PlayerDBId).GetComponent<CreatureObject>();
+                if (MyCharacterGameObject != null)
                 {
                     long CurrentExperience;
                     long RequireExperience;
@@ -199,9 +199,9 @@ namespace Packet
                     byte SkillPoint;
                     S2C_CharacterInfoPacket.GetData(out SkillPoint, sizeof(byte));
 
-                    FindGameObject._GameObjectInfo.ObjectSkillPoint = SkillPoint;
+                    MyCharacterGameObject._GameObjectInfo.ObjectSkillPoint = SkillPoint;
 
-                    FindGameObject.SkillBoxUICreate();
+                    MyCharacterGameObject.SkillBoxUICreate();
 
                     // 스킬 데이터 가져오기
                     // 공용 스킬 패시브 개수
@@ -278,13 +278,24 @@ namespace Packet
 
                     S2C_CharacterInfoPacket.GetData(out Coin, sizeof(long));                    
 
-                    if(FindGameObject._InventoryManager == null)
+                    if(MyCharacterGameObject._Inventory == null)
                     {
-                        FindGameObject._InventoryManager = new InventoryManager();
+                        MyCharacterGameObject._Inventory = new Inventory();
+                        MyCharacterGameObject._Inventory.InventoryCreate(InventoryWidth, InventoryHeight);
+                    }
+                    else
+                    {
+                        MyCharacterGameObject._Inventory.Init();
                     }
 
-                    FindGameObject._InventoryManager.InventoryCreate(FindGameObject, 1, InventoryWidth, InventoryHeight);
-                    FindGameObject._InventoryManager.S2C_InventoryCreateInsertItem(InventoryItems, Coin);
+                    foreach(st_ItemInfo InventoryItem in InventoryItems)
+                    {
+                        MyCharacterGameObject._Inventory.PlaceItem(InventoryItem, InventoryItem.ItemTileGridPositionX, InventoryItem.ItemTileGridPositionY);
+                    }
+
+                    MyCharacterGameObject._Inventory.InsertMoney(Coin);
+
+                    Managers.MyInventory.SelectedInventory = MyCharacterGameObject._Inventory._InventoryUI;
 
                     // 퀵슬롯 셋팅
                     byte QuickSlotBarSize;
@@ -341,7 +352,7 @@ namespace Packet
                     S2C_CharacterInfoPacket.GetData(out EquipmentCount, sizeof(byte));
 
                     // 장비 창 생성
-                    FindGameObject.EquipmentBoxUICreate();
+                    MyCharacterGameObject.EquipmentBoxUICreate();
 
                     if (EquipmentCount > 0)
                     {
@@ -349,7 +360,7 @@ namespace Packet
                         st_ItemInfo[] EquipmentItems = new st_ItemInfo[EquipmentCount];
                         S2C_CharacterInfoPacket.GetData(EquipmentItems, EquipmentCount);
 
-                        FindGameObject.EquipmentBoxUIItemCreate(EquipmentItems);
+                        MyCharacterGameObject.EquipmentBoxUIItemCreate(EquipmentItems);
                     }             
 
                     ////조합템 정보 셋팅
@@ -1036,12 +1047,24 @@ namespace Packet
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
                 if(GameSceneUI != null)
                 {
-                    GameSceneUI._InteractionUI.SetInteractionInfoText(FindObject._GameObjectInfo.ObjectType, FindObject._GameObjectInfo.ObjectId);
+                    if(Managers.NetworkManager._PlayerDBId != FindObjectId)
+                    {
+                        GameSceneUI._InteractionUI.SetInteractionInfoText(FindObject._GameObjectInfo.ObjectType, FindObject._GameObjectInfo.ObjectId);
+                    }                    
 
                     UI_TargetHUD TargetHUDUI = GameSceneUI._TargetHUDUI;
                     if (TargetHUDUI != null)
                     {
+                        if(TargetHUDUI.gameObject.activeSelf == true)
+                        {
+                            TargetHUDUI.ShowCloseUI(false);
+                            GameSceneUI.DeleteGameSceneUIStack(TargetHUDUI);                            
+                        }                        
+
                         TargetHUDUI.TargetHUDOn(FindObject);
+
+                        // 탭하고 다시 탭해서 다른 대상을 선택할 경우 TargetHUD는 하나인데 저장이 여러곳에 되는 문제가 있음.
+                        // TargetHUD가 활성화 되어 있으면 닫고 새로 켜줘야함
 
                         GameSceneUI.AddGameSceneUIStack(TargetHUDUI);
 
@@ -1138,6 +1161,25 @@ namespace Packet
             FindObject._HPBarUI.SelectTargetHPBar(true);            
 
             S2C_LeftMousePositionObjectInfoPacket.Dispose();
+        }
+
+        public static void S2C_LeftMouseDragObjectsSelectHandler(CMessage S2C_LeftMouseDragObjectsSelectPacket)
+        {
+            byte DragObjectsSelectCount;
+
+            S2C_LeftMouseDragObjectsSelectPacket.GetData(out DragObjectsSelectCount, sizeof(long));
+
+            long[] DragObjectIDs = new long[DragObjectsSelectCount];
+            S2C_LeftMouseDragObjectsSelectPacket.GetData(DragObjectIDs, DragObjectsSelectCount);
+
+            foreach(long DragObjectID in DragObjectIDs)
+            {
+                GameObject FindObject = Managers.Object.FindById(DragObjectID);
+                if(FindObject != null)
+                {
+                    Debug.Log(FindObject.name);
+                }
+            }
         }
 
         public static void S2C_RightMouseObjectInfoHandler(CMessage S2C_RightMousePositionObjectInfoPacket)
@@ -2938,34 +2980,44 @@ namespace Packet
         public static void S2C_InteractionHandler(CMessage S2C_InteractionMessage)
         {
             long TargetObjectID;
-            byte InteractionType;            
+            byte InteractionType;
 
+            S2C_InteractionMessage.GetData(out TargetObjectID, sizeof(long));
             S2C_InteractionMessage.GetData(out InteractionType, sizeof(byte));
-            S2C_InteractionMessage.GetData(out TargetObjectID, sizeof(long));            
-            
-            switch((en_InteractionType)InteractionType)
+
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            if(GameSceneUI != null)
             {
-                case en_InteractionType.INTERACTION_TYPE_ROOTING:
-                    byte RootingItemsCount;
-                    long RootingMoney;
+                switch ((en_InteractionType)InteractionType)
+                {
+                    case en_InteractionType.INTERACTION_TYPE_ROOTING:
+                        byte RootingItemsCount;
+                        short RootingMoney;
 
-                    S2C_InteractionMessage.GetData(out RootingItemsCount, sizeof(byte));
-                    S2C_InteractionMessage.GetData(out RootingMoney, sizeof(long));
+                        S2C_InteractionMessage.GetData(out RootingItemsCount, sizeof(byte));
+                        st_ItemInfo[] RootingItems = new st_ItemInfo[RootingItemsCount];
+                        S2C_InteractionMessage.GetData(RootingItems, RootingItemsCount);
 
-                    st_ItemInfo[] RootingItems = new st_ItemInfo[RootingItemsCount];
-                    S2C_InteractionMessage.GetData(RootingItems, RootingItemsCount);
+                        S2C_InteractionMessage.GetData(out RootingMoney, sizeof(short));
 
-                    GameObject RootingGameobject = Managers.Object.FindById(TargetObjectID);
-                    if (RootingGameobject != null)
-                    {
-                        CreatureObject RootingCreature = RootingGameobject.GetComponent<CreatureObject>();
-                        if (RootingCreature != null)
+                        GameObject RootingGameobject = Managers.Object.FindById(TargetObjectID);
+                        if (RootingGameobject != null)
                         {
-                            RootingCreature._InventoryManager.S2C_InventoryCreateInsertItem(RootingItems, RootingMoney);                            
-                            RootingCreature._InventoryManager._InventoryUI.ShowCloseUI(true);
+                            CreatureObject RootingCreature = RootingGameobject.GetComponent<CreatureObject>();
+                            if (RootingCreature != null)
+                            {
+                                foreach (st_ItemInfo RootingItem in RootingItems)
+                                {
+                                    RootingCreature._Inventory.PlaceItem(RootingItem, RootingItem.ItemTileGridPositionX, RootingItem.ItemTileGridPositionY);
+                                }
+
+                                RootingCreature._Inventory.InventoryUIShowClose(true);
+
+                                GameSceneUI.AddGameSceneUIStack(RootingCreature._Inventory._InventoryUI);                                
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
             }            
         }
 
@@ -3488,12 +3540,13 @@ namespace Packet
             return ReqItemUsePacket;
         }
 
-        public static CMessage ReqMakeCreateCharacterPacket(string CreateCharacterName, byte CreateCharacterSlotIndex)
+        public static CMessage ReqMakeCreateMainCharacterPacket(string CreateCharacterName, byte CreateCharacterSlotIndex, en_SkillCharacteristic SkillCharacteristic)
         {
             CMessage ReqCreateCharacterPacket = new CMessage();
             ReqCreateCharacterPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_GAME_CREATE_CHARACTER, sizeof(short));
             ReqCreateCharacterPacket.InsertData(CreateCharacterName);
             ReqCreateCharacterPacket.InsertData(CreateCharacterSlotIndex, sizeof(byte));
+            ReqCreateCharacterPacket.InsertData((byte)SkillCharacteristic, sizeof(byte));
 
             return ReqCreateCharacterPacket;
         }
