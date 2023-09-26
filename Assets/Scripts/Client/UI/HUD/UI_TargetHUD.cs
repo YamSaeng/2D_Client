@@ -16,15 +16,13 @@ public class UI_TargetHUD : UI_Base
     enum en_TargetHUDGameObject
     {
         TargetBufList,
-        TargetDeBufList,
-        DP
+        TargetDeBufList
     }
 
     enum en_TargetHUDSlider
     {
         TargetHealthBar,
-        TargetManaBar,
-        TargetDivineBar
+        TargetManaBar
     }
 
     enum en_TextHUDText
@@ -34,9 +32,7 @@ public class UI_TargetHUD : UI_Base
         TargetHPText,
         TargetMaxHPText,
         TargetMPText,
-        TargetMaxMPText,
-        TargetDPText,
-        TargetMaxDPText,
+        TargetMaxMPText,        
         TargetDistanceText
     }
 
@@ -64,12 +60,10 @@ public class UI_TargetHUD : UI_Base
         if(_TargetObject != null)
         {
             float CurrentHPRatio = 0.0f;
-            float CurrentMPRatio = 0.0f;
-            float CurrentDPRatio = 0.0f;
+            float CurrentMPRatio = 0.0f;            
 
             CurrentHPRatio = ((float)_TargetObject._GameObjectInfo.ObjectStatInfo.HP) / _TargetObject._GameObjectInfo.ObjectStatInfo.MaxHP;
-            CurrentMPRatio = ((float)_TargetObject._GameObjectInfo.ObjectStatInfo.MP) / _TargetObject._GameObjectInfo.ObjectStatInfo.MaxMP;
-            CurrentDPRatio = ((float)_TargetObject._GameObjectInfo.ObjectStatInfo.DP) / _TargetObject._GameObjectInfo.ObjectStatInfo.MaxDP;
+            CurrentMPRatio = ((float)_TargetObject._GameObjectInfo.ObjectStatInfo.MP) / _TargetObject._GameObjectInfo.ObjectStatInfo.MaxMP;            
 
             GetTextMeshPro((int)en_TextHUDText.TargetNameText).text = _TargetObject._GameObjectInfo.ObjectName;
             GetTextMeshPro((int)en_TextHUDText.TargetLevelText).text = _TargetObject._GameObjectInfo.ObjectStatInfo.Level.ToString();
@@ -80,11 +74,7 @@ public class UI_TargetHUD : UI_Base
             
             GetSlider((int)en_TargetHUDSlider.TargetManaBar).value = CurrentMPRatio;
             GetTextMeshPro((int)en_TextHUDText.TargetMPText).text = _TargetObject._GameObjectInfo.ObjectStatInfo.MP.ToString();
-            GetTextMeshPro((int)en_TextHUDText.TargetMaxMPText).text = _TargetObject._GameObjectInfo.ObjectStatInfo.MaxMP.ToString();
-
-            GetSlider((int)en_TargetHUDSlider.TargetDivineBar).value = CurrentDPRatio;
-            GetTextMeshPro((int)en_TextHUDText.TargetDPText).text = _TargetObject._GameObjectInfo.ObjectStatInfo.DP.ToString();
-            GetTextMeshPro((int)en_TextHUDText.TargetMaxDPText).text = _TargetObject._GameObjectInfo.ObjectStatInfo.MaxDP.ToString();
+            GetTextMeshPro((int)en_TextHUDText.TargetMaxMPText).text = _TargetObject._GameObjectInfo.ObjectStatInfo.MaxMP.ToString();            
         }        
     }
 
@@ -94,16 +84,7 @@ public class UI_TargetHUD : UI_Base
         
         gameObject.SetActive(true);
 
-        gameObject.transform.SetAsLastSibling();
-
-        if (_TargetObject._GameObjectInfo.ObjectStatInfo.MaxDP == 0)
-        {
-            GetGameObject((int)en_TargetHUDGameObject.DP).gameObject.SetActive(false);
-        }
-        else
-        {
-            GetGameObject((int)en_TargetHUDGameObject.DP).gameObject.SetActive(true);
-        }
+        gameObject.transform.SetAsLastSibling();        
     }
 
     public void TargetHUDOff()

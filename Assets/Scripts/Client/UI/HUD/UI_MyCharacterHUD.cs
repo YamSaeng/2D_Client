@@ -14,8 +14,7 @@ public class UI_MyCharacterHUD : UI_Base
     enum en_MyCharacterHUDSlider
     {
         MyCharacterHealthBar,
-        MyCharacterManaBar,
-        MyCharacterDivineBar,
+        MyCharacterManaBar
     }
 
     enum en_MyCharacterHUDText
@@ -25,9 +24,7 @@ public class UI_MyCharacterHUD : UI_Base
         CurrentHPText,
         MaxHPText,
         CurrentMPText,
-        MaxMPText,
-        CurrentDPText,
-        MaxDPText
+        MaxMPText
     }
 
     enum en_MyCharacterHUDGameObject
@@ -59,12 +56,10 @@ public class UI_MyCharacterHUD : UI_Base
         if(_MyCharacterObject != null)
         {
             float CurrentHPRatio = 0.0f;
-            float CurrentMPRatio = 0.0f;
-            float CurrentDPRatio = 0.0f;
+            float CurrentMPRatio = 0.0f;            
 
             CurrentHPRatio = ((float)_MyCharacterObject._GameObjectInfo.ObjectStatInfo.HP) / _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxHP;
-            CurrentMPRatio = ((float)_MyCharacterObject._GameObjectInfo.ObjectStatInfo.MP) / _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxMP;
-            CurrentDPRatio = ((float)_MyCharacterObject._GameObjectInfo.ObjectStatInfo.DP) / _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxDP;
+            CurrentMPRatio = ((float)_MyCharacterObject._GameObjectInfo.ObjectStatInfo.MP) / _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxMP;            
                         
             GetTextMeshPro((int)en_MyCharacterHUDText.MyCharacterNameText).text = _MyCharacterObject._GameObjectInfo.ObjectName;
             GetTextMeshPro((int)en_MyCharacterHUDText.MyCharacterLevelText).text = _MyCharacterObject._GameObjectInfo.ObjectStatInfo.Level.ToString();
@@ -75,11 +70,7 @@ public class UI_MyCharacterHUD : UI_Base
 
             GetSlider((int)en_MyCharacterHUDSlider.MyCharacterManaBar).value = CurrentMPRatio;
             GetTextMeshPro((int)en_MyCharacterHUDText.CurrentMPText).text = _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MP.ToString();
-            GetTextMeshPro((int)en_MyCharacterHUDText.MaxMPText).text = _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxMP.ToString();
-
-            GetSlider((int)en_MyCharacterHUDSlider.MyCharacterDivineBar).value = CurrentDPRatio;
-            GetTextMeshPro((int)en_MyCharacterHUDText.CurrentDPText).text = _MyCharacterObject._GameObjectInfo.ObjectStatInfo.DP.ToString();
-            GetTextMeshPro((int)en_MyCharacterHUDText.MaxDPText).text = _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxDP.ToString();
+            GetTextMeshPro((int)en_MyCharacterHUDText.MaxMPText).text = _MyCharacterObject._GameObjectInfo.ObjectStatInfo.MaxMP.ToString();            
         }        
     }
 
