@@ -971,7 +971,7 @@ public class KeyManager
 
         if (QuickSlotBarSlotInfo.QuickBarItemInfo != null && QuickSlotBarSlotInfo.QuickBarItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
         {
-            CMessage ReqMakeItemUsePacket = Packet.MakePacket.ReqMakeItemUsePacket(Managers.NetworkManager._AccountId, Managers.NetworkManager._PlayerDBId,
+            CMessage ReqMakeItemUsePacket = Packet.MakePacket.ReqMakeItemUsePacket(
                     QuickSlotBarSlotInfo.QuickBarItemInfo.ItemSmallCategory,
                     QuickSlotBarSlotInfo.QuickBarItemInfo.ItemTileGridPositionX,
                     QuickSlotBarSlotInfo.QuickBarItemInfo.ItemTileGridPositionY);
@@ -1017,6 +1017,7 @@ public class KeyManager
                                 GOInput.OnEquipmentUIOpen?.Invoke();
                                 break;
                             case en_UserQuickSlot.USER_KEY_QUICK_SLOT_INTERACTION:
+                                GameSceneUI._InteractionUI.C2S_InteractionPacketSend();
                                 break;
                             case en_UserQuickSlot.USER_KEY_QUICK_SLOT_FIND_AROUND_OBJECT:
                                 Player.FindAroundObject();                                                              
@@ -1036,8 +1037,7 @@ public class KeyManager
                                         UI_Furnace FurnaceUI = GameSceneUIStackUI as UI_Furnace;
                                         if (FurnaceUI != null)
                                         {
-                                            CMessage ReqCraftingTableNonSelectPacket = Packet.MakePacket.ReqMakeCraftingTableNonSelectPacket(Managers.NetworkManager._AccountId,
-                                                Managers.NetworkManager._PlayerDBId,
+                                            CMessage ReqCraftingTableNonSelectPacket = Packet.MakePacket.ReqMakeCraftingTableNonSelectPacket(
                                                 FurnaceUI._FurnaceController._GameObjectInfo.ObjectId,
                                                 FurnaceUI._FurnaceController._GameObjectInfo.ObjectType);
                                             Managers.NetworkManager.GameServerSend(ReqCraftingTableNonSelectPacket);
@@ -1049,7 +1049,22 @@ public class KeyManager
                                             if(GameSceneUI._InteractionUI.gameObject.activeSelf == true)
                                             {
                                                 GameSceneUI._InteractionUI.ShowCloseUI(false);
+                                                GameObject TargetGameObject = Managers.Object.FindById(TargetHUDUI._TargetObject._GameObjectInfo.ObjectId);                                                
+                                                if(TargetGameObject != null)
+                                                {
+                                                    CreatureObject TargetCreature = TargetGameObject.GetComponent<CreatureObject>();
+                                                    if(TargetCreature != null)
+                                                    {
+                                                        TargetCreature._HPBarUI.HPBarHideStart();
+                                                    }
+                                                }
                                             }                                            
+                                        }
+
+                                        UI_Inventory InventoryUI = GameSceneUIStackUI as UI_Inventory;
+                                        if(InventoryUI != null)
+                                        {
+                                            GameSceneUI.EmptyItemExplanation();
                                         }
 
                                         GameSceneUI.DeleteGameSceneUIStack(GameSceneUIStackUI);
