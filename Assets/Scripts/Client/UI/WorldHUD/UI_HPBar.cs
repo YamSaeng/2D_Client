@@ -82,4 +82,9 @@ public class UI_HPBar : MonoBehaviour
 
         _HPBarHide = null;
     }
+
+    public void HPBarHideStart()
+    {
+        StartCoroutine(HPBarHide());
+    }
 }
