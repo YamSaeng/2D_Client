@@ -215,9 +215,7 @@ public class InventoryController : UI_Base
             {
                 if(SelectedItem._ItemInfo.ItemWidth != SelectedItem._ItemInfo.ItemHeight)
                 {
-                    CMessage ReqRotateItemPacket = Packet.MakePacket.ReqMakeRotateItemPacket(Managers.NetworkManager._AccountId,
-                    Managers.NetworkManager._PlayerDBId,
-                    SelectedItem._ItemInfo.ItemSmallCategory);
+                    CMessage ReqRotateItemPacket = Packet.MakePacket.ReqMakeRotateItemPacket(SelectedItem._ItemInfo.ItemSmallCategory);
                     Managers.NetworkManager.GameServerSend(ReqRotateItemPacket);
                 }                
             }            
