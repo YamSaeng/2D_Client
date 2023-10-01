@@ -34,6 +34,10 @@ public class UI_Menu : UI_Base
 
     void OnBuildingButtonClick(PointerEventData Event)
     {
-
+        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+        if(GameSceneUI != null)
+        {
+            GameSceneUI._BuildingUI.ShowCloseUI(true);
+        }
     }
 }
