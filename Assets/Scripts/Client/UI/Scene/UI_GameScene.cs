@@ -14,8 +14,7 @@ public class UI_GameScene : UI_Scene
     public UI_ItemGainBox _ItemGainBox { get; private set; } // 아이템 얻기 Box UI
     public UI_SkillBox _SkillBoxUI { get; set; } // 스킬창 UI        
     public UI_QuickSlotBarBox _QuickSlotBarBoxUI { get; private set; } // 퀵슬롯 Bar UI
-    public UI_MyCharacterHUD _MyCharacterHUDUI { get; set; } // 내 캐릭터 HUD UI
-    public UI_GlobalMessageBox _GlobalMessageBoxUI { get; private set; } // 개인 메세지 UI    
+    public UI_MyCharacterHUD _MyCharacterHUDUI { get; set; } // 내 캐릭터 HUD UI    
     public UI_PlayerExperience _PlayerExperienceUI { get; private set; } // Player 경험치 UI
     public UI_SkillExplanation _SkillExplanationUI { get; private set; } // 스킬 설명문 UI
     public UI_ItemExplanation _ItemExplanationUI { get; private set; } // 아이템 설명문 UI
@@ -65,12 +64,16 @@ public class UI_GameScene : UI_Scene
         _ItemGainBox = GetComponentInChildren<UI_ItemGainBox>();
         _ItemGainBox.Binding();
 
-        _QuickSlotBarBoxUI = GetComponentInChildren<UI_QuickSlotBarBox>();
-
-        _GlobalMessageBoxUI = GetComponentInChildren<UI_GlobalMessageBox>();
+        _QuickSlotBarBoxUI = GetComponentInChildren<UI_QuickSlotBarBox>();        
 
         _PlayerExperienceUI = GetComponentInChildren<UI_PlayerExperience>();
         _PlayerExperienceUI.Binding();
+
+        UI_GlobalMessageBox GlobalMessageBox = GetComponentInChildren<UI_GlobalMessageBox>();
+        if (GlobalMessageBox != null)
+        {
+            GlobalMessageBox.Binding();
+        }
 
         GameObject SkillExplanationGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_UI_SKILL_EXPLANATION, this.transform);
         _SkillExplanationUI = SkillExplanationGO.GetComponent<UI_SkillExplanation>();

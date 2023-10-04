@@ -34,20 +34,16 @@ public class UI_LoginScene : UI_Scene
     public GameObject _LoginUI;    
     public UI_CharacterChoice _CharacterChoiceUI;
     public UI_CharacterCreate _CharacterCreateUI;
-    public UI_SelectServer _SelectServerUI;
-
-    public UI_GlobalMessageBox _GlobalMessageBoxUI { get; private set; } // 개인 메세지 UI    
+    public UI_SelectServer _SelectServerUI;        
 
     public override void Init()
     {
         base.Init();                
 
         // 서버 IP , Port 입력
-        _LoginServerInfo.IPAddress = IPAddress.Parse("124.254.187.159");        
+        _LoginServerInfo.IPAddress = IPAddress.Parse("112.212.35.93");        
         _LoginServerInfo.Port = 8889;
-        _LoginServerInfo.EndPoint = new IPEndPoint(_LoginServerInfo.IPAddress, _LoginServerInfo.Port);
-
-        _GlobalMessageBoxUI = GetComponentInChildren<UI_GlobalMessageBox>();
+        _LoginServerInfo.EndPoint = new IPEndPoint(_LoginServerInfo.IPAddress, _LoginServerInfo.Port);        
 
         // 캐릭터 선택 UI 저장
         _CharacterChoiceUI = GetComponentInChildren<UI_CharacterChoice>();
@@ -60,6 +56,12 @@ public class UI_LoginScene : UI_Scene
         // 서버 선택 UI 저장
         _SelectServerUI = GetComponentInChildren<UI_SelectServer>();
         _SelectServerUI.gameObject.SetActive(false);        
+
+        UI_GlobalMessageBox GlobalMessageBox = GetComponentInChildren<UI_GlobalMessageBox>();
+        if(GlobalMessageBox != null)
+        {
+            GlobalMessageBox.Binding();
+        }        
 
         // en_GameObject에 선언해둔 변수이름과 똑같은 GameObject 찾아서 내부에 저장해둔다.
         Bind<GameObject>(typeof(en_LoginUIGameObject));
@@ -89,7 +91,7 @@ public class UI_LoginScene : UI_Scene
             LoginUIVisible(false);
 
             _CharacterChoiceUI.SetCharacterChoiceItem(Managers.NetworkManager._MyCharacterInfos);
-        }
+        }        
     }
 
     private void OnLoginPannelClick(PointerEventData Event)
