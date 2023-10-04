@@ -90,9 +90,10 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_ITEM_DIVIDE, "UI/Inventory/UI_InventoryItemDivide");
         
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_EQUIPMENT_BOX, "UI/Equipment/UI_EquipmentBox");        
-        _ResourcePath.Add(en_ResourceName.CLIENT_UI_EQUIPMENT_ITEM, "UI/Equipment/UI_EquipmentItem");        
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_EQUIPMENT_ITEM, "UI/Equipment/UI_EquipmentItem");
 
-        _ResourcePath.Add(en_ResourceName.CLIENT_UI_GLOBAL_MESSAGE, "UI/GlobalMessage/UI_GlobalMessage");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_GLOBAL_MESSAGE_BOX, "UI/GlobalMessage/UI_GlobalMessageBox");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_GLOBAL_MESSAGE, "UI/GlobalMessage/UI_GlobalMessage");        
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_SERVER_SELECT_ITEM, "UI/ServerSelect/UI_SelectServerItem");
 
