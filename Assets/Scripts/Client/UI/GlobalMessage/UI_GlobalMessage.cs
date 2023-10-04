@@ -32,24 +32,10 @@ public class UI_GlobalMessage : UI_Scene
     {
         yield return new WaitForSeconds(0.5f);
 
-        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-        if (GameSceneUI != null)
+        UI_GlobalMessageBox GlobalMessageBox = Managers.GameMessage._GlobalMessageBox;
+        if(GlobalMessageBox != null)
         {
-            UI_GlobalMessageBox GlobalMessageBoxUI = GameSceneUI._GlobalMessageBoxUI;
-            if(GlobalMessageBoxUI != null)
-            {
-                GlobalMessageBoxUI.GlobalMessageDestory(this);
-            }
-        }
-
-        UI_LoginScene LoginSceneUI = Managers.UI._SceneUI as UI_LoginScene;
-        if(LoginSceneUI != null)
-        {
-            UI_GlobalMessageBox GlobalMessageBoxUI = LoginSceneUI._GlobalMessageBoxUI;
-            if (GlobalMessageBoxUI != null)
-            {
-                GlobalMessageBoxUI.GlobalMessageDestory(this);
-            }
+            GlobalMessageBox.GlobalMessageDestory(this);
         }
     }
 }

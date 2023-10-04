@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class UI_GlobalMessageBox : UI_Scene
+public class UI_GlobalMessageBox : UI_Base
 {
     public Dictionary<en_GlobalMessageType, UI_GlobalMessage> _GlobalMessages = new Dictionary<en_GlobalMessageType, UI_GlobalMessage>();
     const float GLOBAL_MESSAGE_GAP = 50.0f;
@@ -15,10 +15,20 @@ public class UI_GlobalMessageBox : UI_Scene
     }
 
     public override void Init()
-    {
-        base.Init();
+    {       
+        
+    }
 
+    public override void Binding()
+    {
         Bind<GameObject>(typeof(en_GlobalMessageBoxGameObject));
+
+        Managers.GameMessage.GlobalMessageBoxFind();
+    }
+
+    public override void ShowCloseUI(bool IsShowClose)
+    {
+
     }
 
     public void Update()
@@ -83,5 +93,5 @@ public class UI_GlobalMessageBox : UI_Scene
         GameObject DestoryGlobalMessageUI = _GlobalMessages[GlobalMessageUI._GlobalMessageType].gameObject;
         _GlobalMessages.Remove(GlobalMessageUI._GlobalMessageType);
         Destroy(DestoryGlobalMessageUI.gameObject);
-    }
+    }   
 }
