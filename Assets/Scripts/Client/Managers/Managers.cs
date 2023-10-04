@@ -23,6 +23,7 @@ public class Managers : MonoBehaviour
     SpriteManager _SpriteManager = new SpriteManager();
     StringManager _StringManager = new StringManager();
     CameraManager _CameraManager = new CameraManager();
+    GameMessageManager _GameMessageManager = new GameMessageManager();
 
     public static MapManager Map
     {
@@ -72,6 +73,11 @@ public class Managers : MonoBehaviour
     public static CameraManager Camera
     {
         get { return GetInstance._CameraManager; }
+    }
+
+    public static GameMessageManager GameMessage
+    {
+        get { return GetInstance._GameMessageManager; }
     }
 
     #endregion
@@ -159,6 +165,8 @@ public class Managers : MonoBehaviour
             _Instance._StringManager.Init();
 
             _Instance._SkillBoxManager.Init();
+
+            _Instance._GameMessageManager.Init();
 
             _Instance._InventoryController.Binding();
         }
