@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class InventoryController : UI_Base
 {    
-    // 선택한 아이템
-    public UI_InventoryItem SelectedItem;
     // 아이템 넣을때 이미 존재하는 아이템
     UI_InventoryItem OverlapItem;
 
@@ -54,7 +52,7 @@ public class InventoryController : UI_Base
         Vector2Int PositionOnGrid = GetTileGridPosition();
 
         // 선택한 아이템이 없을 경우
-        if(SelectedItem == null)
+        if(Managers.Mouse._ClickObject._SelectedItem == null)
         {
             // 마우스 위치에 있는 아이템을 가져온다.
             ItemToHighlight = SelectedInventory.GetItem(PositionOnGrid.x, PositionOnGrid.y);
@@ -81,26 +79,25 @@ public class InventoryController : UI_Base
             HighlightInventorySlot.Show(SelectedInventory.BoundryCheck(
                 PositionOnGrid.x,
                 PositionOnGrid.y,
-                SelectedItem.WIDTH,
-                SelectedItem.HEIGHT));
+                Managers.Mouse._ClickObject._SelectedItem.WIDTH,
+                Managers.Mouse._ClickObject._SelectedItem.HEIGHT));
             // 선택한 아이템의 크기만큼 하이라이트를 표시해준다.
-            HighlightInventorySlot.SetSize(SelectedItem);
+            HighlightInventorySlot.SetSize(Managers.Mouse._ClickObject._SelectedItem);
             // 하이라이트 표시 위치를 새로 잡는다.
-            HighlightInventorySlot.SetPosition(_SelectedInventory, SelectedItem, PositionOnGrid.x, PositionOnGrid.y);
+            HighlightInventorySlot.SetPosition(_SelectedInventory, Managers.Mouse._ClickObject._SelectedItem, PositionOnGrid.x, PositionOnGrid.y);
         }
     }   
     
     // 아이템 선택 요청 응답
     public void ResSelectItem(Vector2Int TileGridPosition)
     {
-        SelectedItem = SelectedInventory.GetItem(TileGridPosition.x, TileGridPosition.y);
-        SelectedItemRectTransform = SelectedItem.GetComponent<RectTransform>();
-        SelectedItemRectTransform.SetAsLastSibling();
+        UI_InventoryItem SelectedItem = SelectedInventory.GetItem(TileGridPosition.x, TileGridPosition.y);
+        Managers.Mouse._ClickObject.ClickSelectItem(SelectedItem);        
     }    
 
     public void ResPlaceItem(st_ItemInfo PlaceItemInfo, st_ItemInfo SelectItemInfo)
     {
-        UI_InventoryItem PreviouseSelectItem = SelectedItem;
+        UI_InventoryItem PreviouseSelectItem = Managers.Mouse._ClickObject._SelectedItem;
         // 선택해야할 아이템의 위치
         Vector2Int SelectedItemPosition = new Vector2Int();
         SelectedItemPosition.x = PlaceItemInfo.ItemTileGridPositionX;
@@ -108,15 +105,14 @@ public class InventoryController : UI_Base
 
         if(SelectItemInfo.ItemSmallCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
         {
-            SelectedItem = SelectedInventory.GetItem(SelectItemInfo.ItemTileGridPositionX, SelectItemInfo.ItemTileGridPositionY);
-            SelectedItemRectTransform = SelectedItem.GetComponent<RectTransform>();
-            SelectedItemRectTransform.SetAsLastSibling();
+            UI_InventoryItem SelectedItem = SelectedInventory.GetItem(SelectItemInfo.ItemTileGridPositionX, SelectItemInfo.ItemTileGridPositionY);
+            Managers.Mouse._ClickObject.ClickSelectItem(SelectedItem);
 
             SelectedInventory.CleanGridReference(SelectedItem);
         }
         else
         {
-            SelectedItem = null;
+            Managers.Mouse._ClickObject.InitClickSelectItem();
         }
         
         SelectedInventory.PlaceItem(PreviouseSelectItem, PlaceItemInfo.ItemTileGridPositionX, PlaceItemInfo.ItemTileGridPositionY);               
@@ -124,20 +120,7 @@ public class InventoryController : UI_Base
     
     public void ResRotateItem()
     {
-        SelectedItem.Rotate();
-    }
-
-    // 아이템 회전 시키기
-    private void RotateItem()
-    {
-        // 선택된 아이템이 없을 경우 나간다.
-        if(SelectedItem == null)
-        {
-            return;
-        }
-
-        // 아이템 회전
-        SelectedItem.Rotate();
+        Managers.Mouse._ClickObject.SelectItemRotateIem();        
     }
     
     // 아이템 가방에 넣기
@@ -171,11 +154,11 @@ public class InventoryController : UI_Base
         Vector2 Position = Input.mousePosition;
 
         // 선택한 아이템이 있을 경우
-        if(SelectedItem != null)
+        if(Managers.Mouse._ClickObject._SelectedItem != null)
         {
             // 선택한 아이템 기준 중앙값 위치를 얻는다.
-            Position.x -= (SelectedItem.WIDTH - 1) * UI_Inventory.TileSizeWidth / 2;
-            Position.y += (SelectedItem.HEIGHT - 1) * UI_Inventory.TileSizeHeight / 2;
+            Position.x -= (Managers.Mouse._ClickObject._SelectedItem.WIDTH - 1) * UI_Inventory.TileSizeWidth / 2;
+            Position.y += (Managers.Mouse._ClickObject._SelectedItem.HEIGHT - 1) * UI_Inventory.TileSizeHeight / 2;
         }
        
         // 그리드 인벤토리에서 마우스 위치에 해당 하는 타일 위치를 가져온다.
@@ -203,22 +186,5 @@ public class InventoryController : UI_Base
     public long GetCoin()
     {
         return _Coin;
-    }    
-
-    private void Update()
-    {
-        if(SelectedItem != null)
-        {
-            SelectedItem.GetComponent<RectTransform>().transform.position = Input.mousePosition;
-
-            if(Input.GetKeyDown(KeyCode.R))
-            {
-                if(SelectedItem._ItemInfo.ItemWidth != SelectedItem._ItemInfo.ItemHeight)
-                {
-                    CMessage ReqRotateItemPacket = Packet.MakePacket.ReqMakeRotateItemPacket(SelectedItem._ItemInfo.ItemSmallCategory);
-                    Managers.NetworkManager.GameServerSend(ReqRotateItemPacket);
-                }                
-            }            
-        }             
-    }
+    }       
 }
