@@ -49,7 +49,8 @@ public class UI_InventoryItem : UI_Base
 
     enum en_InventoryItemImage
     {
-        InventoryItemImage
+        InventoryItemImage,
+        InventoryItemSearchingImage
     }
 
     enum en_InventoryItemText
@@ -98,28 +99,25 @@ public class UI_InventoryItem : UI_Base
                 {
                     Vector2Int NewTilePosition = Managers.MyInventory.GetTileGridPosition();
 
-                    if (Managers.MyInventory.SelectedItem != null)
+                    if (Managers.Mouse._ClickObject._SelectedItem != null)
                     {
                         // 아이템을 선택한 상태에서 마우스 왼쪽 클릭 했을때
-                        if (!Managers.MyInventory.SelectedInventory.IsCollision(Managers.MyInventory.SelectedItem))
+                        if (!Managers.MyInventory.SelectedInventory.IsCollision(Managers.Mouse._ClickObject._SelectedItem))
                         {
                             // 가방와 부딪히지 않을 경우
                             switch (_ItemInfo.ItemSmallCategory)
                             {
                                 case en_SmallItemCategory.ITEM_SMALL_CATEGORY_CROP_SEED_POTATO:
                                 case en_SmallItemCategory.ITEM_SMALL_CATEGORY_CROP_SEED_CORN:
-                                    CMessage ReqSeedFarmingPacket = Packet.MakePacket.ReqMakeSeedFarmingPacket(Managers.NetworkManager._AccountId,
-                                        Managers.NetworkManager._PlayerDBId,
-                                        _ItemInfo.ItemSmallCategory);
+                                    CMessage ReqSeedFarmingPacket = Packet.MakePacket.ReqMakeSeedFarmingPacket(_ItemInfo.ItemSmallCategory);
                                     Managers.NetworkManager.GameServerSend(ReqSeedFarmingPacket);
                                     break;
                                 default:
                                     UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
                                     GameSceneUI.AddGameSceneUIStack(GameSceneUI._InventoryItemDivideUI);
-                                    GameSceneUI.SetItemDivideUI(Managers.MyInventory.SelectedItem._ItemInfo);
+                                    GameSceneUI.SetItemDivideUI(Managers.Mouse._ClickObject._SelectedItem._ItemInfo);
 
-                                    CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket(Managers.NetworkManager._AccountId,
-                                    Managers.NetworkManager._PlayerDBId, (short)NewTilePosition.x, (short)NewTilePosition.y);
+                                    CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket((short)NewTilePosition.x, (short)NewTilePosition.y);
                                     Managers.NetworkManager.GameServerSend(ReqPlaceItemPacket);
                                     break;
                             }                            
@@ -127,15 +125,13 @@ public class UI_InventoryItem : UI_Base
                         else
                         {
                             // 가방과 부딪힐 경우 ( = 가방에 아이템을 놓은 경우 )
-                            CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket(Managers.NetworkManager._AccountId,
-                            Managers.NetworkManager._PlayerDBId, (short)NewTilePosition.x, (short)NewTilePosition.y);
+                            CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket((short)NewTilePosition.x, (short)NewTilePosition.y);
                             Managers.NetworkManager.GameServerSend(ReqPlaceItemPacket);
                         }                       
                     }
                     else
                     {
-                        CMessage ReqSelectItemPacket = Packet.MakePacket.ReqMakeSelectItemPacket(Managers.NetworkManager._AccountId,
-                            Managers.NetworkManager._PlayerDBId, (short)NewTilePosition.x, (short)NewTilePosition.y);
+                        CMessage ReqSelectItemPacket = Packet.MakePacket.ReqMakeSelectItemPacket((short)NewTilePosition.x, (short)NewTilePosition.y);
                         Managers.NetworkManager.GameServerSend(ReqSelectItemPacket);
                     }
                 }
@@ -143,9 +139,7 @@ public class UI_InventoryItem : UI_Base
         }
         else if(InventoryItemClickEvent.button == PointerEventData.InputButton.Right)
         {
-            CMessage ReqMakeItemUsePacket = Packet.MakePacket.ReqMakeItemUsePacket(
-                    Managers.NetworkManager._AccountId,
-                    Managers.NetworkManager._PlayerDBId,
+            CMessage ReqMakeItemUsePacket = Packet.MakePacket.ReqMakeItemUsePacket(                    
                     _ItemInfo.ItemSmallCategory,
                     _ItemInfo.ItemTileGridPositionX,
                     _ItemInfo.ItemTileGridPositionY);
@@ -155,9 +149,7 @@ public class UI_InventoryItem : UI_Base
             {
                 if(_GameSceneUI._FurnaceUI._FurnaceController._SelectCompleteItemCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
                 {
-                    CMessage ReqFurnaceInputItemPacket = Packet.MakePacket.ReqMakeCraftingTableItemAddPacket(
-                        Managers.NetworkManager._AccountId,
-                        Managers.NetworkManager._PlayerDBId,
+                    CMessage ReqFurnaceInputItemPacket = Packet.MakePacket.ReqMakeCraftingTableItemAddPacket(                        
                         _GameSceneUI._FurnaceUI._FurnaceController._GameObjectInfo.ObjectId,                    
                         _ItemInfo.ItemSmallCategory, 1);
                     Managers.NetworkManager.GameServerSend(ReqFurnaceInputItemPacket);
@@ -168,9 +160,7 @@ public class UI_InventoryItem : UI_Base
             {
                 if (_GameSceneUI._SawmillUI._SawmillController._SelectCompleteItemCategory != en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE)
                 {
-                    CMessage ReqSawmillInputItemPacket = Packet.MakePacket.ReqMakeCraftingTableItemAddPacket(
-                        Managers.NetworkManager._AccountId,
-                        Managers.NetworkManager._PlayerDBId,
+                    CMessage ReqSawmillInputItemPacket = Packet.MakePacket.ReqMakeCraftingTableItemAddPacket(                        
                         _GameSceneUI._SawmillUI._SawmillController._GameObjectInfo.ObjectId,
                         _ItemInfo.ItemSmallCategory, 1);
                     Managers.NetworkManager.GameServerSend(ReqSawmillInputItemPacket);
@@ -183,7 +173,7 @@ public class UI_InventoryItem : UI_Base
 
     private void OnInventoryItemPointerEnter(PointerEventData Event)
     {
-        if(Managers.MyInventory.SelectedItem == null && _ItemInfo != null)
+        if(Managers.Mouse._ClickObject._SelectedItem == null && _ItemInfo != null)
         {
             _GameSceneUI.SetItemExplanation(_ItemInfo);
         }        
@@ -196,8 +186,7 @@ public class UI_InventoryItem : UI_Base
 
     private void OnInventoryItemDragBegin(PointerEventData DragBeginEvent)
     {
-        CMessage ReqSelectItemPacket = Packet.MakePacket.ReqMakeSelectItemPacket(Managers.NetworkManager._AccountId,
-            Managers.NetworkManager._PlayerDBId,
+        CMessage ReqSelectItemPacket = Packet.MakePacket.ReqMakeSelectItemPacket(
             _ItemInfo.ItemTileGridPositionX,
             _ItemInfo.ItemTileGridPositionY);
         Managers.NetworkManager.GameServerSend(ReqSelectItemPacket);
@@ -227,8 +216,7 @@ public class UI_InventoryItem : UI_Base
                 _GameSceneUI.SetItemDivideUI(_ItemInfo);
             }
 
-            CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket(Managers.NetworkManager._AccountId,
-            Managers.NetworkManager._PlayerDBId, (short)NewTilePosition.x, (short)NewTilePosition.y);
+            CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket((short)NewTilePosition.x, (short)NewTilePosition.y);
             Managers.NetworkManager.GameServerSend(ReqPlaceItemPacket);
         }               
 
@@ -257,6 +245,13 @@ public class UI_InventoryItem : UI_Base
         rectTransform.rotation = Quaternion.Euler(0, 0, Rotated == true ? 90.0f : 0f);
     }
 
+    float _SearchingRemainTime;
+
+    public void InventoryItemSearching()
+    {
+                    
+    }
+
     public void RefreshInventoryItemUI()
     {
         // 아이템 정보에 있는 Sprite 읽어서 저장
@@ -269,6 +264,12 @@ public class UI_InventoryItem : UI_Base
 
         // RectTransform도 넓이만큼 재 조정
         GetImage((int)en_InventoryItemImage.InventoryItemImage).GetComponent<RectTransform>().sizeDelta = ImageSize;
+        GetImage((int)en_InventoryItemImage.InventoryItemSearchingImage).GetComponent<RectTransform>().sizeDelta = ImageSize;
+
+        if(_ItemInfo.ItemIsSearching == true)
+        {
+            GetImage((int)en_InventoryItemImage.InventoryItemSearchingImage).gameObject.SetActive(false);
+        }
 
         switch(_ItemInfo.ItemSmallCategory)
         {
