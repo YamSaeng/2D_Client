@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class UI_PlayerExperience : UI_Base
 {
-    float _CurrentExpRatio = 0;
-
     enum en_PlayerExperienceSlider
     {
         ExperienceBar
