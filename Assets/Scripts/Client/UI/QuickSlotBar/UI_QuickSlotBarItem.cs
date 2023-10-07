@@ -225,9 +225,7 @@ public class UI_QuickSlotBarItem : UI_Base
             {
                 if (!QuickSlotBarBox.IsCollision(_GameSceneUI._DragQuickSlotItemUI))
                 {
-                    CMessage ReqQuickSlotInitPacket = Packet.MakePacket.ReqMakeQuickSlotInitPacket
-                        (Managers.NetworkManager._AccountId,
-                        Managers.NetworkManager._PlayerDBId,
+                    CMessage ReqQuickSlotInitPacket = Packet.MakePacket.ReqMakeQuickSlotInitPacket(
                         _QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillCharacteristic,
                         _QuickSlotBarSlotInfo.QuickBarSkillInfo.SkillType,
                         _SwapQuickSlotBarIndexA,
@@ -255,33 +253,27 @@ public class UI_QuickSlotBarItem : UI_Base
             _QuickSlotBarSlotInfo.QuickBarSkillInfo = GameSceneUI._DragSkillItemUI._DragSkillInfo;
             _QuickSlotBarSlotInfo.QuickBarItemInfo = null;
 
-            CMessage ReqQuickSlotSkillSavePacket = Packet.MakePacket.ReqMakeQuickSlotSavePacket(Managers.NetworkManager._AccountId,
-                Managers.NetworkManager._PlayerDBId, 
-                _QuickSlotBarSlotInfo);
+            CMessage ReqQuickSlotSkillSavePacket = Packet.MakePacket.ReqMakeQuickSlotSavePacket(_QuickSlotBarSlotInfo);
             Managers.NetworkManager.GameServerSend(ReqQuickSlotSkillSavePacket);
             return;
         }        
 
         if (GameSceneUI._DragItemUI._DragItemInfo != null)
         {
-            CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket(Managers.NetworkManager._AccountId,
-            Managers.NetworkManager._PlayerDBId,
-            GameSceneUI._DragItemUI._DragItemInfo.ItemTileGridPositionX,
+            CMessage ReqPlaceItemPacket = Packet.MakePacket.ReqMakePlaceItemPacket(GameSceneUI._DragItemUI._DragItemInfo.ItemTileGridPositionX,
             GameSceneUI._DragItemUI._DragItemInfo.ItemTileGridPositionY);
             Managers.NetworkManager.GameServerSend(ReqPlaceItemPacket);
 
             _QuickSlotBarSlotInfo.QuickBarSkillInfo = null;
             _QuickSlotBarSlotInfo.QuickBarItemInfo = GameSceneUI._DragItemUI._DragItemInfo;
 
-            CMessage ReqQuickSlotItemSavePacket = Packet.MakePacket.ReqMakeQuickSlotSavePacket(Managers.NetworkManager._AccountId,
-                Managers.NetworkManager._PlayerDBId,
-                _QuickSlotBarSlotInfo);
+            CMessage ReqQuickSlotItemSavePacket = Packet.MakePacket.ReqMakeQuickSlotSavePacket(_QuickSlotBarSlotInfo);
             Managers.NetworkManager.GameServerSend(ReqQuickSlotItemSavePacket);
             return;
         }
 
         // 퀵슬롯 스왑
-        CMessage ReqQuickSlotSwapPacekt = Packet.MakePacket.ReqMakeQuickSlotSwapPacket(Managers.NetworkManager._AccountId, Managers.NetworkManager._PlayerDBId,
+        CMessage ReqQuickSlotSwapPacekt = Packet.MakePacket.ReqMakeQuickSlotSwapPacket(
             _SwapQuickSlotBarIndexA, _SwapQuickSlotBarSlotIndexA,
             _QuickSlotBarSlotInfo.QuickSlotBarIndex, _QuickSlotBarSlotInfo.QuickSlotBarSlotIndex);
         Managers.NetworkManager.GameServerSend(ReqQuickSlotSwapPacekt);
