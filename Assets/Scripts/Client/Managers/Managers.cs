@@ -24,6 +24,7 @@ public class Managers : MonoBehaviour
     StringManager _StringManager = new StringManager();
     CameraManager _CameraManager = new CameraManager();
     GameMessageManager _GameMessageManager = new GameMessageManager();
+    MouseManager _MouseManager = new MouseManager();
 
     public static MapManager Map
     {
@@ -78,6 +79,11 @@ public class Managers : MonoBehaviour
     public static GameMessageManager GameMessage
     {
         get { return GetInstance._GameMessageManager; }
+    }
+
+    public static MouseManager Mouse
+    {
+        get { return GetInstance._MouseManager; }
     }
 
     #endregion
@@ -144,6 +150,7 @@ public class Managers : MonoBehaviour
                 GOManagers = new GameObject { name = "@Managers" };
                 //Managers 스크립트를 Managers 오브젝트에 붙임
                 GOManagers.AddComponent<Managers>();
+                GOManagers.AddComponent<ClickObject>();
             }
 
             // 백그라운드에서도 실행 하도록 함
@@ -167,6 +174,8 @@ public class Managers : MonoBehaviour
             _Instance._SkillBoxManager.Init();
 
             _Instance._GameMessageManager.Init();
+
+            _Instance._MouseManager.Init();
 
             _Instance._InventoryController.Binding();
         }
