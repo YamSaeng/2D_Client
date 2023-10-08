@@ -710,14 +710,14 @@ public enum en_SmallItemCategory
     ITEM_SMALL_CATEGORY_CRAFTING_TABLE_SAWMILL
 };
 
-public enum en_BuildingSprite
+public enum en_BuildingSmallCategory
 {
-    BUILDING_SPRITE_NONE,
+    BUILDING_SMALL_CATEGORY_NONE,
 
-    BUILDING_SPRITE_MAIN_HALL,
-    BUILDING_SPRITE_WALL,
-    BUILDING_SPRITE_WEAPON_STORE,
-    BUILDING_SPRITE_ARMOR_STORE
+    BUILDING_SMALL_CATEGORY_MAIN_HALL,
+    BUILDING_SMALL_CATEGORY_WALL,
+    BUILDING_SMALL_CATEGORY_WEAPON_STORE,
+    BUILDING_SMALL_CATEGORY_ARMOR_STORE
 }
 
 public enum en_LoginInfo
@@ -940,58 +940,38 @@ public class st_RayCastingPosition
 
 public class st_ItemInfo
 {
-    public long ItemDBId; // 아이템 DB에 저장되어 있는 ID    
-    public bool ItemIsEquipped; // 아이템을 착용할 수 있는지
-    public bool ItemIsSearching; // 아이템 탐색 여부
-    public short ItemWidth;    // 아이템 너비
-    public short ItemHeight;   // 아이템 높이    
-    public short ItemTileGridPositionX; // 아이템 X 위치
-    public short ItemTileGridPositionY; // 아이템 Y 위치
-    public en_UIObjectInfo OwnerCraftingTable;
-    public en_LargeItemCategory ItemLargeCategory; // 아이템 대 분류
-    public en_MediumItemCategory ItemMediumCategory; // 아이템 중 분류
-    public en_SmallItemCategory ItemSmallCategory; // 아이템 소 분류   3
-    public en_EquipmentParts ItemEquipmentPart;
-    public int ItemSearchingTime; // 아이템 탐색 시간
-    public long ItemSearchingRemainTime; // 아이템 탐색 남은 시간
-    public string ItemName; // 아이템 이름
-    public string ItemExplain; // 아이템 설명문
-    public long ItemCraftingTime;                   // 아이템 제작 시간
-    public long ItemCraftingRemainTime;			  // 아이템 제작 남은 시간
-    public int ItemMinDamage;            // 아이템 최소 공격력
-    public int ItemMaxDamage;            // 아이템 최대 공격력
-    public int ItemDefence;              // 아이템 방어력
-    public int ItemMaxCount;				// 아이템을 소유 할 수 있는 최대 개수
-    public short ItemCount; // 개수                
-    public List<st_CraftingMaterialItemInfo> Materials = new List<st_CraftingMaterialItemInfo>();
-
-    public st_ItemInfo()
-    {
-        ItemDBId = 0;
-        ItemIsEquipped = false;
-        ItemIsSearching = false;
-        ItemWidth = 0;
-        ItemHeight = 0;
-        ItemTileGridPositionX = 0;
-        ItemTileGridPositionY = 0;
-        OwnerCraftingTable = en_UIObjectInfo.UI_OBJECT_INFO_NONE;
-        ItemLargeCategory = en_LargeItemCategory.ITEM_LARGE_CATEGORY_NONE;
-        ItemMediumCategory = en_MediumItemCategory.ITEM_MEDIUM_CATEGORY_NONE;
-        ItemSmallCategory = en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE;
-        ItemEquipmentPart = en_EquipmentParts.EQUIPMENT_PARTS_NONE;
-        ItemSearchingTime = 0;
-        ItemSearchingRemainTime = 0;
-        ItemName = "";
-        ItemExplain = "";
-        ItemCraftingTime = 0;
-        ItemCraftingRemainTime = 0;
-        ItemMinDamage = 0;
-        ItemMaxDamage = 0;
-        ItemDefence = 0;
-        ItemMaxCount = 0;
-        ItemCount = 0;
-    }
+    public long ItemDBId = 0; // 아이템 DB에 저장되어 있는 ID    
+    public bool ItemIsEquipped = false; // 아이템을 착용할 수 있는지
+    public bool ItemIsSearching = false; // 아이템 탐색 여부
+    public short ItemWidth = 0;    // 아이템 너비
+    public short ItemHeight = 0;   // 아이템 높이    
+    public short ItemTileGridPositionX = 0; // 아이템 X 위치
+    public short ItemTileGridPositionY = 0; // 아이템 Y 위치
+    public en_UIObjectInfo OwnerCraftingTable = en_UIObjectInfo.UI_OBJECT_INFO_NONE; // 아이템이 속한 제작대 정보
+    public en_LargeItemCategory ItemLargeCategory = en_LargeItemCategory.ITEM_LARGE_CATEGORY_NONE; // 아이템 대 분류
+    public en_MediumItemCategory ItemMediumCategory = en_MediumItemCategory.ITEM_MEDIUM_CATEGORY_NONE; // 아이템 중 분류
+    public en_SmallItemCategory ItemSmallCategory = en_SmallItemCategory.ITEM_SMALL_CATEGORY_NONE; // 아이템 소 분류   3
+    public en_EquipmentParts ItemEquipmentPart = en_EquipmentParts.EQUIPMENT_PARTS_NONE;
+    public int ItemSearchingTime = 0; // 아이템 탐색 시간
+    public long ItemSearchingRemainTime = 0; // 아이템 탐색 남은 시간
+    public string ItemName = ""; // 아이템 이름
+    public string ItemExplain = ""; // 아이템 설명문
+    public long ItemCraftingTime = 0;                   // 아이템 제작 시간
+    public long ItemCraftingRemainTime = 0;			  // 아이템 제작 남은 시간
+    public int ItemMinDamage = 0;            // 아이템 최소 공격력
+    public int ItemMaxDamage = 0;            // 아이템 최대 공격력
+    public int ItemDefence = 0;              // 아이템 방어력
+    public int ItemMaxCount = 0;				// 아이템을 소유 할 수 있는 최대 개수
+    public short ItemCount = 0; // 개수                
+    public List<st_CraftingMaterialItemInfo> Materials = new List<st_CraftingMaterialItemInfo>();   
 };
+
+public class st_BuildingInfo
+{
+    public short BuildingWidth;
+    public short BuildingHeight;
+    public en_BuildingSmallCategory BuildinSmallCategory;
+}
 
 public class st_CraftingMaterialItemInfo
 {
