@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,7 +11,7 @@ public class UI_Building : UI_Base
     [HideInInspector]
     public byte MainHallBuildingCount;
     [HideInInspector]
-    public short WallBuildingCount;
+    public byte WallBuildingCount;
     [HideInInspector]
     public byte WeaponBuildingCount;
     [HideInInspector]
@@ -18,21 +19,24 @@ public class UI_Building : UI_Base
 
     enum en_BuildingButton
     {
-        GovernmentOfficeListButton,
-        MainHallButton,
-        WallButton,
-        StoreListButton,
-        WeaponStoreButton,
-        ArmorStoreButton,
+        GovernmentOfficeListButton,        
+        StoreListButton,        
         CloseButton
+    }
+    
+    enum en_BuildingGameObject
+    {
+        BuildingGovermentOffice,
+        BuildingWeaponStore,
+        BuildingArmorStore
     }
 
     enum en_BuildingText
     {
-        MainHallCountText,
-        WallCountText
+        MainHallCountText,        
+        WeaponStoreCountText,
+        ArmorStoreCountText
     }
-
 
     public override void Init()
     {
@@ -45,18 +49,23 @@ public class UI_Building : UI_Base
     public override void Binding()
     {
         Bind<Button>(typeof(en_BuildingButton));
+        Bind<GameObject>(typeof(en_BuildingGameObject));        
         Bind<TextMeshProUGUI>(typeof(en_BuildingText));
 
         BindEvent(GetButton((int)en_BuildingButton.GovernmentOfficeListButton).gameObject, OnGovermentOfficeListButtonClick, Define.en_UIEvent.MouseClick);
-        BindEvent(GetButton((int)en_BuildingButton.MainHallButton).gameObject, OnMainHallBuildingButtonClick, Define.en_UIEvent.MouseClick);
-        BindEvent(GetButton((int)en_BuildingButton.WallButton).gameObject, OnWallBuildingButtonClick, Define.en_UIEvent.MouseClick);
         BindEvent(GetButton((int)en_BuildingButton.StoreListButton).gameObject, OnStoreListButtonClick, Define.en_UIEvent.MouseClick);
-        BindEvent(GetButton((int)en_BuildingButton.WeaponStoreButton).gameObject, OnWeaponStoreBuildingButtonClick, Define.en_UIEvent.MouseClick);
-        BindEvent(GetButton((int)en_BuildingButton.ArmorStoreButton).gameObject, OnArmorStoreBuildingButtonClick, Define.en_UIEvent.MouseClick);
-        BindEvent(GetButton((int)en_BuildingButton.CloseButton).gameObject, OnCloseButtonClick, Define.en_UIEvent.MouseClick);
+        BindEvent(GetButton((int)en_BuildingButton.CloseButton).gameObject, OnCloseButtonClick, Define.en_UIEvent.MouseClick);        
+
+        BindEvent(GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice).gameObject, OnMainHallBuildingButtonClick, Define.en_UIEvent.MouseClick);
+        BindEvent(GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore).gameObject, OnWeaponStoreBuildingButtonClick, Define.en_UIEvent.MouseClick);
+        BindEvent(GetGameObject((int)en_BuildingGameObject.BuildingArmorStore).gameObject, OnArmorStoreBuildingButtonClick, Define.en_UIEvent.MouseClick);
+
+        GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
+        GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
+        GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
 
         ShowCloseUI(true);
-    }
+    }    
 
     public override void ShowCloseUI(bool IsShowClose)
     {
@@ -65,65 +74,88 @@ public class UI_Building : UI_Base
 
     void OnGovermentOfficeListButtonClick(PointerEventData Event)
     {
-        GetButton((int)en_BuildingButton.MainHallButton).gameObject.SetActive(true);
-        GetButton((int)en_BuildingButton.WallButton).gameObject.SetActive(true);
+        Get<TextMeshProUGUI>((int)en_BuildingText.MainHallCountText).text = MainHallBuildingCount.ToString();
+        GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(true);
 
-        GetButton((int)en_BuildingButton.WeaponStoreButton).gameObject.SetActive(false);
-        GetButton((int)en_BuildingButton.ArmorStoreButton).gameObject.SetActive(false);
+        GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
+        GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
     }
 
     void OnMainHallBuildingButtonClick(PointerEventData Event)
     {
         if (MainHallBuildingCount == 0)
         {
+            Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
         }
-
-        GetButton((int)en_BuildingButton.GovernmentOfficeListButton);
-
+        
         MainHallBuildingCount--;
 
         if (MainHallBuildingCount < 0)
         {
             MainHallBuildingCount = 0;
         }
-    }
 
-    void OnWallBuildingButtonClick(PointerEventData Event)
-    {
-        if(WallBuildingCount == 0)
-        {
-            return;
-        }
-    }
+        BuildingCountTextRefresh();
+    }   
 
     void OnStoreListButtonClick(PointerEventData Event)
     {
-        GetButton((int)en_BuildingButton.WeaponStoreButton).gameObject.SetActive(true);
-        GetButton((int)en_BuildingButton.ArmorStoreButton).gameObject.SetActive(true);
+        Get<TextMeshProUGUI>((int)en_BuildingText.WeaponStoreCountText).text = WeaponBuildingCount.ToString();
+        Get<TextMeshProUGUI>((int)en_BuildingText.ArmorStoreCountText).text = ArmorBuildingCount.ToString();
 
-        GetButton((int)en_BuildingButton.MainHallButton).gameObject.SetActive(false);
-        GetButton((int)en_BuildingButton.WallButton).gameObject.SetActive(false);        
+        GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
+
+        GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(true);
+        GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(true);
     }
 
     void OnWeaponStoreBuildingButtonClick(PointerEventData Event)
     {
         if(WeaponBuildingCount == 0)
         {
+            Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
         }
+
+        WeaponBuildingCount--;
+
+        if(WeaponBuildingCount < 0)
+        {
+            WeaponBuildingCount = 0;
+        }
+
+        BuildingCountTextRefresh();
     }
 
     void OnArmorStoreBuildingButtonClick(PointerEventData Event)
     {
         if(ArmorBuildingCount == 0)
         {
+            Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
         }
+
+        ArmorBuildingCount--;
+
+        if(ArmorBuildingCount < 0)
+        {
+            ArmorBuildingCount = 0;
+        }
+
+        BuildingCountTextRefresh();
     }
 
     void OnCloseButtonClick(PointerEventData Event)
     {
         ShowCloseUI(false);
+    }
+
+    void BuildingCountTextRefresh()
+    {
+        Get<TextMeshProUGUI>((int)en_BuildingText.MainHallCountText).text = MainHallBuildingCount.ToString();        
+
+        Get<TextMeshProUGUI>((int)en_BuildingText.WeaponStoreCountText).text = WeaponBuildingCount.ToString();
+        Get<TextMeshProUGUI>((int)en_BuildingText.ArmorStoreCountText).text = ArmorBuildingCount.ToString();
     }
 }
