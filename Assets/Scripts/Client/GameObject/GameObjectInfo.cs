@@ -879,6 +879,7 @@ public enum en_ResourceName
 
     CLIENT_UI_MENU,
     CLIENT_UI_MENU_BUILDING,
+    CLIENT_UI_BUILDING_ITEM,
 
     CLIENT_UI_SCENE_LOGIN,
     CLIENT_UI_SCENE_GAME,
@@ -970,6 +971,7 @@ public class st_BuildingInfo
 {
     public short BuildingWidth;
     public short BuildingHeight;
+    public byte BuildingCount;
     public en_BuildingSmallCategory BuildinSmallCategory;
 }
 
