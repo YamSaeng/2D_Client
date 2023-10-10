@@ -109,6 +109,7 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_MENU, "UI/Menu/UI_Menu");
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_MENU_BUILDING, "UI/Building/UI_Building");
+        _ResourcePath.Add(en_ResourceName.CLIENT_UI_BUILDING_ITEM, "UI/Building/UI_BuildingItem");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DAY, "Day/DayManager");
 
