@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpriteManager
 {
     public Dictionary<en_SmallItemCategory, Sprite> _ItemSprite = new Dictionary<en_SmallItemCategory, Sprite>();
-    public Dictionary<en_BuildingSprite, Sprite> _BuildingSprite = new Dictionary<en_BuildingSprite, Sprite>();
+    public Dictionary<en_BuildingSmallCategory, Sprite> _BuildingSprite = new Dictionary<en_BuildingSmallCategory, Sprite>();
     public Dictionary<en_SkillType,Sprite> _SkillSprite = new Dictionary<en_SkillType, Sprite>();
     public Dictionary<byte, Sprite> _PotatoGrowthSprite = new Dictionary<byte, Sprite>();
     public Dictionary<byte, Sprite> _CornGrowthSprite = new Dictionary<byte, Sprite>();    
@@ -147,32 +147,30 @@ public class SpriteManager
         {
             switch (MainHallSprite.name)
             {
-                case "MainHallSpriteDefault":
-                    _BuildingSprite.Add(en_BuildingSprite.BUILDING_SPRITE_MAIN_HALL, MainHallSprite);
+                case "MainHallStoreSpriteDefault":
+                    _BuildingSprite.Add(en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_MAIN_HALL, MainHallSprite);
                     break;
             }
-        }
+        }        
 
-        _BuildingSprite.Add(en_BuildingSprite.BUILDING_SPRITE_WALL, Managers.Resource.Load<Sprite>(""));
-
-        Sprite[] WeaponStoreSprites = Managers.Resource.LoadAll<Sprite>("Sprites/Buildings/House/WeaponStore");
+        Sprite[] WeaponStoreSprites = Managers.Resource.LoadAll<Sprite>("Sprites/Buildings/Store/WeaponStore");
         foreach (Sprite WeaponStore in WeaponStoreSprites)
         {
             switch (WeaponStore.name)
             {
                 case "WeaponStoreSpriteDefault":
-                    _BuildingSprite.Add(en_BuildingSprite.BUILDING_SPRITE_WEAPON_STORE, WeaponStore);
+                    _BuildingSprite.Add(en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_WEAPON_STORE, WeaponStore);
                     break;
             }
         }
 
-        Sprite[] ArmorStoreSprites = Managers.Resource.LoadAll<Sprite>("Sprites/Buildings/House/ArmorStore");
+        Sprite[] ArmorStoreSprites = Managers.Resource.LoadAll<Sprite>("Sprites/Buildings/Store/ArmorStore");
         foreach (Sprite ArmorStoreSprite in ArmorStoreSprites)
         {
             switch (ArmorStoreSprite.name)
             {
                 case "ArmorStoreSpriteDefault":
-                    _BuildingSprite.Add(en_BuildingSprite.BUILDING_SPRITE_ARMOR_STORE, ArmorStoreSprite);
+                    _BuildingSprite.Add(en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_ARMOR_STORE, ArmorStoreSprite);
                     break;
             }
         }        
