@@ -20,6 +20,7 @@ public class UI_Building : UI_Base
     private UI_BuildingItem _BuildingMainHall;
     private UI_BuildingItem _BuildingWeaponStore;
     private UI_BuildingItem _BuildingArmorStore;
+    private UI_BuildingItem _DummyBuilding;
 
     enum en_BuildingButton
     {
@@ -34,12 +35,7 @@ public class UI_Building : UI_Base
         BuildingWeaponStore,
         BuildingArmorStore,
         DummyBuilding
-    }
-
-    enum en_BuildingImage
-    {
-        DummyBuildingImage
-    }
+    }   
 
     enum en_BuildingText
     {
@@ -59,8 +55,7 @@ public class UI_Building : UI_Base
     public override void Binding()
     {
         Bind<Button>(typeof(en_BuildingButton));
-        Bind<GameObject>(typeof(en_BuildingGameObject));
-        Bind<Image>(typeof(en_BuildingImage));
+        Bind<GameObject>(typeof(en_BuildingGameObject));        
         Bind<TextMeshProUGUI>(typeof(en_BuildingText));        
 
         BindEvent(GetButton((int)en_BuildingButton.GovernmentOfficeListButton).gameObject, OnGovermentOfficeListButtonClick, Define.en_UIEvent.MouseClick);
@@ -74,6 +69,8 @@ public class UI_Building : UI_Base
         _BuildingMainHall = GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>();
         if(_BuildingMainHall != null)
         {
+            _BuildingMainHall.Binding();
+
             st_BuildingInfo MainHallInfo = new st_BuildingInfo();
             MainHallInfo.BuildingHeight = 4;
             MainHallInfo.BuildingWidth = 4;
@@ -86,6 +83,8 @@ public class UI_Building : UI_Base
         _BuildingWeaponStore = GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore)?.GetComponent<UI_BuildingItem>();
         if (_BuildingWeaponStore != null)
         {
+            _BuildingWeaponStore.Binding();
+
             st_BuildingInfo WeaponStoreInfo = new st_BuildingInfo();
             WeaponStoreInfo.BuildingHeight = 2;
             WeaponStoreInfo.BuildingWidth = 2;
@@ -98,6 +97,8 @@ public class UI_Building : UI_Base
         _BuildingArmorStore = GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>();
         if (_BuildingArmorStore != null)
         {
+            _BuildingArmorStore.Binding();
+
             st_BuildingInfo ArmorStoreInfo = new st_BuildingInfo();
             ArmorStoreInfo.BuildingHeight = 2;
             ArmorStoreInfo.BuildingWidth = 2;
@@ -105,6 +106,12 @@ public class UI_Building : UI_Base
 
             _BuildingArmorStore.SetBuildingInfo(ArmorStoreInfo);
             _BuildingArmorStore.ShowCloseUI(false);
+        }
+
+        _DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
+        if(_DummyBuilding != null)
+        {
+            _DummyBuilding.Binding();
         }
 
         GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
@@ -136,6 +143,18 @@ public class UI_Building : UI_Base
             return;
         }
                 
+        UI_BuildingItem MainHallBuilding = GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>();
+        if(MainHallBuilding != null)
+        {
+            UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
+            if(DummyBuilding != null)
+            {
+                DummyBuilding.SetBuildingInfo(MainHallBuilding.GetBuildingInfo());
+
+                Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+            }
+        }         
+
         MainHallBuildingCount--;
 
         if (MainHallBuildingCount < 0)
@@ -165,6 +184,18 @@ public class UI_Building : UI_Base
             return;
         }
 
+        UI_BuildingItem WeaponStoreBuilding = GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore)?.GetComponent<UI_BuildingItem>();
+        if (WeaponStoreBuilding != null)
+        {
+            UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
+            if (DummyBuilding != null)
+            {
+                DummyBuilding.SetBuildingInfo(WeaponStoreBuilding.GetBuildingInfo());
+
+                Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+            }
+        }
+
         WeaponBuildingCount--;
 
         if(WeaponBuildingCount < 0)
@@ -181,6 +212,18 @@ public class UI_Building : UI_Base
         {
             Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
+        }
+
+        UI_BuildingItem ArmorStoreBuilding = GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>();
+        if (ArmorStoreBuilding != null)
+        {
+            UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
+            if (DummyBuilding != null)
+            {
+                DummyBuilding.SetBuildingInfo(ArmorStoreBuilding.GetBuildingInfo());
+
+                Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+            }
         }
 
         ArmorBuildingCount--;
