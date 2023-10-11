@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UI_BuildingItem : UI_Base
 {
-    public st_BuildingInfo _BuildingInfo;
+    private st_BuildingInfo _BuildingInfo;
 
     enum en_BuildingItemImage
     {
@@ -27,14 +27,20 @@ public class UI_BuildingItem : UI_Base
         gameObject.SetActive(IsShowClose);
     }
 
+    public st_BuildingInfo GetBuildingInfo()
+    {
+        return _BuildingInfo;
+    }
+
+    public void SetBuildingInfo(st_BuildingInfo BuildingInfo)
+    {
+        _BuildingInfo = BuildingInfo;
+
+        RefreshBuildingItemUI();
+    }    
+    
     public void RefreshBuildingItemUI()
     {
-        GetImage((int)en_BuildingItemImage.BuildingItemImage).sprite = Managers.Sprite._BuildingSprite[_BuildingInfo.BuildinSmallCategory];
-
-        Vector2 ImageSize = new Vector2();
-        ImageSize.x = _BuildingInfo.BuildingWidth * UI_Inventory.TileSizeWidth;
-        ImageSize.y = _BuildingInfo.BuildingHeight * UI_Inventory.TileSizeHeight;
-
-        GetImage((int)en_BuildingItemImage.BuildingItemImage).GetComponent<RectTransform>().sizeDelta = ImageSize;
-    }
+        GetImage((int)en_BuildingItemImage.BuildingItemImage).sprite = Managers.Sprite._BuildingSprite[_BuildingInfo.BuildinSmallCategory];        
+    }   
 }
