@@ -933,6 +933,19 @@ public enum en_ServerState
     SERVER_STATE_GAME
 }
 
+public enum en_WorldMapInfo
+{
+    WORLD_MAP_INFO_NONE,
+    WORLD_MAP_INFO_NORMAL
+}
+
+public class st_TileInfo
+{
+    public bool IsOccupation;
+    public long _OwnerObjectID;
+    public Vector2Int Position;
+}
+
 public class st_RayCastingPosition
 {
     public Vector2 StartPosition;
@@ -969,6 +982,7 @@ public class st_ItemInfo
 
 public class st_BuildingInfo
 {
+    public bool IsImageChange;
     public short BuildingWidth;
     public short BuildingHeight;
     public byte BuildingCount;
