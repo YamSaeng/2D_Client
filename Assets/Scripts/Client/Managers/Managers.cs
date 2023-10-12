@@ -25,6 +25,7 @@ public class Managers : MonoBehaviour
     CameraManager _CameraManager = new CameraManager();
     GameMessageManager _GameMessageManager = new GameMessageManager();
     MouseManager _MouseManager = new MouseManager();
+    TileManager _TileManager = new TileManager();
 
     public static MapManager Map
     {
@@ -85,6 +86,12 @@ public class Managers : MonoBehaviour
     {
         get { return GetInstance._MouseManager; }
     }
+
+    public static TileManager MapTile
+    {
+        get { return GetInstance._TileManager; }
+    }
+
 
     #endregion
 
@@ -176,6 +183,8 @@ public class Managers : MonoBehaviour
             _Instance._GameMessageManager.Init();
 
             _Instance._MouseManager.Init();
+
+            _Instance._TileManager.Init();
 
             _Instance._InventoryController.Binding();
         }
