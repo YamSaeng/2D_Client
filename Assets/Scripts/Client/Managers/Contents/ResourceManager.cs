@@ -41,7 +41,7 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_LONG_SWORD_WOOD, "Weapon/WeaponLongSwordWood");
         _ResourcePath.Add(en_ResourceName.CLIENT_WEAPON_BOW_WOOD, "Weapon/WeaponBowWood");
 
-        _ResourcePath.Add(en_ResourceName.CLIENT_COLLISION_RECT, "Collision/RectCollision");
+        _ResourcePath.Add(en_ResourceName.CLIENT_COLLISION_RECT, "Collision/RectCollision");        
 
         _ResourcePath.Add(en_ResourceName.CLIENT_UI_CHATTING_TEXT, "UI/ChattingBox/UI_ChattingText");
 
@@ -114,6 +114,7 @@ public class ResourceManager
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DAY, "Day/DayManager");
 
         _ResourcePath.Add(en_ResourceName.CLIENT_MAP_MAIN_FIELD, "Map/MainField");
+        _ResourcePath.Add(en_ResourceName.CLIENT_MAP_TILE, "Map/Tile");
     }
 
     public T Load<T>(string Path) where T : Object
