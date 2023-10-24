@@ -42,9 +42,7 @@ public class TileManager
 
                                         st_TileInfo TileInfo = new st_TileInfo();
                                         TileInfo.Position.x = X;
-                                        TileInfo.Position.y = Y;
-
-                                        MapTileInfos.Add(TileInfo);
+                                        TileInfo.Position.y = Y;                                        
                                         
                                         UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
                                         if(GameSceneUI != null)
@@ -52,13 +50,16 @@ public class TileManager
                                             GameObject TileGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_MAP_TILE, GameSceneUI._Object.transform);
                                             if (TileGO != null)
                                             {
-                                                TileGO.transform.position = new Vector3(X + 0.5f, Y + 0.5f, 0);
+                                                TileInfo.TileGO = TileGO;
+                                                TileGO.transform.position = new Vector3(X + 0.5f, Y + 0.5f, 0);                                                
 
                                                 Tile tile = TileGO.GetComponent<Tile>();
                                                 if (tile != null)
                                                 {
                                                     tile.TileOff();
                                                 }
+
+                                                MapTileInfos.Add(TileInfo);
                                             }
                                         }
                                         
