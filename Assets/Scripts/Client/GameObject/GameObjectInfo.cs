@@ -614,24 +614,16 @@ public enum en_UIObjectInfo
     UI_OBJECT_INFO_CRAFTING_TABLE_SAWMILL
 };
 
-public enum en_UI_TileInfo
+public enum en_TileInfo
 {
-    UI_TILE_INFO_NONE,
+    TILE_INFO_NONE,
 
-    UI_TILE_INFO_EMPTY_TILE,
-    UI_TILE_INFO_WALL,
-    UI_TILE_INFO_GOVERNMENTOFFICE_TILE
+    TILE_INFO_EMPTY_TILE,
+    TILE_INFO_SYSTEM_WALL,
+    TILE_INFO_GOVERNMENTOFFICE_TILE,
+    TILE_INFO_WEAPON_STORE_TILE,
+    TILE_INFO_ARMOR_STORE_TILE
 }
-
-public enum en_TileMapEnvironment
-{
-    TILE_MAP_NONE = 0,
-    TILE_MAP_WALL,
-    TILE_MAP_TREE,
-    TILE_MAP_STONE,
-    TILE_MAP_SLIME,
-    TILE_MAP_BEAR
-};
 
 public enum en_LargeItemCategory
 {
@@ -805,7 +797,7 @@ public enum en_ResourceName
     CLIENT_EFFECT_BACK_TELEPORT,
     CLIENT_EFFECT_HEALING_LIGHT,
     CLIENT_EFFECT_HEALING_WIND,
-    CLIENT_EFFECT_STUN,
+    CLIENT_EFFECT_STUN,    
 
     CLIENT_COLLISION_RECT,
 
@@ -936,14 +928,15 @@ public enum en_ServerState
 public enum en_WorldMapInfo
 {
     WORLD_MAP_INFO_NONE,
-    WORLD_MAP_INFO_NORMAL
+    WORLD_MAP_INFO_MAIN_FIELD
 }
 
 public class st_TileInfo
 {
     public bool IsOccupation;
-    public long _OwnerObjectID;
+    public long OwnerObjectID;
     public Vector2Int Position;
+    public GameObject TileGO;
 }
 
 public class st_RayCastingPosition
