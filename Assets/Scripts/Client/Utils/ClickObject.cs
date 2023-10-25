@@ -16,7 +16,9 @@ public class ClickObject : UI_Base
     private RectTransform _SelectedBuildingRectTransform;
 
     public short _ClickObjectWidthSize;
-    public short _ClickObjectHeightSize;    
+    public short _ClickObjectHeightSize;
+
+    List<st_TileInfo> _TileInfos = new List<st_TileInfo>();
 
     public override void Init()
     {
@@ -26,8 +28,8 @@ public class ClickObject : UI_Base
 
     public override void Binding()
     {
-        
-    }    
+
+    }
 
     public override void ShowCloseUI(bool IsShowClose)
     {
@@ -45,16 +47,16 @@ public class ClickObject : UI_Base
     {
         _InventorySelectedItem = null;
     }
-    
+
     public void SelectItemRotateIem()
     {
-        if(_InventorySelectedItem == null)
+        if (_InventorySelectedItem == null)
         {
             return;
         }
 
         _InventorySelectedItem.Rotate();
-    }       
+    }
 
     public void ClickBuildingItem(UI_BuildingItem BuildingItem)
     {
@@ -69,12 +71,12 @@ public class ClickObject : UI_Base
     }
 
     void Update()
-    {        
-        if(_InventorySelectedItem != null)
+    {
+        if (_InventorySelectedItem != null)
         {
             _InventorySelectedItem.GetComponent<RectTransform>().transform.position = Input.mousePosition;
 
-            if(Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 if (_InventorySelectedItem._ItemInfo.ItemWidth != _InventorySelectedItem._ItemInfo.ItemHeight)
                 {
@@ -84,9 +86,61 @@ public class ClickObject : UI_Base
             }
         }
 
-        if(_BuildingSelectedItem != null)
+        if (_BuildingSelectedItem != null)
         {
             _BuildingSelectedItem.GetComponent<RectTransform>().transform.position = Input.mousePosition;
+
+            Vector2 ScreenMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            st_BuildingInfo BuildingInfo = _BuildingSelectedItem.GetBuildingInfo();
+
+            Vector2Int MousePosition = new Vector2Int();
+            MousePosition.x = (int)ScreenMousePosition.x;
+            MousePosition.y = (int)ScreenMousePosition.y;
+
+            List<st_TileInfo> TileInfos = Managers.MapTile.FindTiles(en_WorldMapInfo.WORLD_MAP_INFO_MAIN_FIELD, MousePosition, BuildingInfo);
+            if (TileInfos.Count > 0)
+            {
+                List<st_TileInfo> EmptyTileInfos = new List<st_TileInfo>();
+                if(_TileInfos.Count > 0)
+                {
+                    EmptyTileInfos = _TileInfos;                    
+
+                    for (int i = 0; i < EmptyTileInfos.Count; i++)
+                    {
+                        for (int j = 0; j < TileInfos.Count; j++)
+                        {
+                            if(EmptyTileInfos[i].Position == TileInfos[j].Position)
+                            {
+                                EmptyTileInfos.RemoveAt(i);
+                                break;
+                            }
+                        }
+                    }                
+
+                    if(EmptyTileInfos.Count > 0)
+                    {
+                        foreach(st_TileInfo EmptyTile in EmptyTileInfos)
+                        {
+                            CTile Tile = EmptyTile.TileGO.GetComponent<CTile>();
+                            if(Tile != null)
+                            {
+                                Tile.TileOff();
+                            }
+                        }
+                    }
+                }                
+
+                foreach (st_TileInfo TileInfo in TileInfos)
+                {
+                    CTile Tile = TileInfo.TileGO.GetComponent<CTile>();
+                    if (Tile != null)
+                    {
+                        Tile.TileOn(TileInfo.IsOccupation);
+                    }
+                }
+
+                _TileInfos = TileInfos;
+            }
         }
     }
 }
