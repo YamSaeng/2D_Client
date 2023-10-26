@@ -19,7 +19,7 @@ public class UI_BuildingItem : UI_Base
 
     public override void Binding()
     {
-        Bind<Image>(typeof(en_BuildingItemImage));
+        Bind<Image>(typeof(en_BuildingItemImage));        
     }    
 
     public override void ShowCloseUI(bool IsShowClose)
@@ -41,6 +41,15 @@ public class UI_BuildingItem : UI_Base
     
     public void RefreshBuildingItemUI()
     {
-        GetImage((int)en_BuildingItemImage.BuildingItemImage).sprite = Managers.Sprite._BuildingSprite[_BuildingInfo.BuildinSmallCategory];        
+        GetImage((int)en_BuildingItemImage.BuildingItemImage).sprite = Managers.Sprite._BuildingSprite[_BuildingInfo.BuildinSmallCategory];
+
+        if(_BuildingInfo.IsImageChange == true)
+        {
+            Vector2 ImageSize = new Vector2();
+            ImageSize.x = _BuildingInfo.BuildingWidth * UI_Inventory.TileSizeWidth;
+            ImageSize.y = _BuildingInfo.BuildingHeight * UI_Inventory.TileSizeHeight;
+
+            GetImage((int)en_BuildingItemImage.BuildingItemImage).GetComponent<RectTransform>().sizeDelta = ImageSize;
+        }        
     }   
 }
