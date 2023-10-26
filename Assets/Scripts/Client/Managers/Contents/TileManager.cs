@@ -53,7 +53,7 @@ public class TileManager
                                                 TileInfo.TileGO = TileGO;
                                                 TileGO.transform.position = new Vector3(X + 0.5f, Y + 0.5f, 0);                                                
 
-                                                Tile tile = TileGO.GetComponent<Tile>();
+                                                CTile tile = TileGO.GetComponent<CTile>();
                                                 if (tile != null)
                                                 {
                                                     tile.TileOff();
@@ -97,7 +97,7 @@ public class TileManager
     {
         Vector2Int LeftTopBuildingPosition = new Vector2Int();
         LeftTopBuildingPosition.x = (int)MousePosition.x - BuildingInfo.BuildingWidth / 2;
-        LeftTopBuildingPosition.y = (int)MousePosition.y - BuildingInfo.BuildingHeight / 2;
+        LeftTopBuildingPosition.y = (int)MousePosition.y + BuildingInfo.BuildingHeight / 2;
 
         List<st_TileInfo> ReturnTiles = new List<st_TileInfo>();
         List<st_TileInfo> Tiles = _TileInfos[WorldMapInfo];
