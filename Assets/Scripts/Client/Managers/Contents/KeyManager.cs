@@ -1067,6 +1067,16 @@ public class KeyManager
                                             GameSceneUI.EmptyItemExplanation();
                                         }
 
+                                        UI_Building BuilingUI = GameSceneUIStackUI as UI_Building;
+                                        if(BuilingUI != null)
+                                        {
+                                            if(GameSceneUI._BuildingUI._DummyBuilding.gameObject.activeSelf == true)
+                                            {
+                                                Managers.Mouse._ClickObject._BuildingSelectedItem = null;
+                                                GameSceneUI._BuildingUI._DummyBuilding.ShowCloseUI(false);
+                                            }
+                                        }
+
                                         GameSceneUI.DeleteGameSceneUIStack(GameSceneUIStackUI);
                                     }
                                 }
