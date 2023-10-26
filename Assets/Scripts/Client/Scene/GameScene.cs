@@ -30,6 +30,8 @@ public class GameScene : BaseScene
 
         GameObject DayGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_GAMEOBJECT_DAY, transform);
         _Day = DayGO.GetComponent<CDay>();
+
+        Managers.MapTile.LoadTileMap();
     }
 
     public override void Clear()
