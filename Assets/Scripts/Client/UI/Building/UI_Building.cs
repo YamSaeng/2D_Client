@@ -20,7 +20,8 @@ public class UI_Building : UI_Base
     private UI_BuildingItem _BuildingMainHall;
     private UI_BuildingItem _BuildingWeaponStore;
     private UI_BuildingItem _BuildingArmorStore;
-    private UI_BuildingItem _DummyBuilding;
+    [HideInInspector]
+    public UI_BuildingItem _DummyBuilding;
 
     enum en_BuildingButton
     {
@@ -72,6 +73,7 @@ public class UI_Building : UI_Base
             _BuildingMainHall.Binding();
 
             st_BuildingInfo MainHallInfo = new st_BuildingInfo();
+            MainHallInfo.IsImageChange = false;
             MainHallInfo.BuildingHeight = 4;
             MainHallInfo.BuildingWidth = 4;
             MainHallInfo.BuildinSmallCategory = en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_MAIN_HALL;            
@@ -86,6 +88,7 @@ public class UI_Building : UI_Base
             _BuildingWeaponStore.Binding();
 
             st_BuildingInfo WeaponStoreInfo = new st_BuildingInfo();
+            WeaponStoreInfo.IsImageChange = false;
             WeaponStoreInfo.BuildingHeight = 2;
             WeaponStoreInfo.BuildingWidth = 2;
             WeaponStoreInfo.BuildinSmallCategory = en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_WEAPON_STORE;
@@ -100,6 +103,7 @@ public class UI_Building : UI_Base
             _BuildingArmorStore.Binding();
 
             st_BuildingInfo ArmorStoreInfo = new st_BuildingInfo();
+            ArmorStoreInfo.IsImageChange = false;
             ArmorStoreInfo.BuildingHeight = 2;
             ArmorStoreInfo.BuildingWidth = 2;
             ArmorStoreInfo.BuildinSmallCategory = en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_ARMOR_STORE;
@@ -118,7 +122,7 @@ public class UI_Building : UI_Base
         GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
         GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
 
-        ShowCloseUI(true);
+        ShowCloseUI(false);
     }    
 
     public override void ShowCloseUI(bool IsShowClose)
@@ -142,16 +146,25 @@ public class UI_Building : UI_Base
             Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
         }
-                
+        
         UI_BuildingItem MainHallBuilding = GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>();
         if(MainHallBuilding != null)
         {
             UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
             if(DummyBuilding != null)
             {
-                DummyBuilding.SetBuildingInfo(MainHallBuilding.GetBuildingInfo());
+                UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+                if(GameSceneUI != null)
+                {
+                    st_BuildingInfo DummyBuildingInfo = MainHallBuilding.GetBuildingInfo();
+                    DummyBuildingInfo.IsImageChange = true;
 
-                Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+                    DummyBuilding.SetBuildingInfo(DummyBuildingInfo);
+
+                    Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+
+                    GameSceneUI.AddGameSceneUIStack(_DummyBuilding);
+                }                
             }
         }         
 
