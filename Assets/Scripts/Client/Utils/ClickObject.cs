@@ -88,6 +88,8 @@ public class ClickObject : UI_Base
 
         if (_BuildingSelectedItem != null)
         {
+            bool IsBuiling = true;
+
             _BuildingSelectedItem.GetComponent<RectTransform>().transform.position = Input.mousePosition;
 
             Vector2 ScreenMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -101,45 +103,73 @@ public class ClickObject : UI_Base
             if (TileInfos.Count > 0)
             {
                 List<st_TileInfo> EmptyTileInfos = new List<st_TileInfo>();
-                if(_TileInfos.Count > 0)
+                if (_TileInfos.Count > 0)
                 {
-                    EmptyTileInfos = _TileInfos;                    
+                    EmptyTileInfos = _TileInfos;
 
                     for (int i = 0; i < EmptyTileInfos.Count; i++)
                     {
                         for (int j = 0; j < TileInfos.Count; j++)
                         {
-                            if(EmptyTileInfos[i].Position == TileInfos[j].Position)
+                            if (EmptyTileInfos[i].Position == TileInfos[j].Position)
                             {
                                 EmptyTileInfos.RemoveAt(i);
                                 break;
                             }
                         }
-                    }                
+                    }
 
-                    if(EmptyTileInfos.Count > 0)
+                    if (EmptyTileInfos.Count > 0)
                     {
-                        foreach(st_TileInfo EmptyTile in EmptyTileInfos)
+                        foreach (st_TileInfo EmptyTile in EmptyTileInfos)
                         {
                             CTile Tile = EmptyTile.TileGO.GetComponent<CTile>();
-                            if(Tile != null)
+                            if (Tile != null)
                             {
                                 Tile.TileOff();
                             }
                         }
                     }
-                }                
+                }
 
                 foreach (st_TileInfo TileInfo in TileInfos)
                 {
                     CTile Tile = TileInfo.TileGO.GetComponent<CTile>();
                     if (Tile != null)
                     {
+                        IsBuiling &= TileInfo.IsOccupation;
                         Tile.TileOn(TileInfo.IsOccupation);
                     }
                 }
 
                 _TileInfos = TileInfos;
+            }
+
+            UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+            if (GameSceneUI != null)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if(IsBuiling == true)
+                    {
+                        UI_Building BuildingUI = GameSceneUI._BuildingUI;
+                        if(BuildingUI != null)
+                        {
+                            BuildingUI.BuildingInstallation(_BuildingSelectedItem.GetBuildingInfo());
+
+                            _BuildingSelectedItem = null;
+
+                            foreach (st_TileInfo TileInfo in _TileInfos)
+                            {
+                                CTile Tile = TileInfo.TileGO.GetComponent<CTile>();
+                                if (Tile != null)
+                                {
+                                    Tile.TileOff();
+                                }
+                            }
+                        }                        
+                    }                                                         
+                }
             }
         }
     }
