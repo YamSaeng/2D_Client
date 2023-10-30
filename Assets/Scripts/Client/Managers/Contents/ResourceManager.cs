@@ -21,14 +21,12 @@ public class ResourceManager
 
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE, "Environment/Stone");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_TREE, "Environment/Tree");
-                
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL, "Wall/LeftRightWall");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL, "Wall/UpDownWall");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_LEFT_WALL, "Wall/UpToLeftWall");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_RIGHT_WALL, "Wall/UpToRightWall");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL, "Wall/DownToLeftWall");
-        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, "Wall/DownToRightWall");
-                
+
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_GOVERMENT_OFFICE, "Building/GovernmentOffice");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_WEAPON_STORE, "Building/WeaponStore");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_ARMOR_STORE, "Building/ArmorStore");
+        _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_WALL, "Building/Wall");
+
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_SWORD_BLADE, "Skill/SwordBlade");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_FLAME_BOLT, "Skill/FlameBolt");
         _ResourcePath.Add(en_ResourceName.CLIENT_GAMEOBJECT_SKILL_DIVINE_BOLT, "Skill/DivineBolt");
