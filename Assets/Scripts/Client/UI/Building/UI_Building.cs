@@ -25,22 +25,22 @@ public class UI_Building : UI_Base
 
     enum en_BuildingButton
     {
-        GovernmentOfficeListButton,        
-        StoreListButton,        
+        GovernmentOfficeListButton,
+        StoreListButton,
         CloseButton
     }
-    
+
     enum en_BuildingGameObject
     {
         BuildingGovermentOffice,
         BuildingWeaponStore,
         BuildingArmorStore,
         DummyBuilding
-    }   
+    }
 
     enum en_BuildingText
     {
-        MainHallCountText,        
+        MainHallCountText,
         WeaponStoreCountText,
         ArmorStoreCountText
     }
@@ -56,19 +56,19 @@ public class UI_Building : UI_Base
     public override void Binding()
     {
         Bind<Button>(typeof(en_BuildingButton));
-        Bind<GameObject>(typeof(en_BuildingGameObject));        
-        Bind<TextMeshProUGUI>(typeof(en_BuildingText));        
+        Bind<GameObject>(typeof(en_BuildingGameObject));
+        Bind<TextMeshProUGUI>(typeof(en_BuildingText));
 
         BindEvent(GetButton((int)en_BuildingButton.GovernmentOfficeListButton).gameObject, OnGovermentOfficeListButtonClick, Define.en_UIEvent.MouseClick);
         BindEvent(GetButton((int)en_BuildingButton.StoreListButton).gameObject, OnStoreListButtonClick, Define.en_UIEvent.MouseClick);
-        BindEvent(GetButton((int)en_BuildingButton.CloseButton).gameObject, OnCloseButtonClick, Define.en_UIEvent.MouseClick);        
+        BindEvent(GetButton((int)en_BuildingButton.CloseButton).gameObject, OnCloseButtonClick, Define.en_UIEvent.MouseClick);
 
         BindEvent(GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice).gameObject, OnMainHallBuildingButtonClick, Define.en_UIEvent.MouseClick);
         BindEvent(GetGameObject((int)en_BuildingGameObject.BuildingWeaponStore).gameObject, OnWeaponStoreBuildingButtonClick, Define.en_UIEvent.MouseClick);
         BindEvent(GetGameObject((int)en_BuildingGameObject.BuildingArmorStore).gameObject, OnArmorStoreBuildingButtonClick, Define.en_UIEvent.MouseClick);
 
         _BuildingMainHall = GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>();
-        if(_BuildingMainHall != null)
+        if (_BuildingMainHall != null)
         {
             _BuildingMainHall.Binding();
 
@@ -76,7 +76,7 @@ public class UI_Building : UI_Base
             MainHallInfo.IsImageChange = false;
             MainHallInfo.BuildingHeight = 4;
             MainHallInfo.BuildingWidth = 4;
-            MainHallInfo.BuildinSmallCategory = en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_MAIN_HALL;            
+            MainHallInfo.BuildinSmallCategory = en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_MAIN_HALL;
 
             _BuildingMainHall.SetBuildingInfo(MainHallInfo);
             _BuildingMainHall.ShowCloseUI(false);
@@ -113,7 +113,7 @@ public class UI_Building : UI_Base
         }
 
         _DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
-        if(_DummyBuilding != null)
+        if (_DummyBuilding != null)
         {
             _DummyBuilding.Binding();
         }
@@ -123,7 +123,7 @@ public class UI_Building : UI_Base
         GetGameObject((int)en_BuildingGameObject.BuildingArmorStore)?.GetComponent<UI_BuildingItem>()?.ShowCloseUI(false);
 
         ShowCloseUI(false);
-    }    
+    }
 
     public override void ShowCloseUI(bool IsShowClose)
     {
@@ -146,15 +146,15 @@ public class UI_Building : UI_Base
             Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
         }
-        
+
         UI_BuildingItem MainHallBuilding = GetGameObject((int)en_BuildingGameObject.BuildingGovermentOffice)?.GetComponent<UI_BuildingItem>();
-        if(MainHallBuilding != null)
+        if (MainHallBuilding != null)
         {
             UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
-            if(DummyBuilding != null)
+            if (DummyBuilding != null)
             {
                 UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
-                if(GameSceneUI != null)
+                if (GameSceneUI != null)
                 {
                     st_BuildingInfo DummyBuildingInfo = MainHallBuilding.GetBuildingInfo();
                     DummyBuildingInfo.IsImageChange = true;
@@ -164,19 +164,10 @@ public class UI_Building : UI_Base
                     Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
 
                     GameSceneUI.AddGameSceneUIStack(_DummyBuilding);
-                }                
+                }
             }
-        }         
-
-        MainHallBuildingCount--;
-
-        if (MainHallBuildingCount < 0)
-        {
-            MainHallBuildingCount = 0;
         }
-
-        BuildingCountTextRefresh();
-    }   
+    }
 
     void OnStoreListButtonClick(PointerEventData Event)
     {
@@ -191,7 +182,7 @@ public class UI_Building : UI_Base
 
     void OnWeaponStoreBuildingButtonClick(PointerEventData Event)
     {
-        if(WeaponBuildingCount == 0)
+        if (WeaponBuildingCount == 0)
         {
             Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
@@ -208,20 +199,11 @@ public class UI_Building : UI_Base
                 Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
             }
         }
-
-        WeaponBuildingCount--;
-
-        if(WeaponBuildingCount < 0)
-        {
-            WeaponBuildingCount = 0;
-        }
-
-        BuildingCountTextRefresh();
     }
 
     void OnArmorStoreBuildingButtonClick(PointerEventData Event)
     {
-        if(ArmorBuildingCount == 0)
+        if (ArmorBuildingCount == 0)
         {
             Managers.GameMessage._GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_BUILDING_FAIL, "해당 건물을 더 이상 지을 수 없습니다");
             return;
@@ -238,15 +220,6 @@ public class UI_Building : UI_Base
                 Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
             }
         }
-
-        ArmorBuildingCount--;
-
-        if(ArmorBuildingCount < 0)
-        {
-            ArmorBuildingCount = 0;
-        }
-
-        BuildingCountTextRefresh();
     }
 
     void OnCloseButtonClick(PointerEventData Event)
@@ -254,11 +227,72 @@ public class UI_Building : UI_Base
         ShowCloseUI(false);
     }
 
-    void BuildingCountTextRefresh()
+    public void BuildingCountTextRefresh()
     {
-        Get<TextMeshProUGUI>((int)en_BuildingText.MainHallCountText).text = MainHallBuildingCount.ToString();        
+        Get<TextMeshProUGUI>((int)en_BuildingText.MainHallCountText).text = MainHallBuildingCount.ToString();
 
         Get<TextMeshProUGUI>((int)en_BuildingText.WeaponStoreCountText).text = WeaponBuildingCount.ToString();
         Get<TextMeshProUGUI>((int)en_BuildingText.ArmorStoreCountText).text = ArmorBuildingCount.ToString();
+    }
+
+    public void BuildingInstallation(st_BuildingInfo BuildingInfo, Vector2Int MousePosition)
+    {
+        if (_DummyBuilding != null)
+        {
+            _DummyBuilding.ShowCloseUI(false);
+
+            GameObject BuildingGO = null;
+            
+            switch (BuildingInfo.BuildinSmallCategory)
+            {
+                case en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_MAIN_HALL:
+                    MainHallBuildingCount--;
+
+                    BuildingGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_GOVERMENT_OFFICE);                    
+                    break;
+                case en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_WEAPON_STORE:
+                    WeaponBuildingCount--;
+
+                    BuildingGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_WEAPON_STORE);
+                    break;
+                case en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_ARMOR_STORE:
+                    ArmorBuildingCount--;
+
+                    BuildingGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_ARMOR_STORE);
+                    break;
+                case en_BuildingSmallCategory.BUILDING_SMALL_CATEGORY_WALL:
+                    WallBuildingCount--;
+
+                    BuildingGO = Managers.Resource.Instantiate(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_WALL);
+                    break;
+            }
+
+            if(BuildingGO != null)
+            {
+                BuildingGO.transform.position = new Vector3(MousePosition.x, MousePosition.y, 0);
+            }
+        }
+
+        if (MainHallBuildingCount < 0)
+        {
+            MainHallBuildingCount = 0;
+        }
+
+        if (WeaponBuildingCount < 0)
+        {
+            WallBuildingCount = 0;
+        }
+
+        if (ArmorBuildingCount < 0)
+        {
+            ArmorBuildingCount = 0;
+        }
+
+        if (WallBuildingCount < 0)
+        {
+            WallBuildingCount= 0;
+        }                       
+
+        BuildingCountTextRefresh();
     }
 }
