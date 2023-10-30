@@ -150,12 +150,12 @@ public class ClickObject : UI_Base
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if(IsBuiling == true)
+                    if (IsBuiling == true)
                     {
                         UI_Building BuildingUI = GameSceneUI._BuildingUI;
-                        if(BuildingUI != null)
+                        if (BuildingUI != null)
                         {
-                            BuildingUI.BuildingInstallation(_BuildingSelectedItem.GetBuildingInfo());
+                            BuildingUI.BuildingInstallation(_BuildingSelectedItem.GetBuildingInfo(), MousePosition);
 
                             _BuildingSelectedItem = null;
 
@@ -167,8 +167,8 @@ public class ClickObject : UI_Base
                                     Tile.TileOff();
                                 }
                             }
-                        }                        
-                    }                                                         
+                        }
+                    }
                 }
             }
         }
