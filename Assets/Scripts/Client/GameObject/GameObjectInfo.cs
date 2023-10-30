@@ -931,8 +931,18 @@ public enum en_WorldMapInfo
     WORLD_MAP_INFO_MAIN_FIELD
 }
 
+public enum en_TilePositionType
+{
+    TILE_POSITION_NONE,
+    TILE_POSITION_LEFT_TOP,
+    TILE_POSITION_RIGHT_TOP,
+    TILE_POSITION_LEFT_DOWN,
+    TILE_POSITION_RIGHT_DOWN
+}
+
 public class st_TileInfo
 {
+    public en_TilePositionType TilePositionType;
     public bool IsOccupation;
     public long OwnerObjectID;
     public Vector2Int Position;
