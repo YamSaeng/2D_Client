@@ -748,6 +748,8 @@ public enum en_ResourceName
 
     CLIENT_GAMEOBJECT_MONSTER_GOBLIN,
 
+    CLIENT_GAMEOBJECT_BUILDING_GOVERMENT_OFFICE,
+
     CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL,
     CLIENT_GAMEOBJECT_UP_DOWN_WALL,
     CLIENT_GAMEOBJECT_UP_TO_LEFT_WALL,
@@ -931,18 +933,8 @@ public enum en_WorldMapInfo
     WORLD_MAP_INFO_MAIN_FIELD
 }
 
-public enum en_TilePositionType
-{
-    TILE_POSITION_NONE,
-    TILE_POSITION_LEFT_TOP,
-    TILE_POSITION_RIGHT_TOP,
-    TILE_POSITION_LEFT_DOWN,
-    TILE_POSITION_RIGHT_DOWN
-}
-
 public class st_TileInfo
-{
-    public en_TilePositionType TilePositionType;
+{    
     public bool IsOccupation;
     public long OwnerObjectID;
     public Vector2Int Position;
