@@ -88,20 +88,39 @@ public class ClickObject : UI_Base
 
         if (_BuildingSelectedItem != null)
         {
-            bool IsBuiling = true;
-
-            _BuildingSelectedItem.GetComponent<RectTransform>().transform.position = Input.mousePosition;
-
+            bool IsBuiling = true;            
             Vector2 ScreenMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             st_BuildingInfo BuildingInfo = _BuildingSelectedItem.GetBuildingInfo();
 
             Vector2Int MousePosition = new Vector2Int();
             MousePosition.x = (int)ScreenMousePosition.x;
-            MousePosition.y = (int)ScreenMousePosition.y;
+            MousePosition.y = (int)ScreenMousePosition.y;            
 
             List<st_TileInfo> TileInfos = Managers.MapTile.FindTiles(en_WorldMapInfo.WORLD_MAP_INFO_MAIN_FIELD, MousePosition, BuildingInfo);
             if (TileInfos.Count > 0)
             {
+                Vector2Int LeftTopTilePosition = new Vector2Int();
+                LeftTopTilePosition.x = (int)MousePosition.x - BuildingInfo.BuildingWidth / 2;
+                LeftTopTilePosition.y = (int)MousePosition.y + BuildingInfo.BuildingHeight / 2;
+
+                Vector2Int LeftDownTilePosition = new Vector2Int();
+                LeftDownTilePosition.x = (int)MousePosition.x - BuildingInfo.BuildingWidth / 2;
+                LeftDownTilePosition.y = (int)MousePosition.y - BuildingInfo.BuildingHeight / 2;
+
+                Vector2Int RightTopTilePosition = new Vector2Int();
+                RightTopTilePosition.x = (int)MousePosition.x + BuildingInfo.BuildingWidth / 2;
+                RightTopTilePosition.y = (int)MousePosition.y + BuildingInfo.BuildingHeight / 2;
+
+                Vector2Int RightDownTilePosition = new Vector2Int();
+                RightDownTilePosition.x = (int)MousePosition.x + BuildingInfo.BuildingWidth / 2;
+                RightDownTilePosition.y = (int)MousePosition.y - BuildingInfo.BuildingHeight / 2;
+
+                Vector2Int CenterPosition = new Vector2Int();
+                CenterPosition.x = (LeftTopTilePosition.x + RightTopTilePosition.x) / 2;
+                CenterPosition.y = (LeftTopTilePosition.y + LeftDownTilePosition.y) / 2;
+
+                _BuildingSelectedItem.GetComponent<RectTransform>().transform.position = Camera.main.WorldToScreenPoint(new Vector3(CenterPosition.x, CenterPosition.y));
+
                 List<st_TileInfo> EmptyTileInfos = new List<st_TileInfo>();
                 if (_TileInfos.Count > 0)
                 {
@@ -168,7 +187,7 @@ public class ClickObject : UI_Base
                                 }
                             }
                         }
-                    }
+                    }                   
                 }
             }
         }
