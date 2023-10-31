@@ -140,6 +140,8 @@ namespace Packet
 
                     if (GameSceneUI != null)
                     {
+                        EnterGamePlayerObject.transform.SetParent(GameSceneUI._Object.transform);
+
                         GameSceneUI.Binding();
 
                         GameSceneUI._MyCharacterHUDUI._MyCharacterObject = EnterGamePlayerObject.GetComponent<CBaseObject>();
@@ -891,6 +893,8 @@ namespace Packet
                     GameObject FindGameObject = Managers.Object.Add(GameObjectInfo);
                     if (FindGameObject != null)
                     {
+                        FindGameObject.transform.SetParent(GameSceneUI._Object.transform);
+
                         CreatureObject FindCreature = FindGameObject.GetComponent<CreatureObject>();
                         if (FindCreature != null)
                         {
@@ -2098,7 +2102,7 @@ namespace Packet
 
             S2C_SeedFarmingMessage.GetData(out SeedItemCategory, sizeof(short));
 
-            Managers.MyInventory.SelectedItem = Managers.MyInventory.FindItem(SeedItem.ItemSmallCategory);
+            Managers.Mouse._ClickObject._InventorySelectedItem = Managers.MyInventory.FindItem(SeedItem.ItemSmallCategory);
         }
 
         public static void S2C_PlantGrowthCheckHandler(CMessage S2C_PlantGrowthCheckMessage)
@@ -2210,8 +2214,11 @@ namespace Packet
             }
             else
             {
-                UI_GlobalMessageBox PersonalMessageBoxUI = GameSceneUI._GlobalMessageBoxUI;
-                PersonalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_NON_SKILL_CHARACTERISTIC, "습득한 특성입니다. 다른 특성을 고르세요.");
+                UI_GlobalMessageBox GlobalMessageBox = Managers.GameMessage._GlobalMessageBox;
+                if(GlobalMessageBox != null)
+                {
+                    GlobalMessageBox.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_NON_SKILL_CHARACTERISTIC, "습득한 특성입니다. 다른 특성을 고르세요.");
+                }                
             }
         }
 
@@ -2876,11 +2883,14 @@ namespace Packet
                 Debug.Log("GameSceneUI로 형변환 실패");
             }
 
-            for (byte i = 0; i < PersonalMessageCount; i++)
+            UI_GlobalMessageBox GlobalMessageBox = Managers.GameMessage._GlobalMessageBox;
+            if(GlobalMessageBox != null)
             {
-                UI_GlobalMessageBox PersonalMessageBoxUI = GameSceneUI._GlobalMessageBoxUI;
-                PersonalMessageBoxUI.NewStatusAbnormalMessage(PersonalMessages[i].PersonalMessageType, PersonalMessages[i].PersonalMessage);
-            }
+                for (byte i = 0; i < PersonalMessageCount; i++)
+                {                    
+                    GlobalMessageBox.NewStatusAbnormalMessage(PersonalMessages[i].PersonalMessageType, PersonalMessages[i].PersonalMessage);
+                }
+            }            
 
             S2C_PersonalMessage.Dispose();
         }
@@ -3082,9 +3092,8 @@ namespace Packet
 
             S2C_AccountNewMessage.GetData(out AccountNewSuccess, sizeof(bool));
 
-            UI_LoginScene LoginScene = Managers.UI._SceneUI as UI_LoginScene;
+            UI_LoginScene LoginScene = Managers.UI._SceneUI as UI_LoginScene;            
 
-            UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._GlobalMessageBoxUI;
             if (AccountNewSuccess == true)
             {
                 LoginScene.AccountPasswordFieldInit();
@@ -3120,30 +3129,30 @@ namespace Packet
 
             UI_LoginScene LoginScene = Managers.UI._SceneUI as UI_LoginScene;
 
-            UI_GlobalMessageBox PersonalMessageBoxUI = LoginScene._GlobalMessageBoxUI;
+            UI_GlobalMessageBox GlobalMessageBoxUI = Managers.GameMessage._GlobalMessageBox;
 
-            string PersonalMessage;
+            string GlobalMessage;
             switch ((en_LoginInfo)LoginInfo)
             {
                 case en_LoginInfo.LOGIN_ACCOUNT_NOT_EXIST:
-                    PersonalMessage = "존재하지 않는 아이디입니다.";
-                    PersonalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_NOT_EXIST,
-                    PersonalMessage);
+                    GlobalMessage = "존재하지 않는 아이디입니다.";
+                    GlobalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_NOT_EXIST,
+                    GlobalMessage);
                     break;
                 case en_LoginInfo.LOGIN_ACCOUNT_OVERLAP:
-                    PersonalMessage = "중복 로그인 입니다.";
-                    PersonalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_OVERLAP,
-                    PersonalMessage);
+                    GlobalMessage = "중복 로그인 입니다.";
+                    GlobalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_OVERLAP,
+                    GlobalMessage);
                     break;
                 case en_LoginInfo.LOGIN_ACCOUNT_DB_WORKING:
-                    PersonalMessage = "DB 작업중 입니다.";
-                    PersonalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_DB_WORKING,
-                    PersonalMessage);
+                    GlobalMessage = "DB 작업중 입니다.";
+                    GlobalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_DB_WORKING,
+                    GlobalMessage);
                     break;
                 case en_LoginInfo.LOGIN_ACCOUNT_DIFFERENT_PASSWORD:
-                    PersonalMessage = "비밀번호가 다릅니다.";
-                    PersonalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_DB_WORKING,
-                    PersonalMessage);
+                    GlobalMessage = "비밀번호가 다릅니다.";
+                    GlobalMessageBoxUI.NewStatusAbnormalMessage(en_GlobalMessageType.PERSONAL_MESSAGE_LOGIN_ACCOUNT_DB_WORKING,
+                    GlobalMessage);
                     break;
                 case en_LoginInfo.LOGIN_ACCOUNT_LOGIN_SUCCESS:
                     LoginScene.AccountPasswordFieldInit();
