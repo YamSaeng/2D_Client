@@ -70,7 +70,7 @@ public class UI_CharacterChoiceItem : UI_Base
             Managers.NetworkManager._PlayerDBId = _GameObjectInfo.ObjectId;
 
             // 해당 캐릭터로 EnterGame
-            CMessage ReqGameEnterPacket = Packet.MakePacket.ReqMakeEnterGamePacket(Managers.NetworkManager._AccountId, _GameObjectInfo.ObjectName);
+            CMessage ReqGameEnterPacket = Packet.MakePacket.ReqMakeEnterGamePacket(_GameObjectInfo.ObjectName);
             Managers.NetworkManager.GameServerSend(ReqGameEnterPacket);
         }      
     }
