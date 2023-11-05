@@ -72,7 +72,11 @@ public class ObjectManager
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_PLAYER));                        
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_NON_PLAYER_GENERAL_MERCHANT));                        
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN));            
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_MONSTER_GOBLIN));
+
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_GOVERMENT_OFFICE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_GOVERMENT_OFFICE));
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_WEAPON_STORE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_WEAPON_STORE));
+            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_ARMOR_STORE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_BUILDING_ARMOR_STORE));            
 
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_STONE));            
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_TREE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ENVIRONMENT_TREE));
@@ -93,15 +97,8 @@ public class ObjectManager
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_STONE, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_STONE));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_FLANK, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_WOOD_FLANK));
             _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_ITEM_CHARCOAL));
-
-            _ObjectPools.Add(en_ResourceName.CLIENT_COLLISION_RECT, new CObjectPool(en_ResourceName.CLIENT_COLLISION_RECT));
-
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_LEFT_RIGHT_WALL));
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_UP_DOWN_WALL));
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_LEFT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_LEFT_WALL));
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_RIGHT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_UP_TO_RIGHT_WALL));
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_LEFT_WALL));
-            _ObjectPools.Add(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL, new CObjectPool(en_ResourceName.CLIENT_GAMEOBJECT_DOWN_TO_RIGHT_WALL));                                
+            
+            _ObjectPools.Add(en_ResourceName.CLIENT_COLLISION_RECT, new CObjectPool(en_ResourceName.CLIENT_COLLISION_RECT));            
         }
     }
 
@@ -305,7 +302,7 @@ public class ObjectManager
                 LeatherController.Init();                
 
                 return LeatherGo;
-            case en_GameObjectType.OBJECT_ITEM_MATERIAL_BRONZE_COIN:                
+            case en_GameObjectType.OBJECT_ITEM_MATERIAL_COIN:                
                 GameObject CopperCoinGo = _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN].Pop().Object;
                 CopperCoinGo.name = Info.ObjectName;                
 
@@ -459,7 +456,7 @@ public class ObjectManager
                 case en_GameObjectType.OBJECT_ITEM_MATERIAL_LEATHER:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_LEATHER].Push(PoolObject);
                     break;
-                case en_GameObjectType.OBJECT_ITEM_MATERIAL_BRONZE_COIN:
+                case en_GameObjectType.OBJECT_ITEM_MATERIAL_COIN:
                     _ObjectPools[en_ResourceName.CLIENT_GAMEOBJECT_ITEM_BRONZE_COIN].Push(PoolObject);
                     break;                                      
                 case en_GameObjectType.OBJECT_ITEM_MATERIAL_WOOD_LOG:
