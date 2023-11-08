@@ -18,7 +18,7 @@ public class ClickObject : UI_Base
     public short _ClickObjectWidthSize;
     public short _ClickObjectHeightSize;
 
-    List<st_TileInfo> _TileInfos = new List<st_TileInfo>();
+    public List<st_TileInfo> _TileInfos = new List<st_TileInfo>();
 
     public override void Init()
     {
@@ -68,6 +68,31 @@ public class ClickObject : UI_Base
     public void ClickInitBuildingItem()
     {
         _BuildingSelectedItem = null;
+    }
+
+    public void BuildingSelectItemInit()
+    {
+
+        UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+        if (GameSceneUI != null)
+        {
+            UI_Building BuildingUI = GameSceneUI._BuildingUI;
+            if (BuildingUI != null)
+            {
+                _BuildingSelectedItem = null;              
+
+                foreach (st_TileInfo TileInfo in _TileInfos)
+                {
+                    CTile Tile = TileInfo.TileGO?.GetComponent<CTile>();
+                    if (Tile != null)
+                    {
+                        Tile.TileOff();
+                    }
+                }
+
+                _TileInfos.Clear();                
+            }
+        }            
     }
 
     void Update()
@@ -180,7 +205,7 @@ public class ClickObject : UI_Base
 
                             foreach (st_TileInfo TileInfo in _TileInfos)
                             {
-                                CTile Tile = TileInfo.TileGO.GetComponent<CTile>();
+                                CTile Tile = TileInfo.TileGO?.GetComponent<CTile>();
                                 if (Tile != null)
                                 {
                                     Tile.TileOff();
