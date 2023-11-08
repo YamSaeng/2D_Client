@@ -194,11 +194,20 @@ public class UI_Building : UI_Base
             UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
             if (DummyBuilding != null)
             {
-                DummyBuilding.SetBuildingInfo(WeaponStoreBuilding.GetBuildingInfo());
+                UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+                if (GameSceneUI != null)
+                {
+                    st_BuildingInfo DummyBuildingInfo = WeaponStoreBuilding.GetBuildingInfo();
+                    DummyBuildingInfo.IsImageChange = true;
 
-                Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+                    DummyBuilding.SetBuildingInfo(DummyBuildingInfo);
+
+                    Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+
+                    GameSceneUI.AddGameSceneUIStack(_DummyBuilding);
+                }
             }
-        }
+        }      
     }
 
     void OnArmorStoreBuildingButtonClick(PointerEventData Event)
@@ -215,9 +224,18 @@ public class UI_Building : UI_Base
             UI_BuildingItem DummyBuilding = GetGameObject((int)en_BuildingGameObject.DummyBuilding)?.GetComponent<UI_BuildingItem>();
             if (DummyBuilding != null)
             {
-                DummyBuilding.SetBuildingInfo(ArmorStoreBuilding.GetBuildingInfo());
+                UI_GameScene GameSceneUI = Managers.UI._SceneUI as UI_GameScene;
+                if (GameSceneUI != null)
+                {
+                    st_BuildingInfo DummyBuildingInfo = ArmorStoreBuilding.GetBuildingInfo();
+                    DummyBuildingInfo.IsImageChange = true;
 
-                Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+                    DummyBuilding.SetBuildingInfo(DummyBuildingInfo);
+
+                    Managers.Mouse._ClickObject.ClickBuildingItem(DummyBuilding);
+
+                    GameSceneUI.AddGameSceneUIStack(_DummyBuilding);
+                }
             }
         }
     }

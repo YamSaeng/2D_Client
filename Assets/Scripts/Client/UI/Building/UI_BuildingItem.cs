@@ -51,5 +51,5 @@ public class UI_BuildingItem : UI_Base
 
             GetImage((int)en_BuildingItemImage.BuildingItemImage).GetComponent<RectTransform>().sizeDelta = ImageSize;
         }        
-    }   
+    }      
 }
