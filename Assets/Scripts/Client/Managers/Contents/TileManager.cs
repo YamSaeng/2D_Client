@@ -97,7 +97,7 @@ public class TileManager
     {
         Vector2Int LeftTopBuildingPosition = new Vector2Int();
         LeftTopBuildingPosition.x = (int)MousePosition.x - BuildingInfo.BuildingWidth / 2;
-        LeftTopBuildingPosition.y = (int)MousePosition.y + BuildingInfo.BuildingHeight / 2;
+        LeftTopBuildingPosition.y = (int)MousePosition.y + BuildingInfo.BuildingHeight / 2;                
 
         List<st_TileInfo> ReturnTiles = new List<st_TileInfo>();
         List<st_TileInfo> Tiles = _TileInfos[WorldMapInfo];
@@ -106,15 +106,16 @@ public class TileManager
         {
             for (int Y = LeftTopBuildingPosition.y; Y > LeftTopBuildingPosition.y - BuildingInfo.BuildingHeight; Y--)
             {
+                Vector2Int CheckPosition = new Vector2Int();
+                CheckPosition.x = X;
+                CheckPosition.y = Y;
+
                 foreach (st_TileInfo TileInfo in Tiles)
                 {
-                    Vector2Int CheckPosition = new Vector2Int();
-                    CheckPosition.x = X;
-                    CheckPosition.y = Y;
                     if (TileInfo.Position == CheckPosition)
                     {
-                        ReturnTiles.Add(TileInfo);
-                    }
+                        ReturnTiles.Add(TileInfo);                       
+                    }                  
                 }
             }
         }
