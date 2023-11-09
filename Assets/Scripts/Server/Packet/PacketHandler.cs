@@ -3705,7 +3705,7 @@ namespace Packet
             return ReqOffEquipmentPacket;
         }
 
-        public static CMessage ReqBuildingPacket(st_TileInfo[] TileInfos)
+        public static CMessage ReqBuildingPacket(List<st_TileInfo> TileInfos)
         {
             CMessage ReqBuildingPacket = new CMessage();
 
@@ -3713,7 +3713,7 @@ namespace Packet
             ReqBuildingPacket.InsertData(Managers.NetworkManager._AccountId,sizeof(long));
             ReqBuildingPacket.InsertData(Managers.NetworkManager._PlayerDBId,sizeof(long));
 
-            short TileInfoSize = (short)TileInfos.Length;
+            short TileInfoSize = (short)TileInfos.Count;
             
             ReqBuildingPacket.InsertData(TileInfoSize, sizeof(short));
 
