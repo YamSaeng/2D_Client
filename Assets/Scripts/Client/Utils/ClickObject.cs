@@ -211,6 +211,9 @@ public class ClickObject : UI_Base
                                     Tile.TileOff();
                                 }
                             }
+
+                            CMessage ReqBuildingPacket = Packet.MakePacket.ReqBuildingPacket(_TileInfos);
+                            Managers.NetworkManager.GameServerSend(ReqBuildingPacket);
                         }
                     }                   
                 }
