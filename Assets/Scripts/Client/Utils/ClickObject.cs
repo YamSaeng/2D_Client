@@ -182,7 +182,7 @@ public class ClickObject : UI_Base
                     if (Tile != null)
                     {
                         IsBuiling &= TileInfo.IsOccupation;
-                        Tile.TileOn(TileInfo.IsOccupation);
+                        Tile.TileOn(!TileInfo.IsOccupation);
                     }
                 }
 
@@ -194,7 +194,7 @@ public class ClickObject : UI_Base
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (IsBuiling == true)
+                    if (IsBuiling == false)
                     {
                         UI_Building BuildingUI = GameSceneUI._BuildingUI;
                         if (BuildingUI != null)
