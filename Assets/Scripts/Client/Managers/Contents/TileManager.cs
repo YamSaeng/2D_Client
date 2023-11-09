@@ -75,6 +75,29 @@ public class TileManager
         }        
     }
 
+    public void SetTileInfo(en_WorldMapInfo WorldMapInfo, st_TileInfo[] S2C_TileInfos)
+    {
+        List<st_TileInfo> ClientTileInfos = _TileInfos[WorldMapInfo];
+
+        if (S2C_TileInfos.Length > 0)
+        {
+            foreach(st_TileInfo ClientTileInfo in ClientTileInfos)
+            {
+                foreach (st_TileInfo ServerTileInfo in S2C_TileInfos)
+                {
+                    if(ClientTileInfo.Position.x == ServerTileInfo.Position.x
+                        && ClientTileInfo.Position.y == ServerTileInfo.Position.y)
+                    {
+                        ClientTileInfo.IsOccupation = ServerTileInfo.IsOccupation;
+                        ClientTileInfo.OwnerObjectID = ServerTileInfo.OwnerObjectID;
+
+                        break;
+                    }                    
+                }
+            }            
+        }
+    }
+
     // 좌표 위치 타일 정보 반환
     public st_TileInfo FindTile(en_WorldMapInfo WorldMapInfo, Vector2Int TilePosition)
     {
