@@ -156,6 +156,15 @@ namespace Packet
                         {
                             GameSceneUI._Minimap.MiniMapMyPositionUpdate(EnterGamePositionX, EnterGamePositionY);
                         }
+
+                        short AroundTileCount;
+
+                        S2CEnterGamePacket.GetData(out AroundTileCount, sizeof(short));
+
+                        st_TileInfo[] AroundTileInfos = new st_TileInfo[AroundTileCount];
+                        S2CEnterGamePacket.GetData(AroundTileInfos, AroundTileCount);
+
+                        Managers.MapTile.SetTileInfo(en_WorldMapInfo.WORLD_MAP_INFO_MAIN_FIELD, AroundTileInfos);
                     }
                     else
                     {
@@ -3694,6 +3703,29 @@ namespace Packet
             ReqOffEquipmentPacket.InsertData((byte)OffEquipmentParts, sizeof(byte));
 
             return ReqOffEquipmentPacket;
+        }
+
+        public static CMessage ReqBuildingPacket(st_TileInfo[] TileInfos)
+        {
+            CMessage ReqBuildingPacket = new CMessage();
+
+            ReqBuildingPacket.InsertData((short)Protocol.en_GAME_SERVER_PACKET_TYPE.en_PACKET_C2S_BUILDING, sizeof(short));
+            ReqBuildingPacket.InsertData(Managers.NetworkManager._AccountId,sizeof(long));
+            ReqBuildingPacket.InsertData(Managers.NetworkManager._PlayerDBId,sizeof(long));
+
+            short TileInfoSize = (short)TileInfos.Length;
+            
+            ReqBuildingPacket.InsertData(TileInfoSize, sizeof(short));
+
+            foreach(st_TileInfo TileInfo in TileInfos)
+            {
+                ReqBuildingPacket.InsertData(TileInfo.IsOccupation, sizeof(bool));
+                ReqBuildingPacket.InsertData(TileInfo.OwnerObjectID, sizeof(long));
+                ReqBuildingPacket.InsertData(TileInfo.Position.x, sizeof(int));
+                ReqBuildingPacket.InsertData(TileInfo.Position.y, sizeof(int));
+            }
+
+            return ReqBuildingPacket;
         }
 
         public static CMessage ReqMakeSeedFarmingPacket(en_SmallItemCategory SeedSmallItemCategory)
