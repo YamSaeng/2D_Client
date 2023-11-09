@@ -350,6 +350,34 @@ namespace ServerCore
             _Front = (int)_MessageReadStream.Position;
         }
 
+        public void GetData(out st_TileInfo Data)
+        {
+            st_TileInfo TileInfo = new st_TileInfo();
+
+            TileInfo.IsOccupation = _MessageBufReader.ReadBoolean();
+            TileInfo.OwnerObjectID = _MessageBufReader.ReadInt64();
+            TileInfo.Position.x = _MessageBufReader.ReadInt32();
+            TileInfo.Position.y = _MessageBufReader.ReadInt32();
+
+            Data = TileInfo;
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
+        public void GetData(st_TileInfo[] Data, int Count)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                st_TileInfo TileInfo;
+
+                GetData(out TileInfo);
+
+                Data[i] = TileInfo;
+            }
+
+            _Front = (int)_MessageReadStream.Position;
+        }
+
         public void GetData(out st_Equipment Data)
         {
             st_Equipment Equipment = new st_Equipment();        
@@ -359,7 +387,6 @@ namespace ServerCore
             GetData(out EquipemtItemInfo);
 
             Equipment.EquipmentItemInfo = EquipemtItemInfo;
-
 
             Data = Equipment;
 
