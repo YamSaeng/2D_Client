@@ -2596,6 +2596,25 @@ namespace Packet
             }           
         }
 
+        public static void S2C_BuildingHandler(CMessage S2C_BuildingMessage)
+        {
+            bool BuildingSuccess;
+
+            S2C_BuildingMessage.GetData(out BuildingSuccess, sizeof(bool));
+
+            if(BuildingSuccess == true)
+            {
+                short BuildingCount;
+
+                S2C_BuildingMessage.GetData(out BuildingCount, sizeof(short));
+
+                st_TileInfo[] BuildingTileInfos = new st_TileInfo[BuildingCount];
+                S2C_BuildingMessage.GetData(BuildingTileInfos,BuildingCount);
+
+                Managers.MapTile.SetTileInfo(en_WorldMapInfo.WORLD_MAP_INFO_MAIN_FIELD, BuildingTileInfos);
+            }
+        }
+
         public static void S2C_ExperienceHandler(CMessage S2C_ExperienceMessage)
         {
             long GainExp;

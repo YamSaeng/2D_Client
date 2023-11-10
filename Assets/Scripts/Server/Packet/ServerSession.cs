@@ -205,6 +205,9 @@ public class CServerSession : CSession
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_OFF_EQUIPMENT:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_OffEquipmentHandler);
                 break;
+            case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_BUILDING:
+                CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_BuildingHandler);
+                break;
             case en_GAME_SERVER_PACKET_TYPE.en_PACKET_S2C_EXPERIENCE:
                 CPacketQueue.GetInstance.Push(CheckCompletePacket, PacketHandler.S2C_ExperienceHandler);
                 break;
